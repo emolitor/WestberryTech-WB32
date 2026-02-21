@@ -4,35 +4,6 @@ Comprehensive open-source documentation, drivers, and tools for Westberry Techno
 
 WB32 chips are pin-compatible STM32F10x alternatives used in keyboards from GMMK, Akko, MonsGeek, Inland, Shortcut Studio, and others. Despite widespread use, public documentation is scarce. This repository consolidates about a year of reverse engineering, hardware testing, and driver development into a single reference.
 
-## Key Findings
-
-| Discovery | Impact | Documentation |
-|-----------|--------|---------------|
-| DMA BLOCK_TS limited to 9 bits (max 511) | DMA transfers >511 silently fail | [Silicon Errata](docs/silicon-errata.md) |
-| Flash erases to 0x00 (inverted bit model) | Standard NOR flash assumptions break | [Silicon Errata](docs/silicon-errata.md) |
-| GPIO OSPEEDR polarity inverted from STM32 | STM32 speed settings give opposite result | [Silicon Errata](docs/silicon-errata.md) |
-| 11 ChibiOS-Contrib HAL bugs | DMA, PWM, USB, ADC drivers affected | [Bug Fixes](docs/chibios-bug-fixes.md) |
-| PWM+DMA unusable for WS2812 multi-chunk | Timer generates stale pulses at boundaries | [WS2812 Driver](docs/ws2812-gpio-dma-driver.md) |
-| CH582F wireless module UART protocol | Undocumented protocol used by many keyboards | [CH582F Protocol](docs/wireless/ch582f-protocol.md) |
-
-## Quick Start
-
-```bash
-# Build a bare metal blink example
-cd examples/blink
-make
-
-# Flash via OpenOCD (requires custom driver — see https://github.com/emolitor/openocd)
-openocd -f interface/cmsis-dap.cfg -f target/wb32fq95x.cfg \
-  -c "init; halt; flash probe 0" \
-  -c "flash write_image erase build/Template.bin 0x08000000" \
-  -c "verify_image build/Template.bin 0x08000000" \
-  -c "reset run; shutdown"
-
-# Flash via DFU (keyboards)
-wb32-dfu-updater_cli -t -s 0x8000000 -D firmware.bin
-```
-
 ## Documentation
 
 | Document | Description |
