@@ -18,7 +18,9 @@ firmware is provided by WCH as a binary blob; the keyboard manufacturer implemen
 side of this protocol in their main MCU firmware.
 
 This document is derived from the Shortcut Studio Bridge75 keyboard firmware, which uses the
-protocol on a WB32FQ95xx main MCU. The protocol itself is MCU-agnostic.
+protocol on a WB32FQ95xx main MCU. The protocol itself is MCU-agnostic. An open-source QMK
+port implementing this protocol is available at
+[emolitor/qmk_firmware](https://github.com/emolitor/qmk_firmware) (branch `wireless-2.0`).
 
 ---
 
@@ -390,14 +392,17 @@ this as a `0x60` command:
 ## Example Implementation
 
 This protocol is implemented in the Shortcut Studio Bridge75 keyboard firmware, built on QMK
-with a WB32FQ95xx main MCU. The relevant source files are in the wireless driver module:
+with a WB32FQ95xx main MCU. An open-source port is available at
+[emolitor/qmk_firmware](https://github.com/emolitor/qmk_firmware/tree/wireless-2.0) (branch
+`wireless-2.0`), which supports the Bridge75 along with several other WB32/CH582F keyboards.
+The relevant source files are in the wireless driver module:
 
-- `module.h` -- Command definitions, state enums, and API declarations
-- `module.c` -- UART framing, checksum, send/receive, and device switching logic
-- `smsg.h` / `smsg.c` -- FIFO message queue implementation
-- `wireless.h` / `wireless.c` -- QMK host driver integration (HID report forwarding)
-- `lowpower.h` / `lowpower.c` -- Sleep/wake state machine
-- `transport.h` / `transport.c` -- USB/wireless transport layer switching
+- [`module.h`](https://github.com/emolitor/qmk_firmware/blob/wireless-2.0/keyboards/shortcut/wireless/module.h) -- Command definitions, state enums, and API declarations
+- [`module.c`](https://github.com/emolitor/qmk_firmware/blob/wireless-2.0/keyboards/shortcut/wireless/module.c) -- UART framing, checksum, send/receive, and device switching logic
+- [`smsg.h`](https://github.com/emolitor/qmk_firmware/blob/wireless-2.0/keyboards/shortcut/wireless/smsg.h) / [`smsg.c`](https://github.com/emolitor/qmk_firmware/blob/wireless-2.0/keyboards/shortcut/wireless/smsg.c) -- FIFO message queue implementation
+- [`wireless.h`](https://github.com/emolitor/qmk_firmware/blob/wireless-2.0/keyboards/shortcut/wireless/wireless.h) / [`wireless.c`](https://github.com/emolitor/qmk_firmware/blob/wireless-2.0/keyboards/shortcut/wireless/wireless.c) -- QMK host driver integration (HID report forwarding)
+- [`lowpower.h`](https://github.com/emolitor/qmk_firmware/blob/wireless-2.0/keyboards/shortcut/wireless/lowpower.h) / [`lowpower.c`](https://github.com/emolitor/qmk_firmware/blob/wireless-2.0/keyboards/shortcut/wireless/lowpower.c) -- Sleep/wake state machine
+- [`transport.h`](https://github.com/emolitor/qmk_firmware/blob/wireless-2.0/keyboards/shortcut/wireless/transport.h) / [`transport.c`](https://github.com/emolitor/qmk_firmware/blob/wireless-2.0/keyboards/shortcut/wireless/transport.c) -- USB/wireless transport layer switching
 
 The same protocol implementation (with minor variations in defines and pin assignments) is
 shared across keyboards from multiple manufacturers, as they all use the same WCH CH582F
