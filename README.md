@@ -10,7 +10,7 @@ WB32 chips are pin-compatible STM32F10x alternatives used in keyboards from GMMK
 |----------|-------------|
 | [Chip Overview](docs/chip-overview.md) | WB32 family, architecture, STM32 comparison |
 | [Getting Started](docs/getting-started.md) | Toolchain setup, first project, flashing |
-| [Silicon Errata](docs/errata.md) | Defects discovered |
+| [Errata](docs/errata.md) | Defects discovered |
 | [Bootloader](docs/bootloader.md) | ROM DFU bootloader, flashing tools, recovery |
 | [ChibiOS Port](docs/chibios-port.md) | Driver inventory, setup, known limitations |
 | [ChibiOS Bug Fixes](docs/chibios-bug-fixes.md) | Various fixes not all upstreamed yet |
