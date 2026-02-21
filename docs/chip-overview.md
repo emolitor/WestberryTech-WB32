@@ -148,7 +148,7 @@ WB32 microcontrollers are used in production keyboards from several manufacturer
 - [QMK Compatible Microcontrollers](https://docs.qmk.fm/compatible_microcontrollers)
 - [qmk/ChibiOS-Contrib WB32 Port](https://github.com/qmk/ChibiOS-Contrib/tree/master/os/hal/ports/WB32)
 
-### Sourcing
+### Sourcing Chips and Devboards
 - [Westberry Taobao](https://world.taobao.com/dianpu/471165391.htm?spm=a21wu.12321156-tw/qwen.shop-area.1.59ad6dc0ANXkNx)
 
 ---
