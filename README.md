@@ -10,11 +10,11 @@ WB32 chips are pin-compatible STM32F10x alternatives used in keyboards from GMMK
 |----------|-------------|
 | [Chip Overview](docs/chip-overview.md) | WB32 family, architecture, STM32 comparison |
 | [Getting Started](docs/getting-started.md) | Toolchain setup, first project, flashing |
-| [Silicon Errata](docs/silicon-errata.md) | 5 hardware bugs discovered through testing |
+| [Silicon Errata](docs/errata.md) | Defects discovered |
 | [Bootloader](docs/bootloader.md) | ROM DFU bootloader, flashing tools, recovery |
 | [ChibiOS Port](docs/chibios-port.md) | Driver inventory, setup, known limitations |
-| [ChibiOS Bug Fixes](docs/chibios-bug-fixes.md) | All 11 fixes with before/after code |
-| [WS2812 GPIO DMA Driver](docs/ws2812-gpio-dma-driver.md) | Architecture, 8 bugs, timing, validation |
+| [ChibiOS Bug Fixes](docs/chibios-bug-fixes.md) | Various fixes not all upstreamed yet |
+| [WS2812 GPIO DMA Driver](docs/ws2812-gpio-dma-driver.md) | Architecture, timing, validation |
 | [QMK Integration](docs/qmk-integration.md) | Submodule config, build commands |
 | [CH582F Protocol](docs/wireless/ch582f-protocol.md) | Wireless module UART protocol reference |
 
@@ -30,7 +30,7 @@ WB32 chips are pin-compatible STM32F10x alternatives used in keyboards from GMMK
 
 ## OpenOCD Flash Driver
 
-The only open-source flash driver for WB32. Supports sector erase, mass erase, page program, and verify on all WB32F10x and WB32FQ95xx variants.
+OpenOCD flash driver and debug for WB32. Supports sector erase, mass erase, page program, and verify on all WB32F10x and WB32FQ95xx variants.
 
 The driver is maintained in a dedicated OpenOCD fork: [emolitor/openocd](https://github.com/emolitor/openocd). See the fork for build instructions, usage, and FMC register reference.
 
