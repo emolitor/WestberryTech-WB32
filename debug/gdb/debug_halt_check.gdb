@@ -1,7 +1,8 @@
 # Debug: Run briefly, halt, check state
 target extended-remote localhost:3333
 
-file /home/emolitor/Development/Personal/Westberry-Tech/emolitor-qmk_firmware/.build/shortcut_bridge75_ansi_default.elf
+# Set this to your firmware ELF path
+file build/firmware.elf
 monitor reset halt
 load
 

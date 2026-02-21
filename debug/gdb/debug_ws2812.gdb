@@ -6,7 +6,8 @@ target extended-remote localhost:3333
 monitor reset halt
 
 # Load the firmware
-file /home/emolitor/Development/Personal/Westberry-Tech/emolitor-qmk_firmware/.build/shortcut_bridge75_ansi_default.elf
+# Set this to your firmware ELF path
+file build/firmware.elf
 load
 
 # Define convenience variables to track state
