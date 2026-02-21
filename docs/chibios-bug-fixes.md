@@ -15,15 +15,7 @@ the ADC and USB drivers.
 
 ## Applying the Fixes
 
-Pre-generated `git format-patch` files are available in
-[`patches/chibios-contrib/`](../patches/chibios-contrib/):
-
-```bash
-cd ChibiOS-Contrib
-git am ../patches/chibios-contrib/*.patch
-```
-
-Alternatively, use the branch directly:
+Use the fork branch directly:
 
 ```bash
 cd ChibiOS-Contrib
@@ -302,7 +294,7 @@ gives approximately 10.9 ms maximum period.
 
 ## Fix 11: ADC/USB/DMA Consistency Improvements
 
-Several minor corrections were included alongside the above fixes in the patch set:
+Several minor corrections were included alongside the above fixes:
 
 - `dmaWaitCompletion()` block size mask updated to use `WB32_DMA_CHCFG_SIZE_MASK` (matching
   Fix 1)

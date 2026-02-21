@@ -7,7 +7,7 @@ variants.
 
 ## Overview
 
-The QMK firmware for WB32-based keyboards depends on a patched ChibiOS-Contrib HAL port that
+The QMK firmware for WB32-based keyboards depends on a fixed ChibiOS-Contrib HAL port that
 fixes 11 bugs in the upstream WB32 drivers (DMA, PWM, USB, ADC, GPIO, and timer subsystems)
 and adds a WWDG driver. The firmware also includes a custom WS2812 GPIO DMA driver that
 replaces QMK's default bitbang implementation.
@@ -112,7 +112,7 @@ openocd -f interface/cmsis-dap.cfg -f target/wb32fq95x.cfg \
 
 ---
 
-## What the Patches Fix
+## What the Fork Fixes
 
 The `em-wb32-improvements` branch contains fixes to the ChibiOS-Contrib WB32 port plus a new WWDG
 driver. Summary of the fixes:
@@ -133,9 +133,9 @@ driver. Summary of the fixes:
 
 See [chibios-bug-fixes.md](chibios-bug-fixes.md) for code-level details of each fix.
 
-Pre-generated patches are also available in
-[`patches/chibios-contrib/`](../patches/chibios-contrib/) for applying to other
-ChibiOS-Contrib trees without using the fork.
+To apply these fixes to other ChibiOS-Contrib trees, use the
+[emolitor/ChibiOS-Contrib](https://github.com/emolitor/ChibiOS-Contrib) fork
+(`em-wb32-improvements` branch).
 
 ---
 

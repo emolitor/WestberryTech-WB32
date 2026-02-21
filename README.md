@@ -77,23 +77,6 @@ grep -r "DMA_CTLH" vendor-docs/reference-manual/chapters/
 
 See [vendor-docs/README.md](vendor-docs/README.md) for a complete index.
 
-## Patches
-
-Pre-generated patches for ChibiOS-Contrib:
-
-```bash
-# Apply ChibiOS-Contrib fixes
-cd your-chibios-contrib
-git am /path/to/patches/chibios-contrib/*.patch
-
-# Or use the branch directly
-git remote add emolitor https://github.com/emolitor/ChibiOS-Contrib
-git fetch emolitor
-git checkout emolitor/em-wb32-improvements
-```
-
-See [patches/README.md](patches/README.md) for details.
-
 ## Related Projects
 
 | Project | Description |
@@ -126,7 +109,6 @@ WestberryTech-WB32/
 │   └── schematics/          # Reference board schematic
 ├── vendor-lib/              # WB32F10x Standard Peripheral Library
 ├── examples/                # Bare metal and ChibiOS examples
-├── patches/                 # ChibiOS-Contrib patches
 └── debug/                   # GDB scripts and J-Link config
 ```
 

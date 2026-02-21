@@ -169,10 +169,8 @@ Several bugs have been identified and fixed in the upstream ChibiOS-Contrib WB32
 See [chibios-bug-fixes.md](chibios-bug-fixes.md) for the complete list of 11 fixes with
 code-level details.
 
-Patches are available in two forms:
-
-- **Git format-patch files**: [`patches/chibios-contrib/`](../patches/chibios-contrib/)
-- **Branch**: `em-wb32-improvements` at `https://github.com/emolitor/ChibiOS-Contrib`
+Fixes are available on the `em-wb32-improvements` branch at
+`https://github.com/emolitor/ChibiOS-Contrib`.
 
 ---
 

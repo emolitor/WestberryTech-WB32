@@ -59,9 +59,8 @@ full architecture documentation and the
 - [ChibiOS-Contrib](https://github.com/ChibiOS/ChibiOS-Contrib) (chibios-21.11.x branch)
 
 These are not included in this repository. Clone them from upstream or use the
-patched fork at https://github.com/emolitor/ChibiOS-Contrib (branch
-`em-wb32-improvements`) which includes bug fixes for the WB32 port. See
-[patches/](../patches/) for pre-generated patch files.
+fork at https://github.com/emolitor/ChibiOS-Contrib (branch
+`em-wb32-improvements`) which includes bug fixes for the WB32 port.
 
 ## Building
 

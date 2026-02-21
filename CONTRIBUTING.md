@@ -36,7 +36,7 @@ For changes to example projects or GDB scripts:
 
 ### ChibiOS-Contrib Fixes
 
-ChibiOS-Contrib patches should go to the [emolitor/ChibiOS-Contrib](https://github.com/emolitor/ChibiOS-Contrib) fork on the `em-wb32-improvements` branch. Once merged there, the patches in this repository will be regenerated.
+ChibiOS-Contrib fixes should go to the [emolitor/ChibiOS-Contrib](https://github.com/emolitor/ChibiOS-Contrib) fork on the `em-wb32-improvements` branch.
 
 ## Testing
 
@@ -77,7 +77,7 @@ New errata should include:
 
 ## Code Style
 
-- C code: Follow existing style in each project (vendor lib style for examples, ChibiOS style for ChibiOS patches)
+- C code: Follow existing style in each project (vendor lib style for examples, ChibiOS style for ChibiOS drivers)
 - Markdown: Standard GitHub-flavored markdown, no trailing whitespace
 - Commit messages: Imperative mood, concise subject line
 
