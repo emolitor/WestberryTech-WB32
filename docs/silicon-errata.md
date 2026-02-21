@@ -6,11 +6,6 @@ Known hardware errata and driver-level issues for WB32F10x and WB32FQ95xx microc
 
 ## WB32-E001: DMA BLOCK_TS Field Limited to 9 Bits
 
-| Field | Value |
-|-------|-------|
-| **Severity** | Critical |
-| **Affected Devices** | WB32FQ95xx, WB32F10x (all known revisions) |
-
 ### Description
 
 The reference manual (Chapter 13, Section 13.7.5) documents the CTLH register BLOCK_TS field as bits [11:0], implying a maximum single-block DMA transfer size of 4095 elements. Hardware only implements bits [8:0], limiting the actual maximum to **511 elements**. Bits [9:11] are not writable and always read as zero.
@@ -60,11 +55,6 @@ Multi-transfer chaining validated with 424 DMA callbacks across 100 stress-test 
 
 ## WB32-E002: Flash Erases to 0x00 (Inverted Bit Model)
 
-| Field | Value |
-|-------|-------|
-| **Severity** | High |
-| **Affected Devices** | WB32F104RC, WB32FQ95xC (all known revisions) |
-
 ### Description
 
 Standard NOR flash erases to 0xFF (all bits set) and programs by clearing bits (1 to 0). The WB32 flash controller operates with an inverted bit model:
@@ -97,11 +87,6 @@ Confirmed by hardware test on WB32F104RC and WB32FQ95xC (2026-02-05). After sect
 ---
 
 ## WB32-E003: ChibiOS dmaStreamDisable() Clears All Interrupt Masks
-
-| Field | Value |
-|-------|-------|
-| **Severity** | High |
-| **Affected Devices** | All WB32 devices using ChibiOS DMA HAL |
 
 ### Description
 
@@ -141,11 +126,6 @@ Confirmed at register level during WS2812 GPIO DMA driver validation:
 
 ## WB32-E004: GPIO OSPEEDR Polarity Inverted from STM32
 
-| Field | Value |
-|-------|-------|
-| **Severity** | Medium |
-| **Affected Devices** | WB32FQ95xx, WB32F10x (all revisions) |
-
 ### Description
 
 The GPIO output speed register (OSPEEDR) uses inverted polarity compared to the STM32 convention:
@@ -174,11 +154,6 @@ Confirmed by register inspection on WB32FQ95 hardware. Default GPIO configuratio
 ---
 
 ## WB32-E005: DMA ChEnReg Not Auto-Cleared After Non-Circular Transfer
-
-| Field | Value |
-|-------|-------|
-| **Severity** | Medium |
-| **Affected Devices** | WB32FQ95xx, WB32F10x (all revisions) |
 
 ### Description
 

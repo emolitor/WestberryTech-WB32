@@ -26,7 +26,7 @@ git checkout emolitor/em-wb32-improvements
 
 ---
 
-## Fix 1: DMA Block Transfer Size Mask (Critical -- Silicon Errata)
+## Fix 1: DMA Block Transfer Size Mask
 
 **File**: `LLD/DMAv1/wb32_dma.h:588`
 
@@ -176,7 +176,7 @@ using the standard spelling would not see the WB32-specific value.
 
 ---
 
-## Fix 7: PWM Driver BDTR Register Access (Critical)
+## Fix 7: PWM Driver BDTR Register Access
 
 **Files**: `LLD/TIMv1/hal_pwm_lld.c:435-444, 463-471`
 
