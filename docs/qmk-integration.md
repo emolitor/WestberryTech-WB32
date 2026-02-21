@@ -19,25 +19,12 @@ The fork is maintained on the `wireless-2.0` branch.
 ## ChibiOS-Contrib Submodule
 
 The QMK build system pulls ChibiOS-Contrib as a git submodule at `lib/chibios-contrib`. For
-WB32 targets, this must point to the fixed branch:
+WB32 targets, you can point to the fixed branch:
 
 | Setting | Value |
 |---------|-------|
 | Repository | `https://github.com/emolitor/ChibiOS-Contrib` |
 | Branch | `em-wb32-improvements` |
-
----
-
-## Recent Commits
-
-Key commits on the `wireless-2.0` branch:
-
-| Commit | Description |
-|--------|-------------|
-| `9314e57c` | Update ChibiOS-Contrib submodule with DMA BLOCK_TS mask fix |
-| `763602e9` | Correct NVIC pending interrupt clearing before WFI (`<` to `<<` operator) |
-| `969d3ff5` | Add WS2812 GPIO DMA driver for Bridge75 |
-| `3825d5b4` | Update ChibiOS-Contrib to include PWM BDTR register access fix |
 
 ---
 
