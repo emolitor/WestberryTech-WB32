@@ -17,7 +17,7 @@ Two hardware constraints on the WB32 drove the design of this driver.
 The WB32 DMA controller's CTLH register BLOCK_TS field is 9 bits wide (max 511), not 12 bits
 as documented in the reference manual. A full 81-LED WS2812 frame requires 5832 DMA transfers
 (81 LEDs x 24 bits x 3 phases per bit). Transferring the entire frame in one DMA block is
-impossible. See [silicon-errata.md](silicon-errata.md) for full details on this hardware
+impossible. See [errata.md](errata.md) for full details on this hardware
 erratum.
 
 ### PWM+DMA Approach Failed
@@ -251,7 +251,7 @@ during ISR transitions, producing an extended low period instead of corrupted pu
 **Root cause**: `dmaStreamDisable()` internally calls `dmaStreamDisableInterruptAll()`, which
 clears the MaskTfr and MaskErr registers. `dmaStreamEnable()` does not restore them. On the
 second frame, the DMA transfer completes at the hardware level, but the completion interrupt
-is masked. See [silicon-errata.md](silicon-errata.md) for full analysis of this driver-level
+is masked. See [errata.md](errata.md) for full analysis of this driver-level
 issue.
 
 **Fix**: Call `dmaStreamEnableInterrupt()` for both TFR and ERR before every

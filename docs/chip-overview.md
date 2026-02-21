@@ -162,8 +162,8 @@ following information gaps are known:
    not always publicly listed.
 2. **Official datasheets** -- may require NDA or distributor access for some families.
 3. **Full reference manual** -- only partial documentation is publicly available.
-4. **Silicon errata** -- no official errata sheet has been published. See
-   [silicon-errata.md](silicon-errata.md) for community-discovered hardware issues, including
+4. **Errata** -- no official errata sheet has been published. See
+   [errata.md](errata.md) for community-discovered hardware issues, including
    the DMA BLOCK_TS 9-bit limitation.
 5. **Gaming Keyboard SoC (2023)** -- no technical specifications have been published.
 

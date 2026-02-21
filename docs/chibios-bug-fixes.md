@@ -32,7 +32,7 @@ git checkout emolitor/em-wb32-improvements
 
 The reference manual documents the CTLH register BLOCK_TS field as bits [11:0], implying a
 maximum single-block transfer size of 4095. Hardware testing confirms only bits [8:0] are
-writable -- the actual maximum is 511. See [silicon-errata.md](silicon-errata.md) for full
+writable -- the actual maximum is 511. See [errata.md](errata.md) for full
 details.
 
 The original `0x1FF` mask was numerically correct but used as an unexplained magic number.

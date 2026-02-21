@@ -47,7 +47,7 @@ ChibiOS-Contrib/os/hal/ports/WB32/
 | I2C | I2C1-2 | Standard/fast mode, busy timeout |
 | USB | USB1 | Full-speed device, 3 endpoints, PIO mode, remote wakeup |
 | ADC | ADC | 16 external channels + internal temp sensor + Vref |
-| DMA | DMAC1-2 | 3 channels per controller (6 total), max 511 transfers per block (see [silicon-errata.md](silicon-errata.md)) |
+| DMA | DMAC1-2 | 3 channels per controller (6 total), max 511 transfers per block (see [errata.md](errata.md)) |
 | Timer | TIM1-4 | PWM, GPT, ICU modes, 4 channels per timer, 20-bit counters |
 | RTC | RTC | Alarm support, LSE/LSI/HSE-divided clock sources |
 | EXTI | EXTI0-18 | 19 interrupt lines, configurable edge detection |
