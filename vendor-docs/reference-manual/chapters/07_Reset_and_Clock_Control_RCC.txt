@@ -1,0 +1,2053 @@
+WB32FQ95xx Reference Manual
+
+7.
+
+Reset and Clock Control (RCC)
+
+7.1.
+
+Reset
+
+7.1.1.
+
+System reset
+A system reset sets all registers to their default value except the reset flag register
+(RCC_RSTSTAT) and the registers in battery domain. A system reset is generated when one
+of the following events occurs:
+
+7.1.1.1.
+
+⚫
+
+A low level on NRST pin (external reset)
+
+⚫
+
+Window watchdog event (WWDG reset)
+
+⚫
+
+Independent watchdog event (IWDG reset)
+
+⚫
+
+A software reset (SW reset)
+
+⚫
+
+Low-power reset (PWR reset)
+
+Software reset:
+The SYSRESETREQ Bits in Cortex-M3 Application Interrupt and Reset Control Register
+must be set to force a software reset on the device.
+
+7.1.1.2.
+
+Low-power reset:
+A low-power reset is generated when the device exits standby mode.
+When an external reset occurs, a reset pulse will be generated when NRST pin is on low
+level.
+When an internal reset occurs, the device will generate a low level pulse on NRST pin, this
+pulse will keep at least 20uS.
+
+7.1.2.
+
+Power source reset
+A power source reset is generated when one of the following events occurs:
+⚫
+
+Power on reset (POR reset)
+
+⚫
+
+Power drop reset (PDR reset)
+
+Doc ID 2905025
+
+Rev01
+
+71
+
+WB32FQ95xx Reference Manual
+
+A power source reset sets all registers to their default value except the registers in battery
+domain.
+
+7.1.3.
+
+Battery domain reset
+A battery domain reset sets all RTC core registers, RTC core counters and the registers in
+battery domain to their default value.
+A battery domain reset is generated when one of the following events occurs:
+⚫
+
+RCC register RCC_BDRSTR is set to 1 by software.
+
+⚫
+
+VDD or VBAT is powered on after both of them were powered off.
+
+7.2.
+
+Clock
+
+7.2.1.
+
+System clock source
+There are four clock sources can be used to drive the system clock:
+
+7.2.2.
+
+⚫
+
+MHSI(8MHz) internal OSC
+
+⚫
+
+FHSI(48MHz) internal OSC
+
+⚫
+
+PLL clock
+
+⚫
+
+HSE external OSC
+
+Sub-clock source
+There are two sub-clock sources in device:
+
+7.2.3.
+
+⚫
+
+LSI(32KHz) internal low-speed OSC, used to drive IWDG and RTC
+
+⚫
+
+LSE(32.768KHz) external low-speed OSC clock
+
+Clock tree
+The clock tree in device is showed below:
+
+Doc ID 2905025
+
+Rev01
+
+72
+
+WB32FQ95xx Reference Manual
+
+Figure 7-1. Clock tree
+
+M
+
+C
+
+L
+
+K
+
+The system clock “MAINCLK” acts as the clock source of AHB, APB, USB. The clock source
+of Cortex SysTick and TRACE is AHB clock divided by 8.
+
+7.2.4.
+
+HSE clock
+The external high-speed clock (HSE) has two clock sources:
+
+1. External crystal/ceramic resonator
+The resonator and load capacitor should be as close as possible to the OSC pins of to
+minimize output distortion and startup stabilization time.
+The loading capacitance value should be adjusted according to the selected oscillator.
+
+2. External clock
+OSC_IN pin must be driven by external clock source which has 50% duty cycle.
+To use HSE clock, user should set GPIOD[1] and GPIOD[0] to analog mode, then configure
+the HSE control register in analog control unit (ANCTL). Please refer to the chapters of GPIO
+
+Doc ID 2905025
+
+Rev01
+
+73
+
+WB32FQ95xx Reference Manual
+
+and ANCTL.
+Note: To use HSE clock, user have to wait until the register “HSESR” is set to 1 by hardware,
+that means HSE clock is stable. This register is in analog control unit (ANCTL).
+
+7.2.5.
+
+HSI clock
+The internal high-speed clock (HSI) has two sources:
+⚫
+
+8MHz OSC (MHSI)
+
+⚫
+
+48MHz OSC (FHSI)
+
+HSI clock can be used as system clock, or clock source for PLL.
+MHSI clock can be enabled/disabled through the register “MHSIENR” in ANCTL. FHSI clock
+can be enabled/disabled through the register “FHSIENR” in ANCTL.
+Note: to use MHSI or FHSI clock, user have to wait until the register “MHSISR” or “FHSISR”
+is set to 1 by hardware, that means MHSI or FHSI clock is stable, these registers are in
+analog control unit (ANCTL).
+
+7.2.6.
+
+PLL clock
+PLL is used to generate the system clock
+PLL clock source can be the external high-speed clock (HSE) or the internal 8MHz OSC
+(MHSI). PLL clock source can be divided before input to PLL.
+Please refer to the PLL registers in ANCTL for more configurations.
+
+7.2.7.
+
+LSE clock
+LSE clock can be generated through 32.768KHz external clock, external low-speed crystal or
+ceramic resonator, it provides a low-power but highly accurate clock to RTC for calendar or
+other timing functions.
+When the external clock is used as LSE clock source, the duty of the external clock must be
+50%
+
+7.2.8.
+
+LSI clock
+LSI clock acts as a low-power clock source which can be kept running in STOP and
+
+Doc ID 2905025
+
+Rev01
+
+74
+
+WB32FQ95xx Reference Manual
+
+STANDBY mode for IWDG, the frequency is 32KHz, please refer to the LSI registers in
+ANCTL.
+
+7.2.9.
+
+System clock MAINCLK selection
+The system clock is MHSI (8MHz) after reset.
+When MHSI is used directly or through PLL as a system clock, it cannot be stopped.
+A switch from one clock source to another occurs only when the target source is stable,
+please refer to the clock source status registers in ANCTL.
+
+7.2.10.
+
+Clock Security System CSS
+Clock security system can be activated by software, the clock detector is enabled after HSE
+is stable, and disabled when HSE is stopped.
+If a failure is detected on HSE clock, the HSE oscillator is automatically disabled, a clock
+failure event is sent to TIM1, and generates an interrupt (CSSI) to MCU.
+CSSI is linked to MCU NMI exception vector.
+Note: once CSS is enabled and the HSE clock fails interrupt is generated to NMI, in NMI ISR
+user must clear the CSSI interrupt.
+When HSE clock is used directly as the system clock, a detected failure causes a switch of
+the system clock, MHSI (8MHz) will be used as the system clock automatically and HSE
+oscillator will be disabled.
+When HSE clock is used through PLL as the system clock, a detected failure will also disable
+PLL
+
+7.2.11.
+
+RTC clock
+RTC clock source can be HSE, LSE or LSI. Once it has been selected, it can be changed
+only after battery domain reset.
+If HSE is selected as RTC clock, the actual RTC clock frequency is HSE clock divided by
+128.
+If LSE is selected as RTC clock, RTC continues to work even if VDD supply is off, VBAT
+supply provides to RTC.
+
+Doc ID 2905025
+
+Rev01
+
+75
+
+WB32FQ95xx Reference Manual
+
+If HSE or LSI is selected as RTC clock, RTC doesn’t work when VDD supply is off.
+
+7.2.12.
+
+IWDG clock
+If IWDG is enabled, the LSI oscillator is forced on and cannot be disabled. After LSI clock is
+stable, it is provided to IWDG.
+
+7.2.13.
+
+Clock-out capability
+Five clocks can be output to MCO pin (PA8) through register configure:
+⚫
+
+PLL clock divided by 2
+
+⚫
+
+MHSI clock
+
+⚫
+
+HSE clock
+
+⚫
+
+AHB clock
+
+To output a clock on MCO pin, user should set PA[8] to alternate mode.
+
+7.2.14.
+
+Bus clock switch and divider
+AHB clock comes from the system clock through a divider
+APB clock comes from the system clock through a divider, the divide ratio is 1 to 64, and the
+APB clock can be enable or disable.
+User can enable or disable the clock of each peripheral on APB individual.
+
+7.3.
+
+RCC registers
+
+7.3.1.
+
+PLL pre-divider control register (RCC_PLLPRE)
+Address Offset: 0x000
+Reset value: 0x0000_0000
+This is the PLL input clock pre-divider.
+
+Bits
+
+Fields
+
+R/W
+
+31:6
+
+-
+
+R
+
+5
+
+SRCEN
+
+RW
+
+Doc ID 2905025
+
+Description
+Reserved
+PLL pre-divider input clock enable
+0: Disable PLL pre-divider input clock
+
+Rev01
+
+76
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+1: Enable PLL pre-divider input clock
+ratio
+0000: divided by 2
+
+4:1
+
+RATIO
+
+RW
+
+0001: divided by 3
+......
+1110: divided by 16
+PLL pre-divider enable
+
+0
+
+DIVEN
+
+RW
+
+0: PLL pre-divider is disabled
+1: PLL pre-divider is enabled
+
+7.3.2.
+
+PLL clock source selection register (RCC_PLLSRC)
+Address Offset: 0x004
+Reset value: 0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+0
+
+SRC
+
+RW
+
+Description
+Reserved
+PLL clock source selection
+0: MHSI(8MHz) as PLL input clock
+1: HSE as PLL input clock
+
+7.3.3.
+
+System clock source selection register (RCC_MAINCLKSRC)
+Address Offset: 0x008
+Reset value: 0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:2
+
+-
+
+R
+
+Description
+Reserved
+main clock source selection
+00: Select MHSI(8MHz) as system clock
+
+1:0
+
+SRC
+
+RW
+
+01: Select FHSI(48MHz) as system clock
+10: Select PLL as system clock
+11: Select HSE as system clock
+
+7.3.4.
+
+System clock source update enable register (RCC_MAINCLKUEN)
+Address Offset: 0x00C
+Reset value: 0x0000_0000
+
+Doc ID 2905025
+
+Rev01
+
+77
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+0
+
+ENA
+
+W
+
+Description
+Reserved
+update main clock source
+Write 1 to this register causes system clock source switching to a target
+clock source. This register will be cleared automatically by hardware
+
+7.3.5.
+
+USB clock pre-divider control register (RCC_USBPRE)
+Address Offset: 0x014
+Reset value: 0x0000_0000
+Description: Divide the USB input clock
+
+Bits
+
+Fields
+
+R/W
+
+31:4
+
+-
+
+R
+
+Reserved
+
+3
+
+SRCEN
+
+RW
+
+USB pre-divider input clock enable
+0: disable USB pre-divider input clock
+1: enable USB pre-divider input clock
+
+2:1
+
+RATIO
+
+RW
+
+0
+
+DIVEN
+
+RW
+
+7.3.6.
+
+Description
+
+Ratio
+00: divided by 2
+10: divided by 1.5
+Others: divided by 3
+USB in clock pre-divider enable
+0: USB input clock pre-divider is disabled
+1: USB input clock pre-divider is enabled
+
+AHB clock pre-divider register (RCC_AHBPRE)
+Address Offset: 0x018
+Reset value: 0x0000_0000
+Description: Divide AHB input clock
+
+Bits
+
+Fields
+
+R/W
+
+31:7
+
+-
+
+R
+
+Description
+Reserved
+Ratio
+0x00: divided by 2
+
+6:1
+
+RATIO
+
+RW
+
+0x01: divided by 3
+......
+0x3E: divided by 64
+AHB pre-divider enable
+
+0
+
+DIVEN
+
+RW
+
+0: AHB clock pre-divider is disabled
+1: AHB clock pre-divider is enabled
+
+Doc ID 2905025
+
+Rev01
+
+78
+
+WB32FQ95xx Reference Manual
+
+7.3.7.
+
+APB1 clock pre-divider control register (RCC_APB1PRE)
+Address Offset: 0x01C
+Reset value: 0x0000_0000
+Description: Divide APB1 input clock
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Description
+Reserved
+APB1 pre-divider input clock enable
+
+7
+
+SRCEN
+
+RW
+
+0: disable APB1 pre-divider input clock
+1: enable APB1 pre-divider input clock
+Ratio
+0x00: divided by 2
+
+6:1
+
+RATIO
+
+RW
+
+0x01: divided by 3
+......
+0x3E: divided by 64
+APB1 pre-divider enable
+
+0
+
+DIVEN
+
+RW
+
+0: APB1 clock pre-divider is disabled
+1: APB1 clock pre-divider is enabled
+
+7.3.8.
+
+APB2 clock pre-divider control register (RCC_APB2PRE)
+Address Offset: 0x020
+Reset value: 0x0000_0000
+Description: Divide APB2 input clock
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Description
+Reserved
+APB2 pre-divider input clock enable
+
+7
+
+SRCEN
+
+RW
+
+0: disable APB2 pre-divider input clock
+1: enable APB2 pre-divider input clock
+Ratio
+0x00: divided by 2
+
+6:1
+
+RATIO
+
+RW
+
+0x01: divided by 3
+......
+0x3E: divided by 64
+APB2 pre-divider enable
+
+0
+
+DIVEN
+
+RW
+
+0: APB2 clock pre-divider is disabled
+1: APB2 clock pre-divider is enabled
+
+Doc ID 2905025
+
+Rev01
+
+79
+
+WB32FQ95xx Reference Manual
+
+7.3.9.
+
+USB FIFO clock source selection register (RCC_USBFIFOCLKSRC)
+Address Offset: 0x034
+Reset value: 0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Description
+Reserved
+USB FIFO clock source selection
+
+0
+
+SRC
+
+RW
+
+0: AHB clock as USB FIFO clock
+1: USB clock as USB FIFO clock
+
+7.3.10.
+
+Clock output selection register (RCC_MCOSEL)
+Address Offset: 0x038
+Reset value: 0x0000_0000
+Description: output a clock to MCO pin (PA8), only one Bits is allowed to be set all the time.
+For a clock output, must be clear all the Bits in this register first, then write 1 to the Bits
+corresponding to the clock to output.
+
+Bits
+
+Fields
+
+R/W
+
+31:5
+
+-
+
+R
+
+Reserved
+
+4
+
+-
+
+R
+
+Reserved
+
+3
+
+PLLDIV2
+
+RW
+
+PLL clock divided by 2 output to MCO pin
+
+2
+
+MHSI
+
+RW
+
+MHSI(8MHz) output to MCO pin
+
+1
+
+HSE
+
+RW
+
+HSE clock output to MCO pin
+
+0
+
+AHBCLK
+
+RW
+
+AHB clock output to MCO pin
+
+7.3.11.
+
+Description
+
+AHB peripherals clock enable register0 (RCC_AHBENR0)
+Address Offset: 0x03C
+Reset value: 0x0000_007B
+Description: enable or disable of the IWDG clock on AHB.
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+2
+
+IWDGEN
+
+RW
+
+Doc ID 2905025
+
+Description
+Reserved
+IWDG clock enable control
+0: IWDG clock is disabled
+
+Rev01
+
+80
+
+WB32FQ95xx Reference Manual
+
+1: IWDG clock is enabled
+1:0
+
+7.3.12.
+
+-
+
+R
+
+Reserved
+
+AHB peripherals clock enable register1 (RCC_AHBENR1)
+Address Offset: 0x040
+Reset value: 0x0000_003D
+Description: enable or disable the peripheral’s clock on AHB 1 means enable the peripheral’s
+clock, 0 means disable
+
+Bits
+
+Fields
+
+R/W
+
+31:9
+
+-
+
+R
+
+Reserved
+
+8
+
+CRCSFMEN
+
+RW
+
+CRC and SFM clock enable
+
+7
+
+DMAC2BREN
+
+RW
+
+DMAC2-APB2 bridge clock enable
+
+6
+
+DMAC1BREN
+
+RW
+
+DMAC1-APB1 bridge clock enable
+
+5
+
+SYSEN
+
+RW
+
+SYS control clock enable
+
+4
+
+CACHEEN
+
+RW
+
+CACHE control clock enable
+
+3
+
+FLASHEN
+
+RW
+
+FLASH control clock enable
+
+2
+
+ISOEN
+
+RW
+
+ISO7816 control clock enable
+
+1
+
+USBEN
+
+RW
+
+USB control clock enable
+
+0
+
+-
+
+R
+
+Reserved
+
+7.3.13.
+
+Description
+
+AHB peripherals clock enable register2 (RCC_AHBENR2)
+Address Offset: 0x044
+Reset value: 0x0000_0003
+Description: enable or disable the Battery domain interface clock.
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+Description
+Reserved
+Battery domain interface clock enable
+
+2
+
+BDIEN
+
+RW
+
+0: Battery domain interface clock is disabled
+1: Battery domain interface clock is enabled
+
+1:0
+
+Doc ID 2905025
+
+-
+
+R
+
+Reserved
+
+Rev01
+
+81
+
+WB32FQ95xx Reference Manual
+
+7.3.14.
+
+APB1 peripherals clock enable register (RCC_APB1ENR)
+Address Offset: 0x048
+Reset value: 0x0000_0000
+Description: enable or disable the peripheral’s clock on APB1
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:16
+
+-
+
+R
+
+Reserved
+
+15
+
+BMX1EN
+
+RW
+
+APB1 bus matrix clock enable
+
+14
+
+UART1EN
+
+RW
+
+UART1 control clock enable
+
+13
+
+SPIS1EN
+
+RW
+
+SPIS1 control clock enable
+
+12
+
+QSPIEN
+
+RW
+
+QSPI control clock enable
+
+11
+
+ADCEN
+
+RW
+
+ADC control clock enable
+
+10
+
+AFIOEN
+
+RW
+
+AFIO control clock enable
+
+9
+
+EXTIEN
+
+RW
+
+EXTI control clock enable
+
+8
+
+GPIODEN
+
+RW
+
+GPIOD control clock enable
+
+7
+
+GPIOCEN
+
+RW
+
+GPIOC control clock enable
+
+6
+
+GPIOBEN
+
+RW
+
+GPIOB control clock enable
+
+5
+
+GPIOAEN
+
+RW
+
+GPIOA control clock enable
+
+4
+
+TIM4EN
+
+RW
+
+TIMER4 control clock enable
+
+3
+
+TIM3EN
+
+RW
+
+TIMER3 control clock enable
+
+2
+
+TIM2EN
+
+RW
+
+TIMER2 control clock enable
+
+1
+
+TIM1EN
+
+RW
+
+TIMER1 control clock enable
+
+0
+
+DMAC1EN
+
+RW
+
+DMAC1 control clock enable
+
+Note: BMX1EN Bits must be set for APB1 peripheral’s operation.
+
+7.3.15.
+
+APB2 peripherals clock enable register (RCC_APB2ENR)
+Address Offset: 0x04C
+Reset value: 0x0000_0000
+Description: enable or disable the peripheral’s clock on APB2
+
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+Reserved
+
+11
+
+BMX2EN
+
+RW
+
+APB2 bus matrix clock enable
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+82
+
+WB32FQ95xx Reference Manual
+
+10
+
+-
+
+R
+
+Reserved
+
+9
+
+-
+
+R
+
+Reserved
+
+8
+
+I2C2EN
+
+RW
+
+I2C2 control clock enable
+
+7
+
+I2C1EN
+
+RW
+
+I2C1 control clock enable
+
+6
+
+-
+
+R
+
+Reserved
+
+5
+
+SPIS2EN
+
+RW
+
+SPIS2 control clock enable
+
+4
+
+SPIM2EN
+
+RW
+
+SPIM2 control clock enable
+
+3
+
+UART3EN
+
+RW
+
+UART3 control clock enable
+
+2
+
+UART2EN
+
+RW
+
+UART2 control clock enable
+
+1
+
+WWDGEN
+
+RW
+
+WWDG clock enable
+
+0
+
+DMAC2EN
+
+RW
+
+DMAC2 control clock enable
+
+Note: BMX2EN Bits must be set for APB2 peripheral’s operation.
+
+7.3.16.
+
+IWDG clock enable register (RCC_IWDGCLKENR)
+Address Offset: 0x064
+Reset value: 0x0000_0001
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+Description
+Reserved
+DCSS clock enable
+
+2
+
+DCSSCLKEN
+
+RW
+
+0: DCSS clock disabled
+1: DCSS clock enabled
+
+1
+
+-
+
+R
+
+Reserved
+IWDG clock enable
+
+0
+
+IWDGCLKEN
+
+RW
+
+0: IWDG clock disabled
+1: IWDG clock enabled
+This Bits has no function once the IWDG is turned on.
+
+7.3.17.
+
+USB48MHz clock enable register (RCC_USBCLKENR)
+Address Offset: 0x06C
+Reset value: 0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+0
+
+CLKEN
+
+RW
+
+Doc ID 2905025
+
+Description
+Reserved
+USB 48MHz clock enable
+0: USB 48MHzclock disabled
+
+Rev01
+
+83
+
+WB32FQ95xx Reference Manual
+
+1: USB 48MHzclock enabled
+
+7.3.18.
+
+SPIS1 clock enable register (RCC_SPIS1CLKENR)
+Address Offset: 0x074
+Reset value: 0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Description
+Reserved
+SPIS1 clock enable
+
+0
+
+CLKEN
+
+RW
+
+0: SPIS1 clock disabled
+1: SPIS1 clock enabled
+
+7.3.19.
+
+SPIS2 clock enable register (RCC_SPIS2CLKENR)
+Address Offset: 0x078
+Reset value: 0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Description
+Reserved
+SPIS2 clock enable
+
+0
+
+CLKEN
+
+RW
+
+0: SPIS2 clock disabled
+1: SPIS2 clock enabled
+
+7.3.20.
+
+USB FIFO clock enable register (RCC_USBFIFOCLKENR)
+Address Offset: 0x07C
+Reset value: 0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Description
+Reserved
+USB FIFO clock enable
+
+0
+
+CLKEN
+
+RW
+
+0: USB FIFO clock disabled
+1: USB FIFO clock enabled
+
+7.3.21.
+
+AHB peripheral reset register1 (RCC_AHBRSTR1)
+Address Offset: 0x088
+Reset value: 0x0000_0000
+Description: enable or disable the peripheral’s reset on AHB, ‘1’ means reset the peripheral,
+
+Doc ID 2905025
+
+Rev01
+
+84
+
+WB32FQ95xx Reference Manual
+
+‘0’ means the peripheral’s reset cleared.
+Bits
+
+Fields
+
+R/W
+
+31:9
+
+-
+
+R
+
+Reserved
+
+8
+
+CRCSFMRST
+
+RW
+
+CRC and SFM reset control
+
+7:6
+
+-
+
+R
+
+Reserved
+
+5
+
+SYSRST
+
+RW
+
+SYS reset control
+
+4
+
+CACHERST
+
+RW
+
+CACHE reset control
+
+3
+
+FLASHRST
+
+RW
+
+FLASH reset control
+
+2
+
+ISORST
+
+RW
+
+ISO7816 reset control
+
+1
+
+USBRST
+
+RW
+
+USB reset control
+
+0
+
+-
+
+R
+
+Reserved
+
+7.3.22.
+
+Description
+
+APB1 peripheral reset register(RCC_APB1RSTR)
+Address Offset: 0x090
+Reset value: 0x0000_0000
+Description: enable or disable the peripheral’s reset on APB1, ‘1’ means reset the peripheral,
+‘0’ means the peripheral’s reset cleared.
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:16
+
+-
+
+R
+
+Reserved
+
+15
+
+BMX1RST
+
+RW
+
+APB1 bus matrix reset control
+
+14
+
+UART1RST
+
+RW
+
+UART1 reset control
+
+13
+
+SPIS1RST
+
+RW
+
+SPIS1 reset control
+
+12
+
+QSPIRST
+
+RW
+
+QSPI reset control
+
+11
+
+ADCRST
+
+RW
+
+ADC reset control
+
+10
+
+AFIORST
+
+RW
+
+AFIO reset control
+
+9
+
+EXTIRST
+
+RW
+
+EXTI reset control
+
+8
+
+GPIODRST
+
+RW
+
+GPIOD reset control
+
+7
+
+GPIOCRST
+
+RW
+
+GPIOC reset control
+
+6
+
+GPIOBRST
+
+RW
+
+GPIOB reset control
+
+5
+
+GPIOARST
+
+RW
+
+GPIOA reset control
+
+4
+
+TIM4RST
+
+RW
+
+TIMER4 reset control
+
+3
+
+TIM3RST
+
+RW
+
+TIMER3 reset control
+
+Doc ID 2905025
+
+Rev01
+
+85
+
+WB32FQ95xx Reference Manual
+
+2
+
+TIM2RST
+
+RW
+
+TIMER2 reset control
+
+1
+
+TIM1RST
+
+RW
+
+TIMER1 reset control
+
+0
+
+DMAC1RST
+
+RW
+
+DMAC1 reset control
+
+7.3.23.
+
+APB2 peripheral reset register (RCC_APB2RSTR)
+Address Offset: 0x094
+Reset value: 0x0000_0000
+Description: enable or disable the peripheral’s reset on APB2. ‘1’ means reset the peripheral,
+‘0’ means the peripheral’s reset cleared.
+
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+Reserved
+
+11
+
+BMX2RST
+
+RW
+
+APB2 bus matrix reset
+
+10
+
+-
+
+R
+
+Reserved
+
+9
+
+-
+
+R
+
+Reserved
+
+8
+
+I2C2RST
+
+RW
+
+I2C2 reset control
+
+7
+
+I2C1RST
+
+RW
+
+I2C1 reset control
+
+6
+
+-
+
+R
+
+Reserved
+
+5
+
+SPIS2RST
+
+RW
+
+SPIS2 reset control
+
+4
+
+SPIM2RST
+
+RW
+
+SPIM2 reset control
+
+3
+
+UART3RST
+
+RW
+
+UART3 reset control
+
+2
+
+UART2RST
+
+RW
+
+UART2 reset control
+
+1
+
+WWDGRST
+
+RW
+
+WWDG reset control
+
+0
+
+DMAC2RST
+
+RW
+
+DMAC2 reset control
+
+7.3.24.
+
+Description
+
+Reset flag clear register (RCC_CLRRSTSTAT)
+Address Offset: 0x0C8
+Reset value: 0x0000_0000
+Description: write 1 to this register will clear RCC_RSTSTAT register
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+CLR
+
+W
+
+clear RCC_RSTSTAT register
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+86
+
+WB32FQ95xx Reference Manual
+
+7.3.25.
+
+Battery domain reset register (RCC_BDRSTR)
+Address Offset: 0x0D4
+Reset value: 0x0000_0000
+Description: write 1 asserts battery domain reset, write 0 de-asserts the reset
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+BDRST
+
+RW
+
+battery domain reset
+
+7.3.26.
+
+Description
+
+LSI battery domain clock enable register (RCC_LSI2RTCENR)
+Address Offset: 0x0D8
+Reset value: 0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+0
+
+CLKEN
+
+RW
+
+Description
+Reserved
+LSI enable for battery domain
+0: disable LSI as battery domain RTC clock
+1: enable LSI as battery domain RTC clock
+
+7.3.27.
+
+HSE clock 128-divider enable register (RCC_HSE2RTCENR)
+Address Offset: 0x0DC
+Reset value: 0x0000_0000
+Description: When HSE is selected as RTC clock, the divider should be enabled to divide the
+HSE clock by 128 before input to RTC.
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Description
+Reserved
+128-divider enable
+
+0
+
+DIVEN
+
+RW
+
+0: disable 128-divider
+1: enable 128-divider
+
+7.3.28.
+
+Reset flag register (RCC_RSTSTAT)
+Address Offset: 0x100
+Reset value: 0x0000_0000
+
+Doc ID 2905025
+
+Rev01
+
+87
+
+WB32FQ95xx Reference Manual
+
+Description: reset flag for all the reset occurred, can only cleared by RCC_CLRRSTSTAT
+SFR.
+Bits
+
+Fields
+
+R/W
+
+31:6
+
+-
+
+R
+
+5
+
+PINRSTF
+
+R
+
+4
+
+PORRSTF
+
+R
+
+3
+
+SFTRSTF
+
+R
+
+2
+
+IWDGRSTF
+
+R
+
+1
+
+WWDGRSTF
+
+R
+
+0
+
+LPWRRSTF
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved
+set by hardware when NRST pin reset occurs,
+Write 1 to RCC_CLRRSTSTAT clear this Bits.
+set by hardware when POR/PDR reset occurs,
+Write 1 to RCC_CLRRSTSTAT clear this Bits.
+Set by hardware when software reset occurs,
+Write 1 to RCC_CLRRSTSTAT clear this Bits.T
+set by hardware when IWDG reset occurs in VDD domain,
+Write 1 to RCC_CLRRSTSTAT clear this Bits.
+Set by hardware when WWDG reset occurs,
+Write 1 to RCC_CLRRSTSTAT clear this Bits.
+Set by hardware when low-power reset occurs,
+Write 1 to RCC_CLRRSTSTAT clear this Bits.
+
+Rev01
+
+88
+
+

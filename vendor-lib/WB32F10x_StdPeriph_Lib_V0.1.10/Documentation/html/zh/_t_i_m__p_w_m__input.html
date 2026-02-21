@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: TIM PWM Input example</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">TIM PWM Input example </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><pre class="fragment">  *************** (C) COPYRIGHT 2020 - 2023 Westberry Technology ***************
+  * @file    TIM/TIM_PWM_Input/readme.txt 
+  * @author  Westberry Application Team
+  * @version V0.1.10
+  * @date    05-January-2023
+  * @brief   Description of the TIM_PWM_Input example.
+  ******************************************************************************
+  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  * TIME. AS A RESULT, WESTBERRY SHALL NOT BE HELD LIABLE FOR ANY DIRECT,
+  * INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM
+  * THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  ******************************************************************************</pre><dl class="section user"><dt>例程描述 </dt><dd></dd></dl>
+<p>本例演示如何使用TIM外围设备测量外部信号的频率和占空比。 <br />
+系统时钟工作在96Mhz，通过PLL配置产生。PLL时钟源是外部8Mhz晶振。APB1的分频比是1，APB2的分频比是1。<br />
+TIMXCLK频率设置为SystemCoreClock（Hz），预分频器为0，因此TIM1计数器时钟为SystemCoreClock（Hz）。<br />
+SystemCoreClock设置为96MHz。<br />
+TIM1配置为PWM输入模式：外部信号连接至TIM1 Channel1用作输入引脚。<br />
+为了测量频率和占空比，我们使用TIM1 CC1中断请求，<br />
+因此，在TIM1_IRQHandler 程序中，计算外部信号的频率和占空比。<br />
+“Frequency”变量包含外部信号频率：<br />
+Frequency = TIM1计数器时钟 / (TIM1_CCR1 + 1)，单位：Hz，<br />
+“DutyCycle”变量包含外部信号占空比：<br />
+DutyCycle = ((float)(IC2Value + 1) * 100) / (IC1Value + 1);<br />
+测量的最小频率值为92Hz。<br />
+ </p><dl class="section user"><dt>目录内容 </dt><dd></dd></dl>
+<ul>
+<li>TIM/TIM_PWM_Input/TIM_PWM_Input.uvprojx MDK5工程文件</li>
+<li>TIM/TIM_PWM_Input/TIM_PWM_Input.uvoptx MDK5工程配置文件</li>
+<li>TIM/TIM_PWM_Input/JLinkSettings.ini Jlink配置文件</li>
+<li>TIM/TIM_PWM_Input/main.c 主程序</li>
+</ul>
+<dl class="section user"><dt>硬件和软件环境 </dt><dd></dd></dl>
+<ul>
+<li>硬件平台搭建<ul>
+<li>HSE 连接外部8MHz晶振</li>
+<li>引脚连接:<ul>
+<li>TIM1_CH1 pin (PA.08) 连接到采样引脚</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<dl class="section user"><dt>如何使用？ </dt><dd></dd></dl>
+<p>为了使程序工作，您必须执行以下操作 :</p><ul>
+<li>使用 MDK5 打开此例程文件夹中的 TIM_PWM_Input.uvprojx 工程</li>
+<li>重新编译该工程并下载到目标存储器中</li>
+<li><p class="startli">运行此例程</p>
+<h3><center>&copy; COPYRIGHT 2020 - 2023 Westberry Technology</center></h3>
+</li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

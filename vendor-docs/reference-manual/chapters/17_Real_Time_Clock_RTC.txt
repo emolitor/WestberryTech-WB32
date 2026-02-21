@@ -1,0 +1,567 @@
+WB32FQ95xx Reference Manual
+
+17.
+
+Real-time Clock (RTC)
+
+17.1.
+
+Overview
+The RTC is usually used as a clock-calendar. The RTC circuits are located in two power
+supply domains. The ones in the Backup Domain consist of a 32-bit up-counter, an alarm, a
+prescaler, a divider and the RTC clock configuration register. That means the RTC settings
+and time are kept when the device resets or wakes up from Standby mode. While the circuits
+in the VDD domain only include the APB interface and a control register. In the following
+sections, the details of the RTC function will be described.
+
+17.2.
+
+Characteristics
+⚫
+
+32-bit programmable counter for counting elapsed time
+Programmable prescaler: Max division factor is up to 220
+
+⚫
+
+Separate clock domains:
+A) PCLK1 clock domain
+B) RTC clock domain (this clock must be at least 4 times slower than the PCLK1 clock)
+
+⚫
+
+RTC clock source:
+A) HSE clock divided by 128
+B) LSE oscillator clock
+C) LSI oscillator clock
+
+⚫
+
+Mask-able interrupt source:
+A) Alarm interrupt
+B) Second interrupt
+C) Overflow interrupt
+
+17.3.
+
+Function overview
+The RTC circuits consist of two major units: APB interface located in PCLK1 clock domain
+and RTC core located in RTC clock domain.
+APB Interface is connected with the APB1 bus. It includes a set of registers, can be
+accessed by APB1 bus.
+RTC core includes two major blocks. One is the RTC prescaler block, which generates the
+RTC time base clock SC_CLK. RTC prescaler block includes a 20-bit programmable divider
+(RTC prescaler) which can make SC_CLK is divided from RTC source clock. If second
+interrupt is enabled in the RTC_CRH register, the RTC will generate an interrupt at every
+SC_CLK rising edge. Another block is a 32-bit programmable counter, which can be
+initialized with the value of current system time. If alarm interrupt is enabled in the RTC_CRH
+register, the RTC will generate an alarm interrupt when the system time equals to the alarm
+time (stored in the RTC_ALRH/L register),
+
+Doc ID 2905025
+
+Rev01
+
+249
+
+WB32FQ95xx Reference Manual
+
+Figure 17-1. Block diagram of RTC
+
+17.3.1.
+
+RTC reset
+The APB interface and the RTC_CRH register are reset by system reset. The RTC core
+(prescaler, divider, counter and alarm) is reset only by a backup domain reset.
+Steps to enable access to the backup registers and the RTC after reset are as follows:
+
+17.3.2.
+
+⚫
+
+Set the BDI bit in the AHBENR register to enable the power and backup interface
+clocks.
+
+⚫
+
+Enable access to the backup registers and RTC by setting the DBP bit in the
+(PWR_CR0).
+
+RTC reading
+The APB interface and RTC core are located in two different power supply domains.
+In the RTC core, only counter and divider registers are readable registers. And the values in
+the two registers and the RTC flags are internally updated at each rising edge of the RTC
+clock, which is resynchronized by the APB1 clock.
+When the APB interface is immediately enabled from a disable state, the read operation is
+not recommended because the first internal update of the registers has not finished. That
+means, when a system reset, power reset, waking up from Standby mode or Deep-sleep
+mode occurs, the APB interface was in disabled state, but the RTC core has been kept
+running. In these cases, the correct read operation should first clear the RSF bit in the RTC
+_CTL register and wait for it to be set by hardware. While WFI and WFE have no effects on
+the RTC APB interface.
+
+Doc ID 2905025
+
+Rev01
+
+250
+
+WB32FQ95xx Reference Manual
+
+17.3.3.
+
+RTC configuration
+The RTC_PSC, RTC_CNT and RTC_ALRM registers in the RTC core are writable. These
+registers’ value can be set only when the peripheral enter configuration mode. And the CNF
+bit in the RTC_CRL register is used to indicate the configuration mode status. The write
+operation executes when the peripheral exit configuration mode, and it takes at least three
+RTCCLK cycles to complete. The value of the RTOFF bit in the RTC_CRL register sets to ‘1’,
+if the write operation finished. The new write operation should wait for the previous one
+finished.
+The configuration steps are as follows:
+A) Wait until the value of RTOFF bit in the RTC_CRL register sets to ‘1’;
+B) Enter Configuration mode by setting the CNF bit in the RTC_CRL register;
+C) Write to the RTC registers;
+D) Exit Configuration mode by clearing the CNF bit in the RTC_CRL register;
+E) Wait until the value of RTOFF bit in the RTC_CRL register sets to ‘1’.
+
+17.3.4.
+
+RTC flag assertion
+Before the update of the RTC Counter, the RTC second interrupt flag (SECF) is asserted on
+the last RTCCLK cycle.
+Before the counter equal to the RTC Alarm value which stored in the Alarm register
+increases by one, the RTC Alarm interrupt flag (ALRF) is asserted on the last RTCCLK cycle.
+Before the counter equals to 0x0, the RTC Overflow interrupt flag (OWF) is asserted on the
+last RTCCLK cycle.
+The RTC Alarm write operation and Second interrupt flag must be synchronized by using
+either of the following sequences:
+⚫
+
+Use the RTC alarm interrupt and update the RTC Alarm and/or RTC Counter registers
+inside the RTC interrupt routine;
+
+⚫
+
+Update the RTC Alarm and/or the RTC Counter registers after the SECF bit to be set in
+the RTC Control register.
+
+Figure 17-2. RTC second and alarm waveform example (RTC_PSC = 3, RTC_ALRM = 4)
+
+Doc ID 2905025
+
+Rev01
+
+251
+
+WB32FQ95xx Reference Manual
+
+Figure 17-3. RTC second and overflow waveform example (RTC_PSC= 3)
+
+17.4.
+
+Register definition
+
+17.4.1.
+
+RTC interrupt enable register (RTC_CRH)
+Address offset: 0x00
+Reset value: 0x0000
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+2
+
+OWIE
+
+RW
+
+1
+
+ALRIE
+
+RW
+
+0
+
+SECIE
+
+RW
+
+17.4.2.
+
+Description
+Reserved
+Overflow interrupt enable
+0: Disable overflow interrupt
+1: Enable overflow interrupt
+Alarm interrupt enable
+0: Disable alarm interrupt
+1: Enable alarm interrupt
+Second interrupt enable
+0: Disable second interrupt.
+1: Enable second interrupt
+
+RTC control register (RTC_CRL)
+Address offset: 0x04
+Reset value: 0x0020
+
+Bits
+
+Fields
+
+R/W
+
+31:6
+
+-
+
+R
+
+5
+
+RTOFF
+
+R
+
+4
+
+CNF
+
+RW
+
+3
+
+RSF
+
+RC_W0
+
+2
+
+OWF
+
+RC_W0
+
+Doc ID 2905025
+
+Description
+Reserved
+Last write operation finished flag
+0: Last write operation on RTC registers did not finished
+1: Last write operation on RTC registers finished.
+Configuration mode flag
+0: Exit configuration mode.
+1: Enter configuration mode.
+Registers synchronized flag
+0: Registers not yet synchronized with the APB1 clock.
+1: Registers synchronized with the APB1 clock.
+Overflow interrupt flag
+0: Overflow event not detected
+1: Overflow event detected. An interrupt will occur if the OWIE bit is set.
+
+Rev01
+
+252
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+1
+
+ALRF
+
+RC_W0
+
+0
+
+SECF
+
+RC_W0
+
+17.4.3.
+
+Description
+Alarm interrupt flag
+0: Alarm event not detected
+1: Alarm event detected.
+An interrupt named RTC global interrupt will occur if the ALRIE bit is set in
+RTC_CRH. And another interrupt named the RTC Alarm interrupt will
+occur if the EXTI 17 is enabled in interrupt mode.
+Second interrupt flag
+0: Second event not detected.
+1: Second event detected
+An interrupt will occur if the SECIE bit is set. Set by hardware when the
+divider reloads the value in RTC_PRLH/L, thus increment the RTC counter
+
+RTC prescaler high register (RTC_PRLH)
+Address offset: 0x08
+Reset value: 0x0000
+
+Bits
+
+Fields
+
+R/W
+
+31:4
+
+-
+
+R
+
+Reserved
+
+3:0
+
+PSC[19:16]
+
+W
+
+RTC prescaler value high
+
+17.4.4.
+
+Description
+
+RTC prescaler low register (RTC_PRLL)
+Address offset: 0x0C
+Reset value: 0x0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Reserved
+
+15:0
+
+PSC[15:0]
+
+W
+
+RTC prescaler value low
+The frequency of TR_CLK is the RTCCLK frequency divided by
+(PSC[19:0]+1)
+
+17.4.5.
+
+Description
+
+RTC divider high register (RTC_DIVH)
+Address offset: 0x10
+Reset value: 0x0000
+
+Bits
+
+Fields
+
+R/W
+
+31:4
+
+-
+
+R
+
+Reserved
+
+3:0
+
+DIV[19:16]
+
+R
+
+RTC divider value high
+
+17.4.6.
+
+Description
+
+RTC divider low register (RTC_DIVL)
+Address offset: 0x14
+Reset value: 0x0000
+
+Doc ID 2905025
+
+Rev01
+
+253
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Reserved
+
+15:0
+
+DIV[15:0]
+
+R
+
+RTC divider value low
+The RTC divider register is reloaded by hardware when the RTC prescaler
+or RTC counter register updated.
+
+17.4.7.
+
+Description
+
+RTC counter high register (RTC_CNTH)
+Address offset: 0x18
+Reset value: 0x0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Reserved
+
+15:0
+
+CNT[31:16]
+
+RW
+
+RTC counter value high
+
+17.4.8.
+
+Description
+
+RTC counter low register (RTC_CNTL)
+Address offset: 0x1C
+Reset value: 0x0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Reserved
+
+15:0
+
+CNT[15:0]
+
+RW
+
+RTC counter value low
+
+17.4.9.
+
+Description
+
+RTC alarm high register (RTC_ALRH)
+Address offset: 0x20
+Reset value: 0xFFFF
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Reserved
+
+15:0
+
+ALRM[31:16]
+
+RW
+
+RTC alarm value high
+
+17.4.10.
+
+Description
+
+RTC alarm low register (RTC_ALRL)
+Address offset: 0x24
+Reset value: 0xFFFF
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Reserved
+
+15:0
+
+ALRM[15:0]
+
+RW
+
+RTC alarm value low
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+254
+
+

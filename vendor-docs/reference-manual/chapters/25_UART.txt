@@ -1,0 +1,1832 @@
+WB32FQ95xx Reference Manual
+
+25.
+
+Universal asynchronous transceiver (UART)
+
+25.1.
+
+Introduction
+
+25.1.1.
+
+RS232 Serial communication protocol
+UART port supports RS232 serial communication protocol. The format of the protocol is as
+follows, which can be divided into starting bit, data bit, parity bit and stop bit. Parity bit is an
+option, and stop bit can be 1, 1.5 or 2 bit width.
+Figure 25-1. RS232 Serial data format
+
+25.1.2.
+
+9-bit data transmission
+UART port supports 9-bit data transmission mode. The ninth bit is after the 8th bit of data
+and before the parity bit and stop bit. The following figure shows the format of 9-bit
+transmission.
+Figure 25-2. 9-bit transmission data format
+
+By enabling 9-bit transmission mode, the system can support the connection between a
+master controller and multiple slave devices. When the master controller needs to
+communicate with a slave device, it will first send an address data to select the slave device
+to communicate with. The difference between address and data lies in the 9th bit. When the
+9th bit is set to "1", the data transmitted represents the address of the slave device; when the
+9th bit is set to "0", the data is transmitted. When receiving the address, all slave devices will
+compare with their own address. If the address matches, the device will continue to receive
+the following data; if not, the slave device will ignore the following data until it receives the
+new address.
+When receiving, the received address can be automatically matched by hardware, and the
+received address can also be matched by software.
+
+25.1.3.
+
+Fractional baud rate
+UART supports fractional baud rate configuration to reduce the bit error rate in high-speed
+transmission, which can ensure that the baud rate error of UART is less than 2%. The factors
+affecting baud rate are as follows ：
+
+Doc ID 2905025
+
+Rev01
+
+369
+
+WB32FQ95xx Reference Manual
+
+⚫
+
+The working frequency of UART module clock Fuart
+
+⚫
+
+Expected baud rate
+
+⚫
+
+The value of baud rate generation register DIVISOR.
+
+⚫
+
+Acceptable baud rate error
+
+The calculation formula of baud rate is as follows:
+(27.1)
+Among them, DIVISOR is composed of DLH and DLL registers.
+The formula for calculating DIVISOR as follows:
+(27.2)
+The decimal part of the divisor can be calculated from the value in the DLF register:
+Table 25-1. Decimal values for divisor latch
+DLF
+
+value
+
+fraction
+
+Decimal value
+
+0000
+
+0/16
+
+0.0000
+
+0001
+
+1/16
+
+0.0625
+
+0010
+
+2/16
+
+0.125
+
+0011
+
+3/16
+
+0.1875
+
+0100
+
+4/16
+
+0.25
+
+0101
+
+5/16
+
+0.3125
+
+0110
+
+6/16
+
+0.375
+
+0111
+
+7/16
+
+0.4375
+
+1000
+
+8/16
+
+0.5
+
+1001
+
+9/16
+
+0.5625
+
+1010
+
+10/16
+
+0.625
+
+1011
+
+11/16
+
+0.6875
+
+1100
+
+12/16
+
+0.75
+
+1101
+
+13/16
+
+0.8125
+
+1110
+
+14/16
+
+0.875
+
+1111
+
+15/16
+
+0.9375
+
+Compared with the traditional integer baud rate generator, the programmable fractional baud
+rate generator can produce higher precision baud rate. This allows programming to the
+integer and fractional parts of the baud rate. The formula is as follows:
+(27.3)
+Among the formula，the integer part of the BRD1 divisor. The fractional part of the BRD2
+
+Doc ID 2905025
+
+Rev01
+
+370
+
+WB32FQ95xx Reference Manual
+
+divisor.
+
+25.1.4.
+
+IrDA SIR Agreement
+UART supports IrDA 1.0 SIR mode for two-way data transmission through infrared, and the
+maximum baud rate can reach 115.2kbps. The data format is the same as the standard serial
+communication format. Each data byte is sent in the following order:
+⚫
+
+Start with a start bit
+
+⚫
+
+Send 8-bit data
+
+⚫
+
+End with an end bit
+
+⚫
+
+In this way, the width of the data that can be sent is fixed, the transmission of parity bits
+is not supported, and there is only one end bit.
+
+⚫
+
+The meaning of sending or not sending an infrared pulse is as follows:
+
+⚫
+
+Send an infrared pulse to represent logic 0
+
+⚫
+
+Do not send an infrared pulse to represent logic 1
+
+⚫
+
+The width of each pulse is 3 / 16 of the normal bit width, so each new byte transmission
+starts with an infrared pulse. However, the polarity of the received data is opposite to
+that of the transmitted data, which is mainly determined by the characteristics of the
+infrared receiver. The following figure shows the format of the infrared data.
+Figure 25-3. Infrared transmission data format
+
+25.1.5.
+
+Automatic flow control
+If the automatic RTS mode is enabled, the UART receiver FIFO hardware can control the
+RTS output of the UART. If the automatic CTS mode is enabled, the UART TSR hardware
+will start transmitting only when the CTS input signal is valid.
+Automatic RTS
+The automatic RTS function can be enabled by setting the AFCE bit. Automatic RTS data
+flow control is generated in the RBR module and linked to the programmed receiver FIFO
+trigger threshold. If automatic RTS is enabled, the data flow is controlled as follows:
+When the FIFO value of the receiver reaches the programmed trigger threshold, RTS fails
+(becomes a high level value). When sending UART reaches the trigger threshold, it may
+send an extra byte (assuming that sending UART has extra bytes to send), because it may
+not know RTS failure until it starts sending extra bytes. As soon as the receiver FIFO reaches
+the previous trigger threshold, RTS will automatically take effective again (become a low
+
+Doc ID 2905025
+
+Rev01
+
+371
+
+WB32FQ95xx Reference Manual
+
+level value).
+After the RTS signal sending UART takes effective again, it can continue to send data.
+If the automatic RTS mode is disabled, the RTS bit controls the RTS output of the UART. If
+the automatic RTS mode is enabled, the hardware can control the RTS output and copy the
+actual value of RTS to the RTS control bit of UART. If automatic RTS is enabled, only
+software can read only the value of RTS control bit.
+Figure 25-4. Automatic RTS function sequence diagram
+
+Automatic CTS
+The automatic CTS function can be enabled by setting AFCE bit. If automatic CTS is enabled,
+the transmitter circuit will check the CTS input before sending the next data byte. When CTS
+is active (low level), the transmitter sends the next byte. In order for the sender to stop
+sending the following bytes, CTS must be released before the last stop bit currently being
+sent is sent half way. In automatic CTS mode, the change of CTS signal will not trigger
+modem status interrupt unless CTS interrupt enable bit is set, but Delta CTS bit in MSR will
+be set.
+The automatic CTS function can reduce the interruption of the host system. When flow
+control is enabled, the change of CTS status will not trigger host interrupt, because the
+device will automatically control its transmitter. If the automatic CTS is not used, the
+transmitter will send out all the data in the transmit FIFO, resulting in the overflow error of the
+receiver. Figure 27.5 shows the timing of the automatic CTS function.
+Figure 25-5. Automatic CTS function sequence diagram
+
+25.1.6.
+
+DMA operation
+By using micro DMA, the user can choose to operate the transmission and / or reception of
+UART. The DMA mode is determined by the DMA mode selection bit in the FCR register.
+This bit is valid only when FIFO is enabled by the FIFO enable bit in the FCR register
+UART Receiver DMA
+In DMA mode, when the FIFO level of the receiver is equal to or greater than the trigger level,
+or when a character timeout occurs, the DMA request of the receiver will take effect. Please
+refer to the description of Rx trigger level above. The receiver DMA request is cleared by the
+DMA controller.
+
+Doc ID 2905025
+
+Rev01
+
+372
+
+WB32FQ95xx Reference Manual
+
+UART Transmitter DMA
+In DMA mode, when the transmitter FIFO becomes not full, the transmitter DMA request will
+take effect. The transmitter DMA request is cleared by the DMA controller.
+
+25.2.
+
+UART Register
+
+25.2.1.
+
+Receiver buffer register (UART_RBR) (When DLAB = 0)
+Address offset: 0x000
+Reset value: NA
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:9
+
+-
+
+R
+
+Reserved
+
+8:0
+
+RBR
+
+R
+
+UART receiver buffer register contains the earliest received byte in
+UART RX FIFO.
+
+RBR is the highest byte of UART RX FIFO. The highest byte of Rx FIFO contains the earliest
+received character and can be read through the bus interface. LSB (bit 0) indicates the
+received data bit. If less than 9 characters are received, the unused MSB is filled with 0.
+To access RBR, the divisor latch access bit (DLAB) in LCR must be 0. RBR is always
+read-only.
+Because the parity error (PE), frame error (FE) and interval interrupt (BI) bits correspond to
+the byte at the top of RBR FIFO (that is, the byte to be read next time when reading from
+RBR), to correctly extract the effective received byte pair and its status bit, the contents of
+LSR register should be read first, and then the bytes in RBR should be read.
+
+25.2.2.
+
+Transmitter hold register (UART_THR) (when DLAB = 0)
+Address offset: 0x000
+Reset value: NA
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:9
+
+-
+
+R
+
+Reserved
+
+8:0
+
+THR
+
+W
+
+Writing to the UART transmit hold register will save the data to the
+UART transmit FIFO. When the byte reaches the bottom of FIFO
+and the transmitter is available, the byte is sent.
+
+THR is the highest byte of UART TX FIFO. The highest byte is the latest character in TX
+FIFO, which can be written through the bus interface. LSB represents the first bit to be sent.
+To access THR, the divisor latch access bit (DLAB) in LCR must be 0. THR is always write
+only.
+
+25.2.3.
+
+Divisor latch LSB register (UART_DLL) (when DLAB = 1)
+Address offset: 0x000
+Reset value: NA
+
+Doc ID 2905025
+
+Rev01
+
+373
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Reserved
+
+7:0
+
+DLLSB
+
+RW
+
+UART divisor latch LSB register and DLH register determine the
+baud rate of UART.
+
+25.2.4.
+
+Description
+
+Divider latch MSB register (UART_DLH) (when DLAB = 1）
+Address offset: 0x004
+Reset value: NA
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:8
+
+-
+
+R
+
+Reserved
+
+7:0
+
+DLHSB
+
+RW
+
+UART divisor latch LSB register and DLH register determine the
+baud rate of UART.
+
+UART divisor latch is a part of UART baud rate generator, and stores the used value. It is
+used together with fractional frequency divider to implement UART division_ PCLK clock is
+divided to generate baud rate clock, which must be 16 times of the required baud rate. The
+DLL and DLH registers together form a 16 bit divisor, in which the DLL contains the lower 8
+bits of the divisor and the DLH contains the upper 8 bits of the divisor. The value of 0x0000 is
+treated as the value of 0x0001 because the divisor cannot be 0. To access the UART divisor
+latch, the divisor latch access bit (DLAB) in the LCR must be 1.
+
+25.2.5.
+
+Interrupt enable register (UART_IER) (when DLAB = 0)
+Address offset: 0x004
+Reset value: NA
+Description: IER is used to enable four UART interrupt sources.
+
+Bits
+
+Fields
+
+R/W
+
+description
+
+31:8
+
+-
+
+R
+
+Reserved
+
+7
+
+PTIME
+
+RW
+
+Control programmable THRE interrupt.
+0: Disable programmable THRE interrupt.
+1: Enable programmable THRE interrupt.
+
+6:5
+
+-
+
+R
+
+Reserved
+
+4
+
+LSRCLRMD
+
+RW
+
+3
+
+MSIE
+
+RW
+
+2
+
+RLSIE
+
+RW
+
+1
+
+THREIE
+
+RW
+
+Doc ID 2905025
+
+This bit is used to control the clearing mode of status bit in LSR
+register.
+Only for OE, PE, Fe and Bi status bits.
+0: when reading RBR or LSR register, clear LSR status bit.
+1: Clear the LSR status bit only when reading the LSR register.
+Modem interrupt control.
+0: Disable modem interrupt.
+1: Enable modem interrupt.
+RX line interrupt enabled. Enable UART RX line status interrupt.
+The status of the interrupt can be read from LSR [4:1].
+0: disable RX line state interrupt.
+1: Enable RX line status interrupt.
+THRE interrupt enable. THRE interrupt to enable UART. The status
+of the interrupt can be read from LSR [5].
+
+Rev01
+
+374
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+0
+
+25.2.6.
+
+R/W
+
+RDAIE
+
+RW
+
+description
+0: disable THRE interrupt.
+1: Enable THRE interrupt.
+RBR interrupt enable. UART enabled receive data available
+interrupt. It also controls the character receive timeout interrupt.
+0: disable RDA interrupt.
+1: Enable RDA interrupt.
+
+Interrupt identification register (UART_IIR)
+Address offset: 0x008
+Reset value: 0x001
+
+Bits
+
+Fields
+
+R/W
+
+description
+
+31:8
+
+-
+
+R
+
+Reserved
+
+7:6
+
+FIFOSE
+
+R
+
+FIFO enable control.
+00: FIFO is disabled.
+11: FIFO enabled.
+
+5:4
+
+-
+
+R
+
+Reserved. User software should not write 1 to the Reserved bit.
+
+R
+
+Interrupt identification. LER[3:0] identifies the highest priority
+interrupt pending. Other combinations of IER[3:1] not listed below
+are Reserved values (100, 101, 111).
+0xc: byte timeout interrupt.
+0x7: busy state detection interrupt.
+0x6: receive line status interrupt.
+0x4: receive data available interrupt.
+0x2: THR null interrupt.
+0x1: no pending interrupt.
+0x0: modem interrupt.
+
+3：0
+
+INTID
+
+Table 25-2. UART interrupt handling
+IIR[3:0]
+
+priority
+
+interrupt type
+
+Interrupt source
+
+Interrupt reset
+
+0001
+
+-
+
+NULL
+
+NULL
+
+-
+
+0110
+
+highest
+
+RX line status /
+error
+
+OE、PE、FE or BI
+
+LSR read
+operation
+
+0100
+
+second
+
+RX data
+available
+
+RX data available or reach FIFO trigger level (fcr0 = 1)
+
+Character
+timeout
+indication
+
+There is at least one character in the RX FIFO, and there is
+no character input or output for a period of time. The length
+of the time depends on the number of characters in the
+FIFO and the trigger value in the period of 3.5 to 4.5
+characters.
+The actual time is:[ （ Word length ）× 7 -2] × 8 +
+[ （ Trigger level - Number of characters ）× 8 + 1]
+RCLK
+
+RBR read
+operation
+
+THRE
+
+IIR read
+operation or
+THR write
+operation
+
+1100
+
+0010
+
+second
+
+third
+
+Doc ID 2905025
+
+THRE
+
+Rev01
+
+RBR read
+operation or
+UART FIFO
+below trigger
+level
+
+375
+
+WB32FQ95xx Reference Manual
+
+25.2.7.
+
+FIFO Control register (UART_FCR)
+Address offset: 0x008
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+7:6
+
+RXTL
+
+W
+
+5:4
+
+TXTL
+
+W
+
+3
+
+-
+
+R
+
+2
+
+TXFIFORS
+
+W
+
+1
+
+RXFIFORS
+
+W
+
+0
+
+FIFOEN
+
+W
+
+25.2.8.
+
+description
+Reserved
+RX trigger level. These two bits determine the number of characters
+that the receiver UART FIFO must write before activating the
+interrupt.
+00: trigger level 0 (1 character or 0x01).
+01: trigger level 1 (4 characters or 0x04).
+10: Trigger level 2 (8 characters or 0x08).
+11: Trigger level 3 (14 characters or 0x0e).
+TX trigger level. These two bits determine the number of characters
+in the FIFO before the UART FIFO is activated.
+00: trigger level 0 (0 characters or 0x00).
+01: trigger level 1 (2 characters or 0x02).
+10: Trigger level 2 (4 characters or 0x04).
+11: Trigger level 3 (8 characters or 0x08).
+Reserved
+TX FIFO reset
+0: It has no effect on both UART FIFOs.
+1: Writing logic 1 to FCR [2] will clear all bytes in UART TX FIFO
+and reset pointer logic.
+This bit can be cleared automatically.
+RX FIFO reset
+0: no effect on both UART FIFOs.
+1: Writing logic 1 to FCR [1] will clear all bytes in UART RX FIFO
+and reset pointer logic.
+This bit can be cleared automatically.
+FIFO ENABLE
+0: UART FIFO is disabled.
+1: The high level is valid, enabling access to UART Rx, TX FIFO
+and FCR [7:1]. This bit must be set for correct UART operation. Any
+change in this bit will automatically clear the UART FIFO
+
+Line control register (UART_LCR)
+Address offset: 0x00C
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+7
+
+DLAB
+
+RW
+
+6
+
+BC
+
+RW
+
+Doc ID 2905025
+
+description
+Reserved
+Divisor latch access bit (DLAB).
+0: disable access to divisor latch.
+1: Enables access to the divisor latch.
+Interval control.
+0: disable interval transfer.
+1: Enable interval transmission. When LCR [6] is high level active,
+output pin UART TXD is forced to logic 0.
+
+Rev01
+
+376
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+5:4
+
+PS
+
+RW
+
+3
+
+PE
+
+RW
+
+2
+
+SBS
+
+RW
+
+1:0
+
+WLS
+
+RW
+
+25.2.9.
+
+description
+Parity check selection.
+0x0: odd test. The number of logical 1 in the transmitted characters
+and additional check bits is odd.
+0x1: even test. The number of logical 1 in the transmitted characters
+and additional check bits is even.
+0x2: parity bit is forced to 1.
+0x3: the parity bit is forced to 0.
+Parity check enable.
+0: disable parity generation and checking.
+1: Enables parity generation and checking.
+Stop bit selection.
+0: 1 stop bits.
+1: 2 stop bits (1.5 stop bits if LCR [1:0] = 00).
+Word length selection.
+00: 5 Bit character length.
+01: 6 Bit character length.
+10: 7 Bit character length.
+11: 8 Bit character length.
+
+Modem control register (UART_MCR)
+Address offset: 0x010
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:7
+
+-
+
+R
+
+6
+
+SIRE
+
+RW
+
+5
+
+AFCE
+
+RW
+
+4:2
+
+-
+
+R
+
+Reserved
+
+1
+
+RTS
+
+RW
+
+Modem output pin RTS source. When modem loop-back mode is
+active, this bit is read as 0.
+
+0
+
+-
+
+R
+
+Reserved
+
+25.2.10.
+
+description
+Reserved
+IrDA SIR Mode enable
+0: disable IrDA SIR mode.
+1: Enable IrDA SIR mode.
+Automatic process control enable.
+0: Disable automatic process control.
+1: Enable automatic process control.
+
+27.2.10 Line status register (UART_LSR)
+Address offset: 0x014
+Reset value: 0x060
+
+Bits
+
+Fields
+
+R/W
+
+31:9
+
+-
+
+R
+
+Reserved
+
+R
+
+Address receive bit. When the 9bit data mode is valid, this bit refers
+to the 9th bit received. This bit can also represent the received
+address or data.
+0: received address.
+1: Data received.
+
+8
+
+ADDR_RCVD
+
+Doc ID 2905025
+
+description
+
+Rev01
+
+377
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+7
+
+RFE
+
+R
+
+6
+
+TEMT
+
+R
+
+5
+
+THRE
+
+R
+
+4
+
+BI
+
+R
+
+3
+
+FE
+
+R
+
+2
+
+PE
+
+R
+
+1
+
+OE
+
+R
+
+Doc ID 2905025
+
+description
+RX FIFO error. When a character with RX error (such as frame error,
+parity error or interval interrupt) is loaded into RBR, LSR [7] will be
+set. When the LSR register is read and UART
+This bit is cleared when there are no subsequent errors in FIFO.
+0: RBR does not contain UART RX error or FCR [0] = 0.
+1: UART RBR contains at least one UART RX error.
+The transmitter is empty. When THR (or TX FIFO) and transmitter
+shift register are empty at the same time, TEMT will be set; when
+transmitter shift register or THR (or TX FIFO) contains valid data,
+TEMT will be cleared.
+0: THR (or TX FIFO) or transmitter shift register contains valid data.
+1: THR (or TX FIFO) and transmitter shift register are empty.
+The transmitter keeps the register empty.
+When the programmable THRE interrupt mode is not enabled (IER[7]
+= 0), this bit indicates whether the THR or TX FIFO is empty,
+regardless of whether the FIFO is enabled or not.
+0: THR or TX FIFO contains valid data.
+1: THR or TX FIFO is empty.
+When both the programmable THRE mode and FIFO are enabled
+(IER[7] = 1 and FCR [0] = 1), this bit indicates whether the transmit
+FIFO is full.
+0: TX FIFO is not full.
+1: TX FIFO is full.
+The interval is interrupted. In the process of sending the whole
+character (start, data, parity, stop),
+If rxd1 remains in the interval state (all "0"), the interval interrupt will
+occur. Once the interval condition is detected, the receiver will
+immediately enter the idle state until rxd1 enters the marked state (all
+"1"). The LSR read operation will clear the status bit. The interval
+detection time depends on FCR [0].
+Note: the interval interrupt is related to the character at the top of
+UART RBR FIFO.
+0: the interval interrupt state is invalid.
+1: The interval interrupt status is valid.
+Framing error. When the stop bit of the received character is logical
+0, a framing error occurs. The LSR read operation will clear LSR [3].
+The framing error detection time depends on fcr0. When a framing
+error is detected, RX will try to resynchronize with the data and
+assume that the stop bit of the error is actually a leading start bit.
+However, even if there is no framing error, it is impossible to assume
+that the next received byte is correct.
+Note: framing errors are related to the characters at the top of UART
+RBR FIFO.
+0: invalid framing error state.
+1: The framing error state is valid.
+Parity error. A parity error occurs when the parity bit of a received
+character is in an error state. The LSR read operation will clear LSR
+[2]. Parity error detection time depends on FCR [0] Note: parity error
+is related to the character at the top of UART RBR FIFO.
+0: invalid parity error state.
+1: Parity error status is valid.
+Overflow error. The overflow error condition is set immediately after
+the error occurs. The LSR read operation will clear the LSR [1]. When
+
+Rev01
+
+378
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+0
+
+25.2.11.
+
+R/W
+
+DR
+
+R
+
+description
+UART RSR has a new character combination and UART RBR FIFO
+is full, LSR [1] will be set. In this case, UART RBR FIFO will not be
+covered and the characters in UART RSR will be lost.
+0: invalid overflow error state.
+1: Overflow error status is valid.
+Receiver data ready: when RBR contains unread characters, LSR [0]
+will be set; when UART RBR
+When FIFO is empty, LSR [0] will be cleared.
+0: RBR is empty.
+1: RBR contains valid data.
+
+Modem status register (UART_MSR)
+Address offset: 0x018
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Reserved
+
+7
+
+DCD
+
+R
+
+Data carrier detection status. Enter the complement of the DCD. In
+modem loopback mode, this bit is connected to MCR [3]
+
+6
+
+RI
+
+R
+
+Ringing indicator status. Enter the complement of RI. In modem
+loopback mode, this bit is connected to MCR [2].
+
+5
+
+DSR
+
+R
+
+Data set ready state. The complement of input signal DSR. In modem
+return mode, this bit is connected to MCR[0].
+
+4
+
+CTS
+
+R
+
+Clear send status. The complement of input signal CTS. In modem
+loopback mode, this bit is connected to MCR [1]
+
+3
+
+DDCD
+
+R
+
+2
+
+TERI
+
+R
+
+1
+
+DDSR
+
+R
+
+0
+
+DCTS
+
+R
+
+25.2.12.
+
+description
+
+Delta DCD。 This bit is set when the state of the input DCD changes.
+The MSR read operation clears the bit.
+0: no state change detected on modem input DCD.
+1: A state change on the modem input DCD has been detected.
+Back edge RI.
+This bit is set when the input RI is converted from low level to high
+level. The MSR read operation clears the bit.
+0: no state change detected on modem input RI.
+1: A low to high level transition on the RI is detected.
+Delta DSR。
+This bit is set when the state of the input DSR changes. The MSR
+read operation clears the bit.
+0: invalid overflow error state.
+1: Overflow error status is valid.
+Delta CTS。 This bit is set when the state of the input CTS changes.
+Reading MSR will clear this bit.
+0: no state change detected on modem input CTS.
+1: A state change on the modem input CTS has been detected.
+
+High speed temporary register (UART_SCR)
+Address offset: 0x01C
+Reset value: 0x000
+
+Doc ID 2905025
+
+Rev01
+
+379
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Reserved
+
+7:0
+
+PAD
+
+RW
+
+A byte that can be read and written.
+
+25.2.13.
+
+description
+
+UART Status register (UART_USR)
+Address offset: 0x07C
+Reset value: 0x006
+
+Bits
+
+Fields
+
+R/W
+
+31:5
+
+-
+
+R
+
+Reserved
+
+4
+
+RFF
+
+R
+
+Receive FIFO full. Used to indicate whether the receive FIFO is full.
+
+3
+
+RFNE
+
+R
+
+Receive FIFO is not empty. Used to indicate whether the receive
+FIFO is empty.
+
+2
+
+TFE
+
+R
+
+The transmit FIFO is empty. Used to indicate whether the transmit
+FIFO is empty.
+
+1
+
+TFNF
+
+R
+
+The transmit FIFO is full. Used to indicate whether the transmit FIFO
+is full.
+
+0
+
+BUSY
+
+R
+
+Busy state. Used to indicate that serial data transmission is in
+progress.
+
+25.2.14.
+
+description
+
+Transmit FIFO level register (UART_TFL)
+Address offset: 0x080
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:4
+
+-
+
+R
+
+Reserved
+
+3：0
+
+TFL
+
+R
+
+Used to indicate the number of data in transmit FIFO.
+
+25.2.15.
+
+description
+
+Receive FIFO level register
+
+(UART_RFL)
+
+Address offset: 0x084
+Reset value: 0x000
+Bits
+
+Fields
+
+R/W
+
+31:4
+
+-
+
+R
+
+Reserved
+
+3：0
+
+RFL
+
+R
+
+Used to indicate the number of data in the receive FIFO.
+
+25.2.16.
+
+description
+
+Software restart register
+
+(UART_SRR)
+
+Address offset: 0x088
+Reset value: 0x000
+
+Doc ID 2905025
+
+Rev01
+
+380
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+Reserved
+
+2
+
+XFR
+
+RW
+
+This is the shadow bit that sends the FIFO restart control bit FCR [2].
+
+1
+
+RFR
+
+RW
+
+This is the shadow bit of the receive FIFO restart control bit FCR [1].
+
+0
+
+UR
+
+RW
+
+This is the UART module restart control bit.
+
+25.2.17.
+
+description
+
+Shadow TX request register (UART_SRTS)
+Address offset: 0x08C
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+SRTS
+
+RW
+
+This is the shadow bit of the transmit request control bit RTS (MCR
+[1]).
+
+25.2.18.
+
+description
+
+Shadow interrupt control register (UART_SBCR)
+Address offset: 0x090
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+SBCB
+
+RW
+
+This is the shadow bit of the interrupt control bit (LCR [6]).
+
+25.2.19.
+
+description
+
+Shadow FIFO enable register (UART_SFE)
+Address offset: 0x098
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+SFE
+
+RW
+
+This is the shadow bit of the FIFO enable control bit (FCR [0]).
+
+25.2.20.
+
+description
+
+Shadow receive trigger register (UART_SRT)
+Address offset: 0x09C
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:0
+
+-
+
+R
+
+Reserved
+
+1:0
+
+SRT
+
+RW
+
+This is the shadow bit of the receive trigger control bit (FCR [7:6]).
+
+Doc ID 2905025
+
+description
+
+Rev01
+
+381
+
+WB32FQ95xx Reference Manual
+
+25.2.21.
+
+Shadow TX trigger register (UART_STET)
+Address offset: 0x0A0
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:0
+
+-
+
+R
+
+Reserved
+
+1:0
+
+STET
+
+RW
+
+This is the shadow bit of the transmit memory empty trigger control bit
+(FCR [7:4]).
+
+25.2.22.
+
+description
+
+DMA Software abort register (UART_DMASA)
+Address offset: 0x0A8
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+DMASA
+
+RW
+
+When DMA error occurs, set this bit to abort DMA transmission. This
+bit will be cleared automatically.
+
+25.2.23.
+
+description
+
+Fractional latch register (UART_DLF)
+Address offset: 0x0C0
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:4
+
+-
+
+R
+
+Reserved
+
+3：0
+
+DLF
+
+RW
+
+This register is used to store the fractional part of the baud rate
+generator.
+
+25.2.24.
+
+description
+
+Receive address register (UART_RAR)
+Address offset: 0x0C4
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+description
+
+31:8
+
+-
+
+R
+
+Reserved
+
+R
+
+This register is used to store the address of the comparison in receive
+mode. When bit 9 is set to "1", the next 8 bits are compared with the
+address in the RAR register. When matching, the next data with the
+9th bit of "0" will be received.
+
+7：0
+
+25.2.25.
+
+RAR
+
+TX address register (UART_TAR)
+Address offset: 0x0C8
+Reset value: 0x000
+
+Doc ID 2905025
+
+Rev01
+
+382
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Reserved
+
+7：0
+
+TAR
+
+R
+
+This register is used to store addresses in send mode. When WLS_ E
+position "1", UART will send 9-bit data, the 9th position "1", the next
+data will be taken out from the tar register.
+
+25.2.26.
+
+description
+
+Extended control register (UART_EXTLCR)
+Address offset: 0x0CC
+Reset value: 0x000
+
+Bits
+
+Fields
+
+R/W
+
+31:4
+
+-
+
+R
+
+3
+
+TRANSMIT_MODE
+
+RW
+
+2
+
+SEND_ADDR
+
+RW
+
+1
+
+ADDR_MATCH
+
+RW
+
+0
+
+WLS_E
+
+RW
+
+Doc ID 2905025
+
+description
+Reserved
+It is used to control whether the transmission mode is 9 bit or not.
+1: The transmit register is 9 bits wide.
+0: the transmit register is 8 bits wide.
+Send address control bit.
+1: Send 9-bit wide data, the 9th position is "1", and the address is
+taken from tar.
+0: Send 9-bit wide data, the 9th position is "0", and the data is taken
+from TxFIFO.
+Address matching enable.
+1: Allow address matching.
+0: normal transmission mode.
+WLS extension. Used to enable 9-bit data transmission
+
+Rev01
+
+383
+
+

@@ -1,0 +1,320 @@
+WB32FQ95xx Reference Manual
+
+18.
+
+Watchdog timer (IWDG)
+
+18.1.
+
+Overview
+The free watchdog timer (IWDG) has free clock source. There upon the IWDG can operate
+even if the main clock fails. It’s suitable for the situation that requires an independent
+environment and lower timing accuracy.
+The free watchdog timer causes a reset when the internal down counter reaches 0. The
+register write protection function in free watchdog can be enabled to prevent it from changing
+the configuration unexpectedly.
+
+18.2.
+
+18.3.
+
+Characteristics
+⚫
+
+Free-running 12-bit downcounter.
+
+⚫
+
+Reset occur when the downcounter reaches 0, if the watchdog is enabled.
+
+⚫
+
+Free clock source, IWDG can operate even if the main clock fails such as in standby
+and Deep-sleep modes.
+
+⚫
+
+Hardware free watchdog bit, automatically start the IWDG at power on.
+
+⚫
+
+IWDG debug mode, the IWDG can stop or continue to work in debug mode.
+
+Function overview
+The free watchdog consists of an 8-stage pre-scaler and a 12-bit down-counter. Refer to the
+figure below for the functional block of the free watchdog module.
+Figure 18-1. Free watchdog block diagram
+
+The free watchdog is enabled by writing the value 0xCCCC in the control register
+(IWDG_KR), and the counter starts counting down. When the counter reaches the value
+0x000, a reset is generated.
+The counter can be reloaded by writing the value 0xAAAA to the IWDG_KR register at any
+time. The reload value comes from the IWDG_RLR register. The software can prevent the
+watchdog reset by reloading the counter before the counter reaches the value 0x000.
+
+Doc ID 2905025
+
+Rev01
+
+255
+
+WB32FQ95xx Reference Manual
+
+The free watchdog can automatically start at power on when the hardware free watchdog bit
+in the device option bytes is set. To avoid reset, the software should reload the counter
+before the counter reaches 0x000.
+The IWDG_PR register and the IWDG_RLR register are write-protected. Before writing these
+registers, the software should write the value 0x5555 to the IWDG_KR register. These
+registers will be protected again by writing any other value to the IWDG_KR register. When
+an update operation of the pre-scaler register (IWDG_PR) or the reload value register
+(IWDG_RLR) is on going, the status bits in the IWDG_SR register are set.
+If the IWDG_HOLD bit in DBG module is cleared, the IWDG continues to work even the
+Cortex™-M3 core halted (Debug mode). While the IWDG stops in Debug mode if the IWDG
+HOLD bit is set.
+Table 18-1. Min/max IWDG timeout period at 32 KHz (LSI 32K)
+PR[2:0] bits
+
+Min timeout (ms)
+RL[11:0]=0x000
+
+Max timeout (ms)
+RLR[11:0]=0xFFF
+
+1/4
+
+000
+
+0.125
+
+512
+
+1/8
+
+001
+
+0.25
+
+1024
+
+1/16
+
+010
+
+0.5
+
+2048
+
+1/32
+
+011
+
+1.0
+
+4096
+
+1/64
+
+100
+
+2.0
+
+8192
+
+1/128
+
+101
+
+4.0
+
+16384
+
+1/256
+
+110 or 111
+
+8.0
+
+32768
+
+Prescaler divider
+
+The IWDG timeout can be more accurate by calibrating the LSI32K.
+
+18.4.
+
+Register definition
+
+18.4.1.
+
+Control register (IWDG_KR)
+Address offset: 0x00
+Reset value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Reserved
+
+W
+
+Write only. Several different functions are realized by writing these bits
+with different values:
+0x5555: Disable the IWDG PSC and IWDG_RLR write protection
+0xCCCC: Start the free watchdog counter. When the counter reduces to 0,
+the free watchdog generates a reset
+0xAAAA: Reload the counter
+
+15:0
+
+18.4.2.
+
+KEY
+
+Description
+
+Prescaler register (IWDG_PR)
+Address offset: 0x04
+Reset value: 0x0000 0000
+
+Doc ID 2905025
+
+Rev01
+
+256
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+Reserved
+
+RW
+
+Free watchdog timer prescaler selection. Write 0x5555 in the IWDG_KR
+register before writing these bits. During a write operation to this register,
+the PVU bit in the IWDG_SR register is set and the value read from this
+register is invalid.
+000: 1/4 100: 1/64
+001: 1/8 101: 1/128
+010: 1/16 110: 1/256
+011: 1/32 111: 1/256
+
+2:0
+
+PR
+
+Description
+
+If several prescaler values are used by the application, it is mandatory to wait until PVU bit is
+reset before changing the prescaler value. However, after updating the prescaler value it is
+not necessary to wait until PVU is reset before continuing code execution except in case of
+low-power mode entry .
+
+18.4.3.
+
+Reload register (IWDG_RLR)
+Address offset: 0x08
+Reset value: 0x0000 0FFF
+
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+Reserved
+
+RW
+
+Free watchdog timer counter reload value.
+Write 0xAAAA in the IWDG_KR register will reload the IWDG counter with
+the RL value.
+These bits are write-protected. Write 0x5555 in the IWDG_KR register
+before writing these bits. During a write operation to this register, the
+RVU bit in the IWDG_SR register is set and the value read from this
+register is invalid.
+If several reload values are used by the application, it is mandatory to wait
+until RVU bit is reset before changing the reload value. However, after
+updating the reload value it is not necessary to wait until RVU is reset
+before continuing code execution except in case of low-power mode
+entry .
+
+11:0
+
+18.4.4.
+
+RL
+
+Description
+
+Status register (IWDG_SR)
+Address offset: 0x0C
+Reset value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:2
+
+-
+
+R
+
+1
+
+RVU
+
+R
+
+0
+
+PVU
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved
+Free watchdog timer counter reload value update
+During a write operation to IWDG_RLR register, this bit is set and the
+value read from IWDG_RLR register is invalid. This bit is reset by
+hardware after the update operation of IWDG_RLR register.
+Free watchdog timer prescaler value update
+During a write operation to IWDG_PR register, this bit is set and the value
+read from IWDG_PR register is invalid. This bit is reset by hardware after
+the update operation of IWDG_PR register
+
+Rev01
+
+257
+
+

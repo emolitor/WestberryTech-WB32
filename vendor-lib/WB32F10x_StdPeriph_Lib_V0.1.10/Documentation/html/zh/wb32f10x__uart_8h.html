@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: wb32f10x_uart.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_6d2d5b60bd20db849a9486835a2715aa.html">Libraries</a></li><li class="navelem"><a class="el" href="dir_750c1ecf7cb1e5b3ac67739578fc1b39.html">WB32F10x_StdPeriph_Driver</a></li><li class="navelem"><a class="el" href="dir_90f859fba41039494a578a3e36efb779.html">inc</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">结构体</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle">
+<div class="title">wb32f10x_uart.h 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>This file contains all the functions prototypes for the UART firmware library.  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;wb32f10x.h&quot;</code><br />
+</div>
+<p><a href="wb32f10x__uart_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+结构体</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_u_a_r_t___init_type_def.html">UART_InitTypeDef</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">UART Init Structure definition  <a href="struct_u_a_r_t___init_type_def.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:ga14105613dc6fa2b0677865ab2dc5c863"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_WordLength_5b</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga3f71fe72bc23c1e85e78f8725c0bbe3a">UART_LCR_WLS_5BIT</a></td></tr>
+<tr class="separator:ga14105613dc6fa2b0677865ab2dc5c863"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad7fd8cabbfe9831ba5a181ca7a28b2f2"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_WordLength_6b</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga29c607032acfc4a71385f7749ef400c2">UART_LCR_WLS_6BIT</a></td></tr>
+<tr class="separator:gad7fd8cabbfe9831ba5a181ca7a28b2f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga778acc33360d76309430cff6e6c8783d"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_WordLength_7b</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#gaa1e17eb962b1e7d28b768f8df767d3ac">UART_LCR_WLS_7BIT</a></td></tr>
+<tr class="separator:ga778acc33360d76309430cff6e6c8783d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga432fdcd71a9e155a8921a03072fa90e6"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_WordLength_8b</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#gada11c02703e28d684ed9342f91d65b18">UART_LCR_WLS_8BIT</a></td></tr>
+<tr class="separator:ga432fdcd71a9e155a8921a03072fa90e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga953bb1688630d6383fff71c943946fed"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_StopBits_One</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga70ccdedb76a079b8e7c87e5c3709469c">UART_LCR_SBS_1BIT</a></td></tr>
+<tr class="separator:ga953bb1688630d6383fff71c943946fed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8cf3e70396e20eb9151792b360937143"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_StopBits_Two</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga6d36ad770b49b2354ed5cefbc066b7e2">UART_LCR_SBS_2BIT</a></td></tr>
+<tr class="separator:ga8cf3e70396e20eb9151792b360937143"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9b1f8af53f52a4c1963e69057d380653"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_StopBits_OnePointFive</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga6d36ad770b49b2354ed5cefbc066b7e2">UART_LCR_SBS_2BIT</a></td></tr>
+<tr class="separator:ga9b1f8af53f52a4c1963e69057d380653"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6c688e2f1b3bea847734da3e5fd0c480"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_Parity_None</b>&#160;&#160;&#160;(0x00U)</td></tr>
+<tr class="separator:ga6c688e2f1b3bea847734da3e5fd0c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga42d72f2dbe08f5c609639fa4b73a2ce1"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_Parity_Odd</b>&#160;&#160;&#160;(<a class="el" href="group__wb32f10x.html#ga5ef9bdb85d3f5c3823d667190b19bb40">UART_LCR_PARITY_ODD</a>)</td></tr>
+<tr class="separator:ga42d72f2dbe08f5c609639fa4b73a2ce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5ef09ed4fda0a7bef5c810364c428ff0"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_Parity_Even</b>&#160;&#160;&#160;(<a class="el" href="group__wb32f10x.html#ga48df31af63d9e3a65b13a32880bb0b36">UART_LCR_PARITY_EVEN</a>)</td></tr>
+<tr class="separator:ga5ef09ed4fda0a7bef5c810364c428ff0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac61edb342942c54b70af092d1a364828"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_Parity_Mark</b>&#160;&#160;&#160;(<a class="el" href="group__wb32f10x.html#ga635a2baf6f5b22c0a8d134c273b277e2">UART_LCR_PARITY_MARK</a>)</td></tr>
+<tr class="separator:gac61edb342942c54b70af092d1a364828"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac9192c07656a85c89bc18db6c90626f4"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_Parity_Space</b>&#160;&#160;&#160;(<a class="el" href="group__wb32f10x.html#ga456cbc23ed760c6bbbb87e3403ae3bf7">UART_LCR_PARITY_SPACE</a>)</td></tr>
+<tr class="separator:gac9192c07656a85c89bc18db6c90626f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7898eeef1e239e452e02330f4e13ac99"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_AutoFlowControl_None</b>&#160;&#160;&#160;(0x00)</td></tr>
+<tr class="separator:ga7898eeef1e239e452e02330f4e13ac99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab289c0c128446996125c0d17e9ca3655"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_AutoFlowControl_CTS</b>&#160;&#160;&#160;(<a class="el" href="group__wb32f10x.html#gadcacd3846869779d6df62cf82ae8db6f">UART_MCR_AFCE</a>)</td></tr>
+<tr class="separator:gab289c0c128446996125c0d17e9ca3655"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga855705d424346cd829e1f0d937237c33"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_AutoFlowControl_RTS_CTS</b>&#160;&#160;&#160;(<a class="el" href="group__wb32f10x.html#gadcacd3846869779d6df62cf82ae8db6f">UART_MCR_AFCE</a> | <a class="el" href="group__wb32f10x.html#gaf3d8e37fba0e8d8c33318645f2c7a1c5">UART_MCR_RTS</a>)</td></tr>
+<tr class="separator:ga855705d424346cd829e1f0d937237c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga655d165f2976059bf0657d8061177d27"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_RxFIFOThreshold_1</b>&#160;&#160;&#160;0x00</td></tr>
+<tr class="separator:ga655d165f2976059bf0657d8061177d27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae521ea4d41911b8d942fc5ad93e45937"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_RxFIFOThreshold_4</b>&#160;&#160;&#160;0x01</td></tr>
+<tr class="separator:gae521ea4d41911b8d942fc5ad93e45937"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad654f0b9ff67fdca07ea34d801cddec1"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_RxFIFOThreshold_8</b>&#160;&#160;&#160;0x02</td></tr>
+<tr class="separator:gad654f0b9ff67fdca07ea34d801cddec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga973117e57745cf2b20155094a7489ee4"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_RxFIFOThreshold_14</b>&#160;&#160;&#160;0x03</td></tr>
+<tr class="separator:ga973117e57745cf2b20155094a7489ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad0de7f62e06a7425309cb4b7de79e1b4"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_TxFIFOThreshold_0</b>&#160;&#160;&#160;0x00</td></tr>
+<tr class="separator:gad0de7f62e06a7425309cb4b7de79e1b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga19760fe9eadb90a74fd5a250f75a15b5"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_TxFIFOThreshold_2</b>&#160;&#160;&#160;0x01</td></tr>
+<tr class="separator:ga19760fe9eadb90a74fd5a250f75a15b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae5968314e2c7e255f3217fbc9fc55daf"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_TxFIFOThreshold_4</b>&#160;&#160;&#160;0x02</td></tr>
+<tr class="separator:gae5968314e2c7e255f3217fbc9fc55daf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gada18c8b7fd8c23973b236f222401ea87"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_TxFIFOThreshold_8</b>&#160;&#160;&#160;0x03</td></tr>
+<tr class="separator:gada18c8b7fd8c23973b236f222401ea87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga23b4faf8f56072b4dc46ad9a660f6d92"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_IT_RDA</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga985511672e84881512d739eef1aa27b5">UART_IER_RDAIE</a></td></tr>
+<tr class="separator:ga23b4faf8f56072b4dc46ad9a660f6d92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1cf0b5915eb0822b5b4cce5d82b2be6f"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_IT_THRE</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga24701d55d612816b458cf63fc122f423">UART_IER_THREIE</a></td></tr>
+<tr class="separator:ga1cf0b5915eb0822b5b4cce5d82b2be6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf8e8705efb87609ef33d8d87eca375b6"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_IT_RLS</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#gaf0751a7904251f740c8067222e0a9d0e">UART_IER_RLSIE</a></td></tr>
+<tr class="separator:gaf8e8705efb87609ef33d8d87eca375b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab3344fd7e70a12572c968ad6d140d75e"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_IT_MSI</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#gad7e5d75b004781a8d6e5ec2105988f9f">UART_IER_MSIE</a></td></tr>
+<tr class="separator:gab3344fd7e70a12572c968ad6d140d75e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7a9ff74c83d1ea050e427932206f329d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___i_n_t_i_d.html#ga7a9ff74c83d1ea050e427932206f329d">UART_INTID_MSI</a>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#gaadb163db480a57d929032c33b3f345a5">UART_IIR_INTID_MSI</a></td></tr>
+<tr class="separator:ga7a9ff74c83d1ea050e427932206f329d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4b76004e3a9bd98d2a0e9ef487f6e2c3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___i_n_t_i_d.html#ga4b76004e3a9bd98d2a0e9ef487f6e2c3">UART_INTID_NONE</a>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga81b6e178d4df3c3e5660df6f3bcabfa8">UART_IIR_INTID_NONE</a></td></tr>
+<tr class="separator:ga4b76004e3a9bd98d2a0e9ef487f6e2c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga11f335ba4084ea197b00b90fd88b6e42"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___i_n_t_i_d.html#ga11f335ba4084ea197b00b90fd88b6e42">UART_INTID_THRE</a>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#gafb93160677afbc9c90f7a0baa917a435">UART_IIR_INTID_THRE</a></td></tr>
+<tr class="separator:ga11f335ba4084ea197b00b90fd88b6e42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga07f12dd48a324867f9c37cc9e1b67c76"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___i_n_t_i_d.html#ga07f12dd48a324867f9c37cc9e1b67c76">UART_INTID_RDA</a>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#gac646d8f797f3e71e01f4361997fc581b">UART_IIR_INTID_RDA</a></td></tr>
+<tr class="separator:ga07f12dd48a324867f9c37cc9e1b67c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadc5b78a10c9757686de23c02e1d84a3b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___i_n_t_i_d.html#gadc5b78a10c9757686de23c02e1d84a3b">UART_INTID_RLS</a>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga4441660d2a99f6b17a79eafbfb0424dd">UART_IIR_INTID_RLS</a></td></tr>
+<tr class="separator:gadc5b78a10c9757686de23c02e1d84a3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga946e86c0dde4d3eaf3ff605404f038c1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___i_n_t_i_d.html#ga946e86c0dde4d3eaf3ff605404f038c1">UART_INTID_BUSY</a>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga349bd2f8eb5302aa57e4c12f60ab7cba">UART_IIR_INTID_BUSY</a></td></tr>
+<tr class="separator:ga946e86c0dde4d3eaf3ff605404f038c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga33a5af5ba202dc95474dd7e67fc43785"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___i_n_t_i_d.html#ga33a5af5ba202dc95474dd7e67fc43785">UART_INTID_CTI</a>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga965ba229214955385f11277549b7ecce">UART_IIR_INTID_CTI</a></td></tr>
+<tr class="separator:ga33a5af5ba202dc95474dd7e67fc43785"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2d1387d412382a345097acb403748ba3"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_FLAG_BUSY</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#gaeb09f1fc7ca7229014d0bf33e6710f63">UART_USR_BUSY</a></td></tr>
+<tr class="separator:ga2d1387d412382a345097acb403748ba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga92425d1ba873b3c0b08e79f382fafe3a"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_FLAG_TFNF</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga503d37561de98034cc21d00e424cf91a">UART_USR_TFNF</a></td></tr>
+<tr class="separator:ga92425d1ba873b3c0b08e79f382fafe3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5472ba6c5c8353cd0c6333ff0dc95da0"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_FLAG_TFE</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga684d30192028d0ebbc34166f1f625d0d">UART_USR_TFE</a></td></tr>
+<tr class="separator:ga5472ba6c5c8353cd0c6333ff0dc95da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa2bfa8944d596d1460e2bb325b46213d"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_FLAG_RFNE</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga0cd74620654e352faa39ba95a472d9fc">UART_USR_RFNE</a></td></tr>
+<tr class="separator:gaa2bfa8944d596d1460e2bb325b46213d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga323b2e49e68ebf05d90f7b107a110c9c"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_FLAG_RFF</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga9335438f0d9b5e7af901bc822ce0078b">UART_USR_RFF</a></td></tr>
+<tr class="separator:ga323b2e49e68ebf05d90f7b107a110c9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1c10e52b25176483c23f474fcaee8d24"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_LINE_STATUS_DR</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga8cc7d49fde8f2b393a398e6ebf1fbc00">UART_LSR_DR</a></td></tr>
+<tr class="separator:ga1c10e52b25176483c23f474fcaee8d24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9d66b798f2b8be93189a773e2920e5c8"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_LINE_STATUS_OE</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga85c4312a700f6033bf0a075ae41de57c">UART_LSR_OE</a></td></tr>
+<tr class="separator:ga9d66b798f2b8be93189a773e2920e5c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac5d4f6715f822fb9d3732d91545e01ce"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_LINE_STATUS_PE</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga3ae0ee26be22b855aa08d68a2801d3d2">UART_LSR_PE</a></td></tr>
+<tr class="separator:gac5d4f6715f822fb9d3732d91545e01ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaac124be997020ace952d541d22020e18"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_LINE_STATUS_FE</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga18b1661d7c37ab40c9310311dd4f647d">UART_LSR_FE</a></td></tr>
+<tr class="separator:gaac124be997020ace952d541d22020e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6768b426a737d9dd7b974e38ba551e83"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_LINE_STATUS_BI</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#gaaca4bb43e62c7085534b67576e1ddbeb">UART_LSR_BI</a></td></tr>
+<tr class="separator:ga6768b426a737d9dd7b974e38ba551e83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga73f34f40bfc4bbaaf23474c7dfcd271e"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_LINE_STATUS_THRE</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#gae05118527ef8873b9d7b1b0be0153019">UART_LSR_THRE</a></td></tr>
+<tr class="separator:ga73f34f40bfc4bbaaf23474c7dfcd271e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7ea7bb7ba7c4dc9d706dfddfced19355"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_LINE_STATUS_TEMT</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#gadb3f8bb82f0a253700fdb88d8c609710">UART_LSR_TEMT</a></td></tr>
+<tr class="separator:ga7ea7bb7ba7c4dc9d706dfddfced19355"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4634528cf661d8e1afda3710cd58a878"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_LINE_STATUS_RFE</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga4a0ebbc43bbb510b85944464e2886ae5">UART_LSR_RFE</a></td></tr>
+<tr class="separator:ga4634528cf661d8e1afda3710cd58a878"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9a7a19c21b774cd1280c06afb9d9c028"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_LINE_STATUS_ADDR_RCVD</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#gad4c153faf0ef9c61a213c4cccca57b3f">UART_LSR_ADDR_RCVD</a></td></tr>
+<tr class="separator:ga9a7a19c21b774cd1280c06afb9d9c028"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga838891cf41e021dafecc89e2e145a62e"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_MODEM_STATUS_DCTS</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga4731ddf07e67b03eeb268834757f0195">UART_MSR_DCTS</a></td></tr>
+<tr class="separator:ga838891cf41e021dafecc89e2e145a62e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga259e8caef14a403a6b0c5701df187aaf"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>UART_MODEM_STATUS_CTS</b>&#160;&#160;&#160;<a class="el" href="group__wb32f10x.html#ga2cd867126cafb765b3d690e10f79b4c0">UART_MSR_CTS</a></td></tr>
+<tr class="separator:ga259e8caef14a403a6b0c5701df187aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ga78d1bed44f47ad24ff2b6f34cf8f4653"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#ga78d1bed44f47ad24ff2b6f34cf8f4653">UART_DeInit</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:ga78d1bed44f47ad24ff2b6f34cf8f4653"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitializes the UARTx peripheral registers to their default reset values.  <a href="group___u_a_r_t.html#ga78d1bed44f47ad24ff2b6f34cf8f4653">更多...</a><br /></td></tr>
+<tr class="separator:ga78d1bed44f47ad24ff2b6f34cf8f4653"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafa42d3571c479818210b9bc065337506"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#gafa42d3571c479818210b9bc065337506">UART_Init</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, <a class="el" href="struct_u_a_r_t___init_type_def.html">UART_InitTypeDef</a> *UART_InitStruct)</td></tr>
+<tr class="memdesc:gafa42d3571c479818210b9bc065337506"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the UARTx peripheral according to the specified parameters in the UART_InitStruct.  <a href="group___u_a_r_t.html#gafa42d3571c479818210b9bc065337506">更多...</a><br /></td></tr>
+<tr class="separator:gafa42d3571c479818210b9bc065337506"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga73087c97b8a29a580894ced7b125bc41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#ga73087c97b8a29a580894ced7b125bc41">UART_StructInit</a> (<a class="el" href="struct_u_a_r_t___init_type_def.html">UART_InitTypeDef</a> *UART_InitStruct)</td></tr>
+<tr class="memdesc:ga73087c97b8a29a580894ced7b125bc41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills each UART_InitStruct member with its default value.  <a href="group___u_a_r_t.html#ga73087c97b8a29a580894ced7b125bc41">更多...</a><br /></td></tr>
+<tr class="separator:ga73087c97b8a29a580894ced7b125bc41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac1ffc816995c40fe8a23b2beefc78053"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#gac1ffc816995c40fe8a23b2beefc78053">UART_WriteData</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, uint16_t Data)</td></tr>
+<tr class="memdesc:gac1ffc816995c40fe8a23b2beefc78053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write data to THR register or Tx FIFO.  <a href="group___u_a_r_t.html#gac1ffc816995c40fe8a23b2beefc78053">更多...</a><br /></td></tr>
+<tr class="separator:gac1ffc816995c40fe8a23b2beefc78053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga38e37d3d82c61c1af9619b35060b079e"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#ga38e37d3d82c61c1af9619b35060b079e">UART_ReadData</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:ga38e37d3d82c61c1af9619b35060b079e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read data from RBR register or Rx FIFO.  <a href="group___u_a_r_t.html#ga38e37d3d82c61c1af9619b35060b079e">更多...</a><br /></td></tr>
+<tr class="separator:ga38e37d3d82c61c1af9619b35060b079e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea5082e8ba20dcba4945dd9b00f72277"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#gaea5082e8ba20dcba4945dd9b00f72277">UART_RxFIFOThresholdConfig</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, uint8_t Threshold)</td></tr>
+<tr class="memdesc:gaea5082e8ba20dcba4945dd9b00f72277"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure UARTx's Rx FIFO trigger threshold.  <a href="group___u_a_r_t.html#gaea5082e8ba20dcba4945dd9b00f72277">更多...</a><br /></td></tr>
+<tr class="separator:gaea5082e8ba20dcba4945dd9b00f72277"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6db4398e1651e5c82d038669fcd3d113"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#ga6db4398e1651e5c82d038669fcd3d113">UART_TxFIFOThresholdConfig</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, uint8_t Threshold)</td></tr>
+<tr class="memdesc:ga6db4398e1651e5c82d038669fcd3d113"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure UARTx's Tx FIFO trigger threshold.  <a href="group___u_a_r_t.html#ga6db4398e1651e5c82d038669fcd3d113">更多...</a><br /></td></tr>
+<tr class="separator:ga6db4398e1651e5c82d038669fcd3d113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa113b62b13016eb4f8dc36a3f69699cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#gaa113b62b13016eb4f8dc36a3f69699cb">UART_FIFOCmd</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:gaa113b62b13016eb4f8dc36a3f69699cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the UARTx's FIFO.  <a href="group___u_a_r_t.html#gaa113b62b13016eb4f8dc36a3f69699cb">更多...</a><br /></td></tr>
+<tr class="separator:gaa113b62b13016eb4f8dc36a3f69699cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga48f8849f5ac78729633df52e2c78d306"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#ga48f8849f5ac78729633df52e2c78d306">UART_ResetRxFIFO</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:ga48f8849f5ac78729633df52e2c78d306"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the UART's Rx FIFO.  <a href="group___u_a_r_t.html#ga48f8849f5ac78729633df52e2c78d306">更多...</a><br /></td></tr>
+<tr class="separator:ga48f8849f5ac78729633df52e2c78d306"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7242d2db394a08ce6015fc17ecc5c62b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#ga7242d2db394a08ce6015fc17ecc5c62b">UART_ResetTxFIFO</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:ga7242d2db394a08ce6015fc17ecc5c62b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the UART's Tx FIFO.  <a href="group___u_a_r_t.html#ga7242d2db394a08ce6015fc17ecc5c62b">更多...</a><br /></td></tr>
+<tr class="separator:ga7242d2db394a08ce6015fc17ecc5c62b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga10a24a1d38b827a6c074d8d22a4adeb6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#ga10a24a1d38b827a6c074d8d22a4adeb6">UART_ForceBreakCmd</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga10a24a1d38b827a6c074d8d22a4adeb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force the serial out to spacing state or not.  <a href="group___u_a_r_t.html#ga10a24a1d38b827a6c074d8d22a4adeb6">更多...</a><br /></td></tr>
+<tr class="separator:ga10a24a1d38b827a6c074d8d22a4adeb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab5bb64e7520bb9fc109f316452fa671f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#gab5bb64e7520bb9fc109f316452fa671f">UART_IrDACmd</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:gab5bb64e7520bb9fc109f316452fa671f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the UARTx's IrDA SIR Mode.  <a href="group___u_a_r_t.html#gab5bb64e7520bb9fc109f316452fa671f">更多...</a><br /></td></tr>
+<tr class="separator:gab5bb64e7520bb9fc109f316452fa671f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacd67edc751aadfc7fe7fb2d73dc241fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#gacd67edc751aadfc7fe7fb2d73dc241fd">UART_ProgrammableTHREModeCmd</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:gacd67edc751aadfc7fe7fb2d73dc241fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the UARTx's Programmable THRE Interrupt Mode.  <a href="group___u_a_r_t.html#gacd67edc751aadfc7fe7fb2d73dc241fd">更多...</a><br /></td></tr>
+<tr class="separator:gacd67edc751aadfc7fe7fb2d73dc241fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga125de5b2d1d61517456afaf0ae20265c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#ga125de5b2d1d61517456afaf0ae20265c">UART_LineStatusClearModeConfig</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, uint8_t Mode)</td></tr>
+<tr class="memdesc:ga125de5b2d1d61517456afaf0ae20265c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select the method for clearing the status in the LSR register.  <a href="group___u_a_r_t.html#ga125de5b2d1d61517456afaf0ae20265c">更多...</a><br /></td></tr>
+<tr class="separator:ga125de5b2d1d61517456afaf0ae20265c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa8712d0148ad4e2fbeaa9e120f055d6b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#gaa8712d0148ad4e2fbeaa9e120f055d6b">UART_ITConfig</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, uint8_t UART_IT, FunctionalState NewState)</td></tr>
+<tr class="memdesc:gaa8712d0148ad4e2fbeaa9e120f055d6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the UARTx's interrupts.  <a href="group___u_a_r_t.html#gaa8712d0148ad4e2fbeaa9e120f055d6b">更多...</a><br /></td></tr>
+<tr class="separator:gaa8712d0148ad4e2fbeaa9e120f055d6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8390b8d6caf0d4747df3e16aaf81bb1f"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#ga8390b8d6caf0d4747df3e16aaf81bb1f">UART_GetIntID</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:ga8390b8d6caf0d4747df3e16aaf81bb1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get UARTx's Interrupt ID.  <a href="group___u_a_r_t.html#ga8390b8d6caf0d4747df3e16aaf81bb1f">更多...</a><br /></td></tr>
+<tr class="separator:ga8390b8d6caf0d4747df3e16aaf81bb1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8778fc5eb3a14c0dcb938e72c01236e8"><td class="memItemLeft" align="right" valign="top">FlagStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#ga8778fc5eb3a14c0dcb938e72c01236e8">UART_GetFlagStatus</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, uint32_t UART_FLAG)</td></tr>
+<tr class="memdesc:ga8778fc5eb3a14c0dcb938e72c01236e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the specified UART flag is set or not.  <a href="group___u_a_r_t.html#ga8778fc5eb3a14c0dcb938e72c01236e8">更多...</a><br /></td></tr>
+<tr class="separator:ga8778fc5eb3a14c0dcb938e72c01236e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7abed25e60abe01f0d0ecfb24255850e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#ga7abed25e60abe01f0d0ecfb24255850e">UART_GetLineStatus</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:ga7abed25e60abe01f0d0ecfb24255850e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get UARTx's Line status.  <a href="group___u_a_r_t.html#ga7abed25e60abe01f0d0ecfb24255850e">更多...</a><br /></td></tr>
+<tr class="separator:ga7abed25e60abe01f0d0ecfb24255850e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa2fb558bf59ddf20876383c1a11d04fc"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#gaa2fb558bf59ddf20876383c1a11d04fc">UART_GetModemStatus</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:gaa2fb558bf59ddf20876383c1a11d04fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get UARTx's Modem Status.  <a href="group___u_a_r_t.html#gaa2fb558bf59ddf20876383c1a11d04fc">更多...</a><br /></td></tr>
+<tr class="separator:gaa2fb558bf59ddf20876383c1a11d04fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9979b712f41c0bab28aae4b3e65d5d3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#ga9979b712f41c0bab28aae4b3e65d5d3f">UART_LoopBackModeCmd</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga9979b712f41c0bab28aae4b3e65d5d3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the UARTx's LoopBack Mode.  <a href="group___u_a_r_t.html#ga9979b712f41c0bab28aae4b3e65d5d3f">更多...</a><br /></td></tr>
+<tr class="separator:ga9979b712f41c0bab28aae4b3e65d5d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa80beec7320eb82bdb4b9a92aa31ce6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t.html#gaa80beec7320eb82bdb4b9a92aa31ce6e">UART_ModemForceRtsPinState</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, SignalState NewState)</td></tr>
+<tr class="memdesc:gaa80beec7320eb82bdb4b9a92aa31ce6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control RTS Pin State.  <a href="group___u_a_r_t.html#gaa80beec7320eb82bdb4b9a92aa31ce6e">更多...</a><br /></td></tr>
+<tr class="separator:gaa80beec7320eb82bdb4b9a92aa31ce6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>This file contains all the functions prototypes for the UART firmware library. </p>
+<dl class="section author"><dt>作者</dt><dd>Westberry Application Team </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>V0.1.10 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>05-January-2023 </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

@@ -1,0 +1,192 @@
+# WB32 Microcontroller Family Overview
+
+## Company Background
+
+Westberry Technology (ChangZhou) Corp., Ltd. is a fabless semiconductor company based in
+Changzhou, China, specializing in low-power, high-performance reconfigurable microcontrollers.
+Their product line targets motor control, wearables, automotive peripherals, consumer
+electronics, and gaming keyboards.
+
+| Date | Milestone |
+|------|-----------|
+| August 2021 | Released the WB32F10x, their first general-purpose MCU product line |
+| December 2023 | Released the Gaming Keyboard SoC with tri-mode wireless support |
+
+The gaming keyboard market has become Westberry's primary commercial segment, with WB32
+parts appearing in boards from several major manufacturers.
+
+---
+
+## Product Families
+
+| Family | Description | Target Applications |
+|--------|-------------|---------------------|
+| WB32F101xx | Entry-level | Basic embedded control |
+| WB32F102xx | Mid-range with USB | USB peripherals |
+| WB32F103xx | Feature-rich | General purpose |
+| WB32F104xx | Enhanced | Enhanced peripherals |
+| WB32F105xx | Extended temperature range | Industrial |
+| WB32FQ95xx | USB keyboard focus | Gaming keyboards (QMK/VIA) |
+| WB32F3G71xx | Newer variant | Advanced applications |
+| Gaming Keyboard SoC | Tri-mode wireless (2023) | RGB wireless keyboards |
+
+### WB32FQ95xx
+
+The WB32FQ95xx is the most widely used variant in the mechanical keyboard community and the
+primary target for open-source firmware development:
+
+- **Flash**: Up to 128 KB
+- **SRAM**: Up to 36 KB
+- **USB**: Full-speed device with ROM DFU bootloader
+- **Package**: LQFP48 (pin-compatible with STM32F10x)
+
+---
+
+## Technical Architecture
+
+### Core Specifications
+
+- **CPU Core**: ARM Cortex-M3 (r2p0)
+- **Process**: 55nm
+- **Max Frequency**: 96 MHz (some variants support 128 MHz)
+- **STM32 Compatibility**: Pin-compatible with STM32F10x in LQFP48 package
+
+### Bus Architecture
+
+The WB32 uses a multi-master bus matrix with five masters and three passive units:
+
+```
++----------------------------------------------------------------+
+|                       BUS MASTERS (5)                          |
++----------------------------------------------------------------+
+|  Cortex-M3  |  DCode  |  System  |  DMA1/DMA2  |   USB DMA   |
+|    Core     |   Bus   |   Bus    |             |              |
++-------------+---------+----------+-------------+--------------+
+                              |
+                              v
+                     +------------------+
+                     |    Bus Matrix    |
+                     +------------------+
+                              |
+                              v
++----------------------------------------------------------------+
+|                     PASSIVE UNITS (3)                           |
++----------------------------------------------------------------+
+|     Internal SRAM    |  Internal Flash  |   AHB-APB Bridges    |
++----------------------+------------------+----------------------+
+```
+
+A notable architectural feature is the dedicated USB DMA master, which operates independently
+from the general-purpose DMA1 and DMA2 controllers.
+
+### Key Differences from STM32F10x
+
+While the WB32FQ95xx is pin-compatible with the STM32F10x, the internal architecture diverges
+in several important ways. STM32 code cannot be directly ported; driver adaptation is required.
+
+| Area | STM32F10x | WB32FQ95xx |
+|------|-----------|------------|
+| DMA Handshake | Fixed peripheral mapping | Different channel assignments |
+| USB DMA | Shared with DMA1/2 | Separate USB DMA master |
+| Clock Tree | Single PLL, HSE/HSI | Additional FHSI (48 MHz) option |
+| Flash Controller | FPEC registers | FMC registers (different layout) |
+| GPIO Speed | 4 levels | 2 levels (LOW/HIGH, inverted encoding) |
+
+---
+
+## STM32 Comparison
+
+| Feature | WB32FQ95xx | STM32F103xx |
+|---------|------------|-------------|
+| Core | Cortex-M3 | Cortex-M3 |
+| Max Clock | 96-128 MHz | 72 MHz |
+| Flash | Up to 128 KB | Up to 512 KB |
+| SRAM | Up to 36 KB | Up to 64 KB |
+| USB | Full-speed | Full-speed |
+| DMA Channels | 6 (2 controllers) | 7-12 |
+| Package | LQFP48/64 | LQFP48/64/100 |
+| Price | Lower | Higher |
+
+**Advantages over STM32**:
+- Lower cost at equivalent feature sets
+- ROM-based DFU bootloader (always available, does not consume user flash)
+- Higher maximum clock speed (96-128 MHz vs 72 MHz)
+- Drop-in physical replacement for STM32F10x LQFP48
+
+**Disadvantages**:
+- Limited public documentation (some datasheets require vendor contact)
+- Smaller developer community and ecosystem
+- Less mature tooling (custom OpenOCD driver required, no mainstream IDE support)
+
+---
+
+## Commercial Users
+
+WB32 microcontrollers are used in production keyboards from several manufacturers:
+
+- **GMMK** (Glorious)
+- **Akko**
+- **MonsGeek**
+- **Inland**
+- **Shortcut Studio** (Bridge75 uses WB32FQ95 + CH582F for wireless)
+
+---
+
+## Software Ecosystem
+
+### Firmware Frameworks
+
+| Framework | WB32 Support |
+|-----------|-------------|
+| QMK Firmware | Official support for WB32FQ95xx and WB32F3G71xx |
+| VIA | Compatible through QMK |
+| ChibiOS | Community port in ChibiOS-Contrib |
+| Bare Metal | Vendor Standard Peripheral Library |
+
+### Development Tools
+
+| Tool | Purpose |
+|------|---------|
+| `wb32-dfu-updater` | Official USB DFU flash tool (bundled with QMK MSYS) |
+| OpenOCD | Debug and flash via SWD (custom driver required) |
+| J-Link | SWD debugging |
+| WB-Link PRO | Official Westberry debug probe |
+
+---
+
+## Resources
+
+### Official
+- [Westberry Technology Website](https://www.westberrytech.com/)
+- [WestberryTech GitHub](https://github.com/WestberryTech/)
+- [wb32-dfu-updater](https://github.com/WestberryTech/wb32-dfu-updater)
+
+### Community
+- [QMK Compatible Microcontrollers](https://docs.qmk.fm/compatible_microcontrollers)
+- [qmk/ChibiOS-Contrib WB32 Port](https://github.com/qmk/ChibiOS-Contrib/tree/master/os/hal/ports/WB32)
+
+### Sourcing
+- [JLCPCB](https://jlcpcb.com/) (search for WB32FQ95)
+
+---
+
+## Documentation Gaps
+
+Westberry publishes limited public documentation compared to vendors like ST or NXP. The
+following information gaps are known:
+
+1. **Detailed variant specifications** -- exact flash/SRAM sizes for each sub-variant are
+   not always publicly listed.
+2. **Official datasheets** -- may require NDA or distributor access for some families.
+3. **Full reference manual** -- only partial documentation is publicly available.
+4. **Silicon errata** -- no official errata sheet has been published. See
+   [silicon-errata.md](silicon-errata.md) for community-discovered hardware issues, including
+   the DMA BLOCK_TS 9-bit limitation.
+5. **Gaming Keyboard SoC (2023)** -- no technical specifications have been published.
+
+### Obtaining Missing Documentation
+
+1. Request datasheets from JLCPCB's parts service
+2. Contact Westberry Technology directly
+3. Check with keyboard manufacturers using WB32
+4. Monitor Westberry's GitHub for updates

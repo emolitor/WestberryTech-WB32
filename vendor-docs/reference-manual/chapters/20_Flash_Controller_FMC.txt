@@ -1,0 +1,322 @@
+WB32FQ95xx Reference Manual
+
+20.
+
+Flash controller (FMC)
+
+20.1.
+
+Flash controller overview
+Flash controller is the interface between flash macro and the AHB bus in the chip. The whole
+flash macro can be configured, erased, programmed or read through flash controller
+respectively. Beyond that, flash data integrity CRC check also can be done through controller.
+To speed up the code execution, a cache implemented in the flash controller.
+
+20.2.
+
+Major features of flash controller
+⚫
+
+Support page program, page erase, block erase, chip erase and page write latch
+operation.
+
+⚫
+
+Support block protection
+
+⚫
+
+Support flash data integration check CRC: X16 +X15+X2 +1
+
+⚫
+
+Self calibration for flash controller when power on. The configure data can be read out
+and updated each time power up.
+
+⚫
+
+Operation code fetch and data fetch will be suspend when programming or erase the
+flash.
+Figure 20-1. Flash connection Figure
+
+20.3.
+
+Function description
+
+20.3.1.
+
+Write Operation
+⚫
+
+Write operation flow
+◼
+
+Doc ID 2905025
+
+Erase operation
+◆
+
+Main array support page erase, block erase and chip erase
+
+◆
+
+Information block only support page erase
+
+Rev01
+
+261
+
+WB32FQ95xx Reference Manual
+
+◼
+
+20.3.2.
+
+Program Operation
+◆
+
+Support page program
+
+◆
+
+Erase operation should be done before program operation
+
+◆
+
+Program Operation:
+➢
+
+Erase the target page
+
+➢
+
+Write Data to the page write latch
+
+➢
+
+Start page program
+
+CRC calculation
+⚫
+
+Support flash data integrity CRC check.
+
+⚫
+
+CRC calculation, please reference to CRCON register.
+
+⚫
+
+Flash macro read cycle is 15-20ns cycle/Period should be inserted according to system
+frequency and should be configured in CRCON
+
+⚫
+
+After CRC calculation finish, an interrupt will be triggered.
+Table 20-1. CRC Calculation configure
+
+System frequency
+
+CRC Calculation (CRCON.PERIOD)
+
+36MHz
+
+0
+
+48MHz
+
+1
+
+72MHz
+
+2
+
+96MHz
+
+3
+
+128MHz
+
+4
+
+20.4.
+
+Register definition
+
+20.4.1.
+
+CRC control register (FMC_CRCON)
+Address offset: 0x4
+Reset Value: 0x0000 F000
+
+Bits
+
+Fields
+
+R/W
+
+31-26
+
+-
+
+R
+
+25:16
+
+CRCLEN
+
+RW
+
+15:12
+
+PERIOD
+
+RW
+
+Doc ID 2905025
+
+Description
+Reserved
+CRC data depth for calculation
+0:CRC base on 1 page
+1:CRC base on 2 page
+......
+read cycles while doing CRC check
+0: Single cycle for flash read
+1: Two cycles for flash read
+......
+15: Sixteen cycles for flash read
+
+Rev01
+
+262
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+11:9
+
+-
+
+R
+
+Reserved
+
+8
+
+CRCFIE
+
+RW
+
+CRC calculation interrupt enable, interrupt generate when CRC
+calculation finish
+
+7:4
+
+-
+
+R
+
+Reserved
+
+3
+
+SLOWRD
+
+RW
+
+control the CRC calculation period
+1: Insert 16 clock cycles between 2 adjacent CRC calculation
+0: No wait cycle between 2 adjacent CRC calculation
+
+2
+
+PAUSE
+
+RW
+
+suspend CRC calculation
+
+1
+
+CRCF
+
+RW
+
+CRC calculation finish symbol
+1: CRC accomplished
+0: CRCEN=1
+
+0
+
+CRCEN
+
+RW
+
+set 1 to start CRC
+
+Note: Writing to CRCON is not effective during flash erase/write operation.
+
+20.4.2.
+
+Address register (FMC_ADDR)
+Address offset: 0x10
+Reset value: 0x0000 0000
+Only reset when power on reset occur
+
+20.4.3.
+
+⚫
+
+Chip erase:
+
+⚫
+
+Page erase, Page program: Page address
+
+⚫
+
+Block erase:
+
+Block address
+
+⚫
+
+CRC check:
+
+Start address
+
+Do not need be configured
+
+Data register (FMC_DATA1)
+Address offset: 0x1C
+Reset value: 0x0000 0000
+Only reset when power on reset occur
+⚫
+
+20.4.4.
+
+This register includes the CRC check result after CRC operation done
+
+Cache register (FMC_BUFx) x=0...63
+Address offset: 0x100~0x1FF
+Reset value: 0x0000 0000
+During page program operation, the data should be written into BUF0~BUF63. Such data will
+be stored in page latch and used when write operation kicked off.
+This register is write only.
+No write operation effective while flash in write or erase operation.
+
+Doc ID 2905025
+
+Rev01
+
+263
+
+

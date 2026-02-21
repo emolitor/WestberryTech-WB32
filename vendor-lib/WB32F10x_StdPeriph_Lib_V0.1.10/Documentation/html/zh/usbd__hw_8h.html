@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: usbd_hw.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_6d2d5b60bd20db849a9486835a2715aa.html">Libraries</a></li><li class="navelem"><a class="el" href="dir_220393b76de29dcc6a4f5a0f02aa06e9.html">WB32F10x_USBDevice_Driver</a></li><li class="navelem"><a class="el" href="dir_67df701a17d349eaf0fdd8d3a0d10f1b.html">inc</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle">
+<div class="title">usbd_hw.h 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;wb32f10x.h&quot;</code><br />
+</div>
+<p><a href="usbd__hw_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:aa98f5bdcb27ff81ac96fb89063884551"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usbd__hw_8h.html#aa98f5bdcb27ff81ac96fb89063884551">USBD_HW_ReadEP</a> (uint8_t ep_addr, uint8_t *pbuf, uint16_t size)</td></tr>
+<tr class="memdesc:aa98f5bdcb27ff81ac96fb89063884551"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read data from the specified endpoint.  <a href="#aa98f5bdcb27ff81ac96fb89063884551">更多...</a><br /></td></tr>
+<tr class="separator:aa98f5bdcb27ff81ac96fb89063884551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c34c0f05ab7e5bd6d5ce2e484fc4ed6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usbd__hw_8h.html#a7c34c0f05ab7e5bd6d5ce2e484fc4ed6">USBD_HW_WriteEP</a> (uint8_t ep_addr, const uint8_t *pdata, uint16_t len)</td></tr>
+<tr class="memdesc:a7c34c0f05ab7e5bd6d5ce2e484fc4ed6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write data to the specified endpoint.  <a href="#a7c34c0f05ab7e5bd6d5ce2e484fc4ed6">更多...</a><br /></td></tr>
+<tr class="separator:a7c34c0f05ab7e5bd6d5ce2e484fc4ed6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f4965aef2c4d4430a9033206ec24ec1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usbd__hw_8h.html#a1f4965aef2c4d4430a9033206ec24ec1">USBD_HW_Transmit</a> (uint8_t ep_addr, const uint8_t *pdata, uint16_t len)</td></tr>
+<tr class="memdesc:a1f4965aef2c4d4430a9033206ec24ec1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transmits data over an IN endpoint.  <a href="#a1f4965aef2c4d4430a9033206ec24ec1">更多...</a><br /></td></tr>
+<tr class="separator:a1f4965aef2c4d4430a9033206ec24ec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cf88d16783749bc98046722a64b358b"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usbd__hw_8h.html#a6cf88d16783749bc98046722a64b358b">USBD_HW_GetRxDataCount</a> (uint8_t ep_addr)</td></tr>
+<tr class="memdesc:a6cf88d16783749bc98046722a64b358b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the last received packet size of an OUT endpoint.  <a href="#a6cf88d16783749bc98046722a64b358b">更多...</a><br /></td></tr>
+<tr class="separator:a6cf88d16783749bc98046722a64b358b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affaf34831904623895e607572b8c6447"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usbd__hw_8h.html#affaf34831904623895e607572b8c6447">USBD_HW_ReadyToReceive</a> (uint8_t ep_addr)</td></tr>
+<tr class="memdesc:affaf34831904623895e607572b8c6447"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ready to receive from an OUT endpoint.  <a href="#affaf34831904623895e607572b8c6447">更多...</a><br /></td></tr>
+<tr class="separator:affaf34831904623895e607572b8c6447"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a620e7857d261f89f399eb57c13a55c94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usbd__hw_8h.html#a620e7857d261f89f399eb57c13a55c94">USBD_HW_SetStallEP</a> (uint8_t ep_addr)</td></tr>
+<tr class="memdesc:a620e7857d261f89f399eb57c13a55c94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Stall condition of a non-control endpoint.  <a href="#a620e7857d261f89f399eb57c13a55c94">更多...</a><br /></td></tr>
+<tr class="separator:a620e7857d261f89f399eb57c13a55c94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab31ece39f7d0af0235ebbc6479f32ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usbd__hw_8h.html#aab31ece39f7d0af0235ebbc6479f32ad">USBD_HW_ClrStallEP</a> (uint8_t ep_addr)</td></tr>
+<tr class="memdesc:aab31ece39f7d0af0235ebbc6479f32ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear Stall condition of a non-control endpoint.  <a href="#aab31ece39f7d0af0235ebbc6479f32ad">更多...</a><br /></td></tr>
+<tr class="separator:aab31ece39f7d0af0235ebbc6479f32ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab21e4ab283e4f6406f74e1dcdc7e00e1"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usbd__hw_8h.html#ab21e4ab283e4f6406f74e1dcdc7e00e1">USBD_HW_IsStalled</a> (uint8_t ep_addr)</td></tr>
+<tr class="memdesc:ab21e4ab283e4f6406f74e1dcdc7e00e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get stall status of non-control endpoint.  <a href="#ab21e4ab283e4f6406f74e1dcdc7e00e1">更多...</a><br /></td></tr>
+<tr class="separator:ab21e4ab283e4f6406f74e1dcdc7e00e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>Westberry Application Team </dd></dl>
+<dl class="section attention"><dt>注意</dt><dd></dd></dl>
+<p>Copyright (c) 2020 - 2023 Westberry Technology (ChangZhou) Corp., Ltd All rights reserved.</p>
+<p>THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME. AS A RESULT, WESTBERRY TECHNOLOGY SHALL NOT BE HELD LIABLE FOR ANY DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS. </p>
+</div><h2 class="groupheader">函数说明</h2>
+<a id="aab31ece39f7d0af0235ebbc6479f32ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab31ece39f7d0af0235ebbc6479f32ad">&#9670;&nbsp;</a></span>USBD_HW_ClrStallEP()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void USBD_HW_ClrStallEP </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ep_addr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clear Stall condition of a non-control endpoint. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ep_addr</td><td>endpoint address. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="a6cf88d16783749bc98046722a64b358b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cf88d16783749bc98046722a64b358b">&#9670;&nbsp;</a></span>USBD_HW_GetRxDataCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t USBD_HW_GetRxDataCount </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ep_addr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the last received packet size of an OUT endpoint. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ep_addr</td><td>endpoint address (eg. 0x01). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The last received packet size of an OUT endpoint. </dd></dl>
+
+</div>
+</div>
+<a id="ab21e4ab283e4f6406f74e1dcdc7e00e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab21e4ab283e4f6406f74e1dcdc7e00e1">&#9670;&nbsp;</a></span>USBD_HW_IsStalled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t USBD_HW_IsStalled </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ep_addr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get stall status of non-control endpoint. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ep_addr</td><td>endpoint address. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>stall status (1: stall, 0: not stall). </dd></dl>
+
+</div>
+</div>
+<a id="aa98f5bdcb27ff81ac96fb89063884551"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa98f5bdcb27ff81ac96fb89063884551">&#9670;&nbsp;</a></span>USBD_HW_ReadEP()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void USBD_HW_ReadEP </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ep_addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>pbuf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read data from the specified endpoint. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ep_addr</td><td>specifies which endpoint read from. This value must be less than or equal to 3. </td></tr>
+    <tr><td class="paramname">pbuf</td><td>pointer to data buffer. </td></tr>
+    <tr><td class="paramname">size</td><td>length of data to be read. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="affaf34831904623895e607572b8c6447"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affaf34831904623895e607572b8c6447">&#9670;&nbsp;</a></span>USBD_HW_ReadyToReceive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void USBD_HW_ReadyToReceive </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ep_addr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ready to receive from an OUT endpoint. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ep_addr</td><td>endpoint address (eg. 0x01). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="a620e7857d261f89f399eb57c13a55c94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a620e7857d261f89f399eb57c13a55c94">&#9670;&nbsp;</a></span>USBD_HW_SetStallEP()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void USBD_HW_SetStallEP </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ep_addr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set Stall condition of a non-control endpoint. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ep_addr</td><td>endpoint address. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="a1f4965aef2c4d4430a9033206ec24ec1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f4965aef2c4d4430a9033206ec24ec1">&#9670;&nbsp;</a></span>USBD_HW_Transmit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void USBD_HW_Transmit </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ep_addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>pdata</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Transmits data over an IN endpoint. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ep_addr</td><td>endpoint address (eg. 0x81). </td></tr>
+    <tr><td class="paramname">pdata</td><td>pointer to the buffer containing the data to be transmitted. </td></tr>
+    <tr><td class="paramname">len</td><td>length of data to be transmitted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="a7c34c0f05ab7e5bd6d5ce2e484fc4ed6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c34c0f05ab7e5bd6d5ce2e484fc4ed6">&#9670;&nbsp;</a></span>USBD_HW_WriteEP()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void USBD_HW_WriteEP </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ep_addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>pdata</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write data to the specified endpoint. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ep_addr</td><td>specifies which endpoint to write. This value must be less than or equal to 3. </td></tr>
+    <tr><td class="paramname">pdata</td><td>pointer to the buffer containing the data to be written. </td></tr>
+    <tr><td class="paramname">len</td><td>length of data to be written. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

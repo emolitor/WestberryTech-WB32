@@ -1,0 +1,5123 @@
+WB32FQ95xx Reference Manual
+
+24.
+
+Integrated Circuit Interface (I2C)
+
+24.1.
+
+Overview
+The I2C (inter-integrated circuit) module provides an I2C interface which is an industry
+standard two-line serial interface for MCU to communicate with external I2C interface. I2C
+bus uses two serial lines: a serial data line, SDA, and a serial clock line, SCL.
+The I2C interface implements standard I2C protocol with standard-mode, fast-mode and
+high-speed mode as well as SMBus (system management bus) and PMBus (power
+management bus). It also supports multi-master I2C bus. The I2C interface provides DMA
+mode for users to reduce CPU overload.
+The device includes two I2C blocks: I2C1 and I2C2.
+
+24.2.
+
+Characteristics
+⚫
+
+Two-wire I2C serial interface – consists of a serial data line (SDA) and a serial clock line
+(SCL)
+
+⚫
+
+Both master and slave functions with the same interface.
+
+⚫
+
+Three speeds:
+◼
+
+Standard mode (0 to 100 Kb/s)
+
+◼
+
+Fast mode (≤ 400 Kb/s) or fast mode plus (≤ 1000 Κb/s)
+
+◼
+
+High-speed mode (≤ 3.4 Mb/s)
+
+⚫
+
+7- or 10-bit addressing
+
+⚫
+
+7- or 10-bit combined format transfers
+
+⚫
+
+Bulk transmit mode
+
+⚫
+
+Ignores CBUS addresses (an older ancestor of I2C that used to share the I2C bus)
+
+⚫
+
+Transmit and receive buffers
+
+⚫
+
+Handles Bit and Byte waiting at all bus speeds
+
+⚫
+
+Interrupt or polled-mode operation
+
+⚫
+
+Component parameters for configurable software driver support
+
+⚫
+
+Programmable SDA hold time
+
+⚫
+
+Support DMA mode
+
+⚫
+
+Bus clear feature
+
+⚫
+
+Device ID feature
+
+⚫
+
+SMBus/PMBus Support
+
+⚫
+
+SMBus Slave detects and responds to ARP commands.
+
+⚫
+
+Support SMBUS Alarm and timeout detection
+
+Doc ID 2905025
+
+Rev01
+
+323
+
+WB32FQ95xx Reference Manual
+
+24.3.
+
+I2C implementation
+WB32F103xx contains two I2C blocks, I2C1 and I2C2. The table below shows the supported
+features in detail.
+Table 24-1. I2C1 and I2C2 Features
+
+24.4.
+
+I2C features
+
+I2C1
+
+I2C2
+
+7 bit addressing
+
+√
+
+√
+
+10 bit addressing
+
+√
+
+√
+
+Standard mode
+
+√
+
+√
+
+Fast mode/Fast Plus Mode
+
+√
+
+√
+
+High speed mode
+
+X
+
+√
+
+SMBUS
+
+√
+
+X
+
+Block Diagram
+The figure below shows the block diagram.
+Figure 24-1. Block Diagram
+
+24.5.
+
+Function Overview
+
+24.5.1.
+
+Mode Selection
+The interface can operate in one of the four following modes:
+⚫
+
+Slave transmitter
+
+⚫
+
+Slave receiver
+
+⚫
+
+Master transmitter
+
+⚫
+
+Master receiver
+
+By default, the device operates in slave mode. The interface automatically switches from
+slave to master when it generates a START condition, and from master to slave if an
+arbitration loss or a STOP generation occurs, it supports multi-master operation.
+Start condition
+When the master wants to start a transmission on the bus, the master issues a START
+condition. This is defined to be a high-to-low transition of the SDA signal while SCL is 1.
+Doc ID 2905025
+
+Rev01
+
+324
+
+WB32FQ95xx Reference Manual
+
+Stop condition
+When the master wants to terminate the transmission, the master issues a STOP condition.
+This is defined to be a low-to-high transition of the SDA line while SCL is 1.
+The figure below shows the start/stop condition in detail.
+Figure 24-2. START and STOP Condition
+
+Communication Flow
+In Master mode, the I2C interface initiates a data transfer and generates the clock signal. A
+serial data transfer always begins with a START condition and ends with a STOP condition.
+Both START and STOP conditions are generated in master mode by software.
+In Slave mode, the interface is capable of recognizing its own addresses (7 or 10-bit), and
+the General Call address. The General Call address detection can be enabled or disabled by
+software. The Reserved SMBus addresses can also be enabled by software.
+Data and addresses are transferred as 8-bit bytes, MSB first. The first byte(s) following the
+START condition contain the address (one in 7-bit mode, two in 10-bit mode). The address is
+always transmitted in Master mode.
+A 9th clock pulse follows the 8 clock cycles of a byte transfer, during which the receiver must
+send an acknowledge bit to the transmitter. Refer to the following figure 26-3.
+Figure 24-3. I2C Bus Protocol
+
+Acknowledge can be enabled or disabled by software. The I2C interface addresses can be
+selected by software.
+
+24.5.2.
+
+Addressing Slave Protocol
+There are two address formats: the 7-bit address format and the 10-bit address format.
+7-bit Address Format
+During the 7-bit address format, the first seven bits (bits 7:1) of the first byte set the slave
+address and the LSB bit (bit 0) is the R/W bit as shown in Figure 26-4. When bit 0 (R/W) is
+
+Doc ID 2905025
+
+Rev01
+
+325
+
+WB32FQ95xx Reference Manual
+
+set to 0, the master writes to the slave. When bit 0 (R/W) is set to 1, the master reads from
+the slave.
+Figure 24-4. 7-bit Addressing Format
+
+10-bit Address Format
+During 10-bit addressing, two bytes are transferred to set the 10-bit address. The transfer of
+the first byte contains the following bit definition. The first five bits (bits 7:3) notify the slaves
+that this is a 10-bit transfer followed by the next two bits (bits 2:1), which set the slaves
+address bits 9:8, and the LSB bit (bit0) is the R/W bit. The second byte transferred sets bits
+7:0 of the slave address. Figure 26-5 shows the 10-bit address format.
+Figure 24-5. 10-bit Address Format
+
+The Table below defines the special purpose and Reserved first byte addresses.
+Table 24-2. I2C/SMBus Definition of Bits in First Bye
+Slave Address
+
+R/W Bit
+
+Description
+
+0000 000
+
+0
+
+General Call Address. I2C places the data in the receive buffer and issues a
+General Call interrupt.
+
+0000 000
+
+1
+
+START byte.
+
+0000 001
+
+X
+
+CBUS address. I2C ignores these accesses.
+
+0000 010
+
+X
+
+Reserved.
+
+0000 011
+
+X
+
+Reserved
+
+0000 1XX
+
+X
+
+High speed master mode.
+
+1111 1XX
+
+X
+
+Reserved
+
+1111 0XX
+
+X
+
+10-bit slave addressing
+
+0001 000
+
+X
+
+SMBus Host
+
+0001 100
+
+X
+
+SMBus Alert Response Address
+
+1100 001
+
+X
+
+SMBus Device Default Address
+
+Doc ID 2905025
+
+Rev01
+
+326
+
+WB32FQ95xx Reference Manual
+
+I2C does not restrict you from using these Reserved addresses. However, if you use these
+Reserved addresses, you may run into incompatibilities with other I2C components.
+
+24.5.3.
+
+Transmitting and Receiving Protocol
+The master can initiate data transmission and reception to/from the bus, acting as either a
+master-transmitter or master-receiver. A slave responds to requests from the master to either
+transmit data or receive data to/from the bus, acting as either a slave-transmitter or
+slave-receiver, respectively.
+Master-Transmitter and Slave-Receiver
+All data is transmitted in byte format, with no limit on the number of bytes transferred per
+data transfer. After the master sends the address and R/W bit or the master transmits a byte
+of data to the slave, the slave-receiver must respond with the acknowledge signal (ACK).
+When a slave-receiver does not respond with an ACK pulse, the master aborts the transfer
+by issuing a STOP condition. The slave must leave the SDA line high so that the master can
+abort the transfer.
+If the master-transmitter is transmitting data as shown in Figure26-6, then the slave-receiver
+responds to the master-transmitter with an acknowledge pulse after every byte of data is
+received.
+Figure 24-6. Master-Transmitter Protocol
+
+Master-Receiver and Slave-Transmitter
+If the master is receiving data as shown in Figure 26-7, then the master responds to the
+slave-transmitter with an acknowledge pulse after a byte of data has been received, except
+for the last byte. This is the way the master-receiver notifies the slave-transmitter that this is
+the last byte.
+The slave-transmitter relinquishes the SDA line after detecting the No Acknowledge (NACK)
+so that the master can issue a STOP condition. When a master does not want to relinquish
+the bus with a STOP condition, the master can issue a RESTART condition. This is identical
+to a START condition except it occurs after the ACK pulse.
+
+Doc ID 2905025
+
+Rev01
+
+327
+
+WB32FQ95xx Reference Manual
+
+Figure 24-7. Master-Receiver Protocol
+
+24.5.4.
+
+START BYTE Transfer Protocol
+The START BYTE transfer protocol is set up for systems that do not have an on-board
+dedicated I2C hardware module. When the I2C is addressed as a slave, it always samples
+the I2C bus at the highest speed supported so that it never requires a START BYTE transfer.
+However, when I2C is a master, it supports the generation of START BYTE transfers at the
+beginning of every transfer in case a slave device requires it.
+This protocol consists of seven zeros being transmitted followed by a 1, as illustrated in
+Figure 26-8. This allows the processor that is polling the bus to under-sample the address
+phase until 0 is detected. Once the microcontroller detects a 0, it switches from the under
+sampling rate to the correct rate of the master.
+Figure 24-8. START BYTE Transfer
+
+The START BYTE procedure is as follows:
+⚫
+
+Master generates a START condition.
+
+⚫
+
+Master transmits the START byte (0000 0001).
+
+⚫
+
+Master transmits the ACK clock pulse. (Present only to conform with the byte handling
+format used on the bus)
+
+⚫
+
+No slave sets the ACK signal to 0.
+
+⚫
+
+Master generates a RESTART (R) condition.
+
+A hardware receiver does not respond to the START BYTE because it is a Reserved address
+and reset after the RESTART condition is generated.
+
+24.5.5.
+
+Multiple Master Arbitration
+The I2C bus protocol allows multiple masters to reside on the same bus. If there are two
+masters on the same I²C-bus, there is an arbitration procedure if both try to take control of
+
+Doc ID 2905025
+
+Rev01
+
+328
+
+WB32FQ95xx Reference Manual
+
+the bus at the same time by generating a START condition at the same time. Once a master
+(for example, a microcontroller) has control of the bus, no other master can take control until
+the first master sends a STOP condition and places the bus in an idle state.
+Arbitration takes place on the SDA line, while the SCL line is 1. The master, which transmits
+a 1 while the other master transmits 0, loses arbitration and turns off its data output stage.
+The master that lost arbitration can continue to generate clocks until the end of the byte
+transfer. If both masters are addressing the same slave device, the arbitration could go into
+the data phase.
+Upon detecting that it has lost arbitration to another master, the I2C will stop generating SCL
+(ic_clk_oe). Figure 26-9 illustrates the timing of when two masters are arbitrating on the bus.
+Figure 24-9. Multiple Master Arbitration
+
+For high-speed mode, the arbitration cannot go into the data phase because each master is
+programmed with a unique high-speed master code. This 8-bitcode is defined by the system
+designer and is set by writing to the High Speed Master Mode Code Address Register,
+IC_HS_MADDR. Because the codes are unique, only one master can win arbitration, which
+occurs by the end of the transmission of the high-speed master code.
+Control of the bus is determined by address or master code and data sent by competing
+masters, so there is no central master nor any order of priority on the bus.
+Arbitration is not allowed between the following conditions:
+⚫
+
+A RESTART condition and a data bit
+
+⚫
+
+A STOP condition and a data bit
+
+⚫
+
+A RESTART condition and a STOP condition
+
+Slaves are not involved in the arbitration process.
+
+24.5.6.
+
+Slave Mode Operation
+This section discusses slave mode procedures in detail.
+Initial Configuration
+To use the I2C as a slave mode, perform the following steps:
+
+Doc ID 2905025
+
+Rev01
+
+329
+
+WB32FQ95xx Reference Manual
+
+⚫
+
+Disable the I2C macro by writing a ‘0’ to bit 0 of the IC_ENABLE register.
+
+⚫
+
+Write to the IC_SAR register (bits 9:0) to set the slave address. This is the address to
+which the I2C macro responds.
+
+⚫
+
+Write to the IC_CON register to specify which type of addressing is supported (7- or
+10-bit by setting bit 3). Enable the I2C macro in slave-only mode by writing a ‘0’ into bit 6
+(IC_SLAVE_DISABLE) and a ‘0’ to bit 0 (MASTER_MODE).
+
+⚫
+
+Enable the I2C macro by writing a ‘1’ in bit 0 of the IC_ENABLE register.
+
+Slave-Transmitter Operation for a Single Byte
+When another I2C master device on the bus addresses this I2C macro and requests data,
+the I2C macro acts as a slave-transmitter and the following steps occur:
+⚫
+
+The other I2C master device initiates an I2C transfer with an address that matches the
+slave address in the IC_SAR register of this I2C macro.
+
+⚫
+
+The I2C macro acknowledges the sent address and recognizes the direction of the
+transfer to indicate that it is acting as a slave-transmitter.
+
+⚫
+
+The I2C macro asserts the RD_REQ interrupt (bit 5 of the IC_RAW_INTR_STAT
+register) and holds the SCL line low. It is in a wait state until software responds.
+If the RD_REQ interrupt has been masked, due to IC_INTR_MASK[5] register
+(M_RD_REQ bit field) being set to 0, then it is recommended that a hardware and/or
+software timing routine be used to instruct the CPU to perform periodic reads of the
+IC_RAW_INTR_STAT register.
+
+⚫
+
+◼
+
+Reads that indicate IC_RAW_INTR_STAT[5] (R_RD_REQ bit field) being set to 1
+must be treated as the equivalent of the RD_REQ interrupt being asserted.
+
+◼
+
+Software must then act to satisfy the I2C transfer.
+
+◼
+
+The timing interval used should be in the order of 10 times the fastest SCL clock
+period the I2C macro can handle. For example, for 400 kb/s, the timing interval is
+25us.
+
+If there is any data remaining in the Tx FIFO before receiving the read request, then the
+I2C macro asserts a TX_ABRT interrupt (bit 6 of the IC_RAW_INTR_STAT register) to
+flush the old data from the TX FIFO.
+If the TX_ABRT interrupt has been masked, due to of IC_INTR_MASK[6] register
+(M_TX_ABRT bit field) being set to 0, then it is recommended that re-using the timing
+routine (described in the previous step), or a similar one, be used to read the
+IC_RAW_INTR_STAT register.
+◼
+
+Reads that indicate bit 6 (R_TX_ABRT) being set to 1 must be treated as the
+equivalent of the TX_ABRT interrupt being asserted.
+
+◼
+
+There is no further action required from software.
+
+◼
+
+The timing interval used should be similar to that described in the previous step for
+the IC_RAW_INTR_STAT[5] register.
+
+⚫
+
+Software writes to the IC_DATA_CMD register with the data to be written (by writing a ‘0’
+in bit 8).
+
+⚫
+
+Software must clear the RD_REQ and TX_ABRT interrupts (bits 5 and 6, respectively)
+
+Doc ID 2905025
+
+Rev01
+
+330
+
+WB32FQ95xx Reference Manual
+
+of the IC_RAW_INTR_STAT register before proceeding.
+⚫
+
+If the RD_REQ and/or TX_ABRT interrupts have been masked, then clearing of the
+IC_RAW_INTR_STAT register will have already been performed when either the
+R_RD_REQ or R_TX_ABRT bit has been read as 1.
+
+⚫
+
+The I2C macro releases the SCL and transmits the byte.
+
+⚫
+
+The master may hold the I2C bus by issuing a RESTART condition or release the bus by
+issuing a STOP condition.
+
+Note: Whenever a TX_ABRT event occurs, it is necessary for software to read the
+IC_CLR_TX_ABRT register before attempting to write into the Tx FIFO. See register
+IC_RAW_INTR_STAT for more details.
+Slave-Receiver Operation for a Single Byte
+When another I2C master device on the bus addresses this I2C macro and is sending data,
+the I2C macro acts as a slave-receiver and the following steps occur:
+⚫
+
+The other I2C master device initiates an I2C transfer with an address that matches its
+slave address in the IC_SAR register.
+
+⚫
+
+The I2C macro acknowledges the sent address and recognizes the direction of the
+transfer to indicate that the I2C macro is acting as a slave-receiver.
+
+⚫
+
+The I2C macro receives the transmitted byte and places it in the receive buffer.
+
+⚫
+
+The I2C macro asserts the RX_FULL interrupt (IC_RAW_INTR_STAT[2] register).
+If the RX_FULL interrupt has been masked, due to setting IC_INTR_MASK[2] register to
+0 or setting IC_TX_TL to a value larger than 0, then it is recommended that a timing
+routine (described in “Slave-Transmitter Operation for a Single Byte”) be implemented
+for periodic reads of the IC_STATUS register. Reads of the IC_STATUS register, with bit
+3 (RFNE) set at 1, must then be treated by software as the equivalent of the RX_FULL
+interrupt being asserted.
+
+⚫
+
+Software may read the byte from the IC_DATA_CMD register (bits 7:0).
+
+⚫
+
+The other master device may hold the I2C bus by issuing a RESTART condition, or
+release the bus by issuing a STOP condition.
+
+Slave-Transfer Operation for Bulk Transfers
+In the standard I2C protocol, all transactions are single byte transactions and the
+programmer responds to a remote master read request by writing one byte into the slave’s
+TXFIFO. When a slave (slave-transmitter) is issued with a read request (RD_REQ) from the
+remote master (master-receiver), at a minimum there should be at least one entry placed into
+the slave-transmitter’s TXFIFO. This I2C macro is designed to handle more data in the
+TXFIFO so that subsequent read requests can take that data without raising an interrupt to
+get more data. Ultimately, this eliminates the possibility of significant latencies being incurred
+between raising the interrupt for data each time had there been a restriction of having only
+one entry placed in the TXFIFO.
+This mode only occurs when the I2C macro is acting as a slave-transmitter. If the remote
+master acknowledges the data sent by the slave-transmitter and there is no data in the
+slave’s TXFIFO, the I2C macro holds the SCL line low while it raises the read request
+interrupt (RD_REQ) and waits for data to be written into the TXFIFO before it can be sent to
+
+Doc ID 2905025
+
+Rev01
+
+331
+
+WB32FQ95xx Reference Manual
+
+the remote master.
+If the RD_REQ interrupt is masked, due to bit 5 (M_RD_REQ) of the IC_INTR_STAT register
+being set to 0, then it is recommended that a timing routine be used to activate periodic
+reads of the IC_RAW_INTR_STAT register. Reads of IC_RAW_INTR_STAT that return bit 5
+(R_RD_REQ) set to 1 must be treated as the equivalent of the RD_REQ interrupt referred to
+in this section. This timing routine is similar to that described in “Slave-Transmitter Operation
+for a Single Byte”.
+The RD_REQ interrupt is raised upon a read request, and like interrupts, must be cleared
+when exiting the interrupt service handling routine (ISR). The ISR allows you to either write 1
+byte or more than 1 byte into the TxFIFO. During the transmission of these bytes to the
+master, if the master acknowledges the last byte. Then the slave must raise the RD_REQ
+again because the master is requesting for more data.
+If the programmer knows in advance that the remote master is requesting a packet of n bytes,
+then when another master addresses this I2C macro and requests data, the TxFIFO could
+be written with n number bytes and the remote master receives it as a continuous stream of
+data. For example, the I2C macro slave continues to send data to the remote master as long
+as the remote master is acknowledging the data sent and there is data available in the
+TxFIFO. There is no need to hold the SCL line low or to issue RD_REQ again. If the remote
+master is to receive n bytes from the I2C macro but the programmer wrote a number of bytes
+larger than n to the TxFIFO, then when the slave finishes sending the requested n bytes, it
+clears the TxFIFO and ignores any excess bytes.
+The I2C macro generates a transmit abort (TX_ABRT) event to indicate the clearing of the Tx
+FIFO in this example. At the time an ACK/NACK is expected, if a NACK is received, then the
+remote master has all the data it wants. At this time, a flag is raised within the slave’s state
+machine to clear the leftover data in the Tx FIFO. This flag is transferred to the processor
+bus clock domain where the FIFO exists and the contents of the TxFIFO is cleared at that
+time.
+
+24.5.7.
+
+Master Mode Operation
+This section discusses master mode procedures in detail.
+Initial Configuration
+To use the I2C macro as a master, perform the following steps:
+⚫
+
+Disable the macro by writing 0 to bit 0 of the IC_ENABLE register.
+
+⚫
+
+Write to the IC_CON register to set the maximum speed mode supported (bits 2:1) and
+the desired speed of the I2C macro master-initiated transfers, either 7-bit or 10-bit
+addressing (bit 4). Ensure that bit 6 (IC_SLAVE_DISABLE) is written with a ‘1’ and bit 0
+(MASTER_MODE) is written with a ‘1’.
+
+⚫
+
+Write to the IC_TAR register the address of the I2C device to be addressed (bits 9:0).
+This register also indicates whether a General Call or a START BYTE command is
+going to be performed by I2C.
+
+⚫
+
+Only applicable for high-speed mode transfers. Write to the IC_HS_MADDR register the
+desired master code for the I2C macro. The master code is programmer-defined.
+
+⚫
+
+Enable the DW_apb_i2c by writing a 1 to bit 0 of the IC_ENABLE register.
+
+Doc ID 2905025
+
+Rev01
+
+332
+
+WB32FQ95xx Reference Manual
+
+⚫
+
+Now write transfer direction and data to be sent to the IC_DATA_CMD register. If the
+IC_DATA_CMD register is written before the DW_apb_i2c is enabled, the data and
+commands are lost as the buffers are kept cleared when DW_apb_i2c is disabled.
+
+This step generates the START condition and the address byte on the I2C macro. Once the
+I2C macro is enabled and there is data in the TX FIFO, the I2C macro starts reading the
+data.
+Master Transmit and Master Receive
+The I2C macro supports switching back and forth between reading and writing dynamically.
+To transmit data, write the data to be written to the lower byte of the I2C Rx/Tx Data Buffer
+and Command Register (IC_DATA_CMD). The CMD bit [8] should be written to 0 for write
+operations. Subsequently, a read command may be issued by writing “don’t cares” to the
+lower byte of the IC_DATA_CMD register, and a 1 should be written to the CMD bit. The I2C
+macro (as a master) continues to initiate transfers as long as there are commands present in
+the transmit FIFO. If the transmit FIFO becomes empty—depending on the value of
+IC_EMPTYFIFO_HOLD_MASTER_EN, the master either inserts a STOP condition after
+completing the current transfers, or it checks to see if IC_DATA_CMD[9] is set to 1.
+
+24.5.8.
+
+◼
+
+If set to 1, it issues a STOP condition after completing the current transfer.
+
+◼
+
+If set to 0, it holds SCL low until next command is written to the transmit FIFO.
+
+Disable I2C
+To disable I2C, user can clear bit 0 of IC_ENABLE. Then the user should poll the register
+IC_ENABLE_STATUS to unambiguously determine when the hardware has completely shut
+down.
+
+24.5.9.
+
+Aborting I2C Transfers
+The ABORT control bit of the IC_ENABLE register allows the software to relinquish the I2C
+bus before completing the issued transfer commands from the Tx FIFO. In response to an
+ABORT request, the controller issues the STOP condition over the I2C bus, followed by Tx
+FIFO flush. Aborting the transfer is allowed only in master mode of operation.
+To abort the I2C transfers, follow the steps below:
+
+24.5.10.
+
+⚫
+
+Stop filling the Tx FIFO (IC_DATA_CMD) with new commands.
+
+⚫
+
+When operating in DMA mode, disable the transmit DMA by setting TDMAE to 0.
+
+⚫
+
+Set bit 1 of the IC_ENABLE register (ABORT) to 1.
+
+⚫
+
+Wait for the M_TX_ABRT interrupt.
+
+⚫
+
+Read the IC_TX_ABRT_SOURCE
+ABRT_USER_ABRT.
+
+register
+
+to
+
+identify
+
+the
+
+source
+
+as
+
+Spike Suppression
+The I2C macro contains programmable spike suppression logic, and the logic is based on
+counters that monitor the input signals (SCL and SDA), checking if they remain stable for a
+predetermined amount of ic_clk cycles before they are sampled internally. There is one
+separate counter for each signal (SCL and SDA). The number of ic_clk cycles can be
+
+Doc ID 2905025
+
+Rev01
+
+333
+
+WB32FQ95xx Reference Manual
+
+programmed by the user and should be calculated taking into account the frequency of ic_clk
+and the relevant spike length specification.
+Based on I2C bus protocol, the maximum spike length for SS/FS mode is 50ns, and is 10ns
+for HS.
+
+24.6.
+
+I2C Bus Clear
+The I2C macro supports the bus clear feature that provides graceful recovery of data (SDA)
+and clock (SCL) lines during unlikely events in which either the clock or data line is stuck at
+LOW.
+The figure 26-10 below shows the steps in detail:
+Figure 24-10. Bus Clear Flow
+Write 0 to
+IC_ENABLE to
+disable I2C
+
+Write 1 to IC_CON[11] to enable the bus feature
+Program SCL Stuck Timeout (IC_SCL_STUCK_LOW_TIMEOUT)
+Program SDA Stuck Timeout (IC_SDA_STUCK_LOW_TIMEOUT)
+
+Write 1 to
+IC_ENABLE to
+enable I2C
+Y
+
+Ic_scl_stuck_at_low_intr?
+
+Reset the entir I2C system
+
+Y
+Any interrupt?
+
+N
+
+Ic_tx_abrt_intr?
+
+perform normal transfers
+Y
+Write 1 to IC_ENABLE[3] to initiate
+recovery on required master
+
+Poll for recovery
+IC_ENABLE[3]=0?
+
+N
+
+Y
+NOT Recovered
+Y
+Reset the entire I2C system
+
+IC_STATUS[11]=1?
+
+N
+
+Recovered
+
+1. Clear the interrupt
+2. Read IC_CLR_TX_ABRT
+
+Process with normal transfers
+
+Doc ID 2905025
+
+Rev01
+
+334
+
+WB32FQ95xx Reference Manual
+
+24.7.
+
+Device ID
+A Device ID field is an optional 3-byte read-only (24 bits) word, which provides the following
+information:
+◼
+
+Twelve bits with the manufacturer’s name, which is unique for every manufacturer.
+
+◼
+
+Nine bits with the part identification, which is assigned by the manufacturer.
+
+◼
+
+Three bits with the die revision, which is assigned by the manufacturer.
+
+For reading the Device ID of a particular slave, the master can follow the procedure in figure
+26-11. The Device ID that is read will be available in RX FIFO, which can be read using
+IC_DATA_CMD register.
+In case of a slave, the user can read the Device ID of the slave using IC_DEVICE_ID
+register.
+Device ID is not supported for 10-bit addressing and High Speed transfers (HS mode).
+Figure 24-11. Reading Device ID
+Write 0 to IC_ENABLE[0] to disable I2C
+
+Write 1 to IC_TAR[13] and IC_TAR[11] to enable a Device ID read
+
+Write 1 to IC_ENABLE to enable I2C
+
+Push 3 read commands into IC_DATA_CMD
+
+24.8.
+
+SMBUS Protocol
+A typical SMBus device will have a set of commands by which data can be read and written.
+All commands are one byte long while their arguments and return values can vary in length.
+In accordance with the SMBus specification, the most significant bit (MSB) is transferred first.
+There are eleven possible command protocols for any given device. These commands are
+Quick Command, Send Byte, Receive Byte, Write Byte, Write Word, Read Byte, Read Word,
+Process Call, Block Read, Block Write, and Block Write-Block Read Process Call.
+SMBus protocols for message transactions are generally different from I2C data transfer
+commands. It is still possible to program a SMBus master to deliver I2C data transfer
+commands. The following table describes the derivation of SMBus Bus Protocols through
+Tx-FIFO commands in this macro.
+In the SMBus Master mode, all the receive data bytes will be available in Rx-FIFO. In the
+SMBus Slave mode, all the bus protocol command codes and data bytes will received in the
+Rx-FIF0 and read request data bytes must be sent using Tx-FIFO, similar to the I2C mode.
+The macro slave can be enabled to receive only Quick command through enabling the
+SLAVE_QUICK_CMD_EN bit in the IC_CON Register. Whenever this bit is selected the
+slave only receives quick commands and will not accept other Bus Protocols. The macro
+slave issues the SMBUS_QUICK_DET interrupt upon receiving the QUICK command.
+
+Doc ID 2905025
+
+Rev01
+
+335
+
+WB32FQ95xx Reference Manual
+
+SMBus introduces a Packet Error checking Mechanism through appending PEC Byte at the
+end of the Bus Protocol. This can be achieved through adding an extra command (PEC byte)
+while transferring and decoding it while receiving by the software.
+
+24.9.
+
+SMBUS Address Resolution Protocol
+SMBus slave address conflicts can be resolved by dynamically assigning a new unique
+address to each slave device by the Host. This feature allows the devices to be 'hot-plugged'
+in to the system.
+SMBus introduces a 128-bit Unique Device ID (UDID) for each device in the system to
+isolate each device for the purpose of address assignment. This macro uses the
+IC_SMBUS_UDID_MSB
+parameter
+for
+upper
+constant
+96
+bits
+and
+'IC_SMBUS_ARP_UDID_LSB' register for lower variable 32 bits of the UDID.
+This macro uses the PERSISTANT_SLV_ADDR_EN register bit in IC_CON register to
+indicate whether it supports persistent slave address.
+This master can issue general and directed Address Resolution Protocol (ARP) commands
+to assign the dynamic address for the slaves in the SMBus system.
+Note:
+The macro slave hardware handles the generation, detection, and NACKing of the wrong
+PEC (CRC8 C(X)=X8+X2+X1+1) for the ARP Commands, but don’t handle the PEC for
+Non-ARP commands.
+The macro master hardware does not handle PEC for both APR and non-ARP commands
+
+24.10.
+
+SMBus Alert
+This macro includes the SMBus alter signal (SMBALERT#) specified by the SMBus standard.
+It can be used by simple devices to request the attention of the host.
+In slave mode, user can set SMBUS_ALERT_CTRL bit (IC_ENABLE[18]) to enable it. Once
+asserted by user, the user waits for alert response address to be sent by master. Upon
+receiving it, contents of IC_SAR[7:0] register are sent to the master. When successful, this
+macro clears the SMBUS_ALERT_CTRL bit to stop sending the alert.
+If working as host, user needs to service the alert detect interrupt by sending read byte
+command with Alert Response Address. Current alarm status can be read from
+SMBUS_ALERT_STATUS bit (IC_STATUS[20]).
+
+24.11.
+
+SDA Hold Time
+It is defined in I2C protocol that SDA needs to meet a certain holding time. The user can
+configure the IC_ SDA_HOLD register to dynamically adjust the hold time of SDA. When the
+transmission speed of I2C bus changes, it is necessary to adjust the SDA dynamic holding
+time at the same time.
+IC_SDA_TX_HOLD uses IC_ SDA_ Hold [15:0] to adjust the holding time of SDA in
+transmission mode. However, in the transmission mode, there is a minimum SDA holding
+time. As the main transmitter, the minimum SDA holding time is 1 ic_clk. As a slave
+transmitter, the minimum SDA holding time is SPKLEN + 7 ic_clk period (SPKLEN refers to
+IC_FS_SPKLEN or IC_ HS_ SPKLEN)。
+
+Doc ID 2905025
+
+Rev01
+
+336
+
+WB32FQ95xx Reference Manual
+
+24.12.
+
+IC_CLK Frequency Configuration
+When this macro is configured as a Standard (SS), Fast (FS)/Fast-Mode Plus (FM+), or High
+Speed (HS) master, the *CNT registers must be set before any I2C bus transaction can take
+place in order to ensure proper I/O timing. The *CNT registers are:
+⚫
+
+IC_SS_SCL_HCNT
+
+⚫
+
+IC_SS_SCL_LCNT
+
+⚫
+
+IC_FS_SCL_HCNT
+
+⚫
+
+IC_FS_SCL_LCNT
+
+⚫
+
+IC_HS_SCL_HCNT
+
+⚫
+
+IC_HS_SCL_LCNT
+
+When configure this registers, there are some requirements:
+⚫
+
+IC_SS_SCL_LCNT and IC_FS_SCL_LCNT register values must be larger than
+IC_FS_SPKLEN + 7.
+
+⚫
+
+IC_SS_SCL_HCNT and IC_FS_SCL_HCNT register values must be larger than
+IC_FS_SPKLEN + 5.
+
+⚫
+
+If the component is programmed to support HS, IC_HS_SCL_LCNT register value must
+be larger than IC_HS_SPKLEN + 7.
+
+⚫
+
+If the component is programmed to support HS, IC_HS_SCL_HCNT register value must
+be larger than IC_HS_SPKLEN + 5
+
+The table below show the configurations in different working mode.
+mode
+
+ic_clk
+freq(MHz)
+
+smallest value of
+IC_*SPK_LEN
+
+SCL low
+time
+
+SCL low
+configure
+
+SCL high
+time
+
+SCL high
+configure
+
+SS
+
+2.7
+
+1
+
+4.7 us
+
+12
+
+5.2 us
+
+6
+
+FS
+
+12
+
+1
+
+1.33 us
+
+15
+
+1.16 us
+
+6
+
+HS(400pf)
+
+51
+
+1
+
+333ns
+
+16
+
+274 ns
+
+6
+
+HS(100pf)
+
+105.4
+
+1
+
+161ns
+
+16
+
+132 ns
+
+6
+
+24.13.
+
+DMA interfaces
+This macro supports DMA transmission and can send DMA application to DMAC. The user
+can write the IC_ DMA_ CR to turn on the send DMA and receive DMA functions. When the
+data in the transmit buffer is less than or equal to the value defined in IC_ DMA_TDLR, a
+transmit DMA requests will be generated. When the number of data in RXFIFO is larger than
+or equal to the number specified in the IC_DMA_RDLR, a receive DMA request is generated.
+Before DMA transmission, users need to configure DMAC. Please refer to DMAC related
+chapters for details.
+
+24.14.
+
+Interrupts
+For the interrupt types in I2C mode and SMBus mode, please refer to the corresponding
+register (I2C_RAW_INTR_STAT and SMBUS_RAW_INTR_STAT) for detail info.
+
+Doc ID 2905025
+
+Rev01
+
+337
+
+WB32FQ95xx Reference Manual
+
+24.15.
+
+I2C Registers
+
+24.15.1.
+
+I2C_CON
+Name: I2C Control Register.
+Address Offset: 0x0
+Default Value: 0x0000 0024(I2C1) 0x0000 003E(I2C2)
+Description: It is only writable when IC_ENABLE[0]=0.
+
+Bits
+
+Fields
+
+R/W
+
+31:20
+
+-
+
+R
+
+19
+
+SMBUS_PERSISTENT_
+SLV_ADDR_EN
+
+RW
+
+18
+
+SMBUS_ARP_EN
+
+RW
+
+17
+
+SMBUS_SLAVE_QUICK
+_EN
+
+RW
+
+16
+
+OPTIONAL_SAR_CTRL
+
+15:12
+
+-
+
+11
+
+BUS_CLEAR_FEATURE
+_CTRL
+
+RW
+
+10
+
+STOP_DET_IF_MASTE
+R_ACTIVE
+
+RW
+
+9
+
+RX_FIFO_FULL_HLD_C
+TRL
+
+RW
+
+8
+
+TX_EMPTY_CTRL
+
+RW
+
+7
+
+STOP_DET_IFADDRES
+SED
+
+RW
+
+Doc ID 2905025
+
+R
+
+Description
+Reserved
+This bit is applicable only in Slave mode
+Values:
+0x1 (ENABLED): SMBus Persistent Slave address control is
+enabled.
+0x0 (DISABLED): SMBus Persistent Slave address control is
+disabled.
+This bit is applicable only in Slave mode.
+Values:
+0x1 (ENABLED): SMBus ARP control is enabled.
+0x0 (DISABLED): SMBus ARP control is disabled.
+This bit is applicable only in slave mode.
+Values:
+0x1 (ENABLED): SMBus Slave is enabled to receive Quick
+command.
+0x0 (DISABLED): SMBus Slave is disabled to receive Quick
+command.
+Enables the usage of IC_OPTIONAL_SAR register.
+Values:
+0x1 (ENABLED): Optional SAR Address Register is enabled.
+0x0 (DISABLED): Optional SAR Address Register is disabled.
+Reserved
+In Master mode:
+1'b1: Bus Clear Feature is enabled.
+1'b0: Bus Clear Feature is Disabled.
+In Slave mode, this register bit is not applicable
+In Master mode:
+1'b1: issues the STOP_DET interrupt only when master is active.
+1'b0: issues the STOP_DET irrespective of whether master is
+active or not.
+In Slave mode, this register bit is not applicable
+Values:
+0x1 (ENABLED): Hold bus when RX_FIFO is full
+0x0 (DISABLED): Overflow when RX_FIFO is full
+Values:
+0x1 (ENABLED): Controlled generation of TX_EMPTY interrupt
+0x0 (DISABLED): Default behavior of TX_EMPTY interrupt
+In slave mode:
+1'b1: issues the STOP_DET interrupt only when it is addressed.
+0'b0: issues the STOP_DET irrespective of whether it's addressed
+or not.
+
+Rev01
+
+338
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+6
+
+IC_SLAVE_DISABLE
+
+RW
+
+5
+
+IC_RESTART_EN
+
+RW
+
+4
+
+IC_10BITADDR_MASTE
+R
+
+RW
+
+3
+
+IC_10BITADDR_SLAVE
+
+RW
+
+2:1
+
+SPEED
+
+RW
+
+0
+
+MASTER_MODE
+
+RW
+
+24.15.2.
+
+I2C_TAR
+
+Description
+This bit controls whether I2C has its slave disabled.
+Values:
+0x1 (SLAVE_DISABLED): Slave mode is disabled
+0x0 (SLAVE_ENABLED): Slave mode is enabled
+Note: Software should ensure that if this bit is written with 0, then bit
+0 should also be written with a 0.
+Determines whether RESTART conditions may be sent when
+acting as a master. When RESTART is disabled, the master is
+prohibited from performing the following functions:
+Sending a START BYTE
+Performing any high-speed mode operation
+High-speed mode operation
+Performing direction changes in combined format mode
+Performing a read operation with a 10-bit address
+Values:
+0x1 (ENABLED): Master restart enabled
+0x0 (DISABLED): Master restart disabled
+This controls whether the DW_apb_i2c starts its transfers in 7- or
+10-bit addressing mode when acting as a master.
+Values:
+0x1 (ADDR_10BITS): Master 10Bit addressing mode
+0x0 (ADDR_7BITS): Master 7Bit addressing mode
+When acting as a slave, this bit controls whether the I2C macro
+responds to 7- or 10-bit addresses
+Values:
+0x1 (ADDR_10BITS): Slave 10Bit addressing
+0x0 (ADDR_7BITS): Slave 7Bit addressing
+These bits control at which speed the I2C macro operates, and
+they are only be valid when operating in master mode.
+Values:
+0x1 (STANDARD): Standard Speed mode of operation
+0x2 (FAST): Fast or Fast Plus mode of operation
+0x3 (HIGH): High Speed mode of operation
+Others: Reserved
+This bit controls whether the I2C macro master is enabled.
+Values:
+0x1 (ENABLED): Master mode is enabled
+0x0 (DISABLED): Master mode is disabled
+
+Name: I2C Target Address Register
+Address Offset: 0x4
+Default Value: 0x00000000
+Description: It is only writable when IC_ENABLE[0]=0. It is not needed to configure this
+register if the macro works in slave mode.
+Bits
+
+Fields
+
+R/W
+
+31:17
+
+-
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved
+
+Rev01
+
+339
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+16
+
+SMBUS_QUICK_CMD
+
+RW
+
+If bit 11 (SPECIAL) is set to 1, then this bit indicates whether a
+Quick command is to be performed.
+Values:
+0x1 (ENABLED): Enable programming of QUICK-CMD
+transmission
+0x0 (DISABLED): Disable programming of QUICK-CMD
+transmission
+
+15:14
+
+-
+
+R
+
+Reserved
+
+RW
+
+If bit 11 (SPECIAL) is set to 1, then this bit indicates whether a
+Device-ID of a particular slave mentioned in IC_TAR[9:0] is to be
+performed.
+Values:
+0x1 (ENABLED): Enables programming of DEVICE-ID transmission
+0x0 (DISABLED): Disables programming of DEVICE-ID
+transmission
+
+RW
+
+This bit controls whether the DW_apb_i2c starts its transfers in 7- or
+10-bit addressing mode when acting as a master.
+Values:
+0x1 (ADDR_10BITS): Address 10Bit transmission format
+0x0 (ADDR_7BITS): Address 7Bit transmission format
+
+RW
+
+This bit indicates whether software performs a Device-ID or
+General Call or START BYTE command.
+Values:
+0x1 (ENABLED): Enables programming of GENERAL_CALL or
+START_BYTE transmission
+0x0 (DISABLED): Disables programming of GENERAL_CALL or
+START_BYTE transmission
+
+13
+
+12
+
+DEVICE_ID
+
+IC_10BITADDR_MASTE
+R
+
+11
+
+SPECIAL
+
+10
+
+GC_OR_START
+
+RW
+
+If bit 11 (SPECIAL) is set to 1 and bit 13(Device-ID) is set to 0, then
+this bit indicates whether a General Call or START byte command
+is to be performed.
+Values:
+0x1 (START_BYTE): START byte transmission
+0x0 (GENERAL_CALL): GENERAL_CALL byte
+
+9:0
+
+IC_TAR
+
+RW
+
+This is the target address for any master transaction. When
+transmitting a General Call, these bits are ignored. To generate a
+START BYTE, the CPU needs to write only once into these bits.
+
+24.15.3.
+
+I2C_SAR
+Name: Slave Address Register
+Address Offset: 0x8
+Default Value: 0x0000 03F0
+Description: It is only writable when IC_ENABLE[0]=0.
+
+Bits
+
+Fields
+
+R/W
+
+31:10
+
+-
+
+R
+
+Reserved
+
+9:0
+
+IC_SAR
+
+RW
+
+The IC_SAR holds the slave address when the I2C is operating as
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+340
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+a slave. For 7-bit addressing, only IC_SAR[6:0] is used.
+
+24.15.4.
+
+I2C_HS_MADDR
+Name: I2C High Speed Master Mode Code Address Register
+Address Offset: 0xC
+Default Value: 0x00000001
+Description: It is only writable when IC_ENABLE[0]=0. This register only exists in I2C1, and
+doesn’t exist in I2C2.
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+Reserved
+
+RW
+
+This bit field holds the value of the I2C HS mode master code.
+HS-mode master codes are Reserved 8-bit codes (00001xxx) that
+are not used for slave addressing or other purposes. Each master
+has its unique master code; up to eight high-speed mode masters
+can be present on the same I2C bus system. Valid values are from
+0 to 7.
+
+2:0
+
+24.15.5.
+
+IC_HS_MAR
+
+Description
+
+I2C_DATA_CMD
+Name: I2C Data and Command Register
+Address Offset: 0x10
+Default Value: 0x00000000
+Description: It is only writable when IC_ENABLE[0]=0
+
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+11
+
+FIRST_DATA_BYTE
+
+R
+
+10
+
+RESTART
+
+W
+
+9
+
+STOP
+
+W
+
+Doc ID 2905025
+
+Description
+Reserved
+Indicates the first data byte received after the address phase for
+receive transfer in Master receiver or Slave receiver mode.
+Values:
+0x1 (ACTIVE): Non sequential data byte received
+0x0 (INACTIVE): Sequential data byte received
+This bit controls whether a RESTART is issued before the byte is
+sent or received.
+Values:
+0x1 (ENABLE): a RESTART is issued before the data is
+sent/received (according to the value of CMD), regardless of
+whether or not the transfer direction is changing from the previous
+command
+0x0 (DISABLE): a RESTART is issued only if the transfer direction
+is changing from the previous command
+This bit controls whether a STOP is issued after the byte is sent or
+received.
+Values:
+0x1 (ENABLE): STOP is issued after this byte, regardless of
+whether or not the Tx FIFO is empty. If the Tx FIFO is not empty,
+
+Rev01
+
+341
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+8
+
+CMD
+
+RW
+
+7:0
+
+DAT
+
+RW
+
+24.15.6.
+
+Description
+the master immediately tries to start a new transfer by issuing a
+START and arbitrating for the bus.
+0x0 (DISABLE): STOP is not issued after this byte, regardless of
+whether or not the Tx FIFO is empty. If the Tx FIFO is not empty,
+the master continues the current transfer by sending/receiving data
+bytes according to the value of the CMD bit. If the Tx FIFO is empty,
+the master holds the SCL line low and stalls the bus until a new
+command is available in the Tx FIFO.
+This bit controls whether a read or a write is performed. It controls
+only the direction when it acts as a master.
+When programming this bit, you should remember the following:
+attempting to perform a read operation after a General Call
+command has been sent results in a TX_ABRT interrupt (bit 6 of the
+IC_RAW_INTR_STAT register), unless bit 11 (SPECIAL) in the
+IC_TAR register has been cleared. If a "1" is written to this bit after
+receiving a RD_REQ interrupt, then a TX_ABRT interrupt occurs.
+Values:
+0x1 (READ): Master Read Command
+0x0 (WRITE): Master Write Command
+This register contains the data to be transmitted or received on the
+I2C bus. If you are writing to this register and want to perform a
+read, bits 7:0 (DAT) are ignored by the macro. However, when you
+read this register, these bits return the value of data received on the
+I2C interface.
+
+I2C_SS_SCL_HCNT
+Name: Standard Speed I2C Clock SCL High Count Register
+Address Offset: 0x14
+Default Value: 0x0000 0320
+Description: It is only writable when IC_ENABLE[0]=0.
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Reserved
+
+RW
+
+This register must be set before any I2C bus transaction can take
+place to ensure proper I/O timing. This register sets the SCL clock
+high-period count for standard speed, based on ic_clk period.
+The valid value is 6 ~ 65525.
+
+15:0
+
+24.15.7.
+
+IC_SS_SCL_HCNT
+
+Description
+
+I2C_SS_SCL_LCNT
+Name: Standard Speed I2C Clock SCL Low Count Register
+Address Offset: 0x18
+Default Value: 0x0000 03AC
+Description: It is only writable when IC_ENABLE[0]=0.
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved
+
+Rev01
+
+342
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+15:0
+
+24.15.8.
+
+Fields
+
+IC_SS_SCL_LCNT
+
+R/W
+
+Description
+
+RW
+
+This register must be set before any I2C bus transaction can take
+place to ensure proper I/O timing. This register sets the SCL clock
+low-period count for standard speed, based on ic_clk period.
+The minimum value is 8.
+
+I2C_FS_SCL_HCNT
+Name: Full Speed I2C Clock SCL High Count Register.
+Address Offset: 0x1C
+Default Value: 0x0000 0078
+Description: It is only writable when IC_ENABLE[0]=0.
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Reserved
+
+RW
+
+This register must be set before any I2C bus transaction can take
+place to ensure proper I/O timing. This register sets the SCL clock
+high-period count for fast speed, based on ic_clk period.
+The minimum value is 6.
+
+15:0
+
+24.15.9.
+
+IC_FS_SCL_HCNT
+
+Description
+
+I2C_FS_SCL_LCNT
+Name: Full Speed I2C Clock SCL Low Count Register
+Address Offset: 0x20
+Default Value: 0x0000 0104
+Description: It is only writable when IC_ENABLE[0]=0.
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Reserved
+
+RW
+
+This register must be set before any I2C bus transaction can take
+place to ensure proper I/O timing. This register sets the SCL clock
+high-period count for fast speed, based on ic_clk period.
+The minimum value is 8.
+
+15:0
+
+24.15.10.
+
+IC_FS_SCL_LCNT
+
+Description
+
+I2C_HS_SCL_HCNT
+Name: High Speed I2C Clock SCL High Count Register
+Address Offset: 0x24
+Default Value: 0x0000 000C
+Description: It is only writable when IC_ENABLE[0]=0. This register only exists in I2C1, and
+doesn’t exist in I2C2.
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Reserved
+
+15:0
+
+IC_HS_SCL_HCNT
+
+R
+
+This register must be set before any I2C bus transaction can take
+place to ensure proper I/O timing. This register sets the SCL clock
+high-period count for high speed, based on ic_clk period.
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+343
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+The SCL High time depends on the loading of the bus. For 100pF
+loading, the SCL High time is 60ns; for 400pF loading, the SCL
+High time is 120ns.
+The minimum value is 6.
+
+24.15.11.
+
+I2C_HS_SCL_LCNT
+Name: High Speed I2C Clock SCL Low Count Register
+Address Offset: 0x28
+Default Value: 0x00000020
+Description: It is only writable when IC_ENABLE[0]=0. This register only exists in I2C1, and
+doesn’t exist in I2C2.
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Reserved
+
+RW
+
+This register must be set before any I2C bus transaction can take
+place to ensure proper I/O timing. This register sets the SCL clock
+high-period count for high speed, based on ic_clk period.
+The SCL High time depends on the loading of the bus. For 100pF
+loading, the SCL High time is 160ns; for 400pF loading, the SCL
+High time is 320ns.
+The minimum value is 6.
+
+15:0
+
+IC_HS_SCL_LCNT
+
+24.15.12.
+
+Description
+
+I2C_INTR_STAT
+Name: I2C Interrupt Status Register
+Address Offset: 0x2C
+Default Value: 0x00000000
+Description: Each bit in this register has a corresponding mask bit in the IC_INTR_MASK
+register. These bits are cleared by reading the matching interrupt clear register. The
+unmasked raw versions of these bits are available in the IC_RAW_INTR_STAT register.
+Please refer to SFR IC_RAW_INTR_STAT for a detailed description of each interrupt bit.
+
+Bits
+
+Fields
+
+R/W
+
+31:15
+
+-
+
+R
+
+Reserved
+
+14
+
+R_SCL_STUCK_AT_LO
+W
+
+R
+
+Values:
+0x1 (ACTIVE): R_SCL_STUCK_AT_LOW interrupt is active
+0x0 (INACTIVE): R_SCL_STUCK_AT_LOW interrupt is inactive
+
+13
+
+-
+
+R
+
+Reserved
+
+12
+
+R_RESTART_DET
+
+R
+
+11
+
+R_GEN_CALL
+
+R
+
+Doc ID 2905025
+
+Description
+
+Values:
+0x1 (ACTIVE): R_MASTER_ON_HOLD interrupt is active
+0x0 (INACTIVE): R_MASTER_ON_HOLD interrupt is inactive
+Values:
+0x1 (ACTIVE): R_GEN_CALL interrupt is active
+0x0 (INACTIVE): R_GEN_CALL interrupt is inactive
+
+Rev01
+
+344
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+10
+
+R_START_DET
+
+R
+
+9
+
+R_STOP_DET
+
+R
+
+8
+
+R_ACTIVITY
+
+R
+
+7
+
+R_RX_DONE
+
+R
+
+6
+
+R_TX_ABRT
+
+R
+
+5
+
+R_RD_REQ
+
+R
+
+4
+
+R_TX_EMPTY
+
+R
+
+3
+
+R_TX_OVER
+
+R
+
+2
+
+R_RX_FULL
+
+R
+
+1
+
+R_RX_OVER
+
+R
+
+0
+
+R_RX_UNDER
+
+R
+
+24.15.13.
+
+Description
+Values:
+0x1 (ACTIVE): R_START_DET interrupt is active
+0x0 (INACTIVE): R_START_DET interrupt is inactive
+Values:
+0x1 (ACTIVE): R_STOP_DET interrupt is active
+0x0 (INACTIVE): R_STOP_DET interrupt is inactive
+Values:
+0x1 (ACTIVE): R_ACTIVITY interrupt is active
+0x0 (INACTIVE): R_ACTIVITY interrupt is inactive
+Values:
+0x1 (ACTIVE): R_RX_DONE interrupt is active
+0x0 (INACTIVE): R_RX_DONE interrupt is inactive
+Values:
+0x1 (ACTIVE): R_TX_ABRT interrupt is active
+0x0 (INACTIVE): R_TX_ABRT interrupt is inactive
+Values:
+0x1 (ACTIVE): R_RD_REQ interrupt is active
+0x0 (INACTIVE): R_RD_REQ interrupt is inactive
+Values:
+0x1 (ACTIVE): R_TX_EMPTY interrupt is active
+0x0 (INACTIVE): R_TX_EMPTY interrupt is inactive
+Values:
+0x1 (ACTIVE): R_TX_OVER interrupt is active
+0x0 (INACTIVE): R_TX_OVER interrupt is inactive
+Values:
+0x1 (ACTIVE): R_RX_FULL interrupt is active
+0x0 (INACTIVE): R_RX_FULL interrupt is inactive
+Values:
+0x1 (ACTIVE): R_RX_OVER interrupt is active
+0x0 (INACTIVE): R_RX_OVER interrupt is inactive
+Values:
+0x1 (ACTIVE): RX_UNDER interrupt is active
+0x0 (INACTIVE): RX_UNDER interrupt is inactive
+
+I2C_INTR_MASK
+Name: I2C Interrupt Mask Register
+Address Offset: 0x30
+Default Value: 0x000048FF
+Description: These bits mask their corresponding interrupt status bits. This register is active
+low; a value of 0 masks the interrupt, whereas a value of 1 unmasks the interrupt.
+
+Bits
+
+Fields
+
+R/W
+
+31:15
+
+-
+
+R
+
+Reserved
+
+14
+
+M_SCL_STUCK_AT_L
+OW
+
+RW
+
+Mask bit for interrupt SCL_STUCK_AT_LOW
+
+13
+
+-
+
+R
+
+Reserved
+
+12
+
+M_RESTART_DET
+
+RW
+
+Mask bit for interrupt RS_DET
+
+11
+
+M_GEN_CALL
+
+RW
+
+Mask bit for interrupt GEN_CALL
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+345
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+10
+
+M_START_DET
+
+RW
+
+Mask bit for interrupt START_DET
+
+9
+
+M_STOP_DET
+
+RW
+
+Mask bit for interrupt STOP_DET
+
+8
+
+M_ACTIVITY
+
+RW
+
+Mask bit for interrupt ACTIVITY
+
+7
+
+M_RX_DONE
+
+RW
+
+Mask bit for interrupt RX_DONE
+
+6
+
+M_TX_ABRT
+
+RW
+
+Mask bit for interrupt TX_ABRT
+
+5
+
+M_RD_REQ
+
+RW
+
+Mask bit for interrupt RD_REQ
+
+4
+
+M_TX_EMPTY
+
+RW
+
+Mask bit for interrupt TX_EMPTY
+
+3
+
+M_TX_OVER
+
+RW
+
+Mask bit for interrupt TX_OVER
+
+2
+
+M_RX_FULL
+
+RW
+
+Mask bit for interrupt RX_FULL
+
+1
+
+M_RX_OVER
+
+RW
+
+Mask bit for interrupt RX_OVER
+
+0
+
+M_RX_UNDER
+
+RW
+
+Mask bit for interrupt RX_UNDER
+
+24.15.14.
+
+Description
+
+I2C_RAW_INTR_STAT
+Name: I2C RAW Interrupt Status Register
+Address Offset: 0x34
+Default Value: 0x0000 0000
+Description: Unlike the IC_INTR_STAT register, these bits are not masked so they always
+show the true status. The interrupt bits are high active.
+
+Bits
+
+Fields
+
+R/W
+
+31:15
+
+-
+
+R
+
+Reserved
+
+14
+
+SCL_STUCK_AT_LOW
+
+R
+
+Indicates whether the SCL Line is stuck at low for the
+IC_SCL_STUCK_LOW_TIMEOUT number of ic_clk periods.
+
+13
+
+-
+
+R
+
+Reserved
+
+12
+
+RESTART_DET
+
+R
+
+11
+
+GEN_CALL
+
+R
+
+10
+
+START_DET
+
+R
+
+9
+
+STOP_DET
+
+R
+
+Doc ID 2905025
+
+Description
+
+Indicates whether a RESTART condition has occurred on the I2C
+interface when the macro is operating in Slave mode and the slave
+is being addressed.
+Note: However, in high-speed mode or during a START BYTE
+transfer, the RESTART comes before the address field as per the
+I2C protocol. In this case, the slave is not the addressed slave when
+the RESTART is issued, therefore the macro does not generate the
+RESTART_DET
+Set only when a General Call address is received and it is
+acknowledged. It stays set until it is cleared either by disabling the
+macro or when the CPU reads bit 0 of the IC_CLR_GEN_CALL
+register. The macro stores the received data in the Rx buffer.
+Indicates whether a START or RESTART condition has occurred on
+the I2C interface regardless of whether the macro is operating in
+slave or master mode
+Indicates whether a STOP condition has occurred on the I2C
+interface regardless of whether the macro is operating in slave or
+master mode.
+
+Rev01
+
+346
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+8
+
+ACTIVITY
+
+R
+
+7
+
+RX_DONE
+
+R
+
+6
+
+TX_ABRT
+
+R
+
+5
+
+RD_REQ
+
+R
+
+4
+
+TX_EMPTY
+
+R
+
+Doc ID 2905025
+
+Description
+In Slave Mode:
+If IC_CON[7]=1'b1 (STOP_DET_IFADDRESSED), the STOP_DET
+interrupt will be issued only if slave is addressed
+If IC_CON[7]=1'b0 (STOP_DET_IFADDRESSED), the STOP_DET
+interrupt is issued irrespective of whether it is being addressed.
+In Master Mode:
+If IC_CON[10]=1'b1 ( STOP_DET_IF_MASTER_ACTIVE), the
+STOP_DET interrupt will be issued only if Master is active.
+If
+IC_CON[10]=1'b0
+(
+STOP_DET_IFADDRESSED),
+the
+STOP_DET interrupt will be issued irrespective of whether master is
+active or not.
+This bit captures DW_apb_i2c activity and stays set until it is
+cleared. There are four ways to clear it:
+Disabling the macro
+Reading the IC_CLR_ACTIVITY register
+Reading the IC_CLR_INTR register
+System reset
+When the macro is acting as a slave-transmitter, this bit is set to 1 if
+the master does not acknowledge a transmitted byte. This occurs
+on the last byte of the transmission, indicating that the transmission
+is done.
+This bit indicates if the macro, as an I2C transmitter, is unable to
+complete the intended actions on the contents of the transmit FIFO.
+This situation can occur both as an I2C master or an I2C slave, and
+is referred to as a 'transmit abort'. When this bit is set to 1, the
+IC_TX_ABRT_SOURCE register indicates the reason why the
+transmit abort takes places.
+Note: The macro flushes/resets/empties only the TX_FIFO
+whenever there is a transmit abort caused by any of the events
+tracked by the IC_TX_ABRT_SOURCE register. The Tx FIFO
+remains in this flushed state until the register IC_CLR_TX_ABRT is
+read. Once this read is performed, the Tx FIFO is then ready to
+accept more data bytes from the APB interface.
+This bit is set to 1 when the macro is acting as a slave and another
+I2C master is attempting to read data from it. The macro holds the
+I2C bus in a wait state (SCL=0) until this interrupt is serviced, which
+means that the slave has been addressed by a remote master that
+is asking for data to be transferred. The processor must respond to
+this interrupt and then write the requested data to the
+IC_DATA_CMD register. This bit is set to 0 just after the processor
+reads the IC_CLR_RD_REQ register.
+The behavior of the TX_EMPTY interrupt status differs based on the
+TX_EMPTY_CTRL selection in the IC_CON register.
+When TX_EMPTY_CTRL = 0: This bit is set to 1 when the transmit
+buffer is at or below the threshold value set in the IC_TX_TL
+register.
+When TX_EMPTY_CTRL = 1:This bit is set to 1 when the transmit
+buffer is at or below the threshold value set in the IC_TX_TL register
+and the transmission of the address/data from the internal shift
+register for the most recently popped command is completed.
+It is automatically cleared by hardware when the buffer level goes
+above the threshold. When IC_ENABLE[0] is set to 0, the TX FIFO
+is flushed and held in reset. There the TX FIFO looks like it has no
+
+Rev01
+
+347
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+3
+
+TX_OVER
+
+R
+
+2
+
+RX_FULL
+
+R
+
+1
+
+RX_OVER
+
+R
+
+0
+
+RX_UNDER
+
+R
+
+24.15.15.
+
+I2C_RX_TL
+
+Description
+data within it, so this bit is set to 1, provided there is activity in the
+master or slave state machines. When there is no longer any
+activity, then with ic_en=0, this bit is set to 0.
+Set during transmit if the transmit buffer is filled to
+IC_TX_BUFFER_DEPTH and the processor attempts to issue
+another I2C command by writing to the IC_DATA_CMD register.
+When the module is disabled, this bit keeps its level until the master
+or slave state machines go into idle, and when ic_en goes to 0, this
+interrupt is cleared.
+Set when the receive buffer reaches or goes above the RX_TL
+threshold in the IC_RX_TL register. It is automatically cleared by
+hardware when buffer level goes below the threshold. If the module
+is disabled (IC_ENABLE[0]=0), the RX FIFO is flushed and held in
+reset; therefore the RX FIFO is not full. So this bit is cleared once
+the IC_ENABLE bit 0 is programmed with a 0, regardless of the
+activity that continues.
+Set
+if
+the
+receive
+buffer
+is
+completely
+filled
+to
+IC_RX_BUFFER_DEPTH and an additional byte is received from
+an external I2C device. The DW_apb_i2c acknowledges this, but
+any data bytes received after the FIFO is full are lost. If the module
+is disabled (IC_ENABLE[0]=0), this bit keeps its level until the
+master or slave state machines go into idle, and when ic_en goes to
+0, this interrupt is cleared.
+Note: If bit 9 of the IC_CON register (RX_FIFO_FULL_HLD_CTRL)
+is programmed to HIGH, then the RX_OVER interrupt never occurs,
+because the Rx FIFO never overflows.
+Set if the processor attempts to read the receiver buffer when it is
+empty by reading from the IC_DATA_CMD register. If the module is
+disabled (IC_ENABLE[0]=0), this bit keeps its level until the master
+or slave state machines go into idle, and when ic_en goes to 0, this
+interrupt is cleared.
+
+Name: I2C Receive FIFO Threshold Register
+Address Offset: 0x38
+Default Value: 0x0000 0005
+Description:
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Reserved
+
+RW
+
+Receive FIFO Threshold Level. Controls the level of entries (or
+above) that triggers the RX_FULL interrupt (bit 2 in
+IC_RAW_INTR_STAT register).
+The valid range is 0-255, with the additional restriction that
+hardware does not allow this value to be set to a value larger than
+the depth of the buffer. If an attempt is made to do that, the actual
+value set will be the maximum depth of the buffer.
+A value of 0 sets the threshold for 1 entry, and a value of 255 sets
+the threshold for 256 entries
+
+7:0
+
+Doc ID 2905025
+
+RX_TL
+
+Description
+
+Rev01
+
+348
+
+WB32FQ95xx Reference Manual
+
+24.15.16.
+
+I2C_TX_TL
+Name: I2C Transmit FIFO Threshold Register
+Address Offset: 0x3C
+Default Value: 0x0000 0005
+Description:
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Reserved
+
+RW
+
+Transmit FIFO Threshold Level.
+Controls the level of entries (or below) that trigger the TX_EMPTY
+interrupt (bit 4 in IC_RAW_INTR_STAT register). The valid range is
+0-255, with the additional restriction that it may not be set to value
+larger than the depth of the buffer. If an attempt is made to do that,
+the actual value set will be the maximum depth of the buffer. A value
+of 0 sets the threshold for 0 entries, and a value of 255 sets the
+threshold for 255 entries
+
+7:0
+
+24.15.17.
+
+TX_TL
+
+Description
+
+I2C_CLR_INTR
+Name: I2C Clear Combined and Individual Interrupt Register
+Address Offset: 0x40
+Default Value: 0x0000 0000
+Description: Clear Combined and Individual Interrupt Register
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+R
+
+Read this register to clear the combined interrupt, all individual
+interrupts, and the IC_TX_ABRT_SOURCE register. This bit does
+not clear hardware clearable interrupts but software clearable
+interrupts. Refer to Bit 9 of the IC_TX_ABRT_SOURCE register for
+an exception to clearing IC_TX_ABRT_SOURCE.
+
+0
+
+24.15.18.
+
+CLR_INTR
+
+Description
+
+I2C_CLR_RX_UNDER
+Name: Clear RX_UNDER Interrupt Register
+Address Offset: 0x44
+Default Value: 0x0000 0000
+Description: Clear RX_UNDER Interrupt Register
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+CLR_RX_UNDER
+
+R
+
+Read this register to clear the RX_UNDER interrupt (bit 0) of the
+IC_RAW_INTR_STAT register.
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+349
+
+WB32FQ95xx Reference Manual
+
+24.15.19.
+
+I2C_CLR_RX_OVER
+Name: Clear RX_OVER Interrupt Register
+Address Offset: 0x48
+Default Value: 0x0000 0000
+Description: Clear RX_OVER Interrupt Register
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+CLR_RX_OVER
+
+R
+
+Read this register to clear the RX_OVER interrupt (bit 1) of the
+IC_RAW_INTR_STAT register.
+
+24.15.20.
+
+Description
+
+I2C_CLR_TX_OVER
+Name: Clear TX_OVER Interrupt Register
+Address Offset: 0x4C
+Default Value: 0x0000 0000
+Description: Clear TX_OVER Interrupt Register
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+CLR_TX_OVER
+
+R
+
+Read this register to clear the TX_OVER interrupt (bit 3) of the
+IC_RAW_INTR_STAT register.
+
+24.15.21.
+
+Description
+
+I2C_CLR_RD_REQ
+Name: Clear RD_REQ Interrupt Register
+Address Offset: 0x50
+Default Value: 0x0000 0000
+Description: Clear RD_REQ Interrupt Register
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+CLR_RD_REQ
+
+R
+
+Read this register to clear the RD_REQ interrupt (bit 5) of the
+IC_RAW_INTR_STAT register.
+
+24.15.22.
+
+Description
+
+I2C_CLR_TX_ABRT
+Name: Clear TX_ABRT Interrupt Register
+Address Offset: 0x54
+Default Value: 0x0000 0000
+Description: Clear TX_ABRT Interrupt Register
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved
+
+Rev01
+
+350
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+0
+
+24.15.23.
+
+Fields
+
+CLR_TX_ABRT
+
+R/W
+
+Description
+
+R
+
+Read this register to clear the TX_ABRT interrupt (bit 6) of the
+IC_RAW_INTR_STAT register, and the IC_TX_ABRT_SOURCE
+register. This also releases the TX FIFO from the flushed/reset
+state, allowing more writes to the TX FIFO. Refer to Bit 9 of the
+IC_TX_ABRT_SOURCE register for an exception to clearing
+IC_TX_ABRT_SOURCE.
+
+I2C_CLR_RX_DONE
+Name: Clear RX_DONE Interrupt Register
+Address Offset: 0x58
+Default Value: 0x0000 0000
+Description: Clear RX_DONE Interrupt Register
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+CLR_RX_DONE
+
+R
+
+Read this register to clear the RD_DONE interrupt (bit 7) of the
+IC_RAW_INTR_STAT register.
+
+24.15.24.
+
+Description
+
+I2C_CLR_ACTIVITY
+Name: Clear ACTIVITY Interrupt Register
+Address Offset: 0x5C
+Default Value: 0x0000 0000
+Description: Clear ACTIVITY Interrupt Register
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+R
+
+Reading this register clears the ACTIVITY interrupt if the I2C is not
+active anymore. If the I2C module is still active on the bus, the
+ACTIVITY interrupt bit continues to be set. It is automatically cleared
+by hardware if the module is disabled and if there is no further
+activity on the bus. The value read from this register to get status of
+the ACTIVITY interrupt (bit 8) of the IC_RAW_INTR_STAT register.
+
+0
+
+24.15.25.
+
+CLR_ACTIVITY
+
+Description
+
+I2C_CLR_STOP_DET
+Name: Clear STOP_DET Interrupt Register
+Address Offset: 0x60
+Default Value: 0x0000 0000
+Description: Clear STOP_DET Interrupt Register
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+CLR_STOP_DET
+
+R
+
+Read this register to clear the STOP_DET interrupt (bit 9) of the
+IC_RAW_INTR_STAT register.
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+351
+
+WB32FQ95xx Reference Manual
+
+24.15.26.
+
+I2C_CLR_START_DET
+Name: Clear START_DET Interrupt Register
+Address Offset: 0x64
+Default Value: 0x0000 0000
+Description: Clear START_DET Interrupt Register
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+CLR_START_DET
+
+R
+
+Read this register to clear the START_DET interrupt (bit 10 of the
+IC_RAW_INTR_STAT register.
+
+24.15.27.
+
+Description
+
+I2C_CLR_GEN_CALL
+Name: Clear GEN_CALL Interrupt Register
+Address Offset: 0x68
+Default Value: 0x0000 0000
+Description: Clear GEN_CALL Interrupt Register
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+CLR_GEN_CALL
+
+R
+
+Read this register to clear the GEN_CALL interrupt (bit 11 of the
+IC_RAW_INTR_STAT register.
+
+24.15.28.
+
+Description
+
+I2C_ENABLE
+Name: I2C Enable Register
+Address Offset: 0x6C
+Default Value: 0x0000 0000
+Description: I2C_ENABLE Register
+
+Bits
+
+Fields
+
+R/W
+
+31:19
+
+-
+
+R
+
+18
+
+SMBUS_ALTER_EN
+
+RW
+
+17
+
+SMBUS_SUSPEND_EN
+
+RW
+
+Doc ID 2905025
+
+Description
+Reserved
+The SMBUS_ALERT_CTRL register bit is used to control assertion
+of SMBALERT signal.
+This register bit is auto-cleared after detection of Acknowledgement
+from master for Alert Response address.
+Values:
+0x1 (ALERT_ENABLED): Slave initates the Alert signal to indicate
+SMBus Host
+0x0 (SUSPEND_DISABLED): Slave will not initates the Alert signal
+to indicate SMBus Host.
+The SMBUS_SUSPEND_EN register bit is used to control assertion
+and de-assertion of SMBSUS signal.
+Values:
+0x1 (ENABLED): Host/Master initates the SMBUS system to enter
+Suspend Mode.
+
+Rev01
+
+352
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+0x0 (DISABLED): Host/Master will not initates the SMBUS system
+to enter Suspend Mode.
+
+16
+
+SMBUS_CLK_RESET
+
+RW
+
+15:4
+
+-
+
+R
+
+3
+
+SDA_STUCK_RECOVE
+RY_ENABLE
+
+RW
+
+2
+
+TX_CMD_BLOCK
+
+RW
+
+1
+
+ABORT
+
+RW
+
+0
+
+ENABLE
+
+RW
+
+24.15.29.
+
+This bit is used in SMBus Host mode to initiate the SMBus Master
+Clock Reset. This bit should be enabled only when Master is in idle.
+Whenever this bit is enabled, the SMBCLK is held low for the
+IC_SCL_STUCK_TIMEOUT ic_clk cycles to reset the SMBus slave
+devices.
+
+If SDA is stuck at low indicated through the TX_ABORT interrupt
+(IC_TX_ABRT_SOURCE[17]), then this bit is used as a control
+knob to initiate the SDA Recovery Mechanism (that is, send at most
+9 SCL clocks and STOP to release the SDA line) and then this bit
+gets auto clear.
+Values:
+0x1 (SDA_STUCK_RECOVERY_ENABLED): Master initates the
+SDA stuck at low recovery mechanism.
+0x0 (SDA_STUCK_RECOVERY_DISABLED): Master disabled the
+SDA stuck at low recovery mechanism.
+In Master mode:
+1'b1: Blocks the transmission of data on I2C bus even if Tx FIFO
+has data to transmit.
+1'b0: The transmission of data starts on I2C bus automatically, as
+soon as the first data is available in the Tx FIFO.
+Note: To block the execution of Master commands, set the
+TX_CMD_BLOCK bit only when Tx FIFO is empty
+(IC_STATUS[2]==1) and Master is in Idle state (IC_STATUS[5] ==
+0). Any further commands put in the Tx FIFO are not executed until
+TX_CMD_BLOCK bit is unset
+When set, the controller initiates the transfer abort.
+0: ABORT not initiated or ABORT done
+1: ABORT operation in progressThe software can abort the I2C
+transfer in master mode by setting this bit.
+The software can set this bit only when ENABLE is already set;
+otherwise, the controller ignores any write to ABORT bit. The
+software cannot clear the ABORT bit once set. In response to an
+ABORT, the controller issues a STOP and flushes the Tx FIFO after
+completing the current transfer, then sets the TX_ABORT interrupt
+after the abort operation. The ABORT bit is cleared automatically
+after the abort operation.
+Values:
+0x1 (ENABLED): I2C is enabled
+0x0 (DISABLED): I2C is disabled
+
+I2C_STATUS
+Name: I2C_STATUS Register
+Address Offset: 0x70
+Default Value: 0x0000 0006
+Description: This is a read-only register used to indicate the current transfer status and FIFO
+status. The status register may be read at any time. None of the bits in this register request
+
+Doc ID 2905025
+
+Rev01
+
+353
+
+WB32FQ95xx Reference Manual
+
+an interrupt.
+When the I2C is disabled by writing 0 in bit 0 of the IC_ENABLE register:
+⚫
+
+Bits 1 and 2 are set to 1
+
+⚫
+
+Bits 3 and 10 are set to 0
+
+Bits
+
+Fields
+
+R/W
+
+31:21
+
+-
+
+R
+
+20
+
+SMBUS_ALTER_STAT
+US
+
+R
+
+19
+
+SMBUS_SUSPEND_ST
+ATUS
+
+R
+
+18
+
+SMBUS_SLV_ADDR_R
+ESOLVED
+
+R
+
+17
+
+SMBUS_SLV_ADDR_V
+LD
+
+R
+
+16
+
+SMBUS_QUICK_CMD_
+BIT
+
+R
+
+15:12
+
+-
+
+R
+
+11
+
+SDA_STUCK_NOT_RE
+COVERED
+
+R
+
+10
+
+SLV_HOLD_RX_FIFO_
+FULL
+
+R
+
+9
+
+SLV_HOLD_TX_FIFO_
+EMPTY
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved
+This bit indicates the status of the SMBus Alert signal
+(ic_smbalert_in_n).
+Values:
+0x1 (ACTIVE): SMBUS Alert is asserted.
+0x0 (INACTIVE): SMBUS Alert is not asserted.
+This bit indicates the status of the SMBus Suspend signal
+(ic_smbsus_in_n).
+Values:
+0x1 (ACTIVE): SMBUS System is in Suspended mode.
+0x0 (INACTIVE): SMBUS System is not in Suspended mode.
+This bit indicates whether the slave address (ic_sar) is resolved by
+the ARP Master.
+Values:
+0x1 (ACTIVE): SMBUS Slave Address is Resolved.
+0x0 (INACTIVE): SMBUS Slave Address is not Resolved.
+This bit indicates whether the slave address (ic_sar) is valid or not.
+Values:
+0x1 (ACTIVE): SMBUS Slave Address is Valid.
+0x0 (INACTIVE): SMBUS Slave Address is not valid.
+This bit indicates the R/W bit of the Quick command received. This
+bit will be cleared after the user has read this bit.
+Values:
+0x1 (ACTIVE): SMBUS QUICK CMD Read/write is set to 1.
+0x0 (INACTIVE): SMBUS QUICK CMD Read/write is set to 0.
+Reserved
+This bit indicates that SDA stuck at low is not recovered after the
+recovery mechanism. In Slave mode, this register bit is not
+applicable.
+Values:
+0x1 (ACTIVE): SDA Stuck at low is recovered after recovery
+mechanism.
+0x0 (INACTIVE): SDA Stuck at low is not recovered after recovery
+mechanism.
+This bit indicates the BUS Hold in Slave mode due to Rx FIFO is
+Full and an additional byte has been received (This kind of Bus hold
+is applicable if IC_RX_FULL_HLD_BUS_EN is set to 1).
+Values:
+0x1 (ACTIVE): Slave holds the bus due to Rx FIFO is full
+0x0 (INACTIVE): Slave is not holding the bus or Bus hold is not due
+to Rx FIFO is full.
+This bit indicates the BUS Hold in Slave mode for the Read request
+when the Tx FIFO is empty. The Bus is in hold until the Tx FIFO has
+data to Transmit for the read request.
+Values:
+0x1 (ACTIVE): Slave holds the bus due to Tx FIFO is empty
+
+Rev01
+
+354
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+8
+
+MST_HOLD_RX_FIFO_
+FULL
+
+R
+
+7
+
+MST_HOLD_TX_FIFO_
+EMPTY
+
+R
+
+6
+
+SLV_ACTIVITY
+
+R
+
+5
+
+MST_ACTIVITY
+
+R
+
+4
+
+RFF
+
+R
+
+3
+
+RFNE
+
+R
+
+2
+
+TFE
+
+R
+
+1
+
+TFNF
+
+R
+
+Doc ID 2905025
+
+Description
+0x0 (INACTIVE): Slave is not holding the bus or Bus hold is not due
+to Tx FIFO is empty
+This bit indicates the BUS Hold in Master mode due to Rx FIFO is
+Full and additional byte has been received (This kind of Bus hold is
+applicable if IC_RX_FULL_HLD_BUS_EN is set to 1).
+Values:
+0x1 (ACTIVE): Master holds the bus due to Rx FIFO is full
+0x0 (INACTIVE): Master is not holding the bus or Bus hold is not
+due to Rx FIFO is full
+The I2C master stalls the write transfer when Tx FIFO is empty, and
+the last byte does not have the Stop bit set. This bit indicates the
+BUS hold when the master holds the bus because of the Tx FIFO
+being empty, and the the previous transferred command does not
+have the Stop bit set.
+Values:
+0x1 (ACTIVE): Master holds the bus due to Tx FIFO is empty
+0x0 (INACTIVE): Master is not holding the bus or Bus hold is not
+due to Tx FIFO is empty
+Slave FSM Activity Status. When the Slave Finite State Machine
+(FSM) is not in the IDLE state, this bit is set.
+Values:
+0x1 (ACTIVE): Slave not idle
+0x0 (IDLE): Slave is idle
+Master FSM Activity Status. When the Master Finite State Machine
+(FSM) is not in the IDLE state, this bit is set.
+Values:
+0x1 (ACTIVE): Master not idle
+0x0 (IDLE): Master is idle
+Note: IC_STATUS[0]-that is, ACTIVITY bit-is the OR of
+SLV_ACTIVITY and MST_ACTIVITY bits
+Receive FIFO Completely Full. When the receive FIFO is
+completely full, this bit is set. When the receive FIFO contains one
+or more empty location, this bit is cleared.
+Values:
+0x1 (FULL): Rx FIFO is full
+0x0 (NOT_FULL): Rx FIFO not full
+Receive FIFO Not Empty. This bit is set when the receive FIFO
+contains one or more entries; it is cleared when the receive FIFO is
+empty.
+Values:
+0x1 (NOT_EMPTY): Rx FIFO not empty
+0x0 (EMPTY): Rx FIFO is empty
+Transmit FIFO Completely Empty. When the transmit FIFO is
+completely empty, this bit is set. When it contains one or more valid
+entries, this bit is cleared. This bit field does not request an
+interrupt.
+Values:
+0x1 (EMPTY): Tx FIFO is empty
+0x0 (NON_EMPTY): Tx FIFO not empty
+Transmit FIFO Not Full. Set when the transmit FIFO contains one or
+more empty locations, and is cleared when the FIFO is full.
+Values:
+0x1 (NOT_FULL): Tx FIFO not full
+
+Rev01
+
+355
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+0x0 (FULL): Tx FIFO is full
+
+0
+
+ACTIVITY
+
+24.15.30.
+
+I2C_TXFLR
+
+R
+
+I2C Activity Status.
+Values:
+0x1 (ACTIVE): I2C is active
+0x0 (INACTIVE): I2C is idle
+
+Name: I2C Transmit FIFO Level Register
+Address Offset: 0x74
+Default Value: 0x0000 0000
+Description: This register contains the number of valid data entries in the transmit FIFO
+buffer. It is cleared whenever:
+The I2C is disabled
+There is a transmit abort - that is, TX_ABRT bit is set in the IC_RAW_INTR_STAT register
+The slave bulk transmit mode is aborted
+The register increments whenever data is placed into the transmit FIFO and decrements
+when data is taken from the transmit FIFO.
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:3
+
+-
+
+R
+
+Reserved
+
+2:0
+
+TXFLR
+
+R
+
+Transmit FIFO Level. Contains the number of valid data entries in
+the transmit FIFO.
+
+24.15.31.
+
+I2C_RXFLR
+Name: I2C Receive FIFO Level Register
+Address Offset: 0x78
+Default Value: 0x0000 0000
+Description: This register contains the number of valid data entries in the receive FIFO buffer.
+It is cleared whenever:
+⚫
+
+The I2C is disabled
+
+⚫
+
+Whenever there is a transmit abort caused by any of the events tracked in
+IC_TX_ABRT_SOURCE
+
+The register increments whenever data is placed into the receive FIFO and decrements
+when data is taken from the receive FIFO.
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+Reserved
+
+2:0
+
+RXFLR
+
+R
+
+Receive FIFO Level. Contains the number of valid data entries in
+the receive FIFO.
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+356
+
+WB32FQ95xx Reference Manual
+
+24.15.32.
+
+I2C_SDA_HOLD
+Name: I2C SDA Hold Time Length Register
+Address Offset: 0x7C
+Default Value: 0x0000 0002
+Description: It is only writable when IC_ENABLE[0]=0.
+The values in this register are in units of ic_clk period. The value programmed in
+IC_SDA_TX_HOLD must be greater than the minimum hold time in each mode one cycle in
+master mode, seven cycles in slave mode for the value to be implemented.
+The programmed SDA hold time during transmit (IC_SDA_TX_HOLD) cannot exceed at any
+time the duration of the low part of SCL. Therefore the programmed value cannot be larger
+than N_SCL_LOW-2, where N_SCL_LOW is the duration of the low part of the SCL period
+measured in ic_clk cycles.
+
+Bits
+
+Fields
+
+R/W
+
+31:24
+
+-
+
+R
+
+Reserved
+
+23:16
+
+IC_SDA_RX_HOLD
+
+RW
+
+Sets the required SDA hold time in units of ic_clk period, when the
+macro acts as a receiver.
+
+24.15.33.
+
+Description
+
+I2C_TX_ABRT_SOURCE
+Name: I2C Transmit Abort Source Register
+Address Offset: 0x80
+Default Value: 0x0000 0000
+Description: This register has 32 bits that indicate the source of the TX_ABRT bit. Except for
+Bit 9, this register is cleared whenever the IC_CLR_TX_ABRT register or the IC_CLR_INTR
+register is read. To clear Bit 9, the source of the ABRT_SBYTE_NORSTRT must be fixed first;
+RESTART must be enabled (IC_CON[5]=1), the SPECIAL bit must be cleared (IC_TAR[11]),
+or the GC_OR_START bit must be cleared (IC_TAR[10]).
+Once the source of the ABRT_SBYTE_NORSTRT is fixed, then this bit can be cleared in the
+same manner as other bits in this register. If the source of the ABRT_SBYTE_NORSTRT is
+not fixed before attempting to clear this bit, Bit 9 clears for one cycle and is then re-asserted.
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:23
+
+TX_FLUSH_CNT
+
+R
+
+This field indicates the number of Tx FIFO Data Commands which
+are flushed due to TX_ABRT interrupt. It is cleared whenever I2C is
+disabled.
+
+22:21
+
+-
+
+R
+
+Reserved
+
+20
+
+ABRT_DEVICE_WRITE
+
+R
+
+19
+
+ABRT_DEVICE_SLVAD
+DR_NOACK
+
+R
+
+18
+
+ABRT_DEVICE_NOAC
+K
+
+R
+
+17
+
+ABRT_SDA_STUCK_A
+T_LOW
+
+R
+
+Doc ID 2905025
+
+This is a master-mode-only bit. Master is initiating the DEVICE_ID
+transfer and the Tx-FIFO consists of write commands.
+This is a master-mode-only bit. Master is initiating the DEVICE_ID
+transfer and the slave address sent was not acknowledged by any
+slave.
+This is a master-mode-only bit. Master is initiating the DEVICE_ID
+transfer and the device id sent was not acknowledged by any slave
+This is a master-mode-only bit. Master detects the SDA Stuck at
+low for the IC_SDA_STUCK_AT_LOW_TIMEOUT value of ic_clks.
+
+Rev01
+
+357
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+16
+
+ABRT_USER_ABRT
+
+R
+
+15
+
+ABRT_SLVRD_INTX
+
+R
+
+14
+
+ABRT_SLV_ARBLOST
+
+R
+
+13
+
+ABRT_SLVFLUSH_TXF
+IFO
+
+R
+
+12
+
+ABRT_LOST
+
+R
+
+11
+
+ABRT_MASTER_DIS
+
+R
+
+10
+
+ABRT_10B_RD_NORS
+TRT
+
+R
+
+9
+
+ABRT_SBYTE_NORST
+RT
+
+R
+
+8
+
+ABRT_HS_NORSTRT
+
+R
+
+7
+
+ABRT_SBYTE_ACKDE
+T
+
+R
+
+6
+
+ABRT_HS_ACKDET
+
+R
+
+5
+
+ABRT_GCALL_READ
+
+R
+
+4
+
+ABRT_GCALL_NOACK
+
+R
+
+3
+
+ABRT_TXDATA_NOAC
+K
+
+R
+
+2
+
+ABRT_10ADDR2_NOA
+CK
+
+R
+
+Doc ID 2905025
+
+Description
+This is a master-mode-only bit. Master has detected the transfer
+abort (IC_ENABLE[1])
+Values:
+0x1 (ABRT_SLVRD_INTX_GENERATED): Slave trying to transmit
+to remote master in read mode
+0x0 (ABRT_SLVRD_INTX_VOID): Slave trying to transmit to
+remote master in read mode- scenario not present
+This field indicates that a Slave has lost the bus while transmitting
+data to a remote master. IC_TX_ABRT_SOURCE[12] is set at the
+same time.
+Note: Even though the slave never 'owns' the bus, something could
+go wrong on the bus. This is a fail safe check. For instance, during a
+data transmission at the low-to-high transition of SCL, if what is on
+the data bus is not what is supposed to be transmitted, then
+DW_apb_i2c no longer own the bus
+This field specifies that the Slave has received a read command
+and some data exists in the TX FIFO, so the slave issues a
+TX_ABRT interrupt to flush old data in TX FIFO.
+This field specifies that the Master has lost arbitration, or if
+IC_TX_ABRT_SOURCE[14] is also set, then the slave transmitter
+has lost arbitration.
+This field indicates that the User tries to initiate a Master operation
+with the Master mode disabled.
+This field indicates that the restart is disabled (IC_RESTART_EN bit
+(IC_CON[5]) =0) and the master sends a read command in 10-bit
+addressing mode.
+Values:
+0x1 (ABRT_SBYTE_NORSTRT_GENERATED): User trying to
+send START byte when RESTART disabled
+0x0 (ABRT_SBYTE_NORSTRT_VOID): User trying to send START
+byte when RESTART disabled- scenario not present
+This field indicates that the restart is disabled (IC_RESTART_EN bit
+(IC_CON[5]) =0) and the user is trying to use the master to transfer
+data in High Speed mode.
+This field indicates that the Master has sent a START Byte and the
+START Byte was acknowledged (wrong behavior).
+This field indicates that the Master is in High Speed mode and the
+High Speed Master code was acknowledged (wrong behavior).
+This field indicates that DW_apb_i2c in the master mode has sent a
+General Call but the user programmed the byte following the
+General Call to be a read from the bus (IC_DATA_CMD[9] is set to
+1).
+This field indicates that DW_apb_i2c in master mode has sent a
+General Call and no slave on the bus acknowledged the General
+Call.
+This field indicates the master-mode only bit. When the master
+receives an acknowledgement for the address, but when it sends
+data byte(s) following the address, it did not receive an
+acknowledge from the remote slave(s).
+This field indicates that the Master is in 10-bit address mode and
+that the second address byte of the 10-bit address was not
+acknowledged by any slave.
+
+Rev01
+
+358
+
+WB32FQ95xx Reference Manual
+
+Bits
+1
+0
+
+Fields
+ABRT_10ADDR1_NOA
+CK
+ABRT_7B_ADDR_NOA
+CK
+
+24.15.34.
+
+R/W
+R
+R
+
+Description
+This field indicates that the Master is in 10-bit address mode and
+the first 10-bit address byte was not acknowledged by any slave.
+This field indicates that the Master is in 7-bit addressing mode and
+the address sent was not acknowledged by any slave.
+
+I2C_SLV_DATA_NACK_ONLY
+Name: Generate Slave Data NACK Register
+Address Offset: 0x84
+Default Value: 0x0000 0000
+Description: The register is used to generate a NACK for the data part of a transfer when this
+macro is acting as a slave-receiver.
+A write can occur on this register if both of the following conditions are met:
+DW_apb_i2c is disabled (IC_ENABLE[0] = 0)
+Slave part is inactive (IC_STATUS[6] = 0)
+Note: The IC_STATUS[6] is a register read-back location for the internal slv_activity signal;
+the user should poll this before writing the ic_slv_data_nack_only bit.
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+RW
+
+Generate NACK. This NACK generation only occurs when the
+macro is a slave-receiver.
+Values:
+0x1 (ENABLED): Slave receiver generates NACK upon data
+reception only
+0x0 (DISABLED): Slave receiver generates NACK normally
+
+0
+
+24.15.35.
+
+NACK
+
+Description
+
+I2C_DMA_CR
+Name: DMA Control Register
+Address Offset: 0x88
+Default Value: 0x0000 0000
+Description: This register is used to enable the DMA Controller interface operation.
+
+Bits
+
+Fields
+
+R/W
+
+31:2
+
+-
+
+R
+
+1
+
+TDMAE
+
+RW
+
+0
+
+RDMAE
+
+RW
+
+24.15.36.
+
+Description
+Reserved
+Transmit DMA Enable. This bit enables/disables the transmit FIFO
+DMA channel.
+Receive DMA Enable. This bit enables/disables the receive FIFO
+DMA channel.
+
+I2C_DMA_TDLR
+Name: DMA Transmit Data Level Register
+
+Doc ID 2905025
+
+Rev01
+
+359
+
+WB32FQ95xx Reference Manual
+
+Address Offset: 0x8C
+Default Value: 0x0000 0000
+Description:
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+Reserved
+
+RW
+
+Transmit Data Level. This bit field controls the level at which a DMA
+request is made by the transmit logic. It is equal to the watermark
+level; that is, the dma_tx_req signal is generated when the number
+of valid data entries in the transmit FIFO is equal to or below this
+field value, and TDMAE = 1.
+
+2:0
+
+24.15.37.
+
+DMATDL
+
+Description
+
+I2C_DMA_RDLR
+Name: DMA Receive Data Level Register
+Address Offset: 0x90
+Default Value: 0x0000 0000
+Description:
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+Reserved
+
+RW
+
+Receive Data Level. This bit field controls the level at which a DMA
+request is made by the receive logic. The watermark level =
+DMARDL+1; that is, dma_rx_req is generated when the number of
+valid data entries in the receive FIFO is equal to or more than this
+field value + 1, and RDMAE =1. For instance, when DMARDL is 0,
+then dma_rx_req is asserted when 1 or more data entries are
+present in the receive FIFO.
+
+2:0
+
+24.15.38.
+
+DMARDL
+
+Description
+
+I2C_SDA_SETUP
+Name: I2C SDA Setup Register
+Address Offset: 0x94
+Default Value: 0x0000 0000
+Description: This register controls the amount of time delay (in terms of number of ic_clk
+clock periods) introduced in the rising edge of SCL - relative to SDA changing - when this
+macro services a read request in a slave-transmitter operation. This register must be
+programmed with a value equal to or greater than 2.
+Writes to this register succeed only when IC_ENABLE[0] = 0.
+Note: The length of setup time is calculated using [(IC_SDA_SETUP - 1) * (ic_clk_period)],
+so if the user requires 10 ic_clk periods of setup time, they should program a value of 11. The
+IC_SDA_SETUP register is only used when operating as a slave transmitter.
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved
+
+Rev01
+
+360
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+7:0
+
+SDA_SETUP
+
+24.15.39.
+
+R/W
+
+Description
+
+RW
+
+SDA Setup. It is recommended that if the required delay is 1000ns,
+then for an ic_clk frequency of 10 MHz, IC_SDA_SETUP should be
+programmed to a value of 11. IC_SDA_SETUP must be
+programmed with a minimum value of 2.
+
+I2C_ACK_GENERAL_CALL
+Name: I2C ACK General Call Register
+Address Offset: 0x98
+Default Value: 0x0000 0001
+Description: The register controls whether this macro responds with an ACK or NACK when
+it receives an I2C General Call address.
+This register is applicable only when the DW_apb_i2c is in slave mode.
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+RW
+
+ACK General Call. When set to 1, the macro responds with an ACK
+when it receives a General Call. Otherwise, the macro responds
+with a NACK.
+
+0
+
+ACK_GEN_CALL
+
+24.15.40.
+
+Description
+
+I2C_ENABLE_STATUS
+Name: I2C Enable Status Register
+Address Offset: 0x9C
+Default Value: 0x0000 0000
+Description: The register is used to report the macro hardware status when the
+IC_ENABLE[0] register is set from 1 to 0.
+If IC_ENABLE[0] has been set to 1, bits 2:1 are forced to 0, and bit 0 is forced to 1.
+If IC_ENABLE[0] has been set to 0, bits 2:1 is only be valid as soon as bit 0 is read as '0'.
+Note: When IC_ENABLE[0] has been set to 0, a delay occurs for bit 0 to be read as 0
+because disabling the macro depends on I2C bus activities.
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+2
+
+SLV_RX_DATA_LOST
+
+R
+
+1
+
+SLV_DISABLED_WHIL
+E_BUSY
+
+R
+
+0
+
+IC_EN
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved
+Slave Received Data Lost.
+Values:
+0x1 (ACTIVE): Slave RX Data is lost
+0x0 (INACTIVE): Slave RX Data is not lost
+Slave Disabled While Busy (Transmit, Receive). This bit indicates if
+a potential or active Slave operation has been aborted due to the
+setting bit 0 of the IC_ENABLE register from 1 to 0.
+Values:
+0x1 (ACTIVE): Slave is disabled when it is active
+0x0 (INACTIVE): Slave is disabled when it is idle
+Values:
+
+Rev01
+
+361
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+0x1 (ENABLED): I2C enabled
+0x0 (DISABLED): I2C disabled
+
+24.15.41.
+
+I2C_FS_SPKLEN
+Name: I2C SS, FS spike suppression limit
+Address Offset: 0xA0
+Default Value: 0x0000 0001 (I2C1) / 0x0000 0005(I2C2)
+Description: This register is used to store the duration, measured in ic_clk cycles, of the
+longest spike that is filtered out by the spike suppression logic when the component is
+operating in SS, FS modes.
+This register can be written only when IC_ENABLE[0]=0
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Reserved
+
+RW
+
+This register must be set before any I2C bus transaction can take
+place to ensure stable operation. This register sets the duration,
+measured in ic_clk cycles, of the longest spike in the SCL or SDA
+lines that will be filtered out by the spike suppression logic.
+
+7:0
+
+24.15.42.
+
+IC_FS_SPKLEN
+
+Description
+
+I2C_HS_SPKLEN
+Name: I2C HS spike suppression limit register
+Address Offset: 0xA4
+Default Value: 0x0000 0001
+Description: This register is used to store the duration, measured in ic_clk cycles, of the
+longest spike that is filtered out by the spike suppression logic when the component is
+operating in HS modes.
+This register can be written only when IC_ENABLE[0]=0
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Reserved
+
+RW
+
+This register must be set before any I2C bus transaction can take
+place to ensure stable operation. This register sets the duration,
+measured in ic_clk cycles, of the longest spike in the SCL or SDA
+lines that will be filtered out by the spike suppression logic
+
+7:0
+
+24.15.43.
+
+IC_HS_SPKLEN
+
+Description
+
+I2C_CLR_RESTART_DET
+Name: Clear RESTART_DET Interrupt Register
+Address Offset: 0xA8
+Default Value: 0x0000 0000
+Description:
+
+Doc ID 2905025
+
+Rev01
+
+362
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+CLR_RESTART_DET
+
+R
+
+Read this register to clear the RESTART_DET interrupt (bit 12) of
+IC_RAW_INTR_STAT register.
+
+24.15.44.
+
+Description
+
+I2C_SCL_STUCK_AT_LOW_TIMEOUT
+Name: I2C SCL Stuck at Low Timeout register
+Address Offset: 0xAC
+Default Value: 0xFFFFFFFF
+Description: This register can be written only when IC_ENABLE[0]=0
+
+Bits
+
+Fields
+
+31:0
+
+IC_SCL_STUCK_LOW_
+TIMEOUT
+
+24.15.45.
+
+R/W
+
+Description
+
+RW
+
+This register is used to store the duration, measured in ic_clk
+cycles, used to Generate an Interrupt (SCL_STUCK_AT_LOW) if
+SCL is held low for the IC_SCL_STUCK_LOW_TIMEOUT duration.
+
+I2C_SDA_STUCK_AT_LOW_TIMEOUT
+Name: I2C SDA Stuck at Low Timeout register
+Address Offset: 0xB0
+Default Value: 0xFFFFFFFF
+Description: This register can be written only when IC_ENABLE[0]=0
+
+Bits
+31:0
+
+Fields
+IC_SDA_STUCK_LOW_
+TIMEOUT
+
+24.15.46.
+
+R/W
+
+Description
+
+RW
+
+This register is used to store the duration, measured in ic_clk
+cycles, used to Recover the Data (SDA) line through sending SCL
+pulses if SDA is held low for the mentioned duration.
+
+I2C_CLR_SCL_STUCK_DET
+Name: Clear SCL Stuck at Low Detect interrupt Register
+Address Offset: 0xB4
+Default Value: 0x0000 0000
+Description:
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+CLR_SCL_STUCK_DET
+
+R
+
+Read this register to clear the SCL_STUCT_AT_LOW interrupt (bit
+15) of the IC_RAW_INTR_STAT register.
+
+24.15.47.
+
+Description
+
+SMBUS_CLK_LOW_SEXT
+Name: SMBus Slave Clock Extend Timeout register
+Address Offset: 0xBC
+Default Value: 0xFFFF FFFF
+
+Doc ID 2905025
+
+Rev01
+
+363
+
+WB32FQ95xx Reference Manual
+
+Description: This Register contains the Timeout value used to determine the Slave Clock
+Extend Timeout in one transfer (from START to STOP).
+This register can be written only when IC_ENABLE[0]=0. This register only exists in I2C1,
+and doesn’t exist in I2C2.
+Bits
+
+31:0
+
+Fields
+SMBUS_CLK_LOW_SE
+XT_TIMEOUT
+
+24.15.48.
+
+R/W
+
+Description
+
+RW
+
+This field is used to detect the Slave Clock Extend timeout
+(tLOW:SEXT) in master mode extended by the slave device in one
+message from the initial START to the STOP. The values in this
+register are in units of ic_clk period.
+
+SMBUS_CLK_LOW_MEXT
+Name: SMBus Master Clock Extend Timeout register
+Address Offset: 0xC0
+Default Value: 0xFFFF FFFF
+Description: This Register contains the Timeout value used to determine the Master Clock
+Extend Timeout in one byte of transfer.
+This register can be written only when IC_ENABLE[0]=0. This register only exists in I2C1,
+and doesn’t exist in I2C2.
+
+Bits
+
+Fields
+
+31:0
+
+SMBUS_CLK_LOW_ME
+XT_TIMEOUT
+
+24.15.49.
+
+R/W
+
+Description
+
+RW
+
+This field is used to detect the Master extend SMBus clock (SCLK)
+timeout defined from START-to-ACK, ACK-to-ACK, or
+ACK-to-STOP in Master mode. The values in this register are in
+units of ic_clk period.
+
+SMBUS_THIGH_MAX_BUS_IDLE_CNT
+Name: SMBus Master THIGH MAX Bus-idle count Register
+Address Offset: 0xC4
+Default Value: 0x0000 FFFF
+Description: This register programs the Bus-idle time period used when a master has been
+dynamically added to the bus or when a master has generated a clock reset on the bus. This
+register is used to store the duration, measured in ic_clk cycles, used to detect the Bus Idle
+condition if SCL and SDA are held high for the mentioned duration.
+This register can be written only when IC_ENABLE[0]=0. This register only exists in I2C1,
+and doesn’t exist in I2C2.
+
+Bits
+
+31:0
+
+Fields
+
+SMBUS_THIGH_MAX_
+BUS_IDLE_CNT
+
+Doc ID 2905025
+
+R/W
+
+Description
+
+RW
+
+This field is used to set the required Bus-Idle time period used
+when a master has been dynamically added to the bus and may
+not have detected a state transition on the SMBCLK or SMBDAT
+lines.
+In this case, the master must wait long enough to ensure that a
+transfer is not currently in progress The values in this register are in
+units of ic_clk period.
+
+Rev01
+
+364
+
+WB32FQ95xx Reference Manual
+
+24.15.50.
+
+SMBUS_INTR_STAT
+Name: SMBus Interrupt Status Register
+Address Offset: 0xC8
+Default Value: 0x0000 0000
+Description: Each bit in this register has a corresponding mask bit in the
+IC_SMBUS_INTR_MASK register. These bits are cleared by writing the matching SMBus
+interrupt clear register(IC_CLR_SMBUS_INTR) bits. The unmasked raw versions of these
+bits are available in the IC_SMBUS_RAW_INTR_STAT register. Refer to
+IC_SMBUS_INTR_RAW_STATUS for detail description of each bit. The interrupt status bits
+are high active.
+This register only exists in I2C1, and doesn’t exist in I2C2.
+
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+Reserved
+
+R
+
+Status for interrupt SMBUS_ALERT_DET
+
+R
+
+Status for SMBUS_SUSPEND_DET
+
+R
+
+Status for SLV_RX_PEC_NACK
+
+R
+
+Status for ARP_ASSGN_ADDR_CMD_DET
+
+R
+
+Status for ARP_GET_UDID_CMD_DET
+
+R
+
+Status for ARP_RST_CMD_DET
+
+R
+
+Status for ARP_PREPARE_CMD_DET
+
+R
+
+Status for HOST_NOTIFY_MST_DET
+
+R
+
+Status for QUICK_CMD_DET
+
+R
+
+Status for MST_CLOCK_EXTND_TIMEOUT
+
+R
+
+Status for SLV_CLOCK_EXTND_TIMEOUT
+
+10
+9
+8
+7
+6
+5
+4
+3
+
+R_SMBUS_ALERT_DE
+T
+R_SMBUS_SUSPEND_
+DET
+R_SLV_RX_PEC_NAC
+K
+R_ARP_ASSGN_ADDR
+_CMD_DET
+R_ARP_GET_UDID_C
+MD_DET
+R_ARP_RST_CMD_DE
+T
+R_ARP_PREPARE_CM
+D_DET
+R_HOST_NOTIFY_MS
+T_DET
+
+2
+1
+0
+
+R_QUICK_CMD_DET
+R_MST_CLOCK_EXTN
+D_TIMEOUT
+R_SLV_CLOCK_EXTN
+D_TIMEOUT
+
+24.15.51.
+
+Description
+
+SMBUS_INTR_MASK
+Name: SMBus Interrupt Mask Register
+Address Offset: 0xCC
+Default Value: 0x0000 0000
+Description: These bits mask their corresponding interrupt status bits. This register is active
+low; a value of 0 masks the interrupt, whereas a value of 1 unmasks the interrupt.
+This register only exists in I2C1, and doesn’t exist in I2C2.
+
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+Reserved
+
+10
+
+M_SMBUS_ALERT_DE
+T
+
+RW
+
+Mask bit for SMBUS_ALERT_DET
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+365
+
+WB32FQ95xx Reference Manual
+
+Bits
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+
+Fields
+M_SMBUS_SUSPEND_
+DET
+M_SLV_RX_PEC_NAC
+K
+M_ARP_ASSGN_ADDR
+_CMD_DET
+M_ARP_GET_UDID_C
+MD_DET
+M_ARP_RST_CMD_DE
+T
+M_ARP_PREPARE_CM
+D_DET
+M_HOST_NOTIFY_MS
+T_DET
+M_QUICK_CMD_DET
+M_MST_CLOCK_EXTN
+D_TIMEOUT
+M_SLV_CLOCK_EXTN
+D_TIMEOUT
+
+24.15.52.
+
+R/W
+
+Description
+
+RW
+
+Mask bit for SMBUS_SUSPEND_DET
+
+RW
+
+Mask bit for SLV_RX_PEC_NACK
+
+RW
+
+Mask bit for ARP_ASSGN_ADDR_CMD_DET
+
+RW
+
+Mask bit for ARP_GET_UDID_CMD_DET
+
+RW
+
+Mask bit for ARP_RST_CMD_DET
+
+RW
+
+Mask bit for ARP_PREPARE_CMD_DET
+
+RW
+
+Mask bit for HOST_NOTIFY_MST_DET
+
+RW
+
+Mask bit for QUICK_CMD_DET
+
+RW
+
+Mask bit for MST_CLOCK_EXTND_TIMEOUT
+
+RW
+
+Mask bit for SLV_CLOCK_EXTND_TIMEOUT
+
+SMBUS_RAW_INTR_STAT
+Name: SMBus Raw Interrupt Status Register
+Address Offset: 0xD0
+Default Value: 0x0000 0000
+Description: This register only exists in I2C1, and doesn’t exist in I2C2.
+
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+10
+
+SMBUS_ALERT_DET
+
+R
+
+9
+
+SMBUS_SUSPEND_DE
+T
+
+R
+
+Indicates whether a SMBSUS (ic_smbsus_in_n) signal is driven
+low by the Host
+
+8
+
+SLV_RX_PEC_NACK
+
+R
+
+Indicates whether a NACK has been sent due to PEC mismatch
+while working as ARP slave.
+
+7
+
+ARP_ASSGN_ADDR_C
+MD_DET
+
+R
+
+Description
+Reserved
+Indicates whether a SMBALERT (ic_smbalert_in_n) signal is driven
+low by the slave.
+
+Indicates whether an Assign Address ARP command has been
+received.
+
+6
+
+ARP_GET_UDID_CMD_
+DET
+
+R
+
+Indicates whether a Get UDID ARP command has been received.
+
+5
+
+ARP_RST_CMD_DET
+
+R
+
+Indicates whether a General or Directed Reset ARP command has
+been received.
+
+R
+
+Indicates whether a prepare to ARP command has been received.
+
+R
+
+Indicates whether a Notify ARP Master ARP command has been
+received.
+
+4
+3
+
+ARP_PREPARE_CMD_
+DET
+HOST_NOTIFY_MST_D
+ET
+
+Indicates whether a Quick command has been received on the
+2
+
+QUICK_CMD_DET
+
+Doc ID 2905025
+
+R
+
+SMBus interface regardless of whether this macro is operating in
+slave or master mode. Enabled only when IC_SMBUS=1 is set to
+1.
+
+Rev01
+
+366
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Indicates whether the Master device transaction (START-to-ACK,
+ACK-to-ACK, or ACK-to-STOP) from START to STOP exceeds
+
+1
+
+MST_CLOCK_EXTND_T
+IMEOUT
+
+R
+
+IC_SMBUS_CLOCK_LOW_MEXT time with in each byte of
+message.
+This bit is enabled only when:
+IC_SMBUS=1
+IC_CON[0]=1
+IC_EMPTYFIFO_HOLD_MASTER_EN=1 or
+IC_RX_FULL_HLD_BUS_EN=1
+Indicates whether the transaction from Slave (i.e from START to
+
+0
+
+SLV_CLOCK_EXTND_TI
+MEOUT
+
+24.15.53.
+
+R
+
+STOP) exceeds IC_SMBUS_CLK_LOW_SEXT time.
+This bit is enabled only when:
+IC_SMBUS=1
+IC_CON[0]=1
+
+CLR_SMBUS_INTR
+Name: Clear SMBus Interrupt Register
+Address Offset: 0xD4
+Default Value: 0x0000 0000
+Description: This register only exists in I2C1, and doesn’t exist in I2C2.
+
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+Reserved
+
+W
+
+Clear bit for SMBUS_ALERT_DET
+
+W
+
+Clear bit for SMBUS_SUSPEND_DET
+
+W
+
+Clear bit for SLV_RX_PEC_NACK
+
+W
+
+Clear bit for ARP_ASSGN_ADDR_CMD_DET
+
+W
+
+Clear bit for ARP_GET_UDID_CMD_DET
+
+W
+
+Clear bit for ARP_RST_CMD_DET
+
+W
+
+Clear bit for ARP_PREPARE_CMD_DET
+
+W
+
+Clear bit for HOST_NOTIFY_MST_DET
+
+W
+
+Clear bit for QUICK_CMD_DET
+
+W
+
+Clear bit for MST_CLOCK_EXTND_TIMEOUT
+
+W
+
+Clear bit for SLV_CLOCK_EXTND_TIMEOUT
+
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+
+CLR_SMBUS_ALERT_D
+ET
+CLR_SMBUS_SUSPEND
+_DET
+CLR_SLV_RX_PEC_NA
+CK
+CLR_ARP_ASSGN_ADD
+R_CMD_DET
+CLR_ARP_GET_UDID_C
+MD_DET
+CLR_ARP_RST_CMD_D
+ET
+CLR_ARP_PREPARE_C
+MD_DET
+CLR_HOST_NOTIFY_M
+ST_DET
+CLR_QUICK_CMD_DET
+CLR_MST_CLOCK_EXT
+ND_TIMEOUT
+CLR_SLV_CLOCK_EXT
+ND_TIMEOUT
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+367
+
+WB32FQ95xx Reference Manual
+
+24.15.54.
+
+I2C_OPTIONAL_SAR
+Name: I2C Optional Slave Address Register
+Address Offset: 0xD8
+Default Value: 0x0000 0000
+Description: This register can be written only when IC_ENABLE[0]=0. This register only
+exists in I2C1, and doesn’t exist in I2C2.
+
+Bits
+
+Fields
+
+R/W
+
+31:7
+
+-
+
+R
+
+Reserved
+
+6:0
+
+OPTIONAL_SAR
+
+RW
+
+Optional Slave address for DW_apb_i2c when operating as a slave
+in SMBus Mode.
+
+24.15.55.
+
+Description
+
+SMBUS_UDID_LSB
+Name: SMBUS ARP UDID LSB Register
+Address Offset: 0xDC
+Default Value: 0xFFFFFFFF
+Description: This register can be written only when IC_ENABLE[0]=0. This register only
+exists in I2C1, and doesn’t exist in I2C2.
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+SMBUS_UDID_LSB
+
+R
+
+This field is used to store the LSB 32 bit value of slave unique
+device identifier used in Address Resolution Protocol.
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+368
+
+

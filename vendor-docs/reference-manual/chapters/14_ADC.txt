@@ -1,0 +1,2117 @@
+WB32FQ95xx Reference Manual
+
+14.
+14.1.
+
+Analog to digital conversion (ADC)
+ADC introduction
+The 12-bit ADC is a successive approximation analog-to-digital converter. It has up to 18
+channels and can measure 16 external and 2 internal signal sources. The A/D conversion of
+various channels can be performed in single, continuous, scan or discontinuous mode. The
+results of ADC can be stored in a left-aligned or right-aligned 16-bit data register.
+The analog watchdog feature allows the application to detect if the input voltage exceeds a
+user-defined high/low threshold.
+The ADC input is generated from APB1_CLK divided by a prescaler and it must not exeed
+16MHz.
+
+14.2.
+
+ADC main features
+⚫
+
+12-bit resolution
+
+⚫
+
+Interrupt generation at End of Conversion, End of Injected conversion and Analog
+watchdog event
+
+⚫
+
+Regular conversion end, injection conversion end, analog watchdog event, FIFO
+overflow and FIFO empty interrupt
+
+⚫
+
+Single and continuous conversion mode
+
+⚫
+
+Scan mode for automatic conversion of channel 0 to channel N
+
+⚫
+
+Self-calibration
+
+⚫
+
+Data alignment with in-built data coherency
+
+⚫
+
+Channel-by-channel programmable sample time.
+
+⚫
+
+External trigger option for both regular and injected conversion
+
+⚫
+
+Discontinuous mode
+
+⚫
+
+ADC conversion time:
+◼
+
+14.3.
+
+The fastest conversion time of 12 bit ADC is 17 ADC clock cycles
+
+⚫
+
+ADC power supply requirements: 2.4V to 3.6V
+
+⚫
+
+ADC measurement range: 0V ≤ VIN ≤ VDDA
+
+⚫
+
+DMA is supported for regular channel conversion.
+
+ADC functional description
+Figure 15.1 is the block diagram of ADC module, and table 15.1 gives the ADC pin
+description.
+
+Doc ID 2905025
+
+Rev01
+
+152
+
+WB32FQ95xx Reference Manual
+
+Figure 14-1. ADC block diagram
+
+Table 14-1. ADC PINS
+Name
+
+Signal type
+
+Remarks
+
+VREF+
+
+Input, analog reference positive
+
+AVDD
+
+Input, analog supply
+
+VREF-
+
+Input, analog reference negative
+
+AVSS
+
+Input, analog supply ground
+
+ADC_IN[17:0]
+
+Analog signals
+
+ADON
+
+Input, digital signal
+
+ADC enable signal. High active
+
+NPOR
+
+Input, digital signal
+
+ADC power reset signal, low active
+
+The high / positive reference voltage used by ADC is connected
+to AVDD
+Analog power supply, 2.4V ≤AVDD≤ 3.6V
+The low / negative reference voltage used by ADC is connected
+to AVSS
+Ground for analog power supply equal to VSS
+Up to 18 analog channels
+
+Note: The ADC works normally when both ADON=1 and NPOR=1
+
+14.3.1.
+
+ADC on-off control
+There are two steps to enable ADC conversion
+
+14.3.2.
+
+⚫
+
+Enable ADC converter: Setting ADC_CTL0.ADON bit in ANCTL module enables ADC
+macro. If the ADC is not used, clear the bit to reduce power consumption.
+
+⚫
+
+Enable ADC controller: after ADC is turned on, set ADC_CR2.ADON bit enables the
+ADC control module. Once the ADC controller is enabled, another write to the
+ADC_CR2.ADON bit start a new conversion.
+
+ADC clock
+There is a programmable prescaler in the ADC controller to generate ADC input clock. The
+ADC input clock is synchronized with the clock of the ADC controller.
+
+14.3.3.
+
+ADC resolution
+ADC resolution is fixed to 12-bit.
+
+Doc ID 2905025
+
+Rev01
+
+153
+
+WB32FQ95xx Reference Manual
+
+14.3.4.
+
+Channel selection
+There are 16 multiplexed channels. The conversions can be organized in two groups: regular
+group and injected group. A group consists of a sequence of conversions which can be done
+on any channel and in any order. For instance, it is possible to do the conversion in the
+following order: Ch3, Ch8, Ch2, Ch2, Ch0, Ch2, Ch2, Ch15.
+⚫
+
+The regular group is composed of up to 16 conversions. The regular channels and their
+order in the conversion sequence must be configured in the ADC_SQRx registers. The
+total number of conversions in the regular group must be written in the L[3:0] bits in the
+ADC_SQR1 register.
+
+⚫
+
+The injected group is composed of up to 4 conversions. The injected channels and their
+order in the conversion sequence must be configured in the ADC_JSQR register. The
+total number of conversions in the injected group must be written in the L[1:0] bits in the
+ADC_JSQR register.
+
+If the ADC_SQRx or ADC_JSQR registers are modified during a conversion, the current
+conversion is reset and a new start pulse is sent to the ADC to convert the new chosen
+group.
+Temperature sensor / VREFINT internal channels
+The temperature sensor is connected to SARADC channel ADC_IN16, and the internal
+reference voltage VREFINT is connected to SARADC channel ADC_IN17. These two
+internal channels can be converted by injection or regular channel.
+
+14.3.5.
+
+Single conversion mode
+In single conversion mode, ADC only performs one conversion. This mode can be started
+either by setting the ADON bit of ADC_CR2 register (only applicable to regular channel) or by
+external trigger (applicable to regular channel or injection channel), when the CONT bit is 0.
+Once the conversion of the selected channel is completed:
+If a regular channel was converted:
+⚫
+
+The converted data is stored in the 16-bit ADC_DR register
+
+⚫
+
+The EOC (End Of Conversion) flag is set
+
+⚫
+
+Interrupt is generated if the EOCIE is set.
+
+⚫
+
+The ADC conversion is stopped.
+
+If an injected channel was converted:
+⚫
+
+The converted data is stored in the 16-bit ADC_DRJ1 register
+
+⚫
+
+The JEOC (End Of Conversion Injected) flag is set
+
+⚫
+
+Interrupt is generated if the JEOCIE bit is set.
+
+⚫
+
+The ADC conversion is stopped.
+
+Doc ID 2905025
+
+Rev01
+
+154
+
+WB32FQ95xx Reference Manual
+
+14.3.6.
+
+Continuous conversion mode
+In continuous conversion mode ADC starts another conversion as soon as it finishes one.
+This mode is started either by external trigger or by setting the ADON bit in the ADC_CR2,
+while the CONT bit is 1.
+After each conversion:
+⚫
+
+⚫
+
+14.3.7.
+
+If a regular channel was converted:
+◼
+
+The converted data is stored in the 16-bit ADC_DR register
+
+◼
+
+The EOC (End Of Conversion) flag is set
+
+◼
+
+An interrupt is generated if the EOCIE is set.
+
+If an injected channel was converted:
+◼
+
+The converted data is stored in the 16-bit ADC_DRJ1 register
+
+◼
+
+The JEOC (End Of Conversion Injected) flag is set
+
+◼
+
+An interrupt is generated if the JEOCIE bit is set.
+
+Timing diagram
+As shown in Figure 15.2, the ADC needs a stabilization time of t STAB before it starts
+converting accurately. After the start of ADC conversion and after 14 clock cycles, the EOC
+flag is set and the 16-bit ADC Data register contains the result of the conversion.
+Figure 14-2. ADC sequence diagram
+
+14.3.8.
+
+Analog watchdog
+The AWD analog watchdog status bit is set if the analog voltage converted by the ADC is
+below a low threshold or above a high threshold. These thresholds are programmed in the 12
+least significant bits of the ADC_HTR and ADC_LTR 16-bit registers. An interrupt can be
+enabled by using the AWDIE bit in the ADC_CR1 register.
+The threshold value is independent of the alignment selected by the ALIGN bit in the
+ADC_CR2 register. The comparison is done before the alignment.
+
+Doc ID 2905025
+
+Rev01
+
+155
+
+WB32FQ95xx Reference Manual
+
+The analog watchdog can be enabled on one or more channels by configuring the ADC_CR1
+register as shown in Table 15.2.
+Figure 14-3. ADC simulated watchdog alert area
+
+Table 14-2. ADC analog watchdog channel selection
+Simulated guard dog alert channel
+
+AWDSGL
+
+AWDEN
+
+JAWDEN
+
+All injected channels
+
+0
+
+0
+
+1
+
+All regular channels
+
+0
+
+1
+
+0
+
+All regular and injected channels
+
+0
+
+1
+
+1
+
+Single injected channel(1)
+
+1
+
+0
+
+1
+
+Singleregular channel(1)
+
+1
+
+1
+
+0
+
+Single regular or injected channel(1)
+
+1
+
+1
+
+1
+
+Note: the single channel is selected by AWDCH [4:0] bits
+
+14.3.9.
+
+Scan mode
+This mode is used to scan a group of analog channels.
+Scan mode can be selected by setting the SCAN bit in the ADC_CR1 register. Once this bit
+is set, ADC scans all the channels selected in the ADC_SQRx registers (for regular channels)
+or in the ADC_JSQR (for injected channels). A single conversion is performed for each
+channel of the group. After each end of conversion the next channel of the group is
+converted automatically. If the CONT bit is set, conversion does not stop at the last selected
+group channel but continues again from the first selected group channel.
+When using scan mode, DMA bit must be set and the direct memory access controller is
+used to transfer the converted data of regular group channels to SRAM after each update of
+the ADC_DR register.
+The injected channel converted data is always stored in the ADC_JDRx registers.
+
+Doc ID 2905025
+
+Rev01
+
+156
+
+WB32FQ95xx Reference Manual
+
+14.3.10.
+
+Injected channel management
+Triggered injection
+To use triggered injection, the JAUTO bit must be cleared and SCAN bit must be set in the
+ADC_CR1 register.
+⚫
+
+Start conversion for a group of regular channels either by external trigger or by setting
+the ADON bit in the ADC_CR2 register.
+
+⚫
+
+If an external injected trigger occurs during the regular group channel conversion, the
+current conversion is reset and the injected channel sequence is converted in Scan
+once mode.
+
+⚫
+
+Then, the regular group channel conversion is resumed from the last interrupted regular
+conversion. If a regular event occurs during an injected conversion, it doesn’t interrupt it
+but the regular sequence is executed at the end of the injected sequence.
+
+Note: when using triggered injection conversion, the interval between triggering events must
+be longer than the injection sequence. For example, the injection sequence length is 28 ADC
+clock cycles, and the minimum interval between each trigger is 29 ADC clock cycles.
+Automatic injection
+If the JAUTO bit is set, the injection group channel is automatically converted after the rule
+group channel. This can be used to convert up to 20 conversion sequences set in the
+ADC_SQRx and ADC_JSQR registers.
+In this mode, external triggering of the injection channel must be disabled.
+If the CONT bit is set in addition to the JAUTO bit, the conversion sequence from the regular
+channel to the injection channel is executed continuously.
+Note: automatic injection and discontinuous mode cannot be used at the same time.
+
+14.3.11.
+
+Discontinuous mode
+Rule group
+This mode is activated by setting the DISCEN bit on the ADC_CR1 register. It can be used to
+perform n conversions of a short sequence (n ≤ 8), which is a part of the conversion
+sequence selected by ADC_SQRx register. The value n is given by the DISCNUM [2:0] bit of
+ADC_CR1 register.
+An external trigger signal can start the next round of N conversions described in ADC_SQRx
+register until all conversions of this sequence are completed. The total sequence length is
+defined by L [3:0] of adcsqr1 register
+For example:
+N = 3, converted channel = 0, 1, 2, 3, 6, 7, 9, 10
+First trigger: converted sequence is 0, 1, 2
+Second trigger: converted sequence is 3, 6, 7
+
+Doc ID 2905025
+
+Rev01
+
+157
+
+WB32FQ95xx Reference Manual
+
+Third trigger: the sequence of conversion is 9 and 10, and the EOC event is generated.
+The fourth trigger: the sequence of conversion is 0, 1 and 2
+Note:
+⚫
+
+When converting a rule group in discontinuous mode, it does not automatically start
+from the beginning after the end of the conversion sequence.
+
+⚫
+
+When all subgroups are converted, the next trigger starts the conversion of the first
+subgroup. In the above example, the fourth trigger re-transforms channels 0, 1, and 2 of
+the first subgroup.
+
+Injection group
+This mode is activated by setting the JDISCEN bit of ADC_CR1 register. After an external
+trigger event, the mode converts the sequence selected in the ADC_JSQR register one by
+one in channel order.
+An external trigger signal can start the conversion of the next channel sequence selected by
+ADC_JSQR register until all the conversions in the sequence are completed. The total
+sequence length is defined by JL [1:0] bit of ADC_JSQR register.
+For example:
+N = 1, converted channel = 1, 2, 3
+First trigger: Channel 1 is converted
+Second trigger: Channel 2 is converted
+Third trigger: Channel 3 is converted, and EOC and JECO events are generated.
+Fourth trigger: Channel 1 is converted.
+Note:
+⚫
+
+When all injection channels are converted, the next trigger starts the conversion of the
+first injection channel. In the above example, the fourth trigger re switches the first
+injection channel 1.
+
+14.4.
+
+⚫
+
+Automatic injection and discontinuous mode cannot be used at the same time.
+
+⚫
+
+It is necessary to avoid setting up break mode for rule group and injection group at the
+same time. Discontinuous mode can only be used for one set of transitions.
+
+Calibration
+ADC has a built-in self calibration mode. Calibration can greatly reduce the accuracy error
+caused by the change of internal capacitor bank. During calibration, an error-correction code
+(digital word) is calculated on each capacitor, which is used to eliminate the error generated
+on each capacitor in subsequent conversion.
+Calibration is started by setting CAL bit of ADC_CR2 register. Once the calibration is finished,
+the CAL bit is reset by the hardware and normal conversion can be started. It is
+recommended to perform an ADC calibration at power up. After the calibration phase, the
+
+Doc ID 2905025
+
+Rev01
+
+158
+
+WB32FQ95xx Reference Manual
+
+calibration code is stored in ADCCALL and ADCCALH.
+Note: it is recommended to perform a calibration after each power up.
+Before starting a calibration, the SARADC must been enabled and it must have been in
+power-on state (ADON bit = ‘1’) for at least two ADC clock cycles.
+Figure 14-4. ADC calibration sequence diagram
+
+14.5.
+
+Data alignment
+ALIGN bit in the ADC_CR2 register selects the alignment of data stored after conversion.
+Data can be left or right aligned as shown in Figure 15-6 and Figure 15-7.
+The injected group channels converted data value is decreased by the user-defined offset
+written in the ADC_JOFRx registers so the result can be a negative value. The SEXT bit is
+the extended sign value.
+For regular group channels no offset is subtracted so only twelve bits are significant.
+Figure 14-5. Left alignment of data
+
+Figure 14-6. Right alignment of data
+
+14.6.
+
+Channel-by-channel programmable sample time
+ADC samples the input voltage for a number of ADC_CLK cycles which can be modified
+using the SMP[2:0] bits in the ADC_SMPR1 and ADC_SMPR2 registers. Each channel can
+be sampled with a different sample time.
+The total conversion time is calculated as follows:
+
+Doc ID 2905025
+
+Rev01
+
+159
+
+WB32FQ95xx Reference Manual
+
+Tconv = Sampling time + 12.5 cycles
+Example:
+With an ADCCLK = 14 MHz and a sampling time of 1.5 cycles:
+Tconv = 1.5 + 12.5 = 14 cycles = 1 µs
+
+14.7.
+
+Conversion on external trigger
+Conversion can be triggered by external events (such as timer capture, EXTI line). If the
+EXTTRIG control bit is set, the conversion can be triggered by external events. EXTSEL [2:0]
+and JEXTSEL[2:0] control bits allow the application to select one of the eight possible events
+to trigger the sampling of rules and injection groups.
+Note: when an external trigger signal is selected as ADC rule or injection conversion, only its
+rising edge can start the conversion.
+Table 14-3. External trigger for regular channels
+Source
+
+type
+
+EXTSEL[2:0]
+
+TIM1_CC1 event
+
+TIM1 channel 1 interrupt signal
+
+000
+
+TIM1_CC2 event
+
+TIM1 channel 2 interrupt signal
+
+001
+
+TIM1_CC3 event
+
+TIM1 channel 3 interrupt signal
+
+010
+
+TIM2_CC2 event
+
+TIM2 channel 2 interrupt signal
+
+011
+
+TIM3_TRGO event
+
+TIM3 TRGO signal
+
+100
+
+TIM4_CC4 event
+
+TIM4 channel 4 interrupt signal
+
+101
+
+EXTI11
+
+External pin
+
+110
+
+SWSTART
+
+Software control bit
+
+111
+
+Table 14-4. External trigger for injected channels
+
+14.8.
+
+Source
+
+type
+
+JEXTSEL[2:0]
+
+TIM1_TRGO event
+
+TIM1 TRGO signal
+
+000
+
+TIM1_CC4 event
+
+TIM1 channel 4 interrupt signal
+
+001
+
+TIM2_TRGO event
+
+TIM2 TRGO signal
+
+010
+
+TIM2_CC1 event
+
+TIM2 channel 1 interrupt signal
+
+011
+
+TIM3_CC4 event
+
+TIM3 channel 4 interrupt signal
+
+100
+
+TIM4_TRGO event
+
+TIM4 TRGO signal
+
+101
+
+EXTI15
+
+External pin
+
+110
+
+JSWSTART
+
+Software control bit
+
+111
+
+DMA request
+Regular group DMA request
+Because the value of regular channel conversion is stored in a FIFO with a depth of 4, when
+
+Doc ID 2905025
+
+Rev01
+
+160
+
+WB32FQ95xx Reference Manual
+
+converting multiple regular channels (the sequence length exceeds 4), DMA is needed to
+avoid data loss. The register at DMA read is ADC_DR.
+DMA requests are generated at the end of a conversion of the rule channel (FIFO is not
+empty) and the converted data is transferred from the ADC_CR register to the target address
+specified by the user.
+Injection group DMA request
+After all the injection group conversions are completed, DMA requests are generated. DMA
+reads the register ADCJMAR to get the data.
+
+14.9.
+
+Temperature sensor
+Temperature sensors can be used to measure the temperature (TA) around the device. The
+temperature sensor is internally connected to the ADC_IN16 input channel, which converts
+the voltage output of the sensor into a digital value. The recommended sampling time of
+temperature sensor analog input is 17.1 μs (TBD).
+BGCR2.TEMPOUTEN bit of the analog register module must be set to 1 to turn on the
+temperature sensor. The output voltage of temperature sensor varies linearly with
+temperature. Due to the change of production process, the deviation of temperature change
+curve will be different on different chips (the maximum difference is 45 °C TBD).
+The internal temperature sensor is more suitable for detecting the temperature change than
+measuring the absolute temperature. If accurate temperature measurement is required, an
+external temperature sensor should be used.
+The procedure to use the temperature sensor is as follows:
+⚫
+
+select ADC_IN16 input channel
+
+⚫
+
+select the sampling time of 17.1us (TBD)
+
+⚫
+
+set TSVREFE bit of ADC control register 2 (ADC_CR2) to wake up temperature sensor
+from power down mode
+
+⚫
+
+set the analog register module BGCR2.TEMPOUT to 1
+
+⚫
+
+the temperature is obtained by using the following formula:
+Temperature (· C) = {(v25 − VSENSE) /Avg_Slope} + 25
+
+V25 = VSENSE value at 25 °C.
+Avg_Slope = average slope of temperature vs. VSENSE curve in MV / · C or μ V / · C
+Note: there is a build time for the sensor from wake-up in off mode to VSENSE that can
+output the correct level. ADC also has a set-up time after power on. Therefore, in order to
+shorten the delay, it is recommended to turn on both ADC and temperature sensor.
+
+14.10. ADC interrupts
+Two flags are present in the ADC_SR register, but there is no interrupt associated with them:
+JSTRT (Start of conversion for injected group channels)
+STRT (Start of conversion for regular group channels)
+
+Doc ID 2905025
+
+Rev01
+
+161
+
+WB32FQ95xx Reference Manual
+
+Table 14-5. ADC interrupt
+Interrupt event
+
+Event flag
+
+Enable Control bit
+
+Overflow of conversion regular group
+
+OVF
+
+OVFIE
+
+empty of conversion regular group
+
+EMPF
+
+EMPIE
+
+End of conversion regular group
+
+EOC
+
+EOCIE
+
+End of conversion injected group
+
+JEOC
+
+JEOCIE
+
+Analog watchdog status bit is set
+
+AWD
+
+AWDIE
+
+14.11.
+
+ADC registers
+
+14.11.1.
+
+ADC status register (ADC_SR)
+Address offset: 0x00
+Reset value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:15
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+Regular channel FIFO overflow flag
+It is set by hardware when FIFO of regular channel overflows and
+
+6
+
+OVF
+
+RC_W0
+
+cleared by hardware or software.
+0: FIFO of regular channel does not overflow;
+1: Regular channel FIFO overflow
+Regular channel FIFO empty flag
+It is set by hardware when FIFO of regular channel is empty and
+
+5
+
+EMPF
+
+RC_W0
+
+cleared by hardware or software.
+0: there is unread data in FIFO of regular channel;
+1: Regular channel FIFO null
+Regular channel Start flag
+This bit is set by hardware when regular channel conversion starts. It is
+
+4
+
+STRT
+
+RC_W0
+
+cleared by software.
+0: No regular channel conversion started
+1: Regular channel conversion has started
+Injected channel Start flag
+This bit is set by hardware when injected channel group conversion
+
+3
+
+JSTRT
+
+RC_W0
+
+starts. It is cleared by software.
+0: No injected group conversion started
+1: Injected group conversion has started
+Injected channel end of conversion
+This bit is set by hardware at the end of all injected group channel
+
+2
+
+JEOC
+
+RC_W0
+
+conversion. It is cleared by software.
+0: Conversion is not complete
+1: Conversion complete
+
+Doc ID 2905025
+
+Rev01
+
+162
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+End of conversion
+This bit is set by hardware at the end of a group channel conversion
+(regular or injected). It is cleared by software or by reading the
+
+1
+
+EOC
+
+RC_W0
+
+ADC_DR.
+0: Conversion is not complete
+1: Conversion complete
+Analog watchdog flag
+This bit is set by hardware when the converted voltage crosses the
+values programmed in the ADC_LTR and ADC_HTR registers. It is
+
+0
+
+AWD
+
+RC_W0
+
+cleared by software.
+0: No Analog watchdog event occurred
+1: Analog watchdog event occurred
+
+14.11.2.
+
+ADC control register 1(ADC_CR1)
+Address offset: 0x04
+Reset value:0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:24
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+Analog watchdog enable on regular channels
+This bit is set/reset by software.
+
+23
+
+AWDEN
+
+RW
+
+0: Analog watchdog disabled on regular channels
+1: Analog watchdog enabled on regular channels
+Analog watchdog enable on injected channels
+This bit is set/reset by software.
+
+22
+
+JAWDEN
+
+RW
+
+0: Analog watchdog disabled on injected channels
+1: Analog watchdog enabled on injected channels
+
+21:16
+
+-
+
+R
+
+Reserved, must be kept 0.
+Discontinuous mode channel count
+These bits are written by software to define the number of regular
+channels to be converted in discontinuous mode, after receiving an
+external trigger.
+
+15:13
+
+DISCNUM[2:0]
+
+RW
+
+000: 1 channel
+001: 2 channels
+.......
+111: 8 channels
+Discontinuous mode on injected channels
+This bit set and cleared by software to enable/disable discontinuous
+
+12
+
+JDISCEN
+
+RW
+
+mode on injected group channels
+0: Discontinuous mode on injected channels disabled
+1: Discontinuous mode on injected channels enabled
+
+Doc ID 2905025
+
+Rev01
+
+163
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Discontinuous mode on regular channels
+This bit set and cleared by software to enable/disable Discontinuous
+
+11
+
+DISCEN
+
+RW
+
+mode on regular channels.
+0: Discontinuous mode on regular channels disabled
+1: Discontinuous mode on regular channels enabled
+Automatic Injected Group conversion
+This bit set and cleared by software to enable/disable automatic
+
+10
+
+JAUTO
+
+RW
+
+injected group conversion after regular group conversion.
+0: Automatic injected group conversion disabled
+1: Automatic injected group conversion enabled
+Enable the watchdog on a single channel in scan mode
+This bit set and cleared by software to enable/disable the analog
+
+9
+
+AWDSGL
+
+RW
+
+watchdog on the channel identified by the AWDCH[4:0] bits.
+0: Analog watchdog enabled on all channels
+1: Analog watchdog enabled on a single channel
+Scan mode
+This bit is set and cleared by software to enable/disable Scan mode. In
+Scan mode, the inputs selected through the ADC_SQRx or
+ADC_JSQRx registers are converted.
+
+8
+
+SCAN
+
+RW
+
+0: Scan mode disabled
+1: Scan mode enabled
+Note: An EOC or JEOC interrupt is generated only on the end of
+conversion of the last channel if the corresponding EOCIE or JEOCIE
+bit is set
+Interrupt enable for injected channels
+This bit is set and cleared by software to enable/disable the end of
+conversion interrupt for injected channels.
+
+7
+
+JEOCIE
+
+RW
+
+0: JEOC interrupt disabled
+1: JEOC interrupt enabled. An interrupt is generated when the JEOC bit
+is set.
+Analog watchdog interrupt enable
+This bit is set and cleared by software to enable/disable the analog
+
+6
+
+AWDIE
+
+RW
+
+watchdog interrupt.
+0: Analog watchdog interrupt disabled
+1: Analog watchdog interrupt enabled
+Interrupt enable for EOC
+This bit is set and cleared by software to enable/disable the End of
+Conversion interrupt.
+
+5
+
+EOCIE
+
+RW
+
+0: EOC interrupt disabled
+1: EOC interrupt enabled. An interrupt is generated when the EOC bit is
+set
+
+4:0
+
+AWDCH[4:0]
+
+Doc ID 2905025
+
+RW
+
+Analog watchdog channel select bits
+
+Rev01
+
+164
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+These bits are set and cleared by software. They select the input
+channel to be guarded by the Analog watchdog.
+00000: ADC analog Channel0
+00001: ADC analog Channel1
+....
+01111: ADC analog Channel15
+10000: ADC analog Channel16
+10001: ADC analog Channel17
+Other values Reserved
+
+14.11.3.
+
+ADC control register 2(ADC_CR2)
+Address offset: 0x08
+Reset value:0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:24
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+Temperature sensor and VREFINT enable
+This bit is set and cleared by software to enable/disable the temperature
+
+23
+
+TSVREFE
+
+RW
+
+sensor and VREFINT channel.
+0: Temperature sensor and VREFINT channel disabled
+1: Temperature sensor and VREFINT channel enabled
+Start conversion of regular channels
+This bit is set by software to start conversion and cleared by hardware
+as soon as conversion starts. It starts a conversion of a group of regular
+
+22
+
+SWSTART
+
+RW
+
+channels if SWSTART is selected as trigger event by the EXTSEL[2:0]
+bits.
+0: Reset state
+1: Starts conversion of regular channels
+Start conversion of injected channels
+This bit is set by software and cleared by software or by hardware as
+soon as the conversion starts. It starts a conversion of a group of
+
+21
+
+JSWSTART
+
+RW
+
+injected channels (if JSWSTART is selected as trigger event by the
+JEXTSEL[2:0] bits.
+0: Reset state
+1: Starts conversion of injected channels
+External trigger conversion mode for regular channels
+This bit is set and cleared by software to enable/disable the external
+
+20
+
+EXTTRIG
+
+RW
+
+trigger used to start conversion of a regular channel group.
+0: Conversion on external event disabled
+1: Conversion on external event enabled
+External event select for regular group
+
+19:17
+
+EXTSEL[2:0]
+
+Doc ID 2905025
+
+RW
+
+These bits select the external event used to trigger the start of
+
+Rev01
+
+165
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+conversion of a regular group:
+the assigned triggers are:
+000: Timer 1 CC1 event
+001: Timer 1 CC2 event
+010: Timer 1 CC3 event
+011: Timer 2 CC2 event
+100: Timer 3 TRGO event
+101: Timer 4 CC4 event
+110: EXTI line 1 event
+111: SWSTART
+
+16
+
+-
+
+R
+
+Reserved, must be kept 0
+External trigger conversion mode for injected channels
+This bit is set and cleared by software to enable/disable the external
+
+15
+
+JEXTTRIG
+
+RW
+
+trigger used to start conversion of an injected channel group.
+0: Conversion on external event disabled
+1: Conversion on external event enabled
+External event select for injected group
+These bits select the external event used to trigger the start of
+conversion of an injected group:
+the assigned triggers are:
+000: Timer 1 TRGO event
+001: Timer 1 CC4 event
+
+14:12
+
+JEXTSEL[2:0]
+
+RW
+
+010: Timer 2 TRGO event
+011: Timer 2 CC1 event
+100: Timer 3 CC4 event
+101: Timer 4 TRGO event
+110: EXTI line15
+111: JSWSTART
+Data alignment
+This bit is set and cleared by software. Refer to Figure 15.5 15.6 15.7
+
+11
+
+ALIGN
+
+RW
+
+15.8
+0: Right Alignment
+1: Left Alignment
+
+10
+
+-
+
+R
+
+Reserved, must be kept 0
+DMA: Direct memory access mode
+This bit is set and cleared by software. Refer to the DMA controller
+
+9
+
+JDMAEN
+
+RW
+
+chapter for more details.
+0: DMA mode disabled
+1: DMA mode enabled
+Regular group DMA mode
+
+8
+
+DMAEN
+
+RW
+
+This bit is set and cleared by software. See DMA controller for details.
+0: do not use DMA mode;
+
+Doc ID 2905025
+
+Rev01
+
+166
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+1: Use DMA mode.
+
+7:4
+
+-
+
+R
+
+Reserved, must be kept 0
+Reset calibration
+This bit is set by software and cleared by hardware. It is cleared after
+the calibration registers are initialized.
+
+3
+
+RSTCAL
+
+RW
+
+0: Calibration register initialized.
+1: Initialize calibration register.
+Note: If RSTCAL is set when conversion is ongoing, additional cycles
+are required to clear the calibration registers.
+CAL: A/D Calibration
+This bit is set by software to start the calibration. It is reset by hardware
+
+2
+
+CAL
+
+RW
+
+after calibration is complete.
+0: Calibration completed
+1: Enable calibration
+CONT: Continuous conversion
+This bit is set and cleared by software. If set conversion takes place
+
+1
+
+CONT
+
+RW
+
+continuously till this bit is reset.
+0: Single conversion mode
+1: Continuous conversion mode
+ADON: A/D converter ON / OFF
+This bit is set and cleared by software. If this bit holds a value of zero
+and a 1 is written to it then it wakes up the ADC from Power Down state.
+Conversion starts when this bit holds a value of 1 and a 1 is written to it.
+The application should allow a delay of tSTAB between power up and
+
+0
+
+ADON
+
+RW
+
+start of conversion. Refer to Figure 23.
+0: Disable ADC conversion/calibration and go to power down mode.
+1: Enable ADC and to start conversion
+Note: If any other bit in this register apart from ADON is changed at the
+same time, then conversion is not triggered. This is to prevent triggering
+an erroneous conversion.
+
+14.11.4.
+
+ADC sample time register 1(ADC_SMPR1)
+Address offset: 0x0C
+Reset value:0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:24
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+Channel x Sample time selection
+These bits are written by software to select the sample time individually
+
+23:0
+
+SMPx[2:0]
+
+RW
+
+for each channel. During sample cycles channel selection bits must
+remain unchanged.
+
+Doc ID 2905025
+
+Rev01
+
+167
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+000: 1.5 cycles
+001: 7.5 cycles
+010: 13.5 cycles
+011: 28.5 cycles
+100: 41.5 cycles
+101: 55.5 cycles
+110: 71.5 cycles
+111: 239.5 cycles
+
+14.11.5.
+
+ADC sample time register2(ADC_SMPR2)
+Address offset: 0x10
+Reset value:0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:30
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+Channel x Sample time selection
+These bits are written by software to select the sample time individually
+for each channel. During sample cycles channel selection bits must
+remain unchanged.
+000: 1.5 cycles
+001: 7.5 cycles
+
+29:0
+
+SMPx[2:0]
+
+RW
+
+010: 13.5 cycles
+011: 28.5 cycles
+100: 41.5 cycles
+101: 55.5 cycles
+110: 71.5 cycles
+111: 239.5 cycles
+
+14.11.6.
+
+ADC injected channel data offset register x (ADC_JOFRx）(x =1..4)
+Address offset: 0x14 -0x20
+Reset value:0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+Data offset for injected channel x
+These bits are written by software to define the offset to be subtracted
+
+11:0
+
+JOFFSETx[11:0]
+
+RW
+
+from the raw converted data when converting injected channels. The
+conversion result can be read from in the ADC_JDRx registers.
+
+14.11.7.
+
+ADC watchdog high threshold register (ADC_HTR)
+Address offset: 0x24
+
+Doc ID 2905025
+
+Rev01
+
+168
+
+WB32FQ95xx Reference Manual
+
+Reset value:0x0000_0000
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+Analog watchdog high threshold
+
+11:0
+
+HT[10:0]
+
+RW
+
+These bits are written by software to define the high threshold for the
+analog watchdog.
+
+14.11.8.
+
+ADC watchdog low threshold register (ADC_LTR)
+Address offset: 0x28
+Reset value:0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+Analog watchdog low threshold
+
+11:0
+
+LT[10:0]
+
+RW
+
+These bits are written by software to define the low threshold for the
+analog watchdog.
+
+14.11.9.
+
+ADC regular sequence register 1 (ADC_SQR1)
+Address offset: 0x2C
+Reset value:0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:24
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+Regular channel sequence length
+These bits are written by software to define the total number of
+conversions in the regular channel conversion sequence.
+
+23:20
+
+L[3:0]
+
+RW
+
+0000: 1 conversion
+0001: 2 conversions
+.....
+1111: 16 conversions
+16th conversion in regular sequence
+
+19:15
+
+SQ16[4:0]
+
+RW
+
+These bits are written by software with the channel number (0..17)
+assigned as the 16th in the conversion sequence.
+
+14:10
+
+SQ15[4:0]
+
+RW
+
+15th conversion in regular sequence
+
+9:5
+
+SQ14[4:0]
+
+RW
+
+14th conversion in regular sequence
+
+4:0
+
+SQ13[4:0]
+
+RW
+
+13th conversion in regular sequence
+
+14.11.10.
+
+ADC regular sequence register 2 (ADC_SQR2)
+Address offset: 0x30
+Reset value：0x0000_0000
+
+Doc ID 2905025
+
+Rev01
+
+169
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:30
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+12th conversion in regular sequence
+
+29:25
+
+SQ12[4:0]
+
+RW
+
+These bits are written by software with the channel number (0..17)
+assigned as the 12th in the sequence to be converted.
+
+24:20
+
+SQ11[4:0]
+
+RW
+
+11th conversion in regular sequence
+
+19:15
+
+SQ10[4:0]
+
+RW
+
+10th conversion in regular sequence
+
+14:10
+
+SQ9[4:0]
+
+RW
+
+9th conversion in regular sequence
+
+9:5
+
+SQ8[4:0]
+
+RW
+
+8th conversion in regular sequence
+
+4:0
+
+SQ7[4:0]
+
+RW
+
+7th conversion in regular sequence
+
+14.11.11.
+
+ADC regular sequence register 3 (ADC_SQR3)
+Address offset: 0x34
+Reset value：0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:30
+
+-
+
+R
+
+Description
+Reserved, must be kept at reset value.
+6th conversion in regular sequence
+
+29:25
+
+SQ6[4:0]
+
+RW
+
+These bits are written by software with the channel number (0~17)
+assigned as the 6th in the sequence to be converted.
+
+24:20
+
+SQ5[4:0]
+
+RW
+
+5th conversion in regular sequence
+
+19:15
+
+SQ4[4:0]
+
+RW
+
+4th conversion in regular sequence
+
+14:10
+
+SQ3[4:0]
+
+RW
+
+3th conversion in regular sequence
+
+9:5
+
+SQ2[4:0]
+
+RW
+
+2th conversion in regular sequence
+
+4:0
+
+SQ1[4:0]
+
+RW
+
+1th conversion in regular sequence
+
+14.11.12.
+
+ADC injected sequence register (0ADC_JSQR)
+Address offset: 0x38
+Reset value:0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:22
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+Injected sequence length
+These bits are written by software to define the total number of
+conversions in the injected channel conversion sequence.
+
+21:20
+
+JL[1:0]
+
+RW
+
+00: 1 conversion
+01: 2 conversions
+10: 3 conversions
+11: 4 conversions
+
+Doc ID 2905025
+
+Rev01
+
+170
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+4th conversion in injected sequence (when JL[1:0] = 3)(1)
+These bits are written by software with the channel number (0..17)
+assigned as the 4th in the sequence to be converted.
+Note: Unlike a regular conversion sequence, if JL[1:0] length is less than
+
+19:15
+
+JSQ4[4:0]
+
+RW
+
+four, the channels are converted in a sequence starting from (4-JL).
+Example: ADC_JSQR[21:0] = 10 00011 00011 00111 00010 means
+that a scan conversion will convert the following channel sequence: 7, 3,
+3. (not 2, 7, 3)
+
+14:10
+
+JSQ3[4:0]
+
+RW
+
+3rd conversion in injected sequence
+
+9:5
+
+JSQ2[4:0]
+
+RW
+
+2nd conversion in injected sequence
+
+4:0
+
+JSQ1[4:0]
+
+RW
+
+1st conversion in injected sequence
+
+14.11.13.
+
+ADC injected data register x (ADC_JDRx) (x=1..4)
+Address offset: 0x3C -0x48
+Reset value:0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+Injected data
+These bits are read only. They contain the conversion result from
+
+15:0
+
+JDATA[15:0]
+
+R
+
+injected channel x. The data is left or right-aligned as shown in Figure
+15-5 15-6 15-7 15-8
+
+14.11.14.
+
+ADC regular data register (ADC_DR)
+Address offset: 0x4C
+Reset value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+-
+
+R
+
+Description
+Reserved, must be kept 0
+Regular data
+These bits are read only. They contain the conversion result from the
+
+15:0
+
+DATA[15:0]
+
+R
+
+regular channels. The data is left or right-aligned as shown in Figure
+15-5 15-6 15-7 15-8
+
+14.11.15.
+
+ADC control register 3(ADC_CR3)
+Address offset: 0x54
+Reset value: 0x0000_0000
+
+Bits
+
+Fields
+
+R/W
+
+31:18
+
+-
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved, must be kept 0
+
+Rev01
+
+171
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+FIFO empty interrupt enable bit.
+This bit is set and cleared by software.
+
+17
+
+EMPIE
+
+RW
+
+0: disable EMPF interrupt;
+1: Allow EMPF interrupt.
+FIFO overflow interrupt enable bit.
+This bit is set and cleared by software.
+
+16
+
+OVFIE
+
+RW
+
+0: disable OVF interrupt;
+1: OVF interrupt is allowed.
+ADC clock prescaler configuration:
+8’h00 : Tad = 2 ∗Tapb
+8’h01 : Tad = 4 ∗Tapb
+
+15:8
+
+ADC_PRS[7:0]
+
+RW
+
+8’h02 : Tad = 6 ∗Tapb
+......
+8’hFF : Tad = 512 ∗Tapb
+
+7
+
+-
+
+R
+
+Reserved, must be kept 0
+Configure ADC accuracy
+
+6
+
+12BIT
+
+RW
+
+0: Reserved
+1: ADC is 12 bits
+
+5:4
+
+-
+
+R
+
+Reserved, must be kept 0
+
+3:2
+
+-
+
+R
+
+Reserved
+
+1:0
+
+-
+
+R
+
+Reserved
+
+14.11.16.
+
+ADC injected convertion DMA register (ADC_JDMAR)
+Address offset: 0x58
+Reset value: 0x0000_0000
+When the injected conversion finish, DMA can read this address to get the conversion result.
+
+Doc ID 2905025
+
+Rev01
+
+172
+
+

@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: SPIM2_Master_Interrupt example</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">SPIM2_Master_Interrupt example </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><pre class="fragment">  *************** (C) COPYRIGHT 2020 - 2023 Westberry Technology ***************
+  * @file    SPI/SPIM2_Master_Interrupt/readme.txt 
+  * @author  Westberry Application Team
+  * @version V0.1.10
+  * @date    05-January-2023
+  * @brief   Description of the SPI SPIM2_Master_Interrupt example.
+  ******************************************************************************
+  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  * TIME. AS A RESULT, WESTBERRY SHALL NOT BE HELD LIABLE FOR ANY DIRECT,
+  * INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM
+  * THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  ******************************************************************************</pre><dl class="section user"><dt>例程描述 </dt><dd></dd></dl>
+<p>本例程与SPIS2_Slave_Interrupt例程演示如何以中断的方式完成SPI主机和SPI从机之间的通信。</p>
+<p>本例程系统时钟工作在96Mhz，通过PLL配置产生。PLL时钟源是外部8Mhz晶振。APB1的分频比是1，APB2的分频比是1。</p>
+<ul>
+<li>硬件描述</li>
+</ul>
+<p>要使用此例程，您需要两块WB32开发板（让我们称之为开发板A和开发板B），然后连接两块开发板的SPI接口和GND。 <br />
+另外需要将两个开发板的UART1连接到PC，以实现与开发板的交互。 <br />
+开发板A需加载SPIM2_Master_Interrupt程序，开发板B需加载SPIS2_Slave_Interrupt程序。</p>
+<pre class="fragment">*------------------------------------------------------------------------------*
+|                BoardA                                 BoardB                 |
+|         ____________________                   ____________________          |
+|        |                    |                 |                    |         |
+|        |     __________     |                 |     __________     |         |
+|        |    |          |____|_______NSS_______|____|          |    |         |
+|        |    |SPI Master|____|_______SCK_______|____|SPI Slave |    |         |
+|        |    |  Device  |____|_______MOSI______|____|  Device  |    |         |
+|        |    |__________|____|_______MISO______|____|__________|    |         |
+|        |                    |                 |                    |         |
+|        |                    |                 |                    |         |
+|        |             GND O--|-----------------|--O GND             |         |
+|        |                    |                 |                    |         |
+|        |                    |                 |                    |         |
+|        | UART1              |                 |              UART1 |         |
+|        |____________________|                 |____________________|         |
+|                                                                              |
+*------------------------------------------------------------------------------*
+</pre><ul>
+<li>软件描述</li>
+</ul>
+<p>在SPIM2_Master_Interrupt程序中，SPIM2外设被配置为SPI主机，使用中断发送和接收数据，通信速率被配置为 1 Mbit/s。 <br />
+在SPIS2_Slave_Interrupt程序中，SPIS2外设被配置为SPI从机，使用中断发送和接收数据。</p>
+<p>当两个开发板上电运行后，都会通过串口打印相关信息，等待串口输入才会继续运行。 <br />
+首先，向开发板B（SPI从机）的串口输入任意字符，令开发板B继续运行。 <br />
+然后，再向开发板A（SPI主机）的串口输入任意字符，令开发板A开始发起传输。 <br />
+当传输完成后，开发板A和开发板B都会打印出它们各自接收到的数据。</p>
+<dl class="section user"><dt>目录内容 </dt><dd></dd></dl>
+<ul>
+<li>SPI/SPIM2_Master_Interrupt/SPIM2_Master_Interrupt.uvprojx MDK5工程文件</li>
+<li>SPI/SPIM2_Master_Interrupt/SPIM2_Master_Interrupt.uvoptx MDK5工程配置文件</li>
+<li>SPI/SPIM2_Master_Interrupt/JLinkSettings.ini Jlink配置文件</li>
+<li>SPI/SPIM2_Master_Interrupt/main.c 主程序</li>
+</ul>
+<dl class="section user"><dt>硬件和软件环境 </dt><dd></dd></dl>
+<ul>
+<li>硬件平台搭建<ul>
+<li>HSE 连接外部8MHz晶振</li>
+<li>需要两块开发板</li>
+<li>两块开发板都需要将其各自的UART1连接到PC</li>
+<li>两块开发板之间的连接如下：<ul>
+<li>开发板A的 PC0 (SPIM2_NSS0) 管脚连接到 开发板B的 PC0 (SPIS2_NSS)</li>
+<li>开发板A的 PC1 (SPIM2_SCK) 管脚连接到 开发板B的 PC1 (SPIS2_SCK)</li>
+<li>开发板A的 PC2 (SPIM2_MI) 管脚连接到 开发板B的 PC2 (SPIS2_SO)</li>
+<li>开发板A的 PC3 (SPIM2_MO) 管脚连接到 开发板B的 PC3 (SPIS2_SI)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<dl class="section user"><dt>如何使用？ </dt><dd></dd></dl>
+<p>为了使程序工作，您必须执行以下操作 :</p><ul>
+<li>使用 MDK5 打开此例程文件夹中的 SPIM2_Master_Interrupt.uvprojx 工程</li>
+<li>重新编译该工程并下载到目标存储器中</li>
+<li><p class="startli">运行此例程</p>
+<h3><center>&copy; COPYRIGHT 2020 - 2023 Westberry Technology</center></h3>
+</li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

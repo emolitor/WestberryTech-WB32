@@ -1,0 +1,1265 @@
+WB32FQ95xx Reference Manual
+
+11.
+
+Analog control (ANCTL)
+
+11.1.
+
+Analog control introduction
+WB32FQ95xx contains analog macros, such as ADC, CMP, FLASH, PVD, Oscillator, PLL,
+POR/PDR block. These blocks are all controlled by registers in analog control macro.
+
+11.2.
+
+Analog control major features
+The major features of analog control are listed below
+
+11.3.
+
+⚫
+
+Enable/disable analog macros
+
+⚫
+
+Adjust analog macro parameters
+
+⚫
+
+Monitor analog macro status
+
+⚫
+
+Support analog macro debug and testing
+
+Analog control function description
+Because analog macros behavior related to the working performance of chip, analog control
+registers are all in write protect state by default to prevent mis-operation. A special key value
+must be written to ANAKEY1 and ANAKEY2 registers in PWR macro to unlock the SFR write
+protect. After write operation finished, user must clear the value in ANAKEY1 and ANAKEY2
+registers to enable the write protect of analog control registers.
+Read operation of ANCTL SFR is always allowed.
+
+11.3.1.
+
+MHSI control
+The internal 8M RC oscillator, MHSI, has a fixed frequency of 8 MHz and is the default clock
+source selection for the CPU when the device is powered up. The MHSI oscillator provides a
+lower cost type clock source as no external components are required. The MHSI RC
+oscillator can be switched on or off using the ANCTL_MHSIENR register.
+ANCTL_MHSISR monitor working status of MHSI.
+
+11.3.2.
+
+FHSI control
+The internal 48M RC oscillator, FHSI, has a fixed frequency of 48 MHz and is the clock
+source for the Flash Erase/program operation. The FHSI oscillator provides a lower cost type
+clock source as no external components are required. The FHSI RC oscillator can be
+switched on or off using the ANCTL_FHSIENR register. ANCTL_FHSISR monitor working
+status of FHSI.
+
+11.3.3.
+
+LSI control
+The internal RC oscillator has a frequency of about 32 kHz and is a low power clock source
+for the Real Time Clock circuit or the IWDG. The LSI offers a low cost clock source as no
+external components are required. The LSI RC oscillator can be switched on or off by using
+the ANCTL_LSIENR Register.
+
+Doc ID 2905025
+
+Rev01
+
+113
+
+WB32FQ95xx Reference Manual
+
+ANCTL_LSISR monitor working status of LSI.
+
+11.3.4.
+
+HSE control
+The high speed external crystal oscillator (HSE), which has a frequency from 4 to 16 MHz,
+produces a highly accurate clock source for use as the system clock. A crystal with a specific
+frequency must be connected and located close to the two HSE pins. The external resistor
+and capacitor components connected to the crystal are necessary for proper oscillation.
+The external crystal oscillator can be switched on or off using the HSEON bit in the
+ANCTL_HSECR0 register. The HSERDY flag in ANCTL_HSESR register indicates if the high
+speed external crystal oscillator is stable.
+Select external clock bypass mode by setting the BYPASS bits in the ANCTL_HSECR1
+register. The HSE clock is equal to the external clock which drives the OSCIN pin.
+The configuration of HSE mode is listed in table 12-1:
+Table 11-1. HSE mode configuration
+HSE mode
+
+HSEON
+
+BYPASS
+
+PADOEN
+
+external crystal/ceramic resonator
+
+1
+
+0
+
+1
+
+external clock
+
+0
+
+1
+
+0
+
+Note: When HSE is used as system clock source and the clock failure detection function is
+enabled, When HSE frequency below the threshold frequency, system will generate a NMI
+and switch to MHSI automatically.
+When system clock source is HSE, user should not turn off HSE.
+
+11.3.5.
+
+Phase locked loop (PLL)
+There is one internal Phase Locked Loop, named PLL.
+The PLL can be switched on or off by using the PLLON bit in the ANCTL_PLLENR Register.
+The PLLRDY flag in the ANCTL_PLLSR Register will indicate if the PLL clock is stable. An
+interrupt can be generated if the related interrupt enable bit, PLLIE, in the ANCTL_IER
+Register, is set as the PLL becomes stable.
+The PLL is closed by hardware when entering the Deepsleep/Standby mode or XTAL
+monitor fail when XTAL used as the source clock of the PLL.
+The PLL output frequency should not exceed 128MHz, PLL_PRE SFR in RCC macro control
+the pre-divider of PLL input clock, ANCTL_PLLCR control PLL output frequency multiplier
+factor.
+The typical configurations of PLL are listed in table12-2:
+Table 11-2. PLL frequency configuration
+
+HSE Frequency
+
+Pre-divider
+
+Multiplier
+
+Output frequency
+
+8MHz
+
+1
+
+16
+
+128MHz
+
+8MHz
+
+2
+
+12
+
+48MHz
+
+8MHz
+
+2
+
+20
+
+80MHz
+
+Doc ID 2905025
+
+Rev01
+
+114
+
+WB32FQ95xx Reference Manual
+
+HSE Frequency
+
+Pre-divider
+
+Multiplier
+
+Output frequency
+
+8MHz
+
+2
+
+24
+
+96MHz
+
+6MHz
+
+1
+
+16
+
+96MHz
+
+6MHz
+
+3
+
+24
+
+96MHz
+
+11.3.6.
+
+PVD control
+PVD can monitor the VDD/VDDA power supply by comparing it to a threshold selected by the
+PLS[2:0] bits in ANCTL_PVDCR register. When PVD event is detected, the event is
+internally connect to the EXTI line 16 and can generate an interrupt if enabled.
+ANCTL_PVDCR is used to configure PVD voltage threshold, refer to table12-3:
+Table 11-3. PVD voltage threshold selection
+PLS[2:0]
+
+Voltage detect level on falling edge
+
+Voltage detect level on rising edge
+
+3’b000
+
+2.14
+
+2.25
+
+3’b001
+
+2.24
+
+2.35
+
+3’b010
+
+2.34
+
+2.45
+
+3’b011
+
+2.44
+
+2.55
+
+3’b100
+
+2.54
+
+2.65
+
+3’b101
+
+2.64
+
+2.75
+
+3’b110
+
+2.74
+
+2.85
+
+3’b111
+
+2.84
+
+2.95
+
+ANCTL_PVDENR is used to control ON/OFF of PVD.
+PVD status can be checked from PWR_SR0 SFR.
+
+11.3.7.
+
+SARADC control
+The chip contains one 12-bit successive approximation analog-to-digital converter (SARADC)
+with 16 external input channels. The SARADC converter must be enabled by software before
+enabling the ADC controller. When ADC is not used, the SARADC should be turned off to
+save power.
+ANCTL_ADCENR register turn ON/OFF the SARADC macro.
+
+11.3.8.
+
+CSS control
+Clock Security System (CSS) is used to monitor the reliability of the HSE, If a failure is
+detected on the HSE clock, the HSE oscillator is automatically disabled, a clock failure event
+is sent to the break input of the advanced-control timers and an NMI (Non-Maskable Interrupt)
+is generated to inform the software about the failure. A HSE detected failure causes a switch
+of the system clock to the MHSI oscillator and the disabling of the HSE oscillator. If the HSE
+clock (divided or not) is the clock entry of the PLL used as system clock when the failure
+occurs, the PLL is disabled too.
+
+Doc ID 2905025
+
+Rev01
+
+115
+
+WB32FQ95xx Reference Manual
+
+ANCTL_CSSENR enable the clock detect function. ANCTL_CSSCR must be configured as
+0x3.
+
+11.4.
+
+Register definition
+
+11.4.1.
+
+BG control SFR2 (ANCTL_BGCR2)
+Address offset: 0x1C
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:2
+
+-
+
+R
+
+Reserved
+
+1
+
+TEMPOUTEN
+
+RW
+
+Bandgap temperature sensor output enable
+0: temperature sensor output disabled
+1: temperature sensor output enabled
+
+0
+
+-
+
+R
+
+Reserved
+
+11.4.2.
+
+Description
+
+MHSI enable SFR (ANCTL_MHSIENR)
+Address offset: 0x2C
+Reset Value: 0x0000 0001
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+MHSION
+
+RW
+
+Internal MHSI enable
+0: Internal MHSI is turned off
+1: Internal MHSI is turned on
+
+11.4.3.
+
+Description
+
+MHSI Status SFR (ANCTL_MHSISR)
+Address offset: 0x30
+Reset Value: 0x0000 0001
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+MHSIRDY
+
+R
+
+Internal MHSI output status
+0: Internal MHSI output not stable
+1: Internal MHSI output stable
+
+11.4.4.
+
+Description
+
+FHSI enable SFR (ANCTL_FHSIENR)
+Address offset: 0x38
+Reset Value: 0x0000 0001
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+RW
+
+Internal FHSI enable control
+0: Internal FHSI disabled
+1: Internal FHSI enabled
+
+0
+
+FHSION
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+116
+
+WB32FQ95xx Reference Manual
+
+11.4.5.
+
+FHSI Status SFR (ANCTL_FHSISR)
+Address offset: 0x3C
+Reset Value: 0x0000 0001
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+FHSIRDY
+
+R
+
+Internal FHSI clock output status
+0: Internal FHSI clock output not stable
+1: Internal FHSI clock output stable
+
+11.4.6.
+
+Description
+
+LSI enable SFR (ANCTL_LSIENR)
+Address offset: 0x44
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+LSION
+
+RW
+
+Internal LSI enable
+0: Internal LSI disabled
+1: Internal LSI enabled
+
+11.4.7.
+
+Description
+
+LSI Status SFR (ANCTL_LSISR)
+Address offset: 0x48
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+LSIRDY
+
+R
+
+Internal LSI clock output Status
+0: Internal LSI clock output not stable
+1: Internal LSI clock output stable
+
+11.4.8.
+
+Description
+
+HSE control SFR 0 (ANCTL_HSECR0)
+Address offset: 0x4C
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:2
+
+-
+
+R
+
+1
+
+BYPASS
+
+RW
+
+0
+
+HSEON
+
+RW
+
+Description
+Reserved
+External clock input mode enable
+0: External clock input mode disabled
+1:External clock input mode enable
+HSE enable
+0: HSE disabled
+1: HSE enabled
+
+Doc ID 2905025
+
+Rev01
+
+117
+
+WB32FQ95xx Reference Manual
+
+11.4.9.
+
+HSE control SFR 1 (ANCTL_HSECR1)
+Address offset: 0x50
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:2
+
+-
+
+R
+
+Reserved
+
+1
+
+PADOEN
+
+RW
+
+HSE clock loop back from PAD
+0: HSE clock loop back function disabled
+1:HSE clock loop back function enabled
+
+0
+
+-
+
+R
+
+Reserved
+
+11.4.10.
+
+Description
+
+HSE Status SFR (ANCTL_HSESR)
+Address offset: 0x58
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:1
+
+-
+
+R
+
+Reserved
+HSE clock output Status
+
+0
+
+HSERDY
+
+R
+
+0: HSE clock output not stable
+1: HSE clock output stable
+
+11.4.11.
+
+PLL control SFR (ANCTL_PLLCR)
+Address offset: 0x74
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:8
+
+-
+
+R
+
+Reserved
+
+7:6
+
+PLLMUL
+
+RW
+
+PLL multiplier factor
+00: PLL input clock x 24
+01: PLL input clock x 20
+10: PLL input clock x 16
+11: PLL input clock x 12
+
+5:0
+
+-
+
+R
+
+Reserved
+
+Note: The PLL output frequency must not exceed 128MHz.
+
+11.4.12.
+
+PLL enable SFR (ANCTL_PLLENR)
+Address offset: 0x78
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved
+
+Rev01
+
+118
+
+WB32FQ95xx Reference Manual
+
+0
+
+11.4.13.
+
+PLLON
+
+RW
+
+PLL enable control
+0: PLL disabled
+1: PLL enabled
+
+PLL Status SFR (ANCTL_PLLSR)
+Address offset: 0x7C
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:2
+
+-
+
+R
+
+Reserved
+
+R
+
+PLL clock output Status
+00: PLL clock output not stable
+01: PLL clock output within 90% of target frequency
+10: Invalid Status
+11: PLL clock output stable
+
+1:0
+
+11.4.14.
+
+PLLRDY
+
+Description
+
+PVD control SFR (ANCTL_PVDCR)
+Address offset: 0x80
+Reset Value: 0x0000 0004
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+Reserved
+
+2:0
+
+PLS
+
+RW
+
+PVD threshold voltage selection.
+Please refer to datasheet for detail.
+
+11.4.15.
+
+Description
+
+PVD enable SFR (ANCTL_PVDENR)
+Address offset: 0x84
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+RW
+
+PVD enable control
+0: PVD disabled
+1: PVD enabled
+
+0
+
+11.4.16.
+
+PVDE
+
+Description
+
+SARADC enable SFR (ANCTL_SARENR)
+Address offset: 0x8C
+Reset Value: 0x0000 001E
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+SAREN
+
+RW
+
+SARADC enable control
+0: SARADC disabled
+1: SARADC enabled
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+119
+
+WB32FQ95xx Reference Manual
+
+11.4.17.
+
+POR control SFR (ANCTL_PORCR)
+Address offset: 0x94
+Reset Value: 0x0000 0841
+
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+Reserved
+
+11:0
+
+POREN
+
+RW
+
+POR enable control
+0x7BE: POR disabled
+Other value:POR enabled
+
+11.4.18.
+
+Description
+
+INT Status SFR (ANCTL_ISR)
+Address offset: 0xA0
+Reset Value: 0x0000 0003
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Reserved
+
+7
+
+CSSIS
+
+R
+
+HSE clock failure detection interrupt flag
+
+6
+
+-
+
+R
+
+Reserved
+
+5
+
+PLLIS
+
+R
+
+PLL clock output stable flag
+
+4
+
+LSEIS
+
+R
+
+LSE clock output stable flag
+
+3
+
+HSEIS
+
+R
+
+HSE clock output stable flag
+
+2
+
+LSIIS
+
+R
+
+LSI clock output stable flag
+
+1
+
+FHSIIS
+
+R
+
+FHSI clock output stable flag
+
+0
+
+MHSIIS
+
+R
+
+MHSI clock output stable flag
+
+11.4.19.
+
+Description
+
+INT enable SFR (ANCTL_IER)
+Address offset: 0xA4
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:6
+
+-
+
+R
+
+5
+
+PLLIE
+
+RW
+
+4
+
+LSEIE
+
+RW
+
+3
+
+HSEIE
+
+RW
+
+2
+
+LSIIE
+
+RW
+
+Doc ID 2905025
+
+Description
+Reserved
+PLL clock stable interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+LSE clock stable interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+HSE clock stable interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+LSI clock stable interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+
+Rev01
+
+120
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+1
+
+FHSIIE
+
+RW
+
+0
+
+MHSIIE
+
+RW
+
+Description
+FHSI clock stable interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+MHSI clock stable interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+
+Note: HSE clock failure detection (CSS) is non-maskable interrupt.
+
+11.4.20.
+
+INT clear SFR (ANCTL_ICR)
+Address offset: 0xA8
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:8
+
+-
+
+R
+
+Reserved
+
+7
+
+CSSIC
+
+RW
+
+clear HSE clock failure detection interrupt flag
+Write “1” to the bit clear the flag in ANCTL_ISR SFR.
+
+6
+
+-
+
+R
+
+Reserved
+
+5
+
+PLLIC
+
+RW
+
+4
+
+LSEIC
+
+RW
+
+3
+
+HSEIC
+
+RW
+
+2
+
+LSIIC
+
+RW
+
+1
+
+FHSIIC
+
+RW
+
+0
+
+MHSIIC
+
+RW
+
+11.4.21.
+
+Description
+
+clear PLL clock output stable interrupt flag
+Write “1” to the bit clear the flag in ANCTL_ISR SFR.
+clear LSE clock output stable interrupt flag
+Write “1” to the bit clear the flag in ANCTL_ISR SFR.
+clear HSE clock output stable interrupt flag
+Write “1” to the bit clear the flag in ANCTL_ISR SFR.
+clear LSI clock output stable interrupt flag
+Write “1” to the bit clear the flag in ANCTL_ISR SFR.
+clear FHSI clock output stable interrupt flag
+Write “1” to the bit clear the flag in ANCTL_ISR SFR.
+clear MHSI clock output stable interrupt flag
+Write “1” to the bit clear the flag in ANCTL_ISR SFR.
+
+CSS enable SFR (ANCTL_CSSENR)
+Address offset: 0xB4
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Reserved
+
+0
+
+CSSON
+
+RW
+
+HSE clock failure detection control
+0: HSE clock failure detect function disabled
+1: HSE clock failure detect function enabled
+
+11.4.22.
+
+Description
+
+CSS configuration SFR (ANCTL_CSSCR)
+Address offset: 0xB8
+Reset Value: 0x0000 0000
+
+Bits
+
+Fields
+
+Doc ID 2905025
+
+R/W
+
+Description
+
+Rev01
+
+121
+
+WB32FQ95xx Reference Manual
+
+31:12
+
+-
+
+R
+
+Reserved
+
+11:0
+
+FREQCNT
+
+RW
+
+Configure CSS count value, must be configured to 0x03
+
+Doc ID 2905025
+
+Rev01
+
+122
+
+

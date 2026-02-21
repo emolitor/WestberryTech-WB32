@@ -1,0 +1,2417 @@
+WB32FQ95xx Reference Manual
+
+21.
+
+USB FULL SPEED DEVICE (USB)
+
+21.1.
+
+USB introduction
+The USB peripheral implements an interface between a full-speed USB2.0 bus and the AHB
+bus.
+USB suspend/resume are supported which allows to stop the device clocks for low-power
+consumption.
+
+21.2.
+
+21.3.
+
+USB main features
+⚫
+
+USB specification version 2.0 full-speed compliant
+
+⚫
+
+The USB modules is configurable for 3 IN endpoints and for 3 OUT endpoints in addition
+to Endpoint 0.
+
+⚫
+
+Support Bulk/Interrupt/Isochronous transfers
+
+⚫
+
+USB Suspend/Resume operations
+
+USB FIFO
+The USB FIFO size is 1024B and is a dedicated RAM. The FIFO size configuration for
+endpoints 0~3 is shown in Table 22.1
+Table 21-1. Dedicated RAM allocation table
+
+Base addresses
+
+Endpoint No.
+
+Size
+
+0x0000
+
+Endpoint 0
+
+64B
+
+0x0040
+
+Endpoint 1 IN
+
+128B
+
+0x00C0
+
+Endpoint 1 OUT
+
+128B
+
+0x0140
+
+Endpoint 2 IN
+
+128B
+
+0x01C0
+
+Endpoint 2 OUT
+
+128B
+
+0x0240
+
+Endpoint 3 IN
+
+128B
+
+0x02C0
+
+Endpoint 3 OUT
+
+128B
+
+0x0340
+
+unused
+
+192B
+
+21.4.
+
+Programming Scheme
+
+21.4.1.
+
+USB Interrupt Handling
+When the CPU is interrupted with a USB interrupt, it needs to read the interrupt status
+register to determine which endpoint(s) have caused the interrupt and jump to the
+
+Doc ID 2905025
+
+Rev01
+
+264
+
+WB32FQ95xx Reference Manual
+
+appropriate routine. If multiple endpoints have caused the interrupt, Endpoint 0 should be
+serviced first, followed by the other endpoints. The Suspend interrupt should be serviced
+last.
+Figure 21-1. USB Interrupt handling
+
+21.5.
+
+USB Reset
+When a reset condition is detected on the USB, the USB modules performs the following
+actions:
+⚫
+
+Sets FAddr to 0.
+
+⚫
+
+Sets Index to 0.
+
+⚫
+
+Flushes all endpoint FIFOs.
+
+⚫
+
+Clears all control/status registers.
+
+⚫
+
+Enables all interrupts, except Suspend.
+
+⚫
+
+Generates a Reset interrupt.
+
+When the software receives a Reset interrupt, it should close any open pipes and wait for
+USB enumeration to begin.
+
+Doc ID 2905025
+
+Rev01
+
+265
+
+WB32FQ95xx Reference Manual
+
+21.6.
+
+Suspend/Resume
+When the USB modules sees no activity on the USB for 3 ms, it will generate a Suspend
+interrupt (if enabled).
+It is up to the software to decide what, if anything, to disable when the USB is in Suspend
+mode.
+
+21.6.1.
+
+USB modules active during suspend
+The USB may exit Suspend mode by sending Resume signaling on the bus.
+If the USB modules is left active while the USB is in Suspend mode, the USB modules will
+monitor the USB for Resume signaling. When Resume signaling appears on the bus, the
+USB modules will generate a Resume interrupt.
+
+21.6.2.
+
+USB modules inactive during suspend
+When the Suspend interrupt described above is received, the software may disable the USB
+modules by stopping its clock (this must be done by some external means). However,
+because the USB modules is disabled, it will not then be able to detect Resume signaling on
+the USB. As a result, some external hardware will be needed to detect Resume signaling (by
+monitoring the DIM and DIP signals), so that the clock to the USB modules can be restarted.
+
+21.6.3.
+
+Remote wake up
+If the USB modules is in Suspend mode and the software wants to initiate a remote wake up,
+it should write to the Power register to set the Resume bit (D2) to 1. (If the clock to the USB
+modules has been stopped, it will need to be restarted before this write can occur.)
+The software should leave this bit set for approximately 10 ms (minimum of 2 ms, a
+maximum of 15 ms) then reset it to 0. By this time the hub should have taken over driving
+Resume signaling on the USB.
+Note: No Resume interrupt will be generated when the software initiates a remote wake up.
+
+21.7.
+
+Endpoint 0 Handling
+Endpoint 0 is the main control endpoint of the core. As such, the routines required to service
+Endpoint 0 are more complicated than those required to service other endpoints.
+The software is required to handle all the Standard Device Requests that may be received
+via Endpoint 0. These are described in Universal Serial Bus Specification, Revision 2.0,
+Chapter 9. The protocol for these device requests involves different numbers and types of
+transaction per transfer. To accommodate this, the CPU needs to take a state machine
+approach to command decoding and handling.
+The Standard Device Requests can be divided into three categories: Zero Data Requests (in
+which all the information is included in the command), Write Requests (in which the
+command will be followed by additional data), and Read Requests (in which the device is
+required to send data back to the host).
+This section looks at the sequence of events that the software must perform to process the
+different types of device request.
+
+Doc ID 2905025
+
+Rev01
+
+266
+
+WB32FQ95xx Reference Manual
+
+Note: The Setup packet associated with any Standard Device Request should include an
+8-byte command. Any Setup packet containing a command field of anything other than 8
+bytes will be automatically rejected by the USB modules core.
+
+21.7.1.
+
+Zero Data Requests
+Zero data requests have all their information included in the 8-byte command and require no
+additional data to be transferred.Examples of zero data Standard Device Requests are:
+SET_FEATURE,
+CLEAR_FEATURE,
+SET_ADDRESS,
+SET_CONFIGURATION,
+SET_INTERFACE.
+The sequence of events will begin, as with all requests, when the software receives an
+Endpoint 0 interrupt. The OutPktRdy bit (CSR0.D0) will also have been set. The 8-byte
+command should then be read from the Endpoint 0 FIFO, decoded and the appropriate
+action taken. For example if the command is SET_ADDRESS, the 7-bit address value
+contained in the command should be written to the FAddr register.
+The CSR0 register should then be written to set the ServicedOutPktRdy bit (D6) (indicating
+that the command has been read from the FIFO) and to set the DataEnd bit (D3) (indicating
+that no further data is expected for this request). When the host moves to the status stage of
+the request, a second Endpoint 0 interrupt will be generated to indicate that the request has
+completed. No further action is required from the software: the second interrupt is just a
+confirmation that the request completed successfully.
+If the command is an unrecognized command, or for some other reason cannot be executed,
+then when it has been decoded, the CSR0 register should be written to set the
+ServicedOutPktRdy bit (D6) and to set the SendStall bit (D5). When the host moves to the
+status stage of the request, the USB modules will send a STALL to tell the host that the
+request was not executed. A second Endpoint 0 interrupt will be generated and the SentStall
+bit (CSR0.D2) will be set.
+If the host sends more data after the DataEnd bit has been set, then the USB modules will
+send a STALL. An Endpoint 0 interrupt will be generated and the SentStall bit (CSR0.D2) will
+be set.
+
+21.7.2.
+
+Write Requests
+Write requests involve an additional packet (or packets) of data being sent from the host after
+the 8-byte command. An example of a write Standard Device Request is: SET_
+DESCRIPTOR.
+The sequence of events will begin, as with all requests, when the software receives an
+Endpoint 0 interrupt. The OutPktRdy bit (CSR0.D0) will also have been set. The 8-byte
+command should then be read from the Endpoint 0 FIFO and decoded.
+As with a zero data request, the CSR0 register should then be written to set the
+ServicedOutPktRdy bit (D6) (indicating that the command has been read from the FIFO) but
+in this case the DataEnd bit (D3) should not be set (indicating that more data is expected).
+When a second Endpoint 0 interrupt is received, the CSR0 register should be read to check
+the endpoint status. The OutPktRdy bit (CSR0.D0) should be set to indicate that a data
+packet has been received. The COUNT0 register should then be read to determine the size
+of this data packet. The data packet can then be read from the Endpoint 0 FIFO.
+
+Doc ID 2905025
+
+Rev01
+
+267
+
+WB32FQ95xx Reference Manual
+
+If the length of the data associated with the request (indicated by the wLength field in the
+command) is greater than the maximum packet size for Endpoint 0, further data packets will
+be sent. In this case, CSR0 should be written to set the ServicedOutPktRdy bit, but the
+DataEnd bit should not be set.
+When all the expected data packets have been received, the CSR0 register should be
+written to set the ServicedOutPktRdy bit and to set the DataEnd bit (indicating that no more
+data is expected).
+When the host moves to the status stage of the request, another Endpoint 0 interrupt will be
+generated to indicate that the request has completed. No further action is required from the
+software, the interrupt is just a confirmation that the request completed successfully.
+If the command is an unrecognized command, or for some other reason cannot be executed,
+then when it has been decoded, the CSR0 register should be written to set the
+ServicedOutPktRdy bit (D6) and to set the SendStall bit (D5). When the host sends more
+data, the USB modules will send a STALL to tell the host that the request was not executed.
+An Endpoint 0 interrupt will be generated and the SentStall bit (CSR0.D2) will be set.
+If the host sends more data after the DataEnd has been set, then the USB modules will send
+a STALL. An Endpoint 0 interrupt will be generated and the SentStall bit (CSR0.D2) will be
+set.
+
+21.7.3.
+
+Read Requests
+Read requests have a packet (or packets) of data sent from the function to the host after the
+8-byte command. Examples of read Standard Device Requests are: GET_
+CONFIGURATION, GET_INTERFACE, GET_DESCRIPTOR, GET_STATUS, SYNCH_
+FRAME.
+The sequence of events will begin, as with all requests, when the software receives an
+Endpoint 0 interrupt. The OutPktRdy bit (CSR0.D0) will also have been set. The 8-byte
+command should then be read from the Endpoint 0 FIFO and decoded. The CSR0 register
+should then be written to set the ServicedOutPktRdy bit (D6) (indicating that the command
+has read from the FIFO).
+The data to be sent to the host should then be written to the Endpoint 0 FIFO. If the data to
+be sent is greater than the maximum packet size for Endpoint 0, only the maximum packet
+size should be written to the FIFO. The CSR0 register should then be written to set the
+InPktRdy bit (D1) (indicating that there is a packet in the FIFO to be sent). When the packet
+has been sent to the host, another Endpoint 0 interrupt will be generated and the next data
+packet can be written to the FIFO.
+When the last data packet has been written to the FIFO, the CSR0 register should be written
+to set the InPktRdy bit and to set the DataEnd bit (D3) (indicating that there is no more data
+after this packet).
+When the host moves to the status stage of the request, another Endpoint 0 interrupt will be
+generated to indicate that the request has completed. No further action is required from the
+software: the interrupt is just a confirmation that the request completed successfully.
+If the command is an unrecognized command, or for some other reason cannot be executed,
+then when it has been decoded, the CSR0 register should be written to set the
+ServicedOutPktRdy bit (D6) and to set the SendStall bit (D5). When the host requests data,
+the USB modules will send a STALL to tell the host that the request was not executed. An
+
+Doc ID 2905025
+
+Rev01
+
+268
+
+WB32FQ95xx Reference Manual
+
+Endpoint 0 interrupt will be generated and the SentStall bit (CSR0.D2) will be set.
+If the host requests more data after DataEnd (D3) has been set, then the USB modules will
+send a STALL. An Endpoint 0 interrupt will be generated and the SentStall bit (CSR0.D2) will
+be set.
+
+21.7.4.
+
+Endpoint 0 states
+The Endpoint 0 control needs three modes – IDLE, TX and RX – corresponding to the
+different phases of the control transfer and the states Endpoint 0 enters for the different
+phases of the transfer.
+The default mode on power-up or reset should be IDLE.
+OutPktRdy (CSR0.D0) becoming set when Endpoint 0 is in IDLE state indicates a new
+device request. Once the device request is unloaded from the FIFO, the USB modules
+decodes the descriptor to find whether there is a Data phase and, if so, the direction of the
+Data phase for the control transfer (in order to set the FIFO direction).
+Depending on the direction of the Data phase, Endpoint 0 goes into either TX state or RX
+state. If there is no Data phase, Endpoint 0 remains in IDLE state to accept the next device
+request.
+The actions that the CPU needs to take at the different phases of the possible transfers (e.g.
+Loading the FIFO, Setting InPktRdy) (see Figure 22-2).
+Note that the USB modules changes the FIFO direction depending on the direction of the
+Data phase independently of the CPU.
+Figure 21-2. ENDPOINT 0 STATES
+
+Doc ID 2905025
+
+Rev01
+
+269
+
+WB32FQ95xx Reference Manual
+
+21.7.5.
+
+Endpoint 0 Service Routine
+An Endpoint 0 interrupt is generated:
+⚫
+
+When the core sets the OutPktRdy bit (CSR0.D0) after a valid token has been received
+and data has been written to the FIFO.
+
+⚫
+
+When the core clears the InPktRdy bit (CSR0.D1) after the packet of data in the FIFO
+has been successfully transmitted to the host.
+
+⚫
+
+When the core sets the SentStall bit (CSR0.D2) after a control transaction is ended due
+to a protocol violation.
+
+⚫
+
+When the core sets the SetupEnd bit (CSR0.D4) because a control transfer has ended
+before DataEnd (CSR0.D3) is set.
+
+Whenever the Endpoint 0 service routine is entered, the firmware must first check to see if
+the current control transfer has been ended due to either a STALL condition or a premature
+end of control transfer. If the control transfer ends due to a STALL condition, the SentStall bit
+would be set. If the control transfer ends due to a premature end of control transfer, the
+SetupEnd bit would be set. In either case, the firmware should abort processing the current
+control transfer and set the state to IDLE.
+Once the firmware has determined that the interrupt was not generated by an illegal bus
+state, the next action taken depends on the Endpoint state.
+If Endpoint 0 is in IDLE state, the only valid reason an interrupt can be generated is as a
+result of the core receiving data from the USB bus. The service routine must check for this by
+testing the OutPktRdy (CSR0.D0) bit. If this bit is set, then the core has received a SETUP
+packet. This must be unloaded from the FIFO and decoded to determine the action the core
+must take.Depending on the command contained within the SETUP packet, Endpoint 0 will
+enter one of three states:
+⚫
+
+Doc ID 2905025
+
+If the command is a single packet transaction (SET_ADDRESS, SET_INTERFACE etc.)
+without any data phase, the endpoint will remain in IDLE state.
+
+Rev01
+
+270
+
+WB32FQ95xx Reference Manual
+
+⚫
+
+If the command has an OUT data phase (SET_DESCRIPTOR etc.), the endpoint will
+enter RX state.
+
+⚫
+
+If the command has an IN data phase (GET_DESCRIPTOR etc.), the endpoint will enter
+TX state.
+
+If the endpoint is in TX state, the interrupt indicates that the core has received an IN token
+and data from the FIFO has been sent.
+The firmware must respond to this either by placing more data in the FIFO if the host is still
+expecting more data 2 or by setting the DataEnd bit to indicate that the data phase is
+complete. Once the data phase of the transaction has been completed, Endpoint 0 should be
+returned to IDLE state to await the next control transaction.
+If the endpoint is in RX state, the interrupt indicates that a data packet has been received.
+The firmware must respond by unloading the received data from the FIFO. The firmware
+must then determine whether it has received all of the expected data 2. If it has, the firmware
+should set the DataEnd bit and return Endpoint 0 to IDLE state. If more data is expected, the
+firmware should set the ServicedOutPktRdy bit (CSR0.D6) to indicate that it has read the
+data in the FIFO and leave the endpoint in RX state.
+Figure 21-3. ENDPOINT 0 SERVICE ROUTINE
+
+Doc ID 2905025
+
+Rev01
+
+271
+
+WB32FQ95xx Reference Manual
+
+IDLE mode
+IDLE mode is the mode the Endpoint 0 control needs to select at power-on or reset and is
+the mode to which the Endpoint 0 control should return when the RX and TX modes are
+terminated.
+It is also the mode in which the SETUP phase of control transfer
+Figure 21-4. SETUP Phase of Control Transfer
+
+TX mode
+When the endpoint is in TX state, all arriving IN tokens need to be treated as part of a Data
+phase until the required amount of data has been sent to the host. If either a SETUP or an
+OUT token is received whilst the endpoint is in the TX state, this will cause a SetupEnd
+condition to occur as the core expects only IN tokens.
+Three events can cause TX mode to be terminated before the expected amount of data has
+been sent:
+⚫
+
+Doc ID 2905025
+
+The host sends an invalid token causing a SetupEnd condition (CSR0.D4 set)
+
+Rev01
+
+272
+
+WB32FQ95xx Reference Manual
+
+⚫
+
+The firmware sends a packet containing less than the maximum packet size for
+Endpoint 0 (MaxP)
+
+⚫
+
+The firmware sends an empty data packet
+
+Until the transaction is terminated, the firmware simply needs to load the FIFO when it
+receives an interrupt which indicates that a packet has been sent from the FIFO. (An
+interrupt is generated when InPktRdy is cleared.)
+When the firmware forces the termination of a transfer (by sending a short or empty data
+packet), it should set the DataEnd bit(CSR0.D3) to indicate to the core that the Data phase is
+complete and that the core should next receive an acknowledge packet.
+Figure 21-5. IN Data Phase for Control transfer
+
+RX mode
+In RX mode, all arriving data should be treated as part of a Data phase until the expected
+amount of data has been received. If either a SETUP or an IN token is received while the
+endpoint is in RX state, this will cause a SetupEnd condition to occur as the core expects
+only OUT tokens.
+Three events can cause RX mode to be terminated before the expected amount of data has
+been received:
+⚫
+
+The host sends an invalid token causing a SetupEnd condition (CSR0.D4 set)
+
+⚫
+
+The host sends a packet which contains less than the maximum packet size for
+
+Doc ID 2905025
+
+Rev01
+
+273
+
+WB32FQ95xx Reference Manual
+
+Endpoint 0
+⚫
+
+The host sends an empty data packet
+
+Until the transaction is terminated, the firmware simply needs to unload the FIFO when it
+receives an interrupt which indicates that new data has arrived (OutPktRdy (CSR0.D0) set )
+and to clear OutPktRdy by setting the ServicedOutPktRdy bit (CSR0.D6).
+When the firmware detects the termination of a transfer (by receiving either the expected
+amount of data or an empty data packet), it should set the DataEnd bit (CSR0.D3) to indicate
+to the core that the Data phase is complete and that the core should receive an acknowledge
+packet next.
+Figure 21-6. OUT Data Phase for Control Transfer
+
+21.7.6.
+
+Error Handling
+A control transfer may be aborted due to a protocol error on the USB, the host prematurely
+ending the transfer, or if the function controller software wishes to abort the transfer (e.g.
+because it cannot process the command).
+The USB modules will automatically detect protocol errors and send a STALL packet to the
+host under the following conditions:
+⚫
+
+The host sends more data during the OUT Data phase of a write request than was
+specified in the command. This condition is detected when the host sends an OUT
+token after the DataEnd bit (CSR0.D3) has been set.
+
+⚫
+
+The host request more data during the IN Data phase of a read request than was
+specified in the command. This condition is detected when the host sends an IN token
+
+Doc ID 2905025
+
+Rev01
+
+274
+
+WB32FQ95xx Reference Manual
+
+after the DataEnd bit in the CSR0 register has been set.
+⚫
+
+The host sends more than MaxP data bytes in an OUT data packet.
+
+⚫
+
+The host sends a non-zero length DATA1 packet during the STATUS phase of a read
+request.
+
+When the USB modules has sent the STALL packet, it sets the SentStall bit (CSR0.D2) and
+generates an interrupt. When the software receives an Endpoint 0 interrupt with the SentStall
+bit set, it should abort the current transfer, clear the SentStall bit, and return to the IDLE
+state.
+If the host prematurely ends a transfer by entering the STATUS phase before all the data for
+the request has been transferred, or by sending a new SETUP packet before completing the
+current transfer, then the SetupEnd bit (CSR0.D4) will be set and an Endpoint 0 interrupt
+generated. When the software receives an Endpoint 0 interrupt with the SetupEnd bit set, it
+should abort the current transfer, set the ServicedSetupEnd bit (CSR0.D7), and return to the
+IDLE state. If the OutPktRdy bit (CSR0.D0) is set this indicates that the host has sent
+another SETUP packet and the software should then process this command.
+If the software wants to abort the current transfer, because it cannot process the command or
+has some other internal error, then it should set the SendStall bit (CSR0.D5). The USB
+modules will then send a STALL packet to the host, set the SentStall bit (CSR0.D2) and
+generate an Endpoint 0 interrupt.
+
+21.8.
+
+Bulk IN Endpoint
+A Bulk IN endpoint is used to transfer non-periodic data from the function controller to the
+host.
+Three optional features are available for use with a Bulk IN endpoint:
+⚫
+
+Double packet buffering
+
+If the value written to the InMaxP register is less than, or equal to, half the size of the FIFO
+allocated to the endpoint, double packet buffering will be automatically enabled. When
+enabled, up to two packets can be stored in the FIFO awaiting transmission to the host.
+⚫
+
+AutoSet
+
+When the AutoSet feature is enabled, the INPKTRDY bit (INCSR1.D0) will be automatically
+set when a packet of InMaxP bytes has been loaded into the FIFO.
+
+21.8.1.
+
+Setup Enpoint
+Before using a Bulk IN endpoint, the INMAXP register must be written with the maximum
+packet size (in bytes) for the endpoint. This value should be the same as the
+wMaxPacketSize field of the Standard Endpoint Descriptor for the endpoint. In addition, the
+relevant interrupt enable bit in the INTRINE register should be set to 1 (if an interrupt is
+required for this endpoint) and the INCSR2 register should be set as shown below：
+
+7
+
+AUTOSET
+
+0/1
+
+Set to 1 if the AutoSet feature is required.
+
+6
+
+ISO
+
+0
+
+Set to 0 to enable Bulk protocol.
+
+3
+
+FRCDATATOG
+
+0
+
+Set to 0 to allow normal data toggle operation.
+
+Doc ID 2905025
+
+Rev01
+
+275
+
+WB32FQ95xx Reference Manual
+
+When a Bulk IN endpoint is first configured, following a SET_CONFIGURATION or
+SET_INTERFACE command on Endpoint 0, the INCSR1 register should be written to set the
+CLRDATATOG bit. This will ensure that the data toggle (which is handled automatically by
+the USB modules) starts in the correct state. Also, if there are any data packets in the FIFO
+(indicated by the FIFONE bit being set), they should be flushed by setting the FLUSHFIFO
+bit(INCSR1.D3).
+Note: It may be necessary to set this bit twice in succession if double buffering is enabled.
+
+21.8.2.
+
+Enpoint Operation
+When data is to be transferred over a Bulk IN pipe, a data packet needs to be loaded into the
+FIFO and the InCSR1 register written to set the INPKTRDY bit. When the packet has been
+sent, the INPKTRDY bit will be cleared by the USB modules and an interrupt generated so
+that the next packet can be loaded into the FIFO. If double packet buffering is enabled, then
+after the first packet has been loaded and the InPktRdy bit set, the InPktRdy bit will
+immediately be cleared by the USB modules and an interrupt generated so that a second
+packet can be loaded into the FIFO. The software should operate in the same way, loading a
+packet when it receives an interrupt, regardless of whether double packet buffering is
+enabled or not.
+The packet size must not exceed the size specified in the InMaxP register. When a block of
+data larger than InMaxP is to be transferred, it must be sent as multiple packets. These
+packets should be InMaxP in size, except the last packet which holds the residue. The host
+may determine that all the data for a transfer has been sent by knowing the total amount of
+data that is expected. Alternatively it may infer that all the data have been sent when it
+receives a packet which is less than InMaxP in size. In the latter case, if the total size of the
+data block is a multiple of InMaxP, it will be necessary for the function to send a null packet
+after all the data has been sent. This is done by setting InPktRdy when the next interrupt is
+received, without loading any data into the FIFO
+
+21.8.3.
+
+Error Handling
+If the software wants to shut down the Bulk IN pipe, it should set the SendStall bit
+(INCSR1.D4). When the USB modules receives the next IN token, it will send a STALL to the
+host, set the SentStall bit (INCSR1.D5) and generate an interrupt.
+When the software receives an interrupt with the SentStall bit (INCSR1.D5) set, it should
+clear the SentStall bit. It should leave the SendStall bit (INCSR1.D4) set until it is ready to
+re-enable the Bulk IN pipe. Note: If the host failed to receive the STALL packet for some
+reason, it will send another IN token, so it is advisable to leave the SendStall bit set until the
+software is ready to re-enable the Bulk IN pipe. When a pipe is re-enabled, the data toggle
+sequence should be restarted by setting the CLRDATATOGb it in the INCSR1 register.
+
+21.9.
+
+Bulk OUT Endpoint
+A Bulk OUT endpoint is used to transfer non-periodic data from the host to the function
+controller.
+Three optional features are available for use with a Bulk OUT endpoint:
+⚫
+
+Doc ID 2905025
+
+Double packet buffering
+
+Rev01
+
+276
+
+WB32FQ95xx Reference Manual
+
+If the value written to the OutMaxP register is less than, or equal to, half the size of the FIFO
+allocated to the endpoint, double packet buffering will be automatically enabled. When
+enabled, up to two packets can be stored in the FIFO.
+⚫
+
+AutoClear
+
+When the AutoClear feature is enabled, the OutPktRdy bit (OutCSR1.D0) will be
+automatically cleared when a packet of OutMaxP bytes has been unloaded from the FIFO.
+
+21.9.1.
+
+Setup Enpoint
+Before using a Bulk OUT endpoint, the OutMaxP register must be written with the maximum
+packet size (in bytes) for the endpoint. This value should be the same as the
+wMaxPacketSize field of the Standard Endpoint Descriptor for the endpoint. In addition, the
+relevant interrupt enable bit in the INTRINE register should be set to 1 (if an interrupt is
+required for this endpoint) and the OUTCSR2 register should be set as shown below:
+
+7
+
+AUTOCLR
+
+0/1
+
+Set to 1 if the AutoClear feature is required.
+
+6
+
+ISO
+
+0
+
+Set to 0 to enable Bulk protocol.
+
+When a Bulk OUT endpoint is first configured, following a SET_CONFIGURATION or
+SET_INTERFACE command on Endpoint 0, OUTCSR1 should be written to set the
+CLRDATATOG bit. This will ensure that the data toggle (which is handled automatically by
+the USB modules) starts in the correct state. Also, if there are any data packets in the FIFO
+(indicated by the OUTPKTRDY bit being set), they should be flushed by setting the
+FLUSHFIFO bit.
+Note: It may be necessary to set this bit twice in succession if double buffering is enabled.
+
+21.9.2.
+
+Enpoint Operation
+When a data packet is received by a Bulk OUT endpoint, the OUTPKTRDY bit (OutCSR1.D0)
+is set and an interrupt is generated.The software should read the two OutCount registers for
+the endpoint to determine the size of the data packet. The data packet should be read from
+the FIFO, then the OUTPKTRDY bit should be cleared.
+The packet sizes should not exceed the size specified in the OUTMAXP register (as this
+should be the value set in the wMaxPacketSize field of the endpoint descriptor sent to the
+host). When a block of data larger than OutMaxP is to be sent to the function, it will be sent
+as multiple packets. All the packets will be OUTMAXP in size, except the last packet which
+will contain the residue. The software may use an application specific method of determining
+the total size of the block and hence when the last packet has been received. Alternatively it
+may infer that the entire block has been received when it receives a packet which is less than
+OUTMAXP in size. (If the total size of the data block is a multiple of OUTMAXP, a null data
+packet will be sent after the data to signify that the transfer is complete.)
+
+21.9.3.
+
+Error Handling
+If the software wants to shut down the Bulk OUT pipe, it should set the SendStall bit
+(OUTCSR1.D5). When the USB modules receives the next packet it will send a STALL to the
+host, set the SentStall bit(OUTCSR1.D6) and generate an interrupt.
+When the software receives an interrupt with the SENTSTALL bit (OUTCSR1.D6) set, it
+
+Doc ID 2905025
+
+Rev01
+
+277
+
+WB32FQ95xx Reference Manual
+
+should clear the SENTSTALL bit. It should leave the SENTSTALL bit (OUTCSR1.D5) set
+until it is ready to re-enable the Bulk OUT pipe.
+Note: If the host failed to receive the STALL packet for some reason, it will send another
+packet, so it is advisable to leave the SENTSTALL bit set until the software is ready to
+re-enable the Bulk OUT pipe. When a Bulk OUT pipe is re-enabled, the data toggle
+sequence should be restarted by setting the CLRDATATOG bit in the OUTCSR1 register.
+
+21.10.
+
+Interrupt In Endpoint
+An Interrupt IN endpoint is used to transfer periodic data from the function controller to the
+host.
+An Interrupt IN endpoint uses the same protocol as a Bulk IN endpoint and can be used the
+same way.
+Interrupt IN endpoints also support one feature that Bulk IN endpoints do not, in that they
+support continuous toggle of the data toggle bit. This feature is enabled by setting the
+FRCDATATOG bit in the INCSR2 register. When this bit is set to 1, the USB modules will
+consider the packet as having been successfully sent and toggle the data bit for the endpoint,
+regardless of whether an ACK was received from the host.
+
+21.11.
+
+Interrupt Out Endpoint
+An Interrupt OUT endpoint is used to transfer periodic data from the host to a function
+controller.
+An Interrupt OUT endpoint uses almost the same protocol as a Bulk OUT endpoint and can
+be used the same way.
+
+21.12.
+
+Isochronous IN Endpoint
+An Isochronous IN endpoint is used to transfer periodic data from the function controller to
+the host.
+Three optional features are available for use with an Isochronous IN endpoint:
+⚫
+
+Double packet buffering
+
+Double packet buffering is automatically enabled when the value written to the INMAXP
+register is less than or equal to half the size of the FIFO allocated to the endpoint. When
+enabled, up to two packets can be stored in the FIFO awaiting transmission to the host. Note:
+Double packet buffering is generally advisable for Isochronous IN endpoints in order to avoid
+data runderrun.
+⚫
+
+AutoSet
+
+When the AutoSet feature is enabled, the INPKTRDY bit will be automatically set when a
+packet of INMAXP bytes has been loaded into the FIFO. However, this feature is not
+particularly useful with isochronous endpoints because the packets transferred are often not
+maximum packet size and the INCSR1 register needs to be accessed following every packet
+to check for runderrun errors.
+
+Doc ID 2905025
+
+Rev01
+
+278
+
+WB32FQ95xx Reference Manual
+
+21.12.1.
+
+Setup Endpoint
+Before using an Isochronous IN endpoint, the INMAXP register must be written with the
+maximum packet size (in bytes) for the endpoint. This value should be the same as the
+wMaxPacketSize field of the Standard Endpoint Descriptor for the endpoint. In addition, the
+relevant interrupt enable bit in the INTRINE register should be set to 1 (if an interrupt is
+required for this endpoint) and the INCSR2 register should be set as shown below：
+
+7
+
+AUTOSET
+
+0/1
+
+Set to 1 if the AutoSet feature is required.
+
+6
+
+ISO
+
+1
+
+Set to 1 to enable Isochronous protocol.
+
+3
+
+FRCDATATOG
+
+0
+
+Ignored in Isochronous mode.
+
+21.12.2.
+
+Enpoint Operation
+An Isochronous endpoint does not support data retries, so if data runderrun is to be avoided,
+the data to be sent to the host must be loaded into the FIFO before the IN token is received.
+The host will send one IN token per frame, however the time within the frame can vary. If an
+IN token is received near the end of one frame and then at the start of the next frame, there
+will be little time to reload the FIFO. For this reason, double buffering is usually required for
+an Isochronous IN endpoint.
+The AutoSet feature can be used with an Isochronous IN endpoint, in the same way as for a
+Bulk IN endpoint. However,unless the data arrives from the source at an absolutely
+consistent rate, synchronized to the host’s frame clock, the size of the packets sent to the
+host will have to increase or decrease from frame to frame to match the source data rate.
+This means that the actual packet sizes will not always be INMAXP in size, rendering the
+AutoSet feature useless.
+An interrupt is generated whenever a packet is sent to the host and the software may use
+this interrupt to load the next packet into the FIFO and set the InPktRdy bit in the INCSR1
+register in the same way as for a Bulk IN endpoint. As the interrupt could occur almost any
+time within a frame, depending on when the host has scheduled the transaction, this may
+result in irregular timing of FIFO load requests. If the data source for the endpoint is coming
+from some external hardware, it may be more convenient to wait until the end of each frame
+before loading the FIFO as this will minimize the requirement for additional buffering. This
+can be done by using either the SOF interrupt (INTUSB.D3) or the external SOF_PULSE
+signal from the USB modules to trigger the loading of the next data packet. The SOF_PULSE
+is generated once per frame when a SOF packet is received. (The USB modules also
+maintains an external frame counter so it can still generate a SOF_PULSE when the SOF
+packet has been lost.) The interrupts may still be used to set the INPKTRDY bit in INCSR1
+and to check for data overruns/underruns.
+Starting up a double-buffered Isochronous IN pipe can be a source of problems. Double
+buffering requires that a data packet is not transmitted until the frame after it is loaded. There
+is no problem if the function loads the first data packet at least a frame before the host sets
+up the pipe (and therefore starts sending IN tokens). But if the host has already started
+sending IN tokens by the time the first packet is loaded, the packet may be transmitted in the
+same frame as it is loaded, depending on whether it is loaded before, or after, the IN token is
+received. This potential problem can be avoided by setting the ISOUD bit in the POWER
+register. When this bit is set to 1, any data packet loaded into an Isochronous IN endpoint
+FIFO will not be transmitted until after the next SOF packet has been received, thereby
+
+Doc ID 2905025
+
+Rev01
+
+279
+
+WB32FQ95xx Reference Manual
+
+ensuring that the data packet is not sent too early.
+
+21.12.3.
+
+Error Handling
+If the endpoint has no data in its FIFO when an IN token is received, it will send a null data
+packet to the host and set the UNDERRUN bit in the INCSR1 register. This is an indication
+that the software is not supplying data fast enough for the host.It is up to the application to
+determine how this error condition is handled.
+If the software is loading one packet per frame and it finds that the INPKTRDY bit in the
+INCSR1 register (D0) is set when it wants to load the next packet, this indicates that a data
+packet has not been sent (perhaps because an IN token from the host was corrupted). It is
+up to the application how it handles this condition: it may choose to flush the unsent packet
+by setting the FLUSHFIFO bit in the INCSR1 register, or it may choose to skip the current
+packet.
+
+21.13.
+
+Isochronous OUT Endpoint
+An Isochronous OUT endpoint is used to transfer periodic data from the host to the function
+controller.
+Three optional features are available for use with an Isochronous OUT endpoint:
+⚫
+
+Double packet buffering
+
+Double packet buffering is automatically enabled when the value written to the
+OUTMAXPregister is less than or equal to half the size of the FIFO allocated to the endpoint.
+When enabled, up to two packets can be stored in the FIFO awaiting transmission to the host.
+Note: Double packet buffering is generally advisable for Isochronous OUT endpoints in order
+to avoid data overrun.
+⚫
+
+AutoClear
+
+When the AutoClear feature is enabled, the OUTPKTRDYbit will be automatically cleared
+when a packet of OUTMAXP bytes has been unloaded from the FIFO. However, this feature
+is not particularly useful with isochronous endpoints because the packets transferred are
+often not maximum packet size and the OUTCSR1 register needs to be accessed following
+every packet to check for Overrun or CRC errors.
+
+21.13.1.
+
+Setup Enpoint
+Before using an Isochronous OUT endpoint, the OUTMAXP register must be written with the
+maximum packet size (in bytes) for the endpoint. This value should be the same as the
+wMaxPacketSize field of the Standard Endpoint Descriptor for the endpoint. In addition, the
+relevant interrupt enable bit in the INTROUTE register should be set to 1 (if an interrupt is
+required for this endpoint) and the OUTCSR2 register should be set as shown below：
+
+7
+
+AUTOCLR
+
+0/1
+
+Set to 1 if the AutoClear feature is required.
+
+6
+
+ISO
+
+1
+
+Set to 1 to enable Isochronous protocol.
+
+21.13.2.
+
+Enpoint Operation
+An Isochronous endpoint does not support data retries so, if a data overrun is to be avoided,
+
+Doc ID 2905025
+
+Rev01
+
+280
+
+WB32FQ95xx Reference Manual
+
+there must be space in the FIFO to accept a packet when it is received. The host will send
+one packet per frame, however the time within the frame can vary. If a packet is received
+near the end of one frame and another arrives at the start of the next frame, there will be little
+time to unload the FIFO. For this reason, double buffering is usually required for an
+Isochronous OUT endpoint.
+The AutoClear feature can be used with an Isochronous OUT endpoint, in the same way as
+for a Bulk OUT endpoint.However, unless the data sink receives data at an absolutely
+consistent rate and is synchronized to the host’s frame clock, the size of the packets sent
+from the host will have to increase or decrease from frame to frame to match the required
+data rate.This means that the actual packet sizes will not always be OUTMAXP in size,
+rendering the AutoClear feature useless.An interrupt is generated whenever a packet is
+received from the host and the software may use this interrupt to unload the packet from the
+FIFO and clear the OUTPKTRDY bit in the OUTCSR1 register in the same way as for a Bulk
+OUT endpoint.
+As the interrupt could occur almost any time within a frame, depending on when the host has
+scheduled the transaction, the timing of FIFO unload requests will probably be irregular. If
+the data sink for the endpoint is going to some external hardware,
+it may be better to minimize the requirement for additional buffering by waiting until the end of
+each frame before unloading the FIFO. This can be done by using either the SOF interrupt
+(INTRUSB.D3) or the external SOF_PULSE signal from the USB modules to trigger the
+unloading of the data packet. The SOF_PULSE is generated once per frame when a SOF
+packet is received. (The USB modules also maintains an external frame counter so it can still
+generate a SOF_PULSE when the SOF packet has been lost.) The interrupts may still be
+used to clear the OUTPKTRDY bit in OUTCSR1 and to check for data overruns/underruns
+
+21.13.3.
+
+Error Handling
+If there is no space in the FIFO to store a packet when it is received from the host, the
+OverRun bit in the OutCSR1 register will be set. This is an indication that the software is not
+unloading data fast enough for the host. It is up to the application to determine how this error
+condition is handled.
+If the USB modules finds that a received packet has a CRC error, it will still store the packet
+in the FIFO and set the OUTPKTRDY bit (OUTCSR1.D0) and the DATAERROR bit
+(OUTCSR1.D3). It is left up to the application how this error condition is handled.
+
+21.14.
+
+USB Registers
+Table 21-2. USB Registers
+
+Name
+
+Address offset
+
+Description
+
+Reset value
+
+USB interrupt Registers
+INTRIN
+
+0x02
+
+USB interrupt register for IN endpoint
+
+0x00
+
+INTROUT
+
+0x04
+
+USB interrupt register for OUT endpoint
+
+0x00
+
+INTRUSB
+
+0x06
+
+USB interrupt flag register
+
+0x00
+
+INTRINE
+
+0x07
+
+USB interrupt enable register for INTRIN
+
+0x00
+
+Doc ID 2905025
+
+Rev01
+
+281
+
+WB32FQ95xx Reference Manual
+
+Name
+
+Address offset
+
+Description
+
+Reset value
+
+INTROUTE
+
+0x09
+
+USB OUT interrupt enable register for INTROUT
+
+0x00
+
+INTRUSBE
+
+0x0B
+
+USB Interrupt enable registers
+
+0x00
+
+USB common register
+FADDR
+
+0x00
+
+USB function address register
+
+0x00
+
+POWER
+
+0x01
+
+Power management register
+
+0x00
+
+FRAMEL
+
+0x0C
+
+Frame number low register (bits 0 to 7)
+
+0x00
+
+FRAMEH
+
+0x0D
+
+Frame number high register (bits 8 to 15)
+
+0x00
+
+INDEX
+
+0x0E
+
+Index register for selecting the endpoint status and
+control registers.
+
+0x00
+
+FIFOx
+
+0x20 + 0x04 × x
+
+FIFOs for Endpoints 0 to 3 (x from 0 to 3)
+
+NA
+
+USB frame number registers
+INMAXP
+
+0x10
+
+Setup maximum packet size for IN endpoint
+
+0x00
+
+CSR0
+
+0x11
+
+Control Status register for Endpoint 0.
+
+0x00
+
+INCSR1
+
+0x11
+
+Control Status register 1 for IN endpoint
+
+0x00
+
+INCSR2
+
+0x12
+
+Control Status register 2 for IN endpoint
+
+0x20
+
+OUTMAXP
+
+0x13
+
+Setup maximum packet size for OUT endpoint
+
+0x00
+
+OUTCSR1
+
+0x14
+
+Control Status register 1 for OUT endpoint.
+
+0x00
+
+OUTCSR2
+
+0x15
+
+Control Status register 2 for OUT endpoint.
+
+0x00
+
+COUNT0
+
+0x16
+
+Number of received bytes in Endpoint 0 FIFO
+
+0x00
+
+OUTCOUNTL
+
+0x16
+
+Number of bytes in OUT endpoint FIFO (lower byte).
+
+0x00
+
+OUTCOUNTH
+
+0x17
+
+Number of bytes in OUT endpoint FIFO (upper byte).
+
+0x00
+
+21.14.1.
+
+USB Interrupt Registers
+The USB interrupt Registers are used for interrupt handling of USB module.
+USB interrupt register for IN endpoint (USB_INTRIN)
+Address offset: 0x02
+Reset value: 0x00
+USB_INTRIN is an 8-bit read-only register that indicates which of the interrupts for IN
+endpoints 1 – 3 are currently active, it also indicates whether the endpoint 0 interrupt is
+currently active(Bits 4-7 are Reserved) . The bits corresponding to endpoint 0 and the IN
+endpoints included in the design are set to 1 when their IN interrupt event occurs.
+Note: All active interrupts will be cleared when this register is read.
+
+Bits
+
+Fields
+
+R/W
+
+7:4
+
+-
+
+R
+
+Reserved
+
+3
+
+IN3
+
+R
+
+Interrupt flag of IN endpoint 3.
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+282
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+2
+
+IN2
+
+R
+
+Interrupt flag of IN endpoint 2.
+
+1
+
+IN1
+
+R
+
+Interrupt flag of IN endpoint 1.
+
+0
+
+EP0
+
+R
+
+Interrupt flag of endpoint 0.
+
+USB interrupt register for OUT endpoint (USB_INTROUT)
+Address offset: 0x04
+Reset value: 0x00
+USB_INTRIN is an 8-bit read-only register that indicates which of the interrupts for OUT
+endpoints 1– 3 are currently active (Bits0, 4-7 are Reserved). The bits corresponding to the
+OUT endpoints are set to 1 when their OUT interrupt event occurs.
+Note: All active interrupts will be cleared when this register is read.
+Bits
+
+Fields
+
+R/W
+
+Description
+
+7:4
+
+-
+
+R
+
+Reserved
+
+3
+
+OUT3
+
+R
+
+Interrupt flag of OUT endpoint 3.
+
+2
+
+OUT2
+
+R
+
+Interrupt flag of OUT endpoint 2.
+
+1
+
+OUT1
+
+R
+
+Interrupt flag of OUT endpoint 1.
+
+0
+
+-
+
+R
+
+Reserved, always return zero.
+
+USB interrupt flag register (USB_INTRUSB)
+Address offset: 0x06
+Reset value: 0x00
+USB_INTRIN is an 8-bit read-only register that indicates which USB interrupts are currently
+active. The bits corresponding to the USB interrupts are set to 1 when their interrupt event
+occurs.
+Note: All active interrupts will be cleared when this register is read
+Bits
+
+Fields
+
+R/W
+
+Description
+
+7:4
+
+-
+
+R
+
+Reserved.
+
+3
+
+SOFIS
+
+R
+
+Set 1 at the start of each frame.
+
+2
+
+RSTIS
+
+R
+
+Set 1 when Reset signaling is detected on the bus.
+
+1
+
+RSUIS
+
+R
+
+Set 1 when Resume signaling is detected on the bus while the USB modules is
+in Suspend mode.
+
+0
+
+SUSIS
+
+R
+
+Set when Suspend signaling is detected on the bus.
+
+USB interrupt enable register for INTRIN (USB_INTRINE)
+Address offset: 0x06
+Reset value: 0x0F
+Bits
+
+Fields
+
+R/W
+
+7:4
+
+-
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved.
+
+Rev01
+
+283
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+3
+
+IN3E
+
+RW
+
+2
+
+IN2E
+
+RW
+
+1
+
+IN1E
+
+RW
+
+0
+
+EP0E
+
+RW
+
+Description
+Set whether to enable the interrupt of the IN endpoint 3.
+0: Disable.
+1: Enable.
+Set whether to enable the interrupt of the IN endpoint 2.
+0: Disable.
+1: Enable.
+Set whether to enable the interrupt of the IN endpoint 1.
+0: Disable.
+1: Enable.
+Set whether to enable the interrupt of the endpoint 0.
+0: Disable.
+1: Enable.
+
+USB interrupt enable register for INTROUT (USB_INTROUTE)
+Address offset: 0x09
+Reset value: 0x0E
+Bits
+
+Fields
+
+R/W
+
+7:4
+
+-
+
+R
+
+3
+
+OUT3E
+
+RW
+
+2
+
+OUT2E
+
+RW
+
+1
+
+OUT1E
+
+RW
+
+0
+
+-
+
+R
+
+Description
+Reserved.
+Set whether to enable the interrupt of the OUT endpoint 3.
+0: Disable.
+1: Enable.
+Set whether to enable the interrupt of the OUT endpoint 2.
+0: Disable.
+1: Enable.
+Set whether to enable the interrupt of the OUT endpoint 1.
+0: Disable.
+1: Enable.
+Reserved, always return zero.
+
+USB Interrupt enable registers (USB_INTRUSBE)
+Address offset: 0x0B
+Reset value: 0x06
+Bits
+
+Fields
+
+R/W
+
+7:4
+
+-
+
+R
+
+3
+
+SOFIE
+
+RW
+
+2
+
+RSTIE
+
+RW
+
+1
+
+RSUIE
+
+RW
+
+0
+
+SUSIE
+
+RW
+
+Doc ID 2905025
+
+Description
+Reserved.
+Set whether to enable the interrupt of each frame start.
+0: Disable.
+1: Enable.
+Set whether to enable the interrupt of reset.
+0: Disable.
+1: Enable.
+Set whether to enable the interrupt of resume.
+0: Disable.
+1: Enable.
+Set whether to enable the interrupt of suspend.
+0: Disable.
+1: Enable.
+
+Rev01
+
+284
+
+WB32FQ95xx Reference Manual
+
+21.14.2.
+
+USB common register
+USB Function address register (USB_FADDR)
+Address offset: 0x00
+Reset value: 0x00
+
+Bits
+
+Fields
+
+R/W
+
+7
+
+UPDATE
+
+R
+
+6:0
+
+FADDR
+
+RW
+
+Description
+Determine whether the function address has been updated.
+The WIP is set to 1 When the new address value is written into the FADDR
+register and is reset to 0 when the new address takes effect (at the end of the
+current transfer).
+0: The last address written to FADDR has taken effect.
+1: The address at which FADDR was last written has not yet taken effect.
+The function address.
+Save the 7-bit function address of USB. When endpoint 0 receives the standard
+request of SET_ADDRESS, the CPU should write that address into the FADDR
+register. The new address takes effect upon completion of the device request.
+
+USB Power management register (USB_POWER)
+Address offset: 0x01
+Reset value: 0x00
+Bits
+
+Fields
+
+R/W
+
+Description
+
+7
+
+ISOUD
+
+RW
+
+ISO updata.
+This bit is only used by endpoints performing Isochronous transfers.
+0: The USB module will wait for an IN token from the time INRDY is set 1 before
+sending the packet.
+1: When set by the CPU the USB modules will wait for an SOF token from the
+time INRDY is set 1 before sending the packet. If an IN token is received before
+an SOF token, then a zero length data packet will be sent.
+
+6:4
+
+-
+
+R
+
+Reserved, always return zero.
+
+3
+
+USBRST
+
+R
+
+2
+
+RESUME
+
+RW
+
+1
+
+SUSMD
+
+R
+
+0
+
+SUSEN
+
+RW
+
+Detects the reset signal on the USB bus.
+This read only bit is set while Reset signaling is present on the bus.
+0: No reset signal detected on the bus.
+1: Reset signal detected on the bus.
+Resume.
+Set by the CPU to generate Resume signaling when the function is in Suspend
+mode (USB wake up the host). The CPU should clear this bit after 10 ms (a
+maximum of 15 ms) to end Resume signaling.
+Suspend Mode.
+Set by the USB device when Suspend mode is entered. Cleared when the CPU
+reads the interrupt register, or sets the Resume bit of this register.
+0: The USB modules is not in suspend mode.
+1: The USB modules is in suspend mode.
+Enable Suspend.
+Set by the software to enable entry into Suspend mode when Suspend signaling
+is received on the bus.
+0: Disable.
+1: Enable.
+
+Frame Number Low Register (USB_FRAMEL)
+Address offset: 0x0C
+
+Doc ID 2905025
+
+Rev01
+
+285
+
+WB32FQ95xx Reference Manual
+
+Reset value: 0x00
+Bits
+
+Fields
+
+R/W
+
+7:0
+
+FRAMEL
+
+R
+
+Description
+Holds the lower 8 bits of the last received frame number.
+
+Frame Number High Register (USB_FRAMEH)
+Address offset: 0x0D
+Reset value: 0x00
+Bits
+
+Fields
+
+R/W
+
+Description
+
+7:3
+
+-
+
+R
+
+Reserved
+
+2:0
+
+FRAMEH
+
+R
+
+Holds the upper 3 bits of the last received frame number.
+
+Index register for selecting the endpoint status and control registers. (USB_INDEX)
+Address offset: 0x0E
+Reset value: 0x00
+Each IN endpoint and each OUT endpoint have their own set of control/status registers. Only
+one set of IN control/status and one set of OUT control/status registers appear in the
+memory map at any one time. Before accessing an endpoint’s control/status registers, the
+endpoint number should be written to the Index register to ensure that the correct
+control/status registers appear in the memory map.
+Bits
+
+Fields
+
+R/W
+
+7:4
+
+-
+
+R
+
+Reserved
+
+RW
+
+Selected endpoint.
+Index is a 4-bit register that determines which endpoint control/status registers
+are accessed at addresses 10h to 17h.
+0000：endpoint 0
+0001：endpoint 1
+0010：endpoint 2
+0011：endpoint 3
+0100-1111：Reserved.
+
+3:0
+
+EPSEL
+
+Description
+
+FIFOs for Endpoints 0 to 3 (USB_FIFOx)
+Address offset: 0x20 + 0x04 × x (x from 0 to 3)
+Access to the FIFO for each endpoint is achieved through the corresponding FIFOX register.
+Writing to these addresses loads data into the IN FIFO for the corresponding endpoint.
+Reading from these addresses unloads data from the OUT FIFO for the corresponding
+endpoint.
+Bits
+
+Fields
+
+R/W
+
+7:0
+
+FIFODATA
+
+RW
+
+21.14.3.
+
+Description
+Access to the FIFO for endpoint.
+
+USB Frame Number Registers
+Setup maximum packet size for IN endpoint (USB_INMAXP)
+Address offset: 0x10
+Reset value: 0x00
+
+Doc ID 2905025
+
+Rev01
+
+286
+
+WB32FQ95xx Reference Manual
+
+INMAXP is an 8-bit register that holds the maximum packet size for transactions through the
+currently-selected IN endpoint – in units of 8 bytes, except that a value of 128 sets the
+maximum packet size to 1023 (the maximum size for an Isochronous packet transferred in a
+Full-speed transaction) rather than 1024. In setting this value, you should note the
+constraints placed by the USB Specification on packet sizes for Bulk, Interrupt and
+Isochronous transactions in Full-speed operations.
+There is an INMAXP register for each IN endpoint (except Endpoint 0).
+The value written to this register should match the wMaxPacketSize field of the Standard
+Endpoint Descriptor for the associated endpoint (see Universal Serial Bus Specification
+Revision 2.0, Chapter 9). A mismatch could cause unexpected results.
+If a value greater than the configured IN FIFO size for the endpoint is written to this register,
+the value will be automatically changed to the IN FIFO size. If the value written to this register
+is less than, or equal to, half the IN FIFO size, two IN packets can be buffered.
+The register is reset to 0. If this register is changed after packets have been sent from the
+endpoint, the endpoint IN FIFO should be completely flushed (using the FLUSHFIFO bit (D3)
+in INCSR1) after writing the new value to this register.
+Bits
+
+Fields
+
+R/W
+
+7:0
+
+INMAXP
+
+RW
+
+Description
+Maximum Packet Size/transaction for IN endpoint.
+
+Control Status register for Endpoint 0 (USB_CSR0)
+Address offset: 0x11
+Reset value: 0x00
+CSR0 is an 8-bit register that provides control and status bits for Endpoint 0.
+Bits
+
+Fields
+
+R/W
+
+7
+
+SVDSETUPEND
+
+S
+
+6
+
+SVDOUTPKTRDY
+
+S
+
+5
+
+SENDSTALL
+
+S
+
+4
+
+SETUPEND
+
+R
+
+3
+
+DATAEND
+
+S
+
+2
+
+SENTSTALL
+
+R_W0
+
+1
+
+INPKTRDY
+
+RS
+
+The CPU sets this bit after loading a data packet into the FIFO. It is
+cleared automatically when the data packet has been transmitted. An
+interrupt is generated when the bit is cleared.
+
+0
+
+OUTPKTRDY
+
+R
+
+This bit is set when a data packet has been received. An interrupt is
+generated when this bit is set. The software clears this bit by setting the
+SVDOUTPKTRDY bit.
+
+Doc ID 2905025
+
+Description
+The software writes a 1 to this bit to clear the SETUPEND bit. It is cleared
+automatically.
+The software writes a 1 to this bit to clear the OUTPKTRDY bit. It is
+cleared automatically.
+The software writes a 1 to this bit to terminate the current transaction.
+The STALL handshake will be transmitted and then this bit will be cleared
+automatically
+This bit will be set when a control transaction ends before the DATAEND
+bit has been set. The bit is cleared by the software writing a 1 to the
+SVDSETUPEND bit.
+The software sets this bit:
+1. When setting INPKTRDY for send the last data packet.
+2. When the software sets 1 to SVDOUTPKTRDY after receive the last
+data packet.
+3. When setting INPKTRDY for a zero length data packet.
+It is cleared automatically.
+This bit is set by hardware when a STALL handshake is transmitted. The
+software should clear this bit.
+
+Rev01
+
+287
+
+WB32FQ95xx Reference Manual
+
+Control Status register 1 for IN endpoint (USB_INCSR1)
+Address offset: 0x11
+Reset value: 0x00
+Bits
+
+Fields
+
+R/W
+
+7
+
+-
+
+R
+
+Reserved, always return zero.
+
+6
+
+CLRDATATOG
+
+S
+
+The software writes a 1 to this bit to reset the endpoint IN data toggle to 0.
+
+5
+
+SENTSTALL
+
+R_W0
+
+4
+
+SENDSTALL
+
+RW
+
+3
+
+FLUSHFIFO
+
+S
+
+2
+
+UNDERRUN
+
+R_W0
+
+1
+
+FIFONE
+
+R_W0
+
+Description
+
+This bit is set when a STALL handshake is transmitted. The FIFO is
+flushed and the INPKTRDY bit is cleared. The software should clear this
+bit.
+The software writes a 1 to this bit to issue a STALL handshake to an IN
+token. The software clears this bit to terminate the STALL condition. This
+bit has no effect if the IN endpoint is in ISO mode.
+The software writes a 1 to this bit to flush the next packet to be
+transmitted from the endpoint IN FIFO. The FIFO pointer is reset and the
+InPktRdy bit (below) is cleared. Note: If the FIFO contains two packets,
+FlushFIFO will need to be set twice to completely clear the FIFO.
+In ISO mode, this bit is set when a zero length data packet is sent after
+receiving an IN token with the InPktRdy bit not set. In Bulk/Interrupt
+mode, this bit is set when a NAK is returned in response to an IN token.
+The software should clear this bit.
+This bit is set when there is at least 1 packet in the IN FIFO.
+0：IN FIFO be empty.
+1：The IN FIFO contains one or more packets.
+
+0
+
+INPKTRDY
+
+RS
+
+The software sets this bit after loading a data packet into the FIFO. It is
+cleared automatically when a data packet has been transmitted. An
+interrupt is generated (if enabled) when the bit is cleared.
+
+Control Status register 2 for IN endpoint (USB_INCSR2)
+Address offset: 0x12
+Reset value: 0x20
+Bits
+
+Fields
+
+R/W
+
+Description
+If the CPU sets this bit, INPKTRDY will be automatically set when data of
+the maximum packet size (value in INMAXP) is loaded into the IN FIFO. If
+a packet of less than the maximum packet size is loaded, then InPktRdy
+will have to be set manually. When 2 packets are in the IN FIFO then
+INPKTRDYwill also be automatically set when the first packet has been
+sent, if the second packet is the maximum packet size.
+The software sets this bit to enable the IN endpoint for isochronous
+transfers (ISO mode), and clears it to enable the IN endpoint for
+bulk/interrupt transfers.
+0: Set the IN endpoint for bulk/interrupt transfers.
+1: Set the IN endpoint for isochronous transfers.
+
+7
+
+AUTOSET
+
+RW
+
+6
+
+ISO
+
+RW
+
+5
+
+-
+
+R
+
+Reserved.
+
+4
+
+-
+
+R
+
+Reserved, must be zero.
+
+RW
+
+The software sets this bit to force the endpoints IN data toggle to switch
+after each data packet is sent regardless of whether an ACK was
+received. This can be used by interrupt IN endpoints which are used to
+communicate rate feedback for Isochronous endpoints
+
+3
+
+FRCDATATOG
+
+Doc ID 2905025
+
+Rev01
+
+288
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+0： The endpoints IN data toggle to switch after an ACK was received.
+1：The endpoints IN data toggle to switch after each data packet is sent
+regardless of whether an ACK was received.
+
+2:0
+
+-
+
+R
+
+Reserved, always return zero.
+
+Setup maximum packet size for OUT endpoint (USB_OUTMAXP)
+Address offset: 0x13
+Reset value: 0x00
+OutMaxP is an 8-bit register that holds the maximum packet size for transactions through the
+currently-selected OUT endpoint–in units of 8 bytes, except that a value of 128 sets the
+maximum packet size to 1023 (the maximum size for an isochronous packet) rather than
+1024. In setting this value, you should note the constraints placed by the USB Specification
+on packet sizes for Bulk, Interrupt and Isochronous transactions in Full-speed
+operations.There is an OutMaxP register for each OUT endpoint (except Endpoint 0).
+The value written to this register should match the wMaxPacketSize field of the Standard
+Endpoint Descriptor for the associated endpoint (see Universal Serial Bus Specification
+Revision 2.0, Chapter 9). A mismatch could cause unexpected results.
+The total amount of data represented by the value written to this register must not exceed the
+FIFO size for the OUT endpoint, and should not exceed half the FIFO size if double-buffering
+is required. If a value greater than the configured OUT FIFO size for the endpoint is written to
+this register, the value will be automatically changed to the OUT FIFO size. If the value
+written to this register is less than, or equal to, half the OUT FIFO size, two OUT packets can
+be buffered.
+Bits
+
+Fields
+
+R/W
+
+7:0
+
+OUTMAXP
+
+RW
+
+Description
+Maximum Packet Size/transaction for OUT endpoint.
+
+Control Status register 1 for OUT endpoint. (USB_OUTCSR1)
+Address offset: 0x14
+Reset value: 0x00
+Bits
+
+Fields
+
+R/W
+
+Description
+
+7
+
+CLRDATATOG
+
+S
+
+The software writes a 1 to this bit to reset the endpoint data toggle to 0.
+
+6
+
+SENTSTALL
+
+R_W0
+
+5
+
+SENDSTALL
+
+RW
+
+4
+
+FLUSHFIFO
+
+S
+
+3
+
+DATAERROR
+
+R
+
+2
+
+OVERRUN
+
+R_W0
+
+Doc ID 2905025
+
+This bit is set when a STALL handshake is transmitted. The software
+should clear this bit.
+The software writes a 1 to this bit to issue a STALL handshake. The
+software clears this bit to terminate the stall condition. This bit has no
+effect if the OUT endpoint is in ISO mode.
+The software writes a 1 to this bit to flush the next packet to be read from
+the endpoint OUT FIFO. Note: If the FIFO contains two packets,
+FLUSHFIFO will need to be set twice to completely clear the FIFO.
+This bit is set when OUTPKTRDY is set if the data packet has a CRC or
+bit-stuff error. it is cleared when OUTPKTRDY is cleared. The bit is only
+valid in ISO mode.
+This bit is set if an OUT packet cannot be loaded into the OUT FIFO. The
+CPU should clear this bit. The bit is only valid in ISO mode.
+
+Rev01
+
+289
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+1
+
+FIFOFULL
+
+R
+
+This bit is set when no more packets can be loaded into the OUT FIFO.
+
+0
+
+OUTPKTRDY
+
+R_W0
+
+This bit is set when a data packet has been received. The CPU should
+clear this bit when the packet has been unloaded from the OUT FIFO. An
+interrupt is generated when the bit is set.
+
+Control Status register 2 for OUT endpoint (USB_OUTCSR2)
+Address offset: 0x15
+Reset value: 0x00
+Bits
+
+7
+
+6
+
+Fields
+
+AUTOCLR
+
+ISO
+
+R/W
+
+Description
+
+RW
+
+If the CPU sets this bit then the OutPktRdy bit will be automatically
+cleared when a packet of OutMaxP bytes has been unloaded from the
+OUT FIFO. When packets of less than the maximum packet size are
+unloaded, OutPktRdy will have to be cleared manually.
+
+RW
+
+The CPU sets this bit to enable the OUT endpoint for Isochronous
+transfers, and clears it to enable the OUT endpoint for Bulk/Interrupt
+transfers.
+0: Set the OUT endpoint for Bulk/Interrupt transfers.
+1: Set the OUT endpoint for Isochronous transfers.
+
+5:4
+
+-
+
+R
+
+Reserved, must be zero.
+
+3:0
+
+-
+
+R
+
+Reserved, always return zero.
+
+Number of received bytes in Endpoint 0 FIFO (USB_COUNT0)
+Address offset: 0x16
+Reset value: 0x00
+Bits
+
+Fields
+
+R/W
+
+Description
+
+7
+
+-
+
+R
+
+Reserved.
+
+6:0
+
+COUNT0
+
+R
+
+The value returned is valid while OUTPKTRDY (CSR0.D0) is set.
+
+Number of bytes in OUT endpoint FIFO (lower byte) (USB_OUTCOUNTL)
+Address offset: 0x16
+Reset value: 0x00
+Bits
+
+Fields
+
+R/W
+
+7:0
+
+OUTCOUNTL
+
+R
+
+Description
+The value returned is valid while OUTPKTRDY is set
+
+Number of bytes in OUT endpoint FIFO (upper byte) (USB_OUTCOUNTH)
+Address offset: 0x17
+Reset value: 0x00
+Bits
+
+Fields
+
+R/W
+
+7:3
+
+-
+
+R
+
+Reserved.
+
+2:0
+
+OUTCOUNTH
+
+R
+
+The value returned is valid while OUTPKTRDY is set.
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+290
+
+

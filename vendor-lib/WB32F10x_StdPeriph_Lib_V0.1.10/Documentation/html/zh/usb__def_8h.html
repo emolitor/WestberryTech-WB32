@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: usb_def.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_6d2d5b60bd20db849a9486835a2715aa.html">Libraries</a></li><li class="navelem"><a class="el" href="dir_220393b76de29dcc6a4f5a0f02aa06e9.html">WB32F10x_USBDevice_Driver</a></li><li class="navelem"><a class="el" href="dir_67df701a17d349eaf0fdd8d3a0d10f1b.html">inc</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#define-members">宏定义</a> &#124;
+<a href="#typedef-members">类型定义</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle">
+<div class="title">usb_def.h 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;wb32f10x.h&quot;</code><br />
+</div>
+<p><a href="usb__def_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a0a7534bbbc0e41f499c945af90c93ed3"><td class="memItemLeft" align="right" valign="top"><a id="a0a7534bbbc0e41f499c945af90c93ed3"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_DIRECTION_HOST_TO_DEVICE</b>&#160;&#160;&#160;0x00U</td></tr>
+<tr class="separator:a0a7534bbbc0e41f499c945af90c93ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a548dc3794a239d16706fcd5b84c58b12"><td class="memItemLeft" align="right" valign="top"><a id="a548dc3794a239d16706fcd5b84c58b12"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_DIRECTION_DEVICE_TO_HOST</b>&#160;&#160;&#160;0x80U</td></tr>
+<tr class="separator:a548dc3794a239d16706fcd5b84c58b12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bfc7db0b78de93471874211ec372cf8"><td class="memItemLeft" align="right" valign="top"><a id="a0bfc7db0b78de93471874211ec372cf8"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_DIRECTION_Msk</b>&#160;&#160;&#160;0x80U</td></tr>
+<tr class="separator:a0bfc7db0b78de93471874211ec372cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6112cc201d5c729a5fbec38907c5533e"><td class="memItemLeft" align="right" valign="top"><a id="a6112cc201d5c729a5fbec38907c5533e"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_TYPE_STANDARD</b>&#160;&#160;&#160;0x00U</td></tr>
+<tr class="separator:a6112cc201d5c729a5fbec38907c5533e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4460de679cd54b0be2ea3a36e2f45ca"><td class="memItemLeft" align="right" valign="top"><a id="af4460de679cd54b0be2ea3a36e2f45ca"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_TYPE_CLASS</b>&#160;&#160;&#160;0x20U</td></tr>
+<tr class="separator:af4460de679cd54b0be2ea3a36e2f45ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c54a247bcdcf4d026cfdcd0e15290c8"><td class="memItemLeft" align="right" valign="top"><a id="a3c54a247bcdcf4d026cfdcd0e15290c8"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_TYPE_VENDOR</b>&#160;&#160;&#160;0x40U</td></tr>
+<tr class="separator:a3c54a247bcdcf4d026cfdcd0e15290c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2936f80900af557a77a85be0f0d4f097"><td class="memItemLeft" align="right" valign="top"><a id="a2936f80900af557a77a85be0f0d4f097"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_TYPE_Msk</b>&#160;&#160;&#160;0x60U</td></tr>
+<tr class="separator:a2936f80900af557a77a85be0f0d4f097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7bdfb9d575e34eda899b6a2f2d00b7f"><td class="memItemLeft" align="right" valign="top"><a id="ae7bdfb9d575e34eda899b6a2f2d00b7f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_RECIPIENT_DEVICE</b>&#160;&#160;&#160;0x00U</td></tr>
+<tr class="separator:ae7bdfb9d575e34eda899b6a2f2d00b7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15cd8e26a814dd27d497e0b45e0658eb"><td class="memItemLeft" align="right" valign="top"><a id="a15cd8e26a814dd27d497e0b45e0658eb"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_RECIPIENT_INTERFACE</b>&#160;&#160;&#160;0x01U</td></tr>
+<tr class="separator:a15cd8e26a814dd27d497e0b45e0658eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5041cd8936e7f763975bffa48e5e8cda"><td class="memItemLeft" align="right" valign="top"><a id="a5041cd8936e7f763975bffa48e5e8cda"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_RECIPIENT_ENDPOINT</b>&#160;&#160;&#160;0x02U</td></tr>
+<tr class="separator:a5041cd8936e7f763975bffa48e5e8cda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81d18e21d395836d707efff136a2990a"><td class="memItemLeft" align="right" valign="top"><a id="a81d18e21d395836d707efff136a2990a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_RECIPIENT_Msk</b>&#160;&#160;&#160;0x1FU</td></tr>
+<tr class="separator:a81d18e21d395836d707efff136a2990a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a062f3147a1bae954b642b915827b3f3f"><td class="memItemLeft" align="right" valign="top"><a id="a062f3147a1bae954b642b915827b3f3f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_GET_STATUS</b>&#160;&#160;&#160;0x00U</td></tr>
+<tr class="separator:a062f3147a1bae954b642b915827b3f3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9fe860caa1f21c9410984a24bf57c7c"><td class="memItemLeft" align="right" valign="top"><a id="ab9fe860caa1f21c9410984a24bf57c7c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_CLEAR_FEATURE</b>&#160;&#160;&#160;0x01U</td></tr>
+<tr class="separator:ab9fe860caa1f21c9410984a24bf57c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2b4d305dcd185cc1242e94ee78eea25"><td class="memItemLeft" align="right" valign="top"><a id="aa2b4d305dcd185cc1242e94ee78eea25"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_SET_FEATURE</b>&#160;&#160;&#160;0x03U</td></tr>
+<tr class="separator:aa2b4d305dcd185cc1242e94ee78eea25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac87659819bfd6491120c819fae2d46bc"><td class="memItemLeft" align="right" valign="top"><a id="ac87659819bfd6491120c819fae2d46bc"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_SET_ADDRESS</b>&#160;&#160;&#160;0x05U</td></tr>
+<tr class="separator:ac87659819bfd6491120c819fae2d46bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3572226ee2137c7fbf7487a02b0f560f"><td class="memItemLeft" align="right" valign="top"><a id="a3572226ee2137c7fbf7487a02b0f560f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_GET_DESCRIPTOR</b>&#160;&#160;&#160;0x06U</td></tr>
+<tr class="separator:a3572226ee2137c7fbf7487a02b0f560f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c80fdedd69586ccf2894f5bd4638252"><td class="memItemLeft" align="right" valign="top"><a id="a3c80fdedd69586ccf2894f5bd4638252"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_SET_DESCRIPTOR</b>&#160;&#160;&#160;0x07U</td></tr>
+<tr class="separator:a3c80fdedd69586ccf2894f5bd4638252"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a341ed4aff1f0d5a1a4a4f17cb606d08d"><td class="memItemLeft" align="right" valign="top"><a id="a341ed4aff1f0d5a1a4a4f17cb606d08d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_GET_CONFIGURATION</b>&#160;&#160;&#160;0x08U</td></tr>
+<tr class="separator:a341ed4aff1f0d5a1a4a4f17cb606d08d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadef005acc40340955d34d9767ef297c"><td class="memItemLeft" align="right" valign="top"><a id="aadef005acc40340955d34d9767ef297c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_SET_CONFIGURATION</b>&#160;&#160;&#160;0x09U</td></tr>
+<tr class="separator:aadef005acc40340955d34d9767ef297c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25550f44898d9c9a3bf0a7814af7fe96"><td class="memItemLeft" align="right" valign="top"><a id="a25550f44898d9c9a3bf0a7814af7fe96"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_GET_INTERFACE</b>&#160;&#160;&#160;0x0AU</td></tr>
+<tr class="separator:a25550f44898d9c9a3bf0a7814af7fe96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8d2ea632916bfc2a7628f63d3f643aa"><td class="memItemLeft" align="right" valign="top"><a id="af8d2ea632916bfc2a7628f63d3f643aa"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_SET_INTERFACE</b>&#160;&#160;&#160;0x0BU</td></tr>
+<tr class="separator:af8d2ea632916bfc2a7628f63d3f643aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7497da1d974b456583b64889a2b5dd04"><td class="memItemLeft" align="right" valign="top"><a id="a7497da1d974b456583b64889a2b5dd04"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_REQUEST_SYNCH_FRAME</b>&#160;&#160;&#160;0x0CU</td></tr>
+<tr class="separator:a7497da1d974b456583b64889a2b5dd04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ff0518fb298c9c9b556f59c0468ec0d"><td class="memItemLeft" align="right" valign="top"><a id="a3ff0518fb298c9c9b556f59c0468ec0d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_FEATURE_ENDPOINT_STALL</b>&#160;&#160;&#160;0U</td></tr>
+<tr class="separator:a3ff0518fb298c9c9b556f59c0468ec0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2185a0541f4155470596c9c739c1656b"><td class="memItemLeft" align="right" valign="top"><a id="a2185a0541f4155470596c9c739c1656b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_FEATURE_REMOTE_WAKEUP</b>&#160;&#160;&#160;1U</td></tr>
+<tr class="separator:a2185a0541f4155470596c9c739c1656b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a214beead1a70b2471e014e47bdd583ed"><td class="memItemLeft" align="right" valign="top"><a id="a214beead1a70b2471e014e47bdd583ed"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_DESC_TYPE_DEVICE</b>&#160;&#160;&#160;1U</td></tr>
+<tr class="separator:a214beead1a70b2471e014e47bdd583ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3df9fe0ddb9d2ba96cf183e68106416b"><td class="memItemLeft" align="right" valign="top"><a id="a3df9fe0ddb9d2ba96cf183e68106416b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_DESC_TYPE_CONFIGURATION</b>&#160;&#160;&#160;2U</td></tr>
+<tr class="separator:a3df9fe0ddb9d2ba96cf183e68106416b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abeff4d4e616089224259477315cea53a"><td class="memItemLeft" align="right" valign="top"><a id="abeff4d4e616089224259477315cea53a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_DESC_TYPE_STRING</b>&#160;&#160;&#160;3U</td></tr>
+<tr class="separator:abeff4d4e616089224259477315cea53a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af840c6cffb959e7de803658fb302d77b"><td class="memItemLeft" align="right" valign="top"><a id="af840c6cffb959e7de803658fb302d77b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_DESC_TYPE_INTERFACE</b>&#160;&#160;&#160;4U</td></tr>
+<tr class="separator:af840c6cffb959e7de803658fb302d77b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5a6766124830bf1e0be9e269cf7a91b"><td class="memItemLeft" align="right" valign="top"><a id="ac5a6766124830bf1e0be9e269cf7a91b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_DESC_TYPE_ENDPOINT</b>&#160;&#160;&#160;5U</td></tr>
+<tr class="separator:ac5a6766124830bf1e0be9e269cf7a91b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af84807fa63f5cff4c6184dfa9edbb8b5"><td class="memItemLeft" align="right" valign="top"><a id="af84807fa63f5cff4c6184dfa9edbb8b5"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_DESC_TYPE_DEVICE_QUALIFIER</b>&#160;&#160;&#160;6U</td></tr>
+<tr class="separator:af84807fa63f5cff4c6184dfa9edbb8b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade24200c89c7f97dfe09e714ed30e789"><td class="memItemLeft" align="right" valign="top"><a id="ade24200c89c7f97dfe09e714ed30e789"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_DESC_TYPE_OTHER_SPEED_CONFIGURATION</b>&#160;&#160;&#160;7U</td></tr>
+<tr class="separator:ade24200c89c7f97dfe09e714ed30e789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b0348b775bf17f21f556659763ebfc4"><td class="memItemLeft" align="right" valign="top"><a id="a1b0348b775bf17f21f556659763ebfc4"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_DESC_TYPE_INTERFACE_POWER</b>&#160;&#160;&#160;8U</td></tr>
+<tr class="separator:a1b0348b775bf17f21f556659763ebfc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdd4f846b5497985c182a1a090d99729"><td class="memItemLeft" align="right" valign="top"><a id="afdd4f846b5497985c182a1a090d99729"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_CONFIG_POWERED_MASK</b>&#160;&#160;&#160;0x40U</td></tr>
+<tr class="separator:afdd4f846b5497985c182a1a090d99729"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63c0a08ce70650c3c677ab523a45a0bb"><td class="memItemLeft" align="right" valign="top"><a id="a63c0a08ce70650c3c677ab523a45a0bb"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_CONFIG_BUS_POWERED</b>&#160;&#160;&#160;0x80U</td></tr>
+<tr class="separator:a63c0a08ce70650c3c677ab523a45a0bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c322771b797c09e3066a388b46e9ef9"><td class="memItemLeft" align="right" valign="top"><a id="a8c322771b797c09e3066a388b46e9ef9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_CONFIG_SELF_POWERED</b>&#160;&#160;&#160;0xC0U</td></tr>
+<tr class="separator:a8c322771b797c09e3066a388b46e9ef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b28a766a8a916fae421d52fbedd2cba"><td class="memItemLeft" align="right" valign="top"><a id="a7b28a766a8a916fae421d52fbedd2cba"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_CONFIG_REMOTE_WAKEUP</b>&#160;&#160;&#160;0x20U</td></tr>
+<tr class="separator:a7b28a766a8a916fae421d52fbedd2cba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcf08dc7fdb6117608624203612b3104"><td class="memItemLeft" align="right" valign="top"><a id="adcf08dc7fdb6117608624203612b3104"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_CONFIG_POWER_MA</b>(mA)&#160;&#160;&#160;((mA)/2)</td></tr>
+<tr class="separator:adcf08dc7fdb6117608624203612b3104"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7544c5b8cf975839422c1ce29d4c5cb"><td class="memItemLeft" align="right" valign="top"><a id="ab7544c5b8cf975839422c1ce29d4c5cb"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_DIRECTION_MASK</b>&#160;&#160;&#160;0x80U</td></tr>
+<tr class="separator:ab7544c5b8cf975839422c1ce29d4c5cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81ac2a8c9688d35940a054c4194c278d"><td class="memItemLeft" align="right" valign="top"><a id="a81ac2a8c9688d35940a054c4194c278d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_OUT</b>(addr)&#160;&#160;&#160;(addr)</td></tr>
+<tr class="separator:a81ac2a8c9688d35940a054c4194c278d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe258bf57244c49874da6d53679e6df8"><td class="memItemLeft" align="right" valign="top"><a id="abe258bf57244c49874da6d53679e6df8"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_IN</b>(addr)&#160;&#160;&#160;((addr) | 0x80U)</td></tr>
+<tr class="separator:abe258bf57244c49874da6d53679e6df8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd114fdf068aaa69407358ee5ccfd170"><td class="memItemLeft" align="right" valign="top"><a id="acd114fdf068aaa69407358ee5ccfd170"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_TYPE_MASK</b>&#160;&#160;&#160;0x03U</td></tr>
+<tr class="separator:acd114fdf068aaa69407358ee5ccfd170"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a51ed22b06e5ca0f76a35b6bac8d73a"><td class="memItemLeft" align="right" valign="top"><a id="a6a51ed22b06e5ca0f76a35b6bac8d73a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_TYPE_CONTROL</b>&#160;&#160;&#160;0x00U</td></tr>
+<tr class="separator:a6a51ed22b06e5ca0f76a35b6bac8d73a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab05aae4a5d079b8dfb6a9cb1325ea6e5"><td class="memItemLeft" align="right" valign="top"><a id="ab05aae4a5d079b8dfb6a9cb1325ea6e5"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_TYPE_ISOCHRONOUS</b>&#160;&#160;&#160;0x01U</td></tr>
+<tr class="separator:ab05aae4a5d079b8dfb6a9cb1325ea6e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4bac84d4576dc8f74f39dc75749e3dc"><td class="memItemLeft" align="right" valign="top"><a id="af4bac84d4576dc8f74f39dc75749e3dc"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_TYPE_BULK</b>&#160;&#160;&#160;0x02U</td></tr>
+<tr class="separator:af4bac84d4576dc8f74f39dc75749e3dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cb5aa69a03df20aab217b808ad692a6"><td class="memItemLeft" align="right" valign="top"><a id="a2cb5aa69a03df20aab217b808ad692a6"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_TYPE_INTERRUPT</b>&#160;&#160;&#160;0x03U</td></tr>
+<tr class="separator:a2cb5aa69a03df20aab217b808ad692a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91301868eb0b52506fc9bc02b131f783"><td class="memItemLeft" align="right" valign="top"><a id="a91301868eb0b52506fc9bc02b131f783"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_SYNC_MASK</b>&#160;&#160;&#160;0x0CU</td></tr>
+<tr class="separator:a91301868eb0b52506fc9bc02b131f783"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7733e58f8c4fbcef1533eb02f375aeb0"><td class="memItemLeft" align="right" valign="top"><a id="a7733e58f8c4fbcef1533eb02f375aeb0"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_SYNC_NO_SYNCHRONIZATION</b>&#160;&#160;&#160;0x00U</td></tr>
+<tr class="separator:a7733e58f8c4fbcef1533eb02f375aeb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1bb5cc537ea61634cb61c8c364c9a6f"><td class="memItemLeft" align="right" valign="top"><a id="ad1bb5cc537ea61634cb61c8c364c9a6f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_SYNC_ASYNCHRONOUS</b>&#160;&#160;&#160;0x04U</td></tr>
+<tr class="separator:ad1bb5cc537ea61634cb61c8c364c9a6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7808914116fe45223462e68d6f8aa5d"><td class="memItemLeft" align="right" valign="top"><a id="aa7808914116fe45223462e68d6f8aa5d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_SYNC_ADAPTIVE</b>&#160;&#160;&#160;0x08U</td></tr>
+<tr class="separator:aa7808914116fe45223462e68d6f8aa5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0309c68623fb48fdc621f15dabc579f2"><td class="memItemLeft" align="right" valign="top"><a id="a0309c68623fb48fdc621f15dabc579f2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_SYNC_SYNCHRONOUS</b>&#160;&#160;&#160;0x0CU</td></tr>
+<tr class="separator:a0309c68623fb48fdc621f15dabc579f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a834006343743238a5eb1d273ef3226ae"><td class="memItemLeft" align="right" valign="top"><a id="a834006343743238a5eb1d273ef3226ae"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_USAGE_MASK</b>&#160;&#160;&#160;0x30U</td></tr>
+<tr class="separator:a834006343743238a5eb1d273ef3226ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac852b5e62e4e577b1b43239ae190908a"><td class="memItemLeft" align="right" valign="top"><a id="ac852b5e62e4e577b1b43239ae190908a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_USAGE_DATA</b>&#160;&#160;&#160;0x00U</td></tr>
+<tr class="separator:ac852b5e62e4e577b1b43239ae190908a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe8c89e5b624ac6bb5b9cd2919fc06be"><td class="memItemLeft" align="right" valign="top"><a id="abe8c89e5b624ac6bb5b9cd2919fc06be"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_USAGE_FEEDBACK</b>&#160;&#160;&#160;0x10U</td></tr>
+<tr class="separator:abe8c89e5b624ac6bb5b9cd2919fc06be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfdb9f73f34907249b8fd1128c25ae1a"><td class="memItemLeft" align="right" valign="top"><a id="abfdb9f73f34907249b8fd1128c25ae1a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_USAGE_IMPLICIT_FEEDBACK</b>&#160;&#160;&#160;0x20U</td></tr>
+<tr class="separator:abfdb9f73f34907249b8fd1128c25ae1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ee1319e7242bb61298af850ea64f08a"><td class="memItemLeft" align="right" valign="top"><a id="a0ee1319e7242bb61298af850ea64f08a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USB_ENDPOINT_USAGE_RESERVED</b>&#160;&#160;&#160;0x30U</td></tr>
+<tr class="separator:a0ee1319e7242bb61298af850ea64f08a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a423cf90a532bc936797b17a49ae6848e"><td class="memItemLeft" align="right" valign="top"><a id="a423cf90a532bc936797b17a49ae6848e"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USBD_STATE_DEFAULT</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a423cf90a532bc936797b17a49ae6848e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9629f2b403944256687874165dcc9a5"><td class="memItemLeft" align="right" valign="top"><a id="ae9629f2b403944256687874165dcc9a5"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USBD_STATE_ADDRESSED</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:ae9629f2b403944256687874165dcc9a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d1e58829e5878c4d2c23eac1f192358"><td class="memItemLeft" align="right" valign="top"><a id="a4d1e58829e5878c4d2c23eac1f192358"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USBD_STATE_CONFIGURED</b>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:a4d1e58829e5878c4d2c23eac1f192358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2b41659195da2defd648d00d4e51a40"><td class="memItemLeft" align="right" valign="top"><a id="ae2b41659195da2defd648d00d4e51a40"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USBD_STATE_SUSPENDED</b>&#160;&#160;&#160;3</td></tr>
+<tr class="separator:ae2b41659195da2defd648d00d4e51a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+类型定义</h2></td></tr>
+<tr class="memitem:a97eafdbdab0ecd092898a1cecc872172"><td class="memItemLeft" align="right" valign="top">typedef __PACKED_STRUCT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usb__def_8h.html#a97eafdbdab0ecd092898a1cecc872172">_USB_SETUP_PACKET</a></td></tr>
+<tr class="memdesc:a97eafdbdab0ecd092898a1cecc872172"><td class="mdescLeft">&#160;</td><td class="mdescRight">USB Default Control Pipe Setup Packet  <a href="#a97eafdbdab0ecd092898a1cecc872172">更多...</a><br /></td></tr>
+<tr class="separator:a97eafdbdab0ecd092898a1cecc872172"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:a1e7be110861bd4ff75c86d5214f31543"><td class="memItemLeft" align="right" valign="top"><a id="a1e7be110861bd4ff75c86d5214f31543"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>bRequest</b></td></tr>
+<tr class="separator:a1e7be110861bd4ff75c86d5214f31543"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdbffc340d4c77920e45568996f2cb52"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>__PACKED_UNION</b></td></tr>
+<tr class="separator:afdbffc340d4c77920e45568996f2cb52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a108bbc27011d38d13b138dfd6925c2cc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>__PACKED_STRUCT</b></td></tr>
+<tr class="separator:a108bbc27011d38d13b138dfd6925c2cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabbb9822d6a72d08685763abfa896453"><td class="memItemLeft" align="right" valign="top"><a id="aabbb9822d6a72d08685763abfa896453"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>wValueH</b></td></tr>
+<tr class="separator:aabbb9822d6a72d08685763abfa896453"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b61a63bf3e99df0b3f64e413e9c73f5"><td class="memItemLeft" align="right" valign="top"><a id="a8b61a63bf3e99df0b3f64e413e9c73f5"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>wIndexH</b></td></tr>
+<tr class="separator:a8b61a63bf3e99df0b3f64e413e9c73f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a496c03443b177fd2e6c93616064d2934"><td class="memItemLeft" align="right" valign="top"><a id="a496c03443b177fd2e6c93616064d2934"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>wLength</b></td></tr>
+<tr class="separator:a496c03443b177fd2e6c93616064d2934"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cf9ba22fdc88123f6ef006720dcf4c4"><td class="memItemLeft" align="right" valign="top"><a id="a4cf9ba22fdc88123f6ef006720dcf4c4"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>USB_SETUP_PACKET</b></td></tr>
+<tr class="separator:a4cf9ba22fdc88123f6ef006720dcf4c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>Westberry Application Team </dd></dl>
+<dl class="section attention"><dt>注意</dt><dd></dd></dl>
+<p>Copyright (c) 2020 - 2023 Westberry Technology (ChangZhou) Corp., Ltd All rights reserved.</p>
+<p>THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME. AS A RESULT, WESTBERRY TECHNOLOGY SHALL NOT BE HELD LIABLE FOR ANY DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS. </p>
+</div><h2 class="groupheader">类型定义说明</h2>
+<a id="a97eafdbdab0ecd092898a1cecc872172"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97eafdbdab0ecd092898a1cecc872172">&#9670;&nbsp;</a></span>_USB_SETUP_PACKET</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef __PACKED_STRUCT <a class="el" href="usb__def_8h.html#a97eafdbdab0ecd092898a1cecc872172">_USB_SETUP_PACKET</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">{</div><div class="line">  uint8_t           bmRequestType</div></div><!-- fragment -->
+<p>USB Default Control Pipe Setup Packet </p>
+
+</div>
+</div>
+<h2 class="groupheader">变量说明</h2>
+<a id="a108bbc27011d38d13b138dfd6925c2cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a108bbc27011d38d13b138dfd6925c2cc">&#9670;&nbsp;</a></span>__PACKED_STRUCT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__PACKED_STRUCT</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">{</div><div class="line">      uint8_t           wValueL</div></div><!-- fragment -->
+</div>
+</div>
+<a id="afdbffc340d4c77920e45568996f2cb52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdbffc340d4c77920e45568996f2cb52">&#9670;&nbsp;</a></span>__PACKED_UNION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__PACKED_UNION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">{</div><div class="line">    uint16_t          wValue</div></div><!-- fragment -->
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

@@ -1,0 +1,2681 @@
+WB32FQ95xx Reference Manual
+
+13.
+
+Direct Memory access Controller (DMAC)
+
+13.1.
+
+Overview
+The direct memory access (DMA) controller provides a hardware method of transferring data
+between peripherals and/or memory without intervention from the CPU, thereby freeing up
+bandwidth for other system functions. Data can be quickly moved by DMA between
+peripherals and memory as well as memory and memory without any CPU actions.
+There are two DMAC in WB32FQ95xx: DMAC1 and DMAC2. Each DMAC has 3 hardware
+channels (six channels totally), and each of them can be configured separately to manage
+the transfer of 16 DMA requesting sources. All the channels share the AHB bus master bus
+interface. An arbitration scheme decides which of them is granted by the master bus
+interface.
+The system bus is shared by the DMA controller and the Cortex™-M3 core. When the DMA
+and the CPU are targeting the same destination, the DMA access may stop the CPU access
+to the system bus for some bus cycles. Round-robin scheduling is implemented in the bus
+matrix to ensure at least half of the system bus bandwidth for the CPU.
+
+13.2.
+
+Characteristics
+⚫
+
+2 AHB master interface, 1 AHB slave interface.
+
+⚫
+
+AMBA 2.0-compliant
+
+⚫
+
+1 AHB slave interface – used to program the EMAC
+
+⚫
+
+2 AHB master interface(s)
+
+⚫
+
+6 (3 for each DMAC) independent channels
+
+⚫
+
+32 (16 for each DMAC) hardware handshake signals
+
+⚫
+
+Support for memory-to-memory, memory-to-peripheral, peripheral-to-memory, and
+peripheral-to-peripheral DMA transfers
+
+⚫
+
+Support for disabling channel without data loss
+
+⚫
+
+Source and destination can be on different AHB layers
+
+⚫
+
+Configurable data bus width for each AHB master interface
+
+⚫
+
+Programmable source and destination for each channel
+
+⚫
+
+Programmable DMA requesting source, priority for hardware handshaking interfaces,
+DMA handshake interfaces for each channel
+
+⚫
+
+Configurable transfer type, transfer size for each channel
+
+⚫
+
+Support single block DMA transfer
+
+⚫
+
+Support DMAC as the flow controller of DMA transfer
+
+⚫
+
+Support scatter and gather
+
+⚫
+
+Support pseudo fly-by operation
+
+⚫
+
+Support FIFO mode for each channel to improve the bandwidth
+
+Doc ID 2905025
+
+Rev01
+
+126
+
+WB32FQ95xx Reference Manual
+
+13.3.
+
+Pre-Configuration
+To use the DMAC, the GPIO and AFIO should be configured correctly if needed. To save the
+power, user can turn off the peripheral clocks if not need. Before configuring the DMAC1,
+user should enable the APB1 clock (SFR RCC_APB1PRE) and enable the DMAC clock (bit
+15 and bit 0 of SFR RCC_APB1ENR). Before configuring the DMAC2, user should enable
+the APB2 clock (SFR RCC_APB2PRE) and enable the DMAC clock (bit 15 and bit 0 of SFR
+RCC_APB2ENR).
+
+13.4.
+
+Block Diagram
+The figure below shows the block diagram.
+Figure 13-1. Block Diagram
+
+The DMAC including six main parts:
+⚫
+
+Two AHB master bus interface, to do the DMA data transfer
+
+⚫
+
+One AHB slave bus interface, to configure the DMAC
+
+⚫
+
+One Arbiter for each AHB master interface, to decode which channel is granted
+
+⚫
+
+Three channel controllers including the FIFOs, DMA source control, DMA destination
+control
+
+⚫
+
+Configuration and interrupt control
+
+⚫
+
+Hardware handshaking interface
+
+Doc ID 2905025
+
+Rev01
+
+127
+
+WB32FQ95xx Reference Manual
+
+13.5.
+
+Function Overview
+
+13.5.1.
+
+DMA operation
+Each DMA transfer consists of two operations, including the loading of data from the source
+and the storage of the loaded data to the destination. Each DMA transfer includes three
+operations:
+⚫
+
+Read the data from the peripherals or memories based on the SFR SARx
+
+⚫
+
+Write the data to the peripherals or memories based on the SFR DARx
+
+⚫
+
+Update the SFR SARx and DARx when the data transfer finish
+
+User should configure the DMA channels and the handshake interfaces first. If hardware
+interface is used, the peripherals will send DMA request to DMAC when their DMA events
+occur. The arbiter decides which channel will be granted. When the channel is granted and
+the data transfer finish, DMAC will send grant signal to the peripheral. The peripheral will
+stop requesting the DMA resources when it receive the grant signal, and the DMAC will set
+the corresponding status and finish the data transfer. The channel will also be disabled
+automatically. Then the user can configure the DMA channel to other resources.
+
+13.5.2.
+
+Arbitration for AHB master interface
+Each DAMC channel has two request lines that request ownership of a particular master bus
+interface: channel source and channel destination request lines. Source and destination
+arbitrate separately for the bus.
+An arbitration scheme decides which of the request lines is granted the particular master bus
+interface. Each channel has a programmable priority. A request for the master bus interface
+can be made at any time, but is granted only after the current AHB transfer (burst or single)
+has completed. Therefore, if the master interface is transferring data for a lower priority
+channel and a higher priority channel requests service, then the master interface will
+complete the current burst for the lower priority channel before switching to transfer data for
+the higher priority channel.
+The following is the interface arbitration scheme employed when no channel has locked
+(Channel Locking) the arbitration for the master bus interface:
+⚫
+
+If only one request line is active at the highest priority level, then the request with the
+highest priority wins ownership of the AHB master bus interface; it is not necessary for
+the priority levels to be unique.
+
+⚫
+
+If more than one request is active at the highest requesting priority, then these
+competing requests proceed to a second tier of arbitration.
+
+⚫
+
+If equal priority requests occur, then the lower-numbered channel is granted. In other
+words, if a peripheral request attached to Channel 7 and a peripheral request attached
+to Channel 8 have the same priority, then the peripheral attached to Channel 7 is
+granted first.
+
+Doc ID 2905025
+
+Rev01
+
+128
+
+WB32FQ95xx Reference Manual
+
+Figure 13-2. Arbitration Flow for Master Bus Interface
+
+13.5.3.
+
+DMA Handshaking
+Handshake interfaces and protocols are needed to control the DMA data transfer starting
+and finishing. The DMAC supports two kinds of handshake interfaces: software handshake
+interfaces and hardware handshake interfaces. The user can configure it through the
+channel SFR CFGLx.HS_SEL_DST and CFGLx.HS_SEL_SRC. Please refer to section
+14.5.5 for detail info.
+⚫
+
+Software Handshake
+
+When the slave peripheral requires the DMAC to perform a DMA transaction, it
+communicates this request by sending an interrupt to NVIC. The interrupt service routine
+then uses the software registers below to initiate and control a DMA transaction. This group
+of software registers is used to implement the software handshaking interface. The
+HS_SEL_SRC/HS_SEL_DST bit in the CFGx channel configuration register must be set to
+enable software handshaking.
+
+Doc ID 2905025
+
+Rev01
+
+129
+
+WB32FQ95xx Reference Manual
+
+The software handshaking registers are:
+
+⚫
+
+◼
+
+ReqSrcReg – source software transaction request
+
+◼
+
+ReqDstReg – destination software transaction request
+
+◼
+
+SglReqSrcReg – single source transaction request
+
+◼
+
+SglReqDstReg – single destination transaction request
+
+◼
+
+LstSrcReg – last source transaction request
+
+◼
+
+LstDstReg – last destination transaction request
+
+Hardware Handshake
+
+Each DMAC has 16 hardware handshake interfaces. Please refer to section 14.5.10 for
+detail of the interface mapping info. The channel interfaces can be configured through the
+SFR CFGxL.HS_SEL_SRC, CFGxH.SRC_PER, CFGxL.HS_SEL_DST, CFGxH.DST_PER.
+The figure below shows the DMA single transfer waveform and DMA burst transfer
+waveform.
+Figure 13-3. DMA single data transfer
+
+Figure 13-4. DMA burst data transfer
+
+When the peripheral request DMA, the signal “dma_req” will be asserted (assert
+“dma_single_req” for DMA single transfer). If the channel assigned to this peripheral can be
+granted by the arbiter, the data transfer starts, and DMAC asserts the signal “dma_ack”.
+When all the data transfers are finished, the devices will stop requesting by de-assert
+“dma_req”. Then DMAC will de-assert the “dma_ack” in the next cycle. The DMA transfer
+size is configured by the channel SFR CTLx.SRC_MSIZE and CTLx.DST_MSIZE.
+Note: No handshaking interfaces are needed for the data transfer between DMA and SRAM.
+
+Doc ID 2905025
+
+Rev01
+
+130
+
+WB32FQ95xx Reference Manual
+
+13.5.4.
+
+Scatter
+Scatter is relevant to a destination transfer. The destination address is incremented or
+decremented by a programmed amount – the scatter increment – when a scatter boundary is
+reached. Figure 14-5 shows an example destination scatter transfer. The destination address
+is incremented or decremented by the value stored in the destination scatter increment
+(DSRx.DSI) field, multiplied by the number of bytes in a single AHB transfer to the
+destinations (decoded value of CTLx.DST_TR_WIDTH)/8 – when a scatter boundary is
+reached. The number of destination transfers between successive scatter boundaries is
+programmed into the Destination Scatter Count (DSC) field of the DSRx register.
+Scatter is enabled by writing a 1 to the CTLx.DST_SCATTER_EN field. The CTLx.DINC field
+determines if the address is incremented, decremented, or remains fixed when a scatter
+boundary is reached. If the CTLx.DINC field indicates a fixed-address control throughout a
+DMA transfer, then the CTLx.DST_SCATTER_EN field is ignored, and the scatter feature is
+automatically disabled.
+Figure 13-5. Example of Destination Scatter Transfer
+
+13.5.5.
+
+Gather
+Gather is relevant to a source transfer. The source address is incremented or decremented
+by a programmed amount when a gather boundary is reached. The number of source
+transfers between successive gather boundaries is programmed into the Source Gather
+Count (SGRx.SGC) field. The source address is incremented or decremented by the value
+stored in the source gather increment (SGRx.SGI) field, multiplied by the number of bytes in
+a single AHB transfer from the source – (decoded value of CTLx.SRC_TR_WIDTH)/8 –
+when a gather boundary is reached.
+Gather is enabled by writing a 1 to the CTLx.SRC_GATHER_EN field. The CTLx.SINC field
+determines if the address is incremented, decremented, or remains fixed when a gather
+
+Doc ID 2905025
+
+Rev01
+
+131
+
+WB32FQ95xx Reference Manual
+
+boundary is reached. If the CTLx.SINC field indicates a fixed-address control throughout a
+DMA transfer, then the CTLx.SRC_GATHER_EN field is ignored, and the gather feature is
+automatically disabled.
+Figure 13-6. Source Gather when SGR.SGI=0x1
+
+In general, if the starting address is A0 and CTLx.SINC = 2’b00 (increment source address
+control), then the transfer will be:
+A0, AO + TWB, A0 + 2*TWB, ....... , (A0 + (SGR.SGC-1)*TWB)
+<-scatter_increment-> (A0 + (SGR.SGC*TWB) + (SGR.SGI *TWB))
+TWB is the transfer width in bytes, decoded value of CTLx.SRC_TR_WIDTH/8 =
+src_single_size_bytes
+
+13.5.6.
+
+AHB Transfer Error Handling
+Upon occurrence of an error in an AHB transfer, the following occurs:
+⚫
+
+DMA transfer in progress stops immediately
+
+⚫
+
+Relevant channel is disabled
+
+⚫
+
+An interrupt is issued (if not masked)
+
+If multiple channels are enabled, only the one where the AHB error was detected is disabled.
+The contents of the FIFO are not cleared, but they become inaccessible and are overwritten
+once the channel is re-enabled to start a new sequence.
+There is no support for automatically resuming the transfer from the point where the error
+occurred, and the full block transfer has to be re-initiated in order to be successfully
+completed.
+The DMA does not use the hardware handshaking interface to signal the error occurrence in
+any way, nor does it signal the end of a transfer. In practice, this means that if a request from
+
+Doc ID 2905025
+
+Rev01
+
+132
+
+WB32FQ95xx Reference Manual
+
+a peripheral is active when the error occurs—dma_req is high if peripheral is the flow
+controller; dma_req or dma_single are high if peripheral is not the flow controller—the
+channel is disabled without the DMA ever asserting dma_ack (or dma_finish).
+The hardware handshake interface on the peripheral side has to be re-initiated by the CPU
+upon detection of the error interrupt. The dma_req signal needs to be brought low before the
+channel is re-enabled and then brought high when the channel has been enabled.
+
+13.5.7.
+
+Disabling a Channel Prior to Transfer Completion
+Under normal operation, software enables a channel by writing a1 to the channel enable
+register, ChEnReg.CH_EN, and hardware disables a channel on transfer completion by
+clearing the ChEnReg.CH_EN register bit.
+The recommended way for software to disable a channel without losing data is to use the
+CH_SUSP bit in conjunction with the FIFO_EMPTY bit in the Channel Configuration Register
+(CFGx).
+⚫
+
+If software wishes to disable a channel prior to the DMA transfer completion, then it can
+set the CFGx.CH_SUSP bit to tell the DW_ahb_dmac to halt all transfers from the
+source peripheral. Therefore, the channel FIFO receives no new data.
+
+⚫
+
+Software can now poll the CFGx.FIFO_EMPTY bit until it indicates that the channel
+FIFO is empty.
+
+⚫
+
+The ChEnReg.CH_EN bit can then be cleared by software once the channel FIFO is
+empty
+
+⚫
+
+When CTLx.SRC_TR_WIDTH < CTLx.DST_TR_WIDTH and the CFGx.CH_SUSP bit is
+high, the CFGx.FIFO_EMPTY is asserted once the contents of the FIFO do not permit a
+single word of CTLx.DST_TR_WIDTH to be formed. However, there may still be data in
+the channel FIFO, but not enough to form a single transfer of CTLx.DST_TR_WIDTH. In
+this scenario, once the channel is disabled, the remaining data in the channel FIFO is
+not transferred to the destination peripheral.
+
+It is permissible to remove the channel from the suspension state by writing a0 to the
+CFGx.CH_SUSPregister. The DMA transfer completes in the normal manner.
+
+13.5.8.
+
+Programming Examples
+Below is an example showing how to program DMA.
+⚫
+
+Read the Channel Enable register to choose a free (disabled) channel;
+
+⚫
+
+Clear any pending interrupts on the channel from the previous DMA transfer by writing
+to the Interrupt Clear registers: ClearTfr, ClearBlock, ClearSrcTran, ClearDstTran, and
+ClearErr. Reading the Interrupt Raw Status and Interrupt Status registers confirms that
+all interrupts have been cleared.
+
+⚫
+
+Program the following channel registers:
+
+Doc ID 2905025
+
+◼
+
+Write the starting source address in the SARx register for channel x
+
+◼
+
+Write the starting destination address in the DARx register for channel x
+
+◼
+
+Write the control information for the DMA transfer in the CTLx register for channel x
+
+Rev01
+
+133
+
+WB32FQ95xx Reference Manual
+
+◼
+
+13.5.9.
+
+◆
+
+Set up the transfer type (memory or non-memory peripheral for source and
+destination) and flow control device by programming the TT_FC of the CTLx
+register.
+
+◆
+
+Set up the transfer characteristics, such as:
+➢
+
+Transfer width for the source in the SRC_TR_WIDTH field.
+
+➢
+
+Transfer width for the destination in the DST_TR_WIDTH field.
+
+➢
+
+Source master layer in the SMS field where the source resides.
+
+➢
+
+Destination master layer in the DMS field where the destination resides.
+
+➢
+
+Incrementing/decrementing or fixed address for the source in the SINC
+field.
+
+➢
+
+Incrementing/decrementing or fixed address for the destination in the
+DINC field.
+
+Write the channel configuration information into the CFGx register for channel x
+◆
+
+Designate the handshaking interface type (hardware or software) for the
+source and destination peripherals; this is not required for memory. This step
+requires programming the HS_SEL_SRC/HS_SEL_DST bits, respectively.
+Writing a 0 activates the hardware handshaking interface to handle
+source/destination requests. Writing a 1 activates the software handshaking
+interface to handle source and destination requests.
+
+◆
+
+If the hardware handshaking interface is activated for the source or destination
+peripheral, assign a handshaking interface to the source and destination
+peripheral; this requires programming the SRC_PER and DEST_PER bits,
+respectively.
+
+⚫
+
+Ensure that bit 0 of the DmaCfgReg register is enabled before writing to ChEnReg.
+
+⚫
+
+Source and destination request single and burst DMA transactions in order to transfer
+the block of data (assuming non-memory peripherals). The DW_ahb_dmac
+acknowledges at the completion of every transaction (burst and single) in the block and
+carries out the block transfer.
+
+⚫
+
+Once the transfer completes, hardware sets the interrupts and disables the channel. At
+this time, you can respond to either the Block Complete or Transfer Complete interrupts,
+or poll for the transfer complete raw interrupt status register (RawTfr[n], n = channel
+number) until it is set by hardware, in order to detect when the transfer is complete. Note
+that if this polling is used, the software must ensure that the transfer complete interrupt
+is cleared by writing to the Interrupt Clear register, ClearTfr[n], before the channel is
+enabled.
+
+Interrupt
+Each Channel has five interrupt sources:
+⚫
+
+IntBlock – Block Transfer Complete Interrupt
+
+⚫
+
+IntDstTran – Destination Transaction Complete Interrupt
+
+⚫
+
+IntErr – Error Interrupt
+
+Doc ID 2905025
+
+Rev01
+
+134
+
+WB32FQ95xx Reference Manual
+
+⚫
+
+IntSrcTran – Source Transaction Complete Interrupt
+
+⚫
+
+IntTfr – DMA Transfer Complete Interrupt
+
+There are several groups of interrupt-related registers:
+
+13.5.10.
+
+⚫
+
+RawBlock, RawDstTran, RawErr, RawSrcTran, RawTfr
+
+⚫
+
+StatusBlock, StatusDstTran, StatusErr, StatusSrcTran, StatusTfr
+
+⚫
+
+MaskBlock, MaskDstTran, MaskErr, MaskSrcTran, MaskTfr
+
+⚫
+
+ClearBlock, ClearDstTran, ClearErr, ClearSrcTran, ClearTfr
+
+⚫
+
+StatusInt
+
+⚫
+
+When a channel has been enabled to generate interrupts, the following is true:
+
+⚫
+
+Interrupt events are stored in the Raw Status registers.
+
+⚫
+
+The contents of the Raw Status registers are masked with the contents of the Mask
+registers.
+
+⚫
+
+The masked interrupts are stored in the Status registers.
+
+⚫
+
+The contents of the Status registers are used to drive the int_* port signals.
+
+⚫
+
+Writing to the appropriate bit in the Clear registers clears an interrupt in the Raw Status
+registers and the Status registers on the same clock cycle.
+
+⚫
+
+The contents of each of the five Status registers is ORed to produce a single bit for each
+interrupt type in the Combined Status register; that is, StatusInt.
+
+DMA Request Mapping
+Both DMAC1 and DMAC2 has 16 hardware handshake interfaces, and each of them are
+connected to peripherals.
+Table 13-1. DMA Request Mapping
+
+Macros
+
+DMAC1
+
+Doc ID 2905025
+
+Interface Number
+
+Peripheral DMA requesting source
+
+0
+
+TIM1_CH1 or TIM2_UP or TIM3_CH3
+
+1
+
+TIM1_CH4 or TIM1_TRIG or TIM1_COM or TIM4_CH2
+
+2
+
+TIM1_UP or TIM2_CH1 or TIM4_CH3
+
+3
+
+TIM1_CH3 or TIM3_CH1 or TIM3_TRIG
+
+4
+
+TIM2_CH3 or TIM_CH1
+
+5
+
+TIM2_CH2 or TIM2_CH4 or TIM4_UP
+
+6
+
+TIM3_CH4 or TIM3_UP or TIM1_CH2
+
+7
+
+QSPI RX
+
+8
+
+QSPI TX
+
+9
+
+SPIS1 RX
+
+10
+
+SPIS1 TX
+
+Rev01
+
+135
+
+WB32FQ95xx Reference Manual
+
+Macros
+
+Interface Number
+
+Peripheral DMA requesting source
+
+11
+
+UART1 RX
+
+12
+
+UART1 TX
+
+13
+
+ADC regular channel conversion
+
+14
+
+ADC injected channel conversion
+
+15
+
+Reserved
+
+0
+
+SPIM2 RX
+
+1
+
+SPIM2 TX
+
+2
+
+SPIS2 RX
+
+3
+
+SPIS2 TX
+
+4
+
+UART2 RX
+
+5
+
+UART2 TX
+
+6
+
+UART3 RX
+
+7
+
+UART3 TX
+
+8
+
+I2C1 RX
+
+9
+
+I2C1 TX
+
+10
+
+I2C2 RX
+
+11
+
+I2C2 TX
+
+12
+
+Reserved
+
+13
+
+Reserved
+
+14
+
+Reserved
+
+15
+
+Reserved
+
+DMAC2
+
+Note 1: Although the peripherals below have DMA requesting signals, but they are not
+connected to DMAC block. So hardware handshake are not supported. If needed, please
+use software handshake instead:
+⚫
+
+TIM2_COM and TIM2_TRIG
+
+⚫
+
+TIM3_CC2 and TIM3_COM
+
+⚫
+
+TIM4_CC4, TIM4_COM and TIM4_TRIG
+
+Note2: ADC only support single DMA transfer
+
+13.6.
+
+DMA Registers
+
+13.6.1.
+
+Source Address for Channel x: SARx (x=0,1,2)
+Address Offset: 0x0+x*0x58
+Default Value: 0x00000000
+
+Doc ID 2905025
+
+Rev01
+
+136
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:0
+
+SAR
+
+RW
+
+Current Source Address of DMA transfer.
+
+13.6.2.
+
+Destination Address for Channel x: DARx (x=0,1,2)
+Address Offset: 0x8+x*0x58
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:0
+
+DAR
+
+RW
+
+13.6.3.
+
+Description
+Current Destination address of DMA transfer.
+
+Channel Control register Low: CTLLx (x=0,1,2)
+Address Offset: 0x18+x*0x58
+Default Value: 0x00304801
+
+Bits
+
+Fields
+
+R/W
+
+31:27
+
+-
+
+R
+
+Description
+Reserved
+Source Master Select. Identifies the Master Interface layer where the
+source device (peripheral or memory) resides.
+Values:
+0x0: Source device (peripheral or memory) is accessed from AHB
+
+26:25
+
+SMS
+
+RW
+
+master 1
+0x1: Source device (peripheral or memory) is accessed from AHB
+master 2
+0x2,0x3: Reserved
+Destination Master Select. Identifies the Master Interface layer where
+the destination device (peripheral or memory) resides.
+Values:
+0x0: Destination device (peripheral or memory) is accessed from AHB
+
+24:23
+
+DMS
+
+RW
+
+master 1
+0x1: Destination device (peripheral or memory) is accessed from AHB
+master 2
+0x2,0x3: Reserved
+Transfer Type and Flow Control.
+Values:
+0x0: Transfer type is Memory to Memory and Flow Controller is
+DW_ahb_dmac
+0x1: Transfer type is Memory to Peripheral and Flow Controller is
+
+22:20
+
+TT_FC
+
+RW
+
+DW_ahb_dmac
+0x2: Transfer type is Peripheral to Memory and Flow Controller is
+DW_ahb_dmac
+0x3: Transfer type is Peripheral to Peripheral and Flow Controller is
+DW_ahb_dmac
+0x4-0x7: Reserved
+
+Doc ID 2905025
+
+Rev01
+
+137
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+19
+
+-
+
+R
+
+Reserved
+
+18
+
+DST_SCAT_EN
+
+RW
+
+Destination scatter enable.
+
+17
+
+SRC_GAT_EN
+
+RW
+
+Source gather enable.
+Source Burst Transaction Length. Number of data items, each of width
+CTLx.SRC_TR_WIDTH, to be read from the source every time a burst
+transferred request is made from either the corresponding hardware or
+software handshaking interface.
+Values:
+0x0: Number of data items to be transferred is 1
+
+16:14
+
+SRC_MSIZE
+
+RW
+
+0x1: Number of data items to be transferred is 4
+0x2: Number of data items to be transferred is 8
+0x3: Number of data items to be transferred is 16
+0x4: Number of data items to be transferred is 32
+0x5: Number of data items to be transferred is 64
+0x6: Number of data items to be transferred is 128
+0x7: Number of data items to be transferred is 256
+Destination Burst Transaction Length. Number of data items, each of
+width CTLx.DST_TR_WIDTH, to be written to the destination every time
+a destination burst transaction request is made from either the
+corresponding hardware or software handshaking interface.
+Values:
+0x0: Number of data items to be transferred is 1
+
+13:11
+
+DST_MSIZE
+
+RW
+
+0x1: Number of data items to be transferred is 4
+0x2: Number of data items to be transferred is 8
+0x3: Number of data items to be transferred is 16
+0x4: Number of data items to be transferred is 32
+0x5: Number of data items to be transferred is 64
+0x6: Number of data items to be transferred is 128
+0x7: Number of data items to be transferred is 256
+Source Address Increment.
+Values:
+0x0: Increments the source address
+
+10:9
+
+SINC
+
+RW
+
+0x1: Decrements the source address
+0x2: No change in the source address
+0x3: No change in the source address
+Destination Address Increment.
+Values:
+0x0: Increments the destination address
+
+8:7
+
+DINC
+
+RW
+
+0x1: Decrements the destination address
+0x2: No change in the destination address
+0x3: No change in the destination address
+
+Doc ID 2905025
+
+Rev01
+
+138
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Source Transfer Width, Mapped to AHB bus hsize.
+Values:
+0x0: Source transfer width is 8 bits
+0x1: Source transfer width is 16 bits
+
+6:4
+
+SRC_TR_WID
+TH
+
+0x2: Source transfer width is 32 bits
+RW
+
+0x3: Source transfer width is 64 bits
+0x4: Source transfer width is 128 bits
+0x5: Source transfer width is 256 bits
+0x6: Source transfer width is 256 bits
+0x7: Source transfer width is 256 bits
+Destination Transfer Width. Mapped to AHB bus hsize.
+Values:
+0x0: Destination transfer width is 8 bits
+0x1: Destination transfer width is 16 bits
+
+3:1
+
+DST_TR_WID
+TH
+
+0x2: Destination transfer width is 32 bits
+RW
+
+0x3: Destination transfer width is 64 bits
+0x4: Destination transfer width is 128 bits
+0x5: Destination transfer width is 256 bits
+0x6: Destination transfer width is 256 bits
+0x7: Destination transfer width is 256 bits
+Interrupt Enable Bit. If set, then all interrupt-generating sources are
+
+0
+
+INT_EN
+
+RW
+
+enabled. Functions as a global mask bit for all interrupts for the channel;
+raw* interrupt registers still assert if this bit is 0.
+
+13.6.4.
+
+Channel Control register High: CTLHx (x=0,1,2)
+Address Offset: 0x1C+x*0x58
+Default Value: 0x00000002
+
+Bits
+
+Fields
+
+R/W
+
+31:13
+
+-
+
+R
+
+12
+
+DONE
+
+RW
+
+Description
+Reserved
+Done bit.
+Software can poll this bit to see when a block transfer is complete
+Block Transfer Size.
+When the DMAC is the flow controller, the user writes this field before
+the channel is enabled in order to indicate the block size. The number
+programmed into BLOCK_TS indicates the total number of single
+transactions to perform for every block transfer; a single transaction is
+
+11:0
+
+BLOCK_TS
+
+RW
+
+mapped to a single AMBA beat.
+Width:
+
+The
+
+width
+
+of
+
+single
+
+transaction
+
+is
+
+determined
+
+by
+
+CTLx.SRC_TR_WIDTH. Once the transfer starts, the read-back value
+is the total number of data items already read from the source
+peripheral, regardless of what is the flow controller.
+
+Doc ID 2905025
+
+Rev01
+
+139
+
+WB32FQ95xx Reference Manual
+
+13.6.5.
+
+Channel Configuration register Low: CFGLx (x=0,1,2)
+Address Offset: 0x40+x*0x58
+Default Value: 0x00000C00+x*0x20
+
+Bits
+
+Fields
+
+R/W
+
+31:20
+
+-
+
+R
+
+Description
+Reserved
+Source Handshaking Interface Polarity.
+Values:
+
+19
+
+SRC_HS_POL
+
+RW
+
+0x0: Source Handshaking Interface Polarity is Active high
+0x1: Source Handshaking Interface Polarity is Active low
+Destination Handshaking Interface Polarity.
+Values:
+
+18
+
+DST_HS_POL
+
+RW
+
+0x0: Destination Handshaking Interface Polarity is Active high
+0x1: Destination Handshaking Interface Polarity is Active low
+
+17:12
+
+-
+
+R
+
+Reserved
+Source Software or Hardware Handshaking Select. This register
+selects which of the handshaking interfaces - hardware or software - is
+active for source requests on this channel.
+Values:
+
+11
+
+HS_SEL_SRC
+
+RW
+
+0x0: Hardware handshaking interface. Software initiated transaction
+requests are ignored.
+0x1: Software handshaking interface. Hardware initiated transaction
+requests are ignored.
+Destination Software or Hardware Handshaking Select. This register
+selects which of the handshaking interfaces - hardware or software - is
+active for destination requests on this channel.
+Values:
+
+10
+
+HS_SEL_DST
+
+RW
+
+0x0: Hardware handshaking interface. Software initiated transaction
+requests are ignored.
+0x1: Software handshaking interface. Hardware initiated transaction
+requests are ignored
+Channel FIFO status. Indicates if there is data left in the channel FIFO.
+Can be used in conjunction with CFGx.CH_SUSP to cleanly disable a
+channel.
+
+9
+
+FIFO_EMPTY
+
+RW
+
+Values:
+0x0: Channel FIFO is not empty
+0x1: Channel FIFO is empty
+Channel Suspend. Suspends all DMA data transfers from the source
+until this bit is cleared. There is no guarantee that the current transaction
+will complete. Can also be used in conjunction with CFGx.FIFO_EMPTY
+
+8
+
+CH_SUSP
+
+RW
+
+to cleanly disable a channel without losing any data.
+Values:
+0x0: DMA transfer from the source is not suspended
+
+Doc ID 2905025
+
+Rev01
+
+140
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+0x1: Suspend DMA transfer from the source
+Channel Priority. A priority of 7 is the highest priority, and 0 is the
+lowest. This field must be programmed within the range 0 to
+DMAH_NUM_CHANNELS-1. A programmed value outside this range
+will cause erroneous behavior.
+
+7:5
+
+CH_PRIOR
+
+Values:
+
+RW
+
+0x0: Channel priority is 0
+0x1: Channel priority is 1
+0x2: Channel priority is 2
+0x3-0x7: Reserved
+4:0
+
+13.6.6.
+
+-
+
+R
+
+Reserved
+
+Channel Configuration register High: CFGHx (x=0,1,2)
+Address Offset: 0x44+x*0x58
+Default Value: 0x00000002
+
+Bits
+
+Fields
+
+R/W
+
+31:15
+
+-
+
+R
+
+Description
+Reserved
+Destination hardware interface. The value can be 0-15.
+
+14:11
+
+DST_PER
+
+RW
+
+NOTE: For correct DMAC operation, only one peripheral (source or
+destination) should be assigned to the same handshaking interface.
+Source Hardware Interface. The value can be 0-15.
+
+10:7
+
+SRC_PER
+
+RW
+
+NOTE: For correct DMAC operation, only one peripheral (source or
+destination) should be assigned to the same handshaking interface.
+
+6:5
+
+-
+
+R
+Protection Control bits used to drive the AHB HPROT[3:1] bus. The
+AMBA Specification recommends that the default of HPROT indicates a
+non-cached, non-buffered, privileged data access. The reset value is
+used to indicate such an access.
+HPROT[0] is tied high because all transfers are data accesses, as there
+are no opcode fetches.
+
+4:2
+
+PROTCL
+
+RW
+
+There is a one-to-one mapping of these register bits to the HPROT[3:1]
+master interface signals.
+Mapping of HPROT bus is as follows:
+1'b1 to HPROT[0]
+CFGx.PROTCTL[1] to HPROT[1]
+CFGx.PROTCTL[2] to HPROT[2]
+CFGx.PROTCTL[3] to HPROT[3]
+FIFO Mode Select. Determines how much space or data needs to be
+
+1
+
+FIFO_MODE
+
+RW
+
+available in the FIFO before a burst transaction request is serviced.
+Values:
+
+Doc ID 2905025
+
+Rev01
+
+141
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+0x0: Space/data available for single AHB transfer of the specified
+transfer width
+0x1: Data available is greater than or equal to half the FIFO depth for
+destination transfers and space available is greater than half the FIFO
+depth for source transfers. The exceptions are at the end of a burst
+transaction request or at the end of a block transfer
+Flow Control Mode. Determines when source transaction requests are
+serviced when the Destination Peripheral is the flow controller.
+Values:
+0x0: Source transaction requests are serviced when they occur. Data
+pre-fetching is enabled
+
+0
+
+FCMODE
+
+RW
+
+0x1: Source transaction requests are not serviced until a destination
+transaction request occurs. In this mode, the amount of data transferred
+from the source is limited so that it is guaranteed to be transferred to the
+destination prior to block termination by the destination. Data
+pre-fetching is disabled.
+
+13.6.7.
+
+Source Gather Register: SGRx (x=0,1,2)
+Address Offset: 0x48+x*0x58
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:20
+
+SGC
+
+RW
+
+19:0
+
+SGI
+
+RW
+
+Description
+Source Gather Count. Source contiguous tranfer count between
+
+13.6.8.
+
+successive gather boundaries.
+Source Gather Interval.
+
+Destination Scatter Register: DSRx (x=0,1,2)
+Address Offset: 0x50+x*0x58
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:20
+
+DSC
+
+RW
+
+19:0
+
+DSI
+
+RW
+
+Description
+Destination Scatter Count. Destination contiguous transfer count
+
+13.6.9.
+
+between successive scatter boundaries.
+Destination Scatter Interval.
+
+Interrupt Raw Status Register:
+(RawTfr, RawBlock,RawSrcTran,RawDstTran,RawErr)
+Address Offset: 0x2C0, 0x2C8, 0x2D0, 0x2D8, 0x2E0
+Default Value: 0x00000000
+
+Doc ID 2905025
+
+Rev01
+
+142
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+Description
+Reserved
+Raw Status for Interrupt, channel 2
+Values:
+
+2
+
+RAW2
+
+R
+
+0x0 (INACTIVE): Inactive Raw Interrupt Status
+0x1 (ACTIVE): Active Raw Interrupt Status
+Raw Status for Interrupt, channel 1
+Values:
+
+1
+
+RAW1
+
+R
+
+0x0 (INACTIVE): Inactive Raw Interrupt Status
+0x1 (ACTIVE): Active Raw Interrupt Status
+Raw Status for Interrupt, channel 0
+Values:
+
+0
+
+RAW0
+
+R
+
+0x0 (INACTIVE): Inactive Raw Interrupt Status
+0x1 (ACTIVE): Active Raw Interrupt Status
+
+13.6.10.
+
+Interrupt Status Register
+(StatusTfr, StatusBlock, StatusSrcTran, StatusDstTran, StatusErr)
+Address Offset: 0x2E8, 0x2F0, 0x2F8, 0x300, 0x308
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+Description
+Reserved
+Status for Interrupt, channel 2
+Values:
+
+2
+
+STAT2
+
+R
+
+0x0 (INACTIVE): Inactive Interrupt Status
+0x1 (ACTIVE): Active Interrupt Status
+Status for Interrupt, channel 1
+Values:
+
+1
+
+STAT1
+
+R
+
+0x0 (INACTIVE): Inactive Interrupt Status
+0x1 (ACTIVE): Active Interrupt Status
+Status for Interrupt, channel 0
+Values:
+
+0
+
+STAT0
+
+R
+
+0x0 (INACTIVE): Inactive Interrupt Status
+0x1 (ACTIVE): Active Interrupt Status
+
+13.6.11.
+
+Interrupt Mask Register
+(MaskTfr, MaskBlock, MaskSrcTran, MaskDstTran, MaskErr)
+Address Offset: 0x310, 0x318, 0x320, 0x328, 0x330
+Default Value: 0x00000000
+
+Doc ID 2905025
+
+Rev01
+
+143
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:11
+
+-
+
+R
+
+Description
+Reserved
+Interrupt Mask Write Enable for channel 2
+Values:
+
+10
+
+MSK2_WE
+
+RW
+
+0x0 (DISABLED): Interrupt mask write disable
+0x1 (ENABLED): Interrupt mask write enable
+Interrupt Mask Write Enable for channel 1
+Values:
+
+9
+
+MSK1_WE
+
+RW
+
+0x0 (DISABLED): Interrupt mask write disable
+0x1 (ENABLED): Interrupt mask write enable
+Interrupt Mask Write Enable for channel 0
+Values:
+
+8
+
+MSK0_WE
+
+RW
+
+0x0 (DISABLED): Interrupt mask write disable
+0x1 (ENABLED): Interrupt mask write enable
+
+7:3
+
+-
+
+R
+Mask for Interrupt for channel 2
+Values:
+
+2
+
+MSK2
+
+RW
+
+0x0 (MASK): Mask the interrupts
+0x1 (UNMASK): Unmask the interrupts
+Mask for Interrupt for channel 1
+Values:
+
+1
+
+MSK1
+
+RW
+
+0x0 (MASK): Mask the interrupts
+0x1 (UNMASK): Unmask the interrupts
+Mask for Interrupt for channel 0
+Values:
+
+0
+
+MSK0
+
+RW
+
+0x0 (MASK): Mask the interrupts
+0x1 (UNMASK): Unmask the interrupts
+
+13.6.12.
+
+Interrupt Clear Register
+(ClrTfr, ClrBlock, ClrSrcTran, ClrDstTran, ClrErr)
+Address Offset: 0x338, 0x340, 0x348, 0x350, 0x358
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+R
+
+Description
+Reserved
+Clear the Interrupt status, channel 2
+Values:
+
+2
+
+CLR2
+
+WO
+
+0x0 (INACTIVE): No effect
+0x1 (ACTIVE): Clears interrupts
+Clear the Interrupt status, channel 1
+
+1
+
+CLR1
+
+WO
+
+Values:
+0x0 (INACTIVE): No effect
+
+Doc ID 2905025
+
+Rev01
+
+144
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+0x1 (ACTIVE): Clears interrupts
+Clear the Interrupt status, channel 0
+Values:
+
+0
+
+CLR0
+
+WO
+
+0x0 (INACTIVE): No effect
+0x1 (ACTIVE): Clears interrupts
+
+13.6.13.
+
+Status for each Interrupt type: StatusInt
+Address Offset: 0x360
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:5
+
+-
+
+R
+
+Description
+Reserved
+OR of the contents of StatusErr
+Values:
+
+4
+
+ERR
+
+R
+
+0x0 (INACTIVE): OR of the contents of StatusErr register is 0
+0x1 (ACTIVE): OR of the contents of StatusErr register is 1
+OR of the contents of StatusDstTran
+Values:
+
+3
+
+DSTT
+
+R
+
+0x0 (INACTIVE): OR of the contents of StatusDstTran register is 0
+0x1 (ACTIVE): OR of the contents of StatusDstTran register is 1
+OR of the contents of StatusSrcTran
+Values:
+
+2
+
+SRCT
+
+R
+
+0x0 (INACTIVE): OR of the contents of StatusSrcTran register is 0
+0x1 (ACTIVE): OR of the contents of StatusSrcTran register is 1
+OR of the contents of StatusBlock register
+Values:
+
+1
+
+BLOCK
+
+R
+
+0x0 (INACTIVE): OR of the contents of StatusBlock register is 0
+0x1 (ACTIVE): OR of the contents of StatusBlock register is 1
+OR of the contents of StatusTfr register
+Values:
+
+0
+
+TFR
+
+R
+
+0x0 (INACTIVE): OR of the contents of StatusTfr register is 0
+0x1 (ACTIVE): OR of the contents of StatusTfr register is 1
+
+13.6.14.
+
+Source Software Transaction Request register: ReqSrcReg
+Address Offset: 0x368
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:11
+
+-
+
+R
+
+10
+
+REQ_WE2
+
+RW
+
+Description
+Reserved
+Source Software Transaction Request write enable, for channel 2
+
+Doc ID 2905025
+
+Values:
+
+Rev01
+
+145
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+0x0 (DISABLED): Source request write Disable
+0x1 (ENABLED): Source request write Enable
+Source Software Transaction Request write enable, for channel 1
+Values:
+
+9
+
+REQ_WE1
+
+RW
+
+0x0 (DISABLED): Source request write Disable
+0x1 (ENABLED): Source request write Enable
+Source Software Transaction Request write enable, for channel 0
+Values:
+
+8
+
+REQ_WE0
+
+RW
+
+0x0 (DISABLED): Source request write Disable
+0x1 (ENABLED): Source request write Enable
+
+7:3
+
+-
+
+R
+Source Software Transaction Request for channel 2
+Values:
+
+2
+
+SRC_REQ2
+
+RW
+
+0x0 (INACTIVE): Source request is not active
+0x1 (ACTIVE): Source request is active
+Source Software Transaction Request for channel 1
+Values:
+
+1
+
+SRC_REQ1
+
+RW
+
+0x0 (INACTIVE): Source request is not active
+0x1 (ACTIVE): Source request is active
+Source Software Transaction Request for channel 0
+Values:
+
+0
+
+SRC_REQ0
+
+RW
+
+0x0 (INACTIVE): Source request is not active
+0x1 (ACTIVE): Source request is active
+
+13.6.15.
+
+Destination Software Transaction Request register: ReqDstReg
+Address Offset: 0x370
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:11
+
+-
+
+R
+
+Description
+Reserved
+Destination Software Transaction Request write enable, for channel 2
+Values:
+
+10
+
+REQ_WE2
+
+RW
+
+0x0 (DISABLED): Destination request write Disable
+0x1 (ENABLED): Destination request write Enable
+Destination Software Transaction Request write enable, for channel 1
+Values:
+
+9
+
+REQ_WE1
+
+RW
+
+0x0 (DISABLED): Destination request write Disable
+0x1 (ENABLED): Destination request write Enable
+Destination Software Transaction Request write enable, for channel 0
+Values:
+
+8
+
+REQ_WE0
+
+RW
+
+0x0 (DISABLED): Destination request write Disable
+0x1 (ENABLED): Destination request write Enable
+
+Doc ID 2905025
+
+Rev01
+
+146
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+7:3
+
+-
+
+R
+
+Description
+
+Destination Software Transaction Request for channel 2
+Values:
+2
+
+DST_REQ2
+
+RW
+
+0x0 (INACTIVE): Destination request is not active
+0x1 (ACTIVE): Destination request is active
+Destination Software Transaction Request for channel 1
+Values:
+
+1
+
+DST_REQ1
+
+RW
+
+0x0 (INACTIVE): Destination request is not active
+0x1 (ACTIVE): Destination request is active
+Destination Software Transaction Request for channel 0
+Values:
+
+0
+
+DST_REQ0
+
+RW
+
+0x0 (INACTIVE): Destination request is not active
+0x1 (ACTIVE): Destination request is active
+
+13.6.16.
+
+Source Single Transaction Request register: SglRqSrcReg
+Address Offset: 0x378
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:11
+
+-
+
+R
+
+Reserved
+
+RW
+
+Source Single Transaction Request write enable, for channel 2
+Values:
+0x0 (DISABLED): Single write Disable
+0x1 (ENABLED): Single write Enable
+
+10
+
+9
+
+REQ_WE2
+
+REQ_WE1
+
+RW
+
+8
+
+REQ_WE0
+
+RW
+
+7:3
+
+-
+
+R
+
+2
+
+1
+
+0
+
+SRC_SGLREQ2
+
+SRC_SGLREQ1
+
+SRC_SGLREQ0
+
+Description
+
+Source Single Transaction Request write enable, for channel 1
+Values:
+0x0 (DISABLED): Single write Disable
+0x1 (ENABLED): Single write Enable
+Source Single Transaction Request write enable, for channel 0
+Values:
+0x0 (DISABLED): Single write Disable
+0x1 (ENABLED): Single write Enable
+
+RW
+
+Source Single Transaction Request for channel 2
+Values:
+0x0 (INACTIVE): Source request is not active
+0x1 (ACTIVE): Source request is active
+
+RW
+
+Source Single Transaction Request for channel 1
+Values:
+0x0 (INACTIVE): Source request is not active
+0x1 (ACTIVE): Single is active
+
+RW
+
+Source Single Transaction Request for channel 0
+Values:
+0x0 (INACTIVE): Source request is not active
+0x1 (ACTIVE): Source request is active
+
+Doc ID 2905025
+
+Rev01
+
+147
+
+WB32FQ95xx Reference Manual
+
+13.6.17.
+
+Destination Single Transaction Request register: SglRqDstReg
+Address Offset: 0x380
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:11
+
+-
+
+R
+
+Description
+Reserved
+Destination Single Transaction Request write enable, for channel 2
+Values:
+
+10
+
+REQ_WE2
+
+RW
+
+0x0 (DISABLED): Destination write Disable
+0x1 (ENABLED): Destination write Enable
+Destination Single Transaction Request write enable, for channel 1
+Values:
+
+9
+
+REQ_WE1
+
+RW
+
+0x0 (DISABLED): Destination write Disable
+0x1 (ENABLED): Destination write Enable
+Destination Single Transaction Request write enable, for channel 0
+Values:
+
+8
+
+REQ_WE0
+
+RW
+
+0x0 (DISABLED): Destination write Disable
+0x1 (ENABLED): Destination write Enable
+
+7:3
+
+-
+
+R
+Destination Single Transaction Request for channel 2
+Values:
+
+2
+
+DST_SGLREQ2
+
+RW
+
+0x0 (INACTIVE): Destination single or burst request is not active
+0x1 (ACTIVE): Destination single or burst request is active
+Destination Single Transaction Request for channel 1
+Values:
+
+1
+
+DST_SGLREQ1
+
+RW
+
+0x0 (INACTIVE): Destination single or burst request is not active
+0x1 (ACTIVE): Destination single or burst request is active
+Destination Single Transaction Request for channel 0
+Values:
+
+0
+
+DST_SGLREQ0
+
+RW
+
+0x0 (INACTIVE): Destination single or burst request is not active
+0x1 (ACTIVE): Destination single or burst request is active
+
+13.6.18.
+
+Source Last Transaction Request register: LstSrcReg
+Address Offset: 0x388
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:11
+
+-
+
+R
+
+Description
+Reserved
+Source Last Transaction Request write enable, for channel 2
+Values:
+
+10
+
+REQ_WE2
+
+RW
+
+0x0 (DISABLED): Source last transaction request write disable
+0x1 (ENABLED): Source last transaction request write enable
+
+9
+
+REQ_WE1
+
+Doc ID 2905025
+
+RW
+
+Source Last Transaction Request write enable, for channel 1
+
+Rev01
+
+148
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Values:
+0x0 (DISABLED): Source last transaction request write disable
+0x1 (ENABLED): Source last transaction request write enable
+Source Last Transaction Request write enable, for channel 0
+Values:
+
+8
+
+REQ_WE0
+
+RW
+
+0x0 (DISABLED): Source last transaction request write disable
+0x1 (ENABLED): Source last transaction request write enable
+
+7:3
+
+-
+
+R
+Source Last Transaction Request for channel 2
+Values:
+
+2
+
+LSTSRC2
+
+RW
+
+0x0 (INACTIVE): Not last transaction in current block
+0x1 (ACTIVE): Last transaction in current block
+Source Last Transaction Request for channel 1
+Values:
+
+1
+
+LSTSRC1
+
+RW
+
+0x0 (INACTIVE): Not last transaction in current block
+0x1 (ACTIVE): Last transaction in current block
+Source Last Transaction Request for channel 0
+Values:
+
+0
+
+LSTSRC0
+
+RW
+
+0x0 (INACTIVE): Not last transaction in current block
+0x1 (ACTIVE): Last transaction in current block
+
+13.6.19.
+
+Destination Last Transaction Request register: LstDstReg
+Address Offset: 0x390
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:11
+
+-
+
+R
+
+Description
+Reserved
+Destination Last Transaction Request write enable, for channel 2
+Values:
+
+10
+
+REQ_WE2
+
+RW
+
+0x0 (DISABLED): Destination last transaction request write disable
+0x1 (ENABLED): Destination last transaction request write enable
+Destination Last Transaction Request write enable, for channel 1
+Values:
+
+9
+
+REQ_WE1
+
+RW
+
+0x0 (DISABLED): Destination last transaction request write disable
+0x1 (ENABLED): Destination last transaction request write enable
+Destination Last Transaction Request write enable, for channel 0
+Values:
+
+8
+
+REQ_WE0
+
+RW
+
+0x0 (DISABLED): Destination last transaction request write disable
+0x1 (ENABLED): Destination last transaction request write enable
+
+7:3
+
+-
+
+R
+
+2
+
+LSTDST2
+
+RW
+
+Doc ID 2905025
+
+Destination Last Transaction Request for channel 2
+
+Rev01
+
+149
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Values:
+0x0 (INACTIVE): Not last transaction in current block
+0x1 (ACTIVE): Last transaction in current block
+Destination Last Transaction Request for channel 1
+Values:
+
+1
+
+LSTDST1
+
+RW
+
+0x0 (INACTIVE): Not last transaction in current block
+0x1 (ACTIVE): Last transaction in current block
+Destination Last Transaction Request for channel 0
+Values:
+
+0
+
+LSTDST0
+
+RW
+
+0x0 (INACTIVE): Not last transaction in current block
+0x1 (ACTIVE): Last transaction in current block
+
+13.6.20.
+
+DMA Configuration Register: DmaCfgReg
+Address Offset: 0x398
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Description
+Reserved
+DW_ahb_dmac Enable bit.
+Values:
+
+0
+
+DMA_EN
+
+RW
+
+0x0 (DISABLED): DMAC Disabled
+0x1 (ENABLED): DMAC Enabled
+
+13.6.21.
+
+Channel Enable register: ChEnReg
+Address Offset: 0x3A0
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:11
+
+-
+
+R
+
+Reserved
+
+10
+
+CHEN_WE2
+
+RW
+
+Channel enable register write enable for channel 2
+
+9
+
+CHEN_WE1
+
+RW
+
+Channel enable register write enable for channel 1
+
+8
+
+CHEN_WE0
+
+RW
+
+Channel enable register write enable for channel 0
+
+7:3
+
+-
+
+R
+
+2
+
+CH_EN2
+
+RW
+
+Similar to CH_EN0
+
+1
+
+CH_EN1
+
+RW
+
+Similar to CH_EN0
+Channel Enable for channel 0. The ChEnReg.CH_EN bit is
+
+0
+
+CH_EN0
+
+RW
+
+automatically cleared by hardware to disable the channel after the last
+AMBA transfer of the DMA transfer to the destination has completed.
+
+Doc ID 2905025
+
+Rev01
+
+150
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Software can therefore poll this bit to determine when this channel is
+free for a new DMA transfer.
+Values:
+0x0 (DISABLED): Disable the channel
+0x1 (ENABLED): Enable the channel
+
+13.6.22.
+
+DMA ID register0: DmaCompsID0
+Address Offset: 0x3F8
+Default Value: 0x44571110
+
+Bits
+
+Fields
+
+R/W
+
+31:0
+
+COMP_TYPE
+
+R
+
+13.6.23.
+
+Description
+DMA Component Type Number = `h44571110.
+
+DMA ID register1: DmaCompsID1
+Address Offset: 0x3FC
+Default Value: 0x00000000
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:0
+
+COMP_VER
+
+R
+
+DMA Component Version
+
+Doc ID 2905025
+
+Rev01
+
+151
+
+

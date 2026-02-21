@@ -1,0 +1,370 @@
+WB32FQ95xx Reference Manual
+
+12.
+
+Special Function Macro (SFM)
+
+12.1.
+
+SFM Introduction
+
+12.1.1.
+
+SFM main features
+⚫
+
+Count the number of “1” in a WORD (32bit).
+
+⚫
+
+Expand all the bits in a WORD (32bit) by defined rate, the maximum is 8.
+
+⚫
+
+USB port status detection control and interrupt control.
+
+12.2.
+
+Function description
+
+12.2.1.
+
+Count the number of “1”
+This function is used to count the number of “1” in a WORD (32bit). The usage of this
+function follow the step:
+
+12.2.2.
+
+⚫
+
+The EXPEN bit (SFM_CTRL[3]) is set to 0.
+
+⚫
+
+Write the data to be calculated into the SFM_DATA register.
+
+⚫
+
+Read SFM_DOUT0 to get the result.
+
+Expand all the bits in a WORD (32bit)
+This function is used to expand all the bits in a WORD (32bit) by defined rate. (Using rate=3
+for example):
+
+12.2.3.
+
+⚫
+
+The EXPEN bit (SFM_CTRL[3]) is set to 1 and EXPRATE[2:0] is set to 2.
+
+⚫
+
+Write the data to be operated into the SFM_DATA register.
+
+⚫
+
+Read SFM_DOUT0, SFM_DOUT1, SFM_DOUT2 to get the result after expand 3 times
+operation.
+
+USB port status detection and interrupt control
+USB port status detection supports the following functions:
+⚫
+
+Detect the USB port status: SE0/SE1/J STATE/K STATE.
+
+⚫
+
+Enable control bit for each USB port status detection function.
+
+⚫
+
+USB port status event is sent to EXTI[18] to wake up the low-power mode.
+
+12.3.
+
+Register definition
+
+12.3.1.
+
+Control register(SFM_CTRL)
+Address offset：0x00
+Reset value：0x0000 0000
+
+Doc ID 2905025
+
+Rev01
+
+123
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:4
+
+-
+
+R
+
+3
+
+EXPEN
+
+RW
+
+Description
+Reserved
+0：Count the number of “1” in the data register.
+1：Perform the corresponding expand operation of the data in the data register.
+When EXPEN=1, this bit field specifies a multiple of the double width.
+000：Single width (the result is consistent with the input data)
+001：Double width
+010：Triple width
+
+2:0
+
+EXPRATE
+
+RW
+
+011：Four times width
+100：Five times width
+101：Six times width
+110：Seven times width
+111：Eight times width
+
+12.3.2.
+
+SFM Data register (SFM_DATA)
+Address offset：0x04
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:0
+
+DATA
+
+RW
+
+12.3.3.
+
+Description
+Store the data to be calculated
+
+SFM Result register (SFM_DOUTx, x=0-7)
+Address offset：0x08 -0x24
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:0
+
+DOUT
+
+R
+
+12.3.4.
+
+Description
+Store the result when the operation is completed.
+
+USB port status detection control/status register (SFM_USBPSDCSR)
+Address offset：0x44
+Reset value：0x0000 000
+
+Bits
+
+Fields
+
+R/W
+
+31:12
+
+-
+
+R
+
+11
+
+SE1EN
+
+RW
+
+10
+
+KSTATEN
+
+RW
+
+9
+
+JSTATEN
+
+RW
+
+8
+
+SE0EN
+
+RW
+
+7:4
+
+-
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved
+USB port ‘SE1' status detection is enabled.
+Need to set the DMSTEN and DPSTEN bits in ANCTL_USBPCR.
+USB port 'K' status detection is enabled.
+Need to set the DMSTEN and DPSTEN bits in ANCTL_USBPCR.
+USB port 'J' status detection is enabled.
+Need to set the DMSTEN and DPSTEN bits in ANCTL_USBPCR.
+USB port 'SE0' status detection is enabled.
+Need to set the DMSTEN and DPSTEN bits in ANCTL_USBPCR.
+Received
+
+Rev01
+
+124
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+3
+
+SE1F
+
+RW
+
+2
+
+KSTATF
+
+RW
+
+1
+
+JSTATF
+
+RW
+
+0
+
+SE0F
+
+RW
+
+12.3.5.
+
+Description
+When the USB port status is switched to the "SE1" status, it should be set to "1"
+by the hardware.
+This bit is cleared to '0' by software.
+When the status of the USB port is switched to the ‘K’ status (Differential ”0”), it
+should be set to ‘1’ by the hardware.
+This bit is cleared to '0' by software.
+When the USB port status is switched to the ‘J’ status (Differential ”1”), it should
+be set to ‘1’ by the hardware.
+This bit is cleared to '0' by software.
+When the state of the USB port is switched to the state of 'SE0', it should be set
+to '1' by the hardware.
+This bit is cleared to '0' by software.
+
+USB Port status register (SFM_USBPSTAT)
+Address offset：0x48
+Reset value：0x0000 0008
+
+Bits
+
+Fields
+
+R/W
+
+31:6
+
+-
+
+R
+
+Reserved
+
+5
+
+FULL_SPEED
+
+R
+
+USB is in full speed mode, high active
+
+4
+
+SUSPEND
+
+R
+
+USB is in SUSPEND state, high active
+
+3
+
+SE1_FLG
+
+R
+
+USB ports are in SE1 state, high active
+
+2
+
+KSTAT_FLG
+
+R
+
+USB ports are in K state, high active
+
+1
+
+JSTAT_FLG
+
+R
+
+USB ports are in J state, high active
+
+0
+
+SE0_FLG
+
+R
+
+USB ports are in SE0 state, high active
+
+Doc ID 2905025
+
+Description
+
+Rev01
+
+125
+
+

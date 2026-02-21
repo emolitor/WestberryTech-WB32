@@ -1,0 +1,1303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: SPI</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#groups">模块</a> &#124;
+<a href="#nested-classes">结构体</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle">
+<div class="title">SPI<div class="ingroups"><a class="el" href="group___w_b32_f10x___std_periph___driver.html">WB32F10x_StdPeriph_Driver</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>SPI driver modules  
+<a href="#details">更多...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
+模块</h2></td></tr>
+<tr class="memitem:group___s_p_i___exported___constants"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i___exported___constants.html">SPI_Exported_Constants</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group___s_p_i___private___functions"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i___private___functions.html">SPI_Private_Functions</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+结构体</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_p_i___init_type_def.html">SPI_InitTypeDef</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPI Init structure definition  <a href="struct_s_p_i___init_type_def.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_p_i___microwire_init_type_def.html">SPI_MicrowireInitTypeDef</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPI Microwire Init structure definition  <a href="struct_s_p_i___microwire_init_type_def.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_p_i___enhanced_spi_init_type_def.html">SPI_EnhancedSpiInitTypeDef</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPI Enhanced SPI Mode Init structure definition  <a href="struct_s_p_i___enhanced_spi_init_type_def.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:gae33578348c53fb7140d994563bdf8ae4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#gae33578348c53fb7140d994563bdf8ae4">SPI_DeInit</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx)</td></tr>
+<tr class="memdesc:gae33578348c53fb7140d994563bdf8ae4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitializes the SPIx peripheral registers to their default reset values.  <a href="#gae33578348c53fb7140d994563bdf8ae4">更多...</a><br /></td></tr>
+<tr class="separator:gae33578348c53fb7140d994563bdf8ae4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8dacc1dc48bf08c0f12da409f4889037"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga8dacc1dc48bf08c0f12da409f4889037">SPI_Init</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, <a class="el" href="struct_s_p_i___init_type_def.html">SPI_InitTypeDef</a> *SPI_InitStruct)</td></tr>
+<tr class="memdesc:ga8dacc1dc48bf08c0f12da409f4889037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the SPIx peripheral according to the specified parameters in the SPI_InitStruct.  <a href="#ga8dacc1dc48bf08c0f12da409f4889037">更多...</a><br /></td></tr>
+<tr class="separator:ga8dacc1dc48bf08c0f12da409f4889037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9a0116f88cc2c4478c270f05608703f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga9a0116f88cc2c4478c270f05608703f1">SPI_StructInit</a> (<a class="el" href="struct_s_p_i___init_type_def.html">SPI_InitTypeDef</a> *SPI_InitStruct)</td></tr>
+<tr class="memdesc:ga9a0116f88cc2c4478c270f05608703f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills each SPI_InitStruct member with its default value.  <a href="#ga9a0116f88cc2c4478c270f05608703f1">更多...</a><br /></td></tr>
+<tr class="separator:ga9a0116f88cc2c4478c270f05608703f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa31357879a65ee1ed7223f3b9114dcf3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#gaa31357879a65ee1ed7223f3b9114dcf3">SPI_Cmd</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:gaa31357879a65ee1ed7223f3b9114dcf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the specified SPI peripheral.  <a href="#gaa31357879a65ee1ed7223f3b9114dcf3">更多...</a><br /></td></tr>
+<tr class="separator:gaa31357879a65ee1ed7223f3b9114dcf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga11ad5eb004751d1b56d8a25acd3cba68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga11ad5eb004751d1b56d8a25acd3cba68">SPI_TransferModeConfig</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint16_t SPI_TransferMode)</td></tr>
+<tr class="memdesc:ga11ad5eb004751d1b56d8a25acd3cba68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the transfer mode.  <a href="#ga11ad5eb004751d1b56d8a25acd3cba68">更多...</a><br /></td></tr>
+<tr class="separator:ga11ad5eb004751d1b56d8a25acd3cba68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga517283f1320ae332cc6fd3d9a733c1b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga517283f1320ae332cc6fd3d9a733c1b6">SPI_SlaveOutputCmd</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga517283f1320ae332cc6fd3d9a733c1b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the slave output (only used for SPISx).  <a href="#ga517283f1320ae332cc6fd3d9a733c1b6">更多...</a><br /></td></tr>
+<tr class="separator:ga517283f1320ae332cc6fd3d9a733c1b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6beb36b3328432653cb86563f7d12735"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga6beb36b3328432653cb86563f7d12735">SPI_NSSConfig</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint32_t SPI_NSS, FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga6beb36b3328432653cb86563f7d12735"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the specified slave select line (only used for SPIMx).  <a href="#ga6beb36b3328432653cb86563f7d12735">更多...</a><br /></td></tr>
+<tr class="separator:ga6beb36b3328432653cb86563f7d12735"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga23964e44f531156d7f7e663ac4aa40b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga23964e44f531156d7f7e663ac4aa40b8">SPI_NSSToggleModeCmd</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga23964e44f531156d7f7e663ac4aa40b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the slave select toggle mode.  <a href="#ga23964e44f531156d7f7e663ac4aa40b8">更多...</a><br /></td></tr>
+<tr class="separator:ga23964e44f531156d7f7e663ac4aa40b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf6496645532d984e6c9f24c9e7f8cd8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#gaf6496645532d984e6c9f24c9e7f8cd8a">SPI_ReceiveDataLengthConfig</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint32_t DataLength)</td></tr>
+<tr class="memdesc:gaf6496645532d984e6c9f24c9e7f8cd8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the number of data frames to be continuously received (only used for SPIMx).  <a href="#gaf6496645532d984e6c9f24c9e7f8cd8a">更多...</a><br /></td></tr>
+<tr class="separator:gaf6496645532d984e6c9f24c9e7f8cd8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac27a8a2232cd80dc6c0bb97466ce83f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#gac27a8a2232cd80dc6c0bb97466ce83f9">SPI_MicrowireConfig</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, <a class="el" href="struct_s_p_i___microwire_init_type_def.html">SPI_MicrowireInitTypeDef</a> *SPI_MicrowireInitStruct)</td></tr>
+<tr class="memdesc:gac27a8a2232cd80dc6c0bb97466ce83f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the Microwire frame format according to the specified parameters in the SPI_MicrowireInitStruct.  <a href="#gac27a8a2232cd80dc6c0bb97466ce83f9">更多...</a><br /></td></tr>
+<tr class="separator:gac27a8a2232cd80dc6c0bb97466ce83f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7f9d6723c802ec352d37ebab29096e3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga7f9d6723c802ec352d37ebab29096e3a">SPI_MicrowireStructInit</a> (<a class="el" href="struct_s_p_i___microwire_init_type_def.html">SPI_MicrowireInitTypeDef</a> *SPI_MicrowireInitStruct)</td></tr>
+<tr class="memdesc:ga7f9d6723c802ec352d37ebab29096e3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills each SPI_MicrowireInitStruct member with its default value.  <a href="#ga7f9d6723c802ec352d37ebab29096e3a">更多...</a><br /></td></tr>
+<tr class="separator:ga7f9d6723c802ec352d37ebab29096e3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga951eee823e8f325f990fd905325e3dd5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga951eee823e8f325f990fd905325e3dd5">SPI_SpiModeConfig</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint32_t SPI_SpiMode)</td></tr>
+<tr class="memdesc:ga951eee823e8f325f990fd905325e3dd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the Spi Mode.  <a href="#ga951eee823e8f325f990fd905325e3dd5">更多...</a><br /></td></tr>
+<tr class="separator:ga951eee823e8f325f990fd905325e3dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa14a415a830f2bbf969ddf91d0816726"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#gaa14a415a830f2bbf969ddf91d0816726">SPI_EnhancedSpiConfig</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, <a class="el" href="struct_s_p_i___enhanced_spi_init_type_def.html">SPI_EnhancedSpiInitTypeDef</a> *SPI_EnhancedSpiInitStruct)</td></tr>
+<tr class="memdesc:gaa14a415a830f2bbf969ddf91d0816726"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the Enhanced SPI Mode according to the specified parameters in the SPI_EnhancedSpiInitStruct (only used for QSPI).  <a href="#gaa14a415a830f2bbf969ddf91d0816726">更多...</a><br /></td></tr>
+<tr class="separator:gaa14a415a830f2bbf969ddf91d0816726"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga81a2699e8d45f3c5a0350e7a8acb3150"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga81a2699e8d45f3c5a0350e7a8acb3150">SPI_EnhancedSpiStructInit</a> (<a class="el" href="struct_s_p_i___enhanced_spi_init_type_def.html">SPI_EnhancedSpiInitTypeDef</a> *SPI_EnhancedSpiInitStruct)</td></tr>
+<tr class="memdesc:ga81a2699e8d45f3c5a0350e7a8acb3150"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills each SPI_EnhancedSpiInitStruct member with its default value.  <a href="#ga81a2699e8d45f3c5a0350e7a8acb3150">更多...</a><br /></td></tr>
+<tr class="separator:ga81a2699e8d45f3c5a0350e7a8acb3150"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6e5a8177edeb2db836ae3cf7bf41e64f"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga6e5a8177edeb2db836ae3cf7bf41e64f">SPI_ReadData</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx)</td></tr>
+<tr class="memdesc:ga6e5a8177edeb2db836ae3cf7bf41e64f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read one data from Rx FIFO.  <a href="#ga6e5a8177edeb2db836ae3cf7bf41e64f">更多...</a><br /></td></tr>
+<tr class="separator:ga6e5a8177edeb2db836ae3cf7bf41e64f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga53ee59c2d0404d2d75facf79cee9d8cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga53ee59c2d0404d2d75facf79cee9d8cf">SPI_WriteData</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint16_t data)</td></tr>
+<tr class="memdesc:ga53ee59c2d0404d2d75facf79cee9d8cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write one data to Tx FIFO.  <a href="#ga53ee59c2d0404d2d75facf79cee9d8cf">更多...</a><br /></td></tr>
+<tr class="separator:ga53ee59c2d0404d2d75facf79cee9d8cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga680c68d0ae518c16f066e13aa4dc9e7a"><td class="memItemLeft" align="right" valign="top">FlagStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga680c68d0ae518c16f066e13aa4dc9e7a">SPI_GetFlagStatus</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint8_t SPI_FLAG)</td></tr>
+<tr class="memdesc:ga680c68d0ae518c16f066e13aa4dc9e7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the specified SPIx flag is set or not.  <a href="#ga680c68d0ae518c16f066e13aa4dc9e7a">更多...</a><br /></td></tr>
+<tr class="separator:ga680c68d0ae518c16f066e13aa4dc9e7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga852fd7e35a394e67f339f7cf49016db0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga852fd7e35a394e67f339f7cf49016db0">SPI_ITConfig</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint8_t SPI_IT, FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga852fd7e35a394e67f339f7cf49016db0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the specified SPI interrupts.  <a href="#ga852fd7e35a394e67f339f7cf49016db0">更多...</a><br /></td></tr>
+<tr class="separator:ga852fd7e35a394e67f339f7cf49016db0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gade94156db0824d6243a1b6e1ea5ee3ab"><td class="memItemLeft" align="right" valign="top">ITStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#gade94156db0824d6243a1b6e1ea5ee3ab">SPI_GetRawITStatus</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint8_t SPI_IT)</td></tr>
+<tr class="memdesc:gade94156db0824d6243a1b6e1ea5ee3ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the specified SPIx raw interrupt status.  <a href="#gade94156db0824d6243a1b6e1ea5ee3ab">更多...</a><br /></td></tr>
+<tr class="separator:gade94156db0824d6243a1b6e1ea5ee3ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga64331ffcdeda2e3f66b1c76bc4773199"><td class="memItemLeft" align="right" valign="top">ITStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga64331ffcdeda2e3f66b1c76bc4773199">SPI_GetITStatus</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint8_t SPI_IT)</td></tr>
+<tr class="memdesc:ga64331ffcdeda2e3f66b1c76bc4773199"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the specified SPIx interrupt has occurred or not.  <a href="#ga64331ffcdeda2e3f66b1c76bc4773199">更多...</a><br /></td></tr>
+<tr class="separator:ga64331ffcdeda2e3f66b1c76bc4773199"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga276eee850f11d9bf368763505d2cf583"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga276eee850f11d9bf368763505d2cf583">SPI_ClearITPendingBit</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint8_t SPI_IT)</td></tr>
+<tr class="memdesc:ga276eee850f11d9bf368763505d2cf583"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the SPIx's interrupt pending bits.  <a href="#ga276eee850f11d9bf368763505d2cf583">更多...</a><br /></td></tr>
+<tr class="separator:ga276eee850f11d9bf368763505d2cf583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6add89e10805173c48c9c27594546d13"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga6add89e10805173c48c9c27594546d13">SPI_RxFIFOThresholdConfig</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint8_t Threshold)</td></tr>
+<tr class="memdesc:ga6add89e10805173c48c9c27594546d13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the Rx FIFO threshold.  <a href="#ga6add89e10805173c48c9c27594546d13">更多...</a><br /></td></tr>
+<tr class="separator:ga6add89e10805173c48c9c27594546d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab06ec46aa00315b91c1dbfecfd388407"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#gab06ec46aa00315b91c1dbfecfd388407">SPI_TxFIFOThresholdConfig</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint8_t Threshold)</td></tr>
+<tr class="memdesc:gab06ec46aa00315b91c1dbfecfd388407"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the Tx FIFO threshold.  <a href="#gab06ec46aa00315b91c1dbfecfd388407">更多...</a><br /></td></tr>
+<tr class="separator:gab06ec46aa00315b91c1dbfecfd388407"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaf731983040d9717cecea1ab143658d0"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#gaaf731983040d9717cecea1ab143658d0">SPI_GetRxFIFOLevel</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx)</td></tr>
+<tr class="memdesc:gaaf731983040d9717cecea1ab143658d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of data can be read from Rx FIFO.  <a href="#gaaf731983040d9717cecea1ab143658d0">更多...</a><br /></td></tr>
+<tr class="separator:gaaf731983040d9717cecea1ab143658d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae855c35663e5b92e8b4d4775ad0b10d9"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#gae855c35663e5b92e8b4d4775ad0b10d9">SPI_GetTxFIFOLevel</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx)</td></tr>
+<tr class="memdesc:gae855c35663e5b92e8b4d4775ad0b10d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of data left in Tx FIFO.  <a href="#gae855c35663e5b92e8b4d4775ad0b10d9">更多...</a><br /></td></tr>
+<tr class="separator:gae855c35663e5b92e8b4d4775ad0b10d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga290957863b83a218e436cbc959ac30bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga290957863b83a218e436cbc959ac30bd">SPI_DMARxReqLevelConfig</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint8_t DMARxReqLevel)</td></tr>
+<tr class="memdesc:ga290957863b83a218e436cbc959ac30bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the DMA Rx request level.  <a href="#ga290957863b83a218e436cbc959ac30bd">更多...</a><br /></td></tr>
+<tr class="separator:ga290957863b83a218e436cbc959ac30bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga780f21e8040ccb90d0e37efc6b6e6e09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#ga780f21e8040ccb90d0e37efc6b6e6e09">SPI_DMATxReqLevelConfig</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint8_t DMATxReqLevel)</td></tr>
+<tr class="memdesc:ga780f21e8040ccb90d0e37efc6b6e6e09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the DMA Tx request level.  <a href="#ga780f21e8040ccb90d0e37efc6b6e6e09">更多...</a><br /></td></tr>
+<tr class="separator:ga780f21e8040ccb90d0e37efc6b6e6e09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaed20e655655a0e6cd312472a94bde43f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#gaed20e655655a0e6cd312472a94bde43f">SPI_DMACmd</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint32_t SPI_DMAReq, FunctionalState NewState)</td></tr>
+<tr class="memdesc:gaed20e655655a0e6cd312472a94bde43f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the SPIx's DMA interface.  <a href="#gaed20e655655a0e6cd312472a94bde43f">更多...</a><br /></td></tr>
+<tr class="separator:gaed20e655655a0e6cd312472a94bde43f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaef11e9c3343112d2d7e03f9ca9f44c9d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_p_i.html#gaef11e9c3343112d2d7e03f9ca9f44c9d">SPI_RxdSampleDelayConfig</a> (<a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *SPIx, uint8_t DelayValue)</td></tr>
+<tr class="memdesc:gaef11e9c3343112d2d7e03f9ca9f44c9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the rxd sample delay value.  <a href="#gaef11e9c3343112d2d7e03f9ca9f44c9d">更多...</a><br /></td></tr>
+<tr class="separator:gaef11e9c3343112d2d7e03f9ca9f44c9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<p>SPI driver modules </p>
+<h2 class="groupheader">函数说明</h2>
+<a id="ga276eee850f11d9bf368763505d2cf583"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga276eee850f11d9bf368763505d2cf583">&#9670;&nbsp;</a></span>SPI_ClearITPendingBit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_ClearITPendingBit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>SPI_IT</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clears the SPIx's interrupt pending bits. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">SPI_IT</td><td>specifies the interrupt pending bit to clear. This parameter can be a combination of the following values: <ul>
+<li>SPI_IT_TXO: Transmit FIFO overflow interrupt </li>
+<li>SPI_IT_RXU: Receive FIFO underflow interrupt </li>
+<li>SPI_IT_RXO: Receive FIFO overflow interrupt </li>
+<li>SPI_IT_MST: Multi-Master contention interrupt (Only for QSPI and SPIM2) </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None. </dd></dl>
+
+</div>
+</div>
+<a id="gaa31357879a65ee1ed7223f3b9114dcf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa31357879a65ee1ed7223f3b9114dcf3">&#9670;&nbsp;</a></span>SPI_Cmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_Cmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the specified SPI peripheral. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the SPIx peripheral. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gae33578348c53fb7140d994563bdf8ae4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae33578348c53fb7140d994563bdf8ae4">&#9670;&nbsp;</a></span>SPI_DeInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_DeInit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deinitializes the SPIx peripheral registers to their default reset values. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gaed20e655655a0e6cd312472a94bde43f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaed20e655655a0e6cd312472a94bde43f">&#9670;&nbsp;</a></span>SPI_DMACmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_DMACmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>SPI_DMAReq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the SPIx's DMA interface. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">SPI_DMAReq</td><td>specifies the DMA request. This parameter can be any combination of the following values: <ul>
+<li>SPI_DMAReq_Rx: SPI DMA receive request </li>
+<li>SPI_DMAReq_Tx: SPI DMA transmit request </li>
+</ul>
+</td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the DMA Request sources. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None. </dd></dl>
+
+</div>
+</div>
+<a id="ga290957863b83a218e436cbc959ac30bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga290957863b83a218e436cbc959ac30bd">&#9670;&nbsp;</a></span>SPI_DMARxReqLevelConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_DMARxReqLevelConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>DMARxReqLevel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the DMA Rx request level. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">Level</td><td>The level of the DMA Rx request to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>The DMA Rx request will trigger when the rx fifo level &gt; DMARxReqLevel. </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>None. </dd></dl>
+
+</div>
+</div>
+<a id="ga780f21e8040ccb90d0e37efc6b6e6e09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga780f21e8040ccb90d0e37efc6b6e6e09">&#9670;&nbsp;</a></span>SPI_DMATxReqLevelConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_DMATxReqLevelConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>DMATxReqLevel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the DMA Tx request level. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">Level</td><td>The level of the DMA Tx request to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>The DMA Tx request will trigger when the tx fifo level &lt;= DMATxReqLevel. </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>None. </dd></dl>
+
+</div>
+</div>
+<a id="gaa14a415a830f2bbf969ddf91d0816726"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa14a415a830f2bbf969ddf91d0816726">&#9670;&nbsp;</a></span>SPI_EnhancedSpiConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_EnhancedSpiConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___enhanced_spi_init_type_def.html">SPI_EnhancedSpiInitTypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPI_EnhancedSpiInitStruct</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the Enhanced SPI Mode according to the specified parameters in the SPI_EnhancedSpiInitStruct (only used for QSPI). </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter must be QSPI. </td></tr>
+    <tr><td class="paramname">SPI_EnhancedSpiInitStruct</td><td>pointer to a <a class="el" href="struct_s_p_i___enhanced_spi_init_type_def.html" title="SPI Enhanced SPI Mode Init structure definition">SPI_EnhancedSpiInitTypeDef</a> structure that contains the configuration information for the Enhanced SPI Mode. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga81a2699e8d45f3c5a0350e7a8acb3150"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga81a2699e8d45f3c5a0350e7a8acb3150">&#9670;&nbsp;</a></span>SPI_EnhancedSpiStructInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_EnhancedSpiStructInit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___enhanced_spi_init_type_def.html">SPI_EnhancedSpiInitTypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPI_EnhancedSpiInitStruct</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fills each SPI_EnhancedSpiInitStruct member with its default value. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPI_EnhancedSpiInitStruct</td><td>pointer to a <a class="el" href="struct_s_p_i___enhanced_spi_init_type_def.html" title="SPI Enhanced SPI Mode Init structure definition">SPI_EnhancedSpiInitTypeDef</a> structure which will be initialized. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga680c68d0ae518c16f066e13aa4dc9e7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga680c68d0ae518c16f066e13aa4dc9e7a">&#9670;&nbsp;</a></span>SPI_GetFlagStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FlagStatus SPI_GetFlagStatus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>SPI_FLAG</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks whether the specified SPIx flag is set or not. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">SPI_FLAG</td><td>specifies the SPI flag to check. This parameter can be one of the following values: <ul>
+<li>SPI_FLAG_BUSY: SPI busy flag. </li>
+<li>SPI_FLAG_TFNF: Transmit FIFO not full. </li>
+<li>SPI_FLAG_TFE: Transmit FIFO empty. </li>
+<li>SPI_FLAG_RFNE: Receive FIFO not empty. </li>
+<li>SPI_FLAG_RFF: Receive FIFO full. </li>
+<li>SPI_FLAG_TXERR: Transmission error (only for SPIS1 and SPIS2). </li>
+<li>SPI_FLAG_DCOL: Data collision error (only for QSPI and SPIM2). </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The new state of SPI_FLAG (SET or RESET). </dd></dl>
+
+</div>
+</div>
+<a id="ga64331ffcdeda2e3f66b1c76bc4773199"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga64331ffcdeda2e3f66b1c76bc4773199">&#9670;&nbsp;</a></span>SPI_GetITStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ITStatus SPI_GetITStatus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>SPI_IT</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks whether the specified SPIx interrupt has occurred or not. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">SPI_IT</td><td>specifies the SPI interrupt source to check. This parameter can be one of the following values: <ul>
+<li>SPI_IT_TXE: Transmit FIFO empty interrupt </li>
+<li>SPI_IT_TXO: Transmit FIFO overflow interrupt </li>
+<li>SPI_IT_RXU: Receive FIFO underflow interrupt </li>
+<li>SPI_IT_RXO: Receive FIFO overflow interrupt </li>
+<li>SPI_IT_RXF: Receive FIFO full interrupt </li>
+<li>SPI_IT_MST: Multi-Master contention interrupt (Only for QSPI and SPIM2) </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The new state of SPI_IT (SET or RESET). </dd></dl>
+
+</div>
+</div>
+<a id="gade94156db0824d6243a1b6e1ea5ee3ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gade94156db0824d6243a1b6e1ea5ee3ab">&#9670;&nbsp;</a></span>SPI_GetRawITStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ITStatus SPI_GetRawITStatus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>SPI_IT</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks whether the specified SPIx raw interrupt status. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">SPI_IT</td><td>specifies the SPI interrupt source to check. This parameter can be one of the following values: <ul>
+<li>SPI_IT_TXE: Transmit FIFO empty interrupt </li>
+<li>SPI_IT_TXO: Transmit FIFO overflow interrupt </li>
+<li>SPI_IT_RXU: Receive FIFO underflow interrupt </li>
+<li>SPI_IT_RXO: Receive FIFO overflow interrupt </li>
+<li>SPI_IT_RXF: Receive FIFO full interrupt </li>
+<li>SPI_IT_MST: Multi-Master contention interrupt (only for QSPI and SPIM2) </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The new state of raw SPI_IT (SET or RESET). </dd></dl>
+
+</div>
+</div>
+<a id="gaaf731983040d9717cecea1ab143658d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaf731983040d9717cecea1ab143658d0">&#9670;&nbsp;</a></span>SPI_GetRxFIFOLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t SPI_GetRxFIFOLevel </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the number of data can be read from Rx FIFO. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The number of data can be read from Rx FIFO. </dd></dl>
+
+</div>
+</div>
+<a id="gae855c35663e5b92e8b4d4775ad0b10d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae855c35663e5b92e8b4d4775ad0b10d9">&#9670;&nbsp;</a></span>SPI_GetTxFIFOLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t SPI_GetTxFIFOLevel </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the number of data left in Tx FIFO. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The number of data left in Tx FIFO. </dd></dl>
+
+</div>
+</div>
+<a id="ga8dacc1dc48bf08c0f12da409f4889037"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8dacc1dc48bf08c0f12da409f4889037">&#9670;&nbsp;</a></span>SPI_Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_Init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___init_type_def.html">SPI_InitTypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPI_InitStruct</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes the SPIx peripheral according to the specified parameters in the SPI_InitStruct. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">SPI_InitStruct</td><td>pointer to a <a class="el" href="struct_s_p_i___init_type_def.html" title="SPI Init structure definition">SPI_InitTypeDef</a> structure that contains the configuration information for the specified SPI peripheral. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga852fd7e35a394e67f339f7cf49016db0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga852fd7e35a394e67f339f7cf49016db0">&#9670;&nbsp;</a></span>SPI_ITConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_ITConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>SPI_IT</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the specified SPI interrupts. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">SPI_IT</td><td>specifies the SPI interrupt source to be enabled or disabled. This parameter can be a combination of the following values: <ul>
+<li>SPI_IT_TXE: Transmit FIFO empty interrupt mask </li>
+<li>SPI_IT_TXO: Transmit FIFO overflow interrupt mask </li>
+<li>SPI_IT_RXU: Receive FIFO underflow interrupt mask </li>
+<li>SPI_IT_RXO: Receive FIFO overflow interrupt mask </li>
+<li>SPI_IT_RXF: Receive FIFO full interrupt mask </li>
+<li>SPI_IT_MST: Multi-Master contention interrupt mask (only for QSPI and SPIM2) </li>
+</ul>
+</td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the specified SPI interrupt. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None. </dd></dl>
+
+</div>
+</div>
+<a id="gac27a8a2232cd80dc6c0bb97466ce83f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac27a8a2232cd80dc6c0bb97466ce83f9">&#9670;&nbsp;</a></span>SPI_MicrowireConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_MicrowireConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___microwire_init_type_def.html">SPI_MicrowireInitTypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPI_MicrowireInitStruct</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the Microwire frame format according to the specified parameters in the SPI_MicrowireInitStruct. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">SPI_MicrowireInitStruct</td><td>pointer to a <a class="el" href="struct_s_p_i___microwire_init_type_def.html" title="SPI Microwire Init structure definition">SPI_MicrowireInitTypeDef</a> structure that contains the configuration information for the Microwire frame format. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga7f9d6723c802ec352d37ebab29096e3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7f9d6723c802ec352d37ebab29096e3a">&#9670;&nbsp;</a></span>SPI_MicrowireStructInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_MicrowireStructInit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___microwire_init_type_def.html">SPI_MicrowireInitTypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPI_MicrowireInitStruct</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fills each SPI_MicrowireInitStruct member with its default value. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPI_MicrowireInitStruct</td><td>pointer to a <a class="el" href="struct_s_p_i___microwire_init_type_def.html" title="SPI Microwire Init structure definition">SPI_MicrowireInitTypeDef</a> structure which will be initialized. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga6beb36b3328432653cb86563f7d12735"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6beb36b3328432653cb86563f7d12735">&#9670;&nbsp;</a></span>SPI_NSSConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_NSSConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>SPI_NSS</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the specified slave select line (only used for SPIMx). </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2. </td></tr>
+    <tr><td class="paramname">SPI_NSS</td><td>specifies the slave select line to be enabled or disabled. This parameter can be one of the following values: <ul>
+<li>SPI_NSS_0 </li>
+<li>SPI_NSS_1 </li>
+<li>SPI_NSS_2 </li>
+</ul>
+</td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the slave select line. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga23964e44f531156d7f7e663ac4aa40b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga23964e44f531156d7f7e663ac4aa40b8">&#9670;&nbsp;</a></span>SPI_NSSToggleModeCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_NSSToggleModeCmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the slave select toggle mode. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the slave select toggle mode. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga6e5a8177edeb2db836ae3cf7bf41e64f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6e5a8177edeb2db836ae3cf7bf41e64f">&#9670;&nbsp;</a></span>SPI_ReadData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t SPI_ReadData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read one data from Rx FIFO. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The read data. </dd></dl>
+
+</div>
+</div>
+<a id="gaf6496645532d984e6c9f24c9e7f8cd8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf6496645532d984e6c9f24c9e7f8cd8a">&#9670;&nbsp;</a></span>SPI_ReceiveDataLengthConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_ReceiveDataLengthConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>DataLength</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the number of data frames to be continuously received (only used for SPIMx). </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2. </td></tr>
+    <tr><td class="paramname">DataLength</td><td>specifies the number of data frames to be continuously received. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gaef11e9c3343112d2d7e03f9ca9f44c9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaef11e9c3343112d2d7e03f9ca9f44c9d">&#9670;&nbsp;</a></span>SPI_RxdSampleDelayConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_RxdSampleDelayConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>DelayValue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the rxd sample delay value. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2. </td></tr>
+    <tr><td class="paramname">DelayValue</td><td>specifies the rxd sample delay value. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None. </dd></dl>
+
+</div>
+</div>
+<a id="ga6add89e10805173c48c9c27594546d13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6add89e10805173c48c9c27594546d13">&#9670;&nbsp;</a></span>SPI_RxFIFOThresholdConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_RxFIFOThresholdConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>Threshold</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the Rx FIFO threshold. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">Threshold</td><td>The Rx FIFO threshold to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>The Receive FIFO Full interrupt will trigger when the level &gt; Threshold. </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>None. </dd></dl>
+
+</div>
+</div>
+<a id="ga517283f1320ae332cc6fd3d9a733c1b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga517283f1320ae332cc6fd3d9a733c1b6">&#9670;&nbsp;</a></span>SPI_SlaveOutputCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_SlaveOutputCmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the slave output (only used for SPISx). </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the slave output. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga951eee823e8f325f990fd905325e3dd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga951eee823e8f325f990fd905325e3dd5">&#9670;&nbsp;</a></span>SPI_SpiModeConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_SpiModeConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>SPI_SpiMode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the Spi Mode. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter must be QSPI. </td></tr>
+    <tr><td class="paramname">SPI_SpiMode</td><td>specifies the Spi Mode. This parameter can be one of the following values: <ul>
+<li>SPI_SpiMode_Standard </li>
+<li>SPI_SpiMode_Dual </li>
+<li>SPI_SpiMode_Quad </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga9a0116f88cc2c4478c270f05608703f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9a0116f88cc2c4478c270f05608703f1">&#9670;&nbsp;</a></span>SPI_StructInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_StructInit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___init_type_def.html">SPI_InitTypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPI_InitStruct</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fills each SPI_InitStruct member with its default value. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPI_InitStruct</td><td>pointer to a <a class="el" href="struct_s_p_i___init_type_def.html" title="SPI Init structure definition">SPI_InitTypeDef</a> structure which will be initialized. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga11ad5eb004751d1b56d8a25acd3cba68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga11ad5eb004751d1b56d8a25acd3cba68">&#9670;&nbsp;</a></span>SPI_TransferModeConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_TransferModeConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>SPI_TransferMode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the transfer mode. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">SPI_TransferMode</td><td>specifies the transfer mode. This parameter can be one of the following values: <ul>
+<li>SPI_TransferMode_TxAndRx </li>
+<li>SPI_TransferMode_TxOnly </li>
+<li>SPI_TransferMode_RxOnly </li>
+<li>SPI_TransferMode_EepromRead </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gab06ec46aa00315b91c1dbfecfd388407"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab06ec46aa00315b91c1dbfecfd388407">&#9670;&nbsp;</a></span>SPI_TxFIFOThresholdConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_TxFIFOThresholdConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>Threshold</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the Tx FIFO threshold. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">Threshold</td><td>The Tx FIFO threshold to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>The Transmit FIFO Empty interrupt will trigger when the level &lt;= Threshold. </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>None. </dd></dl>
+
+</div>
+</div>
+<a id="ga53ee59c2d0404d2d75facf79cee9d8cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga53ee59c2d0404d2d75facf79cee9d8cf">&#9670;&nbsp;</a></span>SPI_WriteData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_WriteData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_p_i___type_def.html">SPI_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>SPIx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>Data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write one data to Tx FIFO. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SPIx</td><td>Pointer to selected SPI peripheral. This parameter can be one of the following values: QSPI, SPIM2, SPIS1, SPIS2. </td></tr>
+    <tr><td class="paramname">Data</td><td>The data to write. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

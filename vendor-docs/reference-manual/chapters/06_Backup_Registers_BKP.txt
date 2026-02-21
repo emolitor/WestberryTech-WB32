@@ -1,0 +1,454 @@
+WB32FQ95xx Reference Manual
+
+6.
+6.1.
+
+Backup registers (BKP)
+Overview
+The Backup registers are located in the Backup domain that remains powered-on by VBAT
+even if VDD power is shut down, they are twenty one 32-bit (84 bytes) registers for data
+protection of user application data, and the wake-up action from Standby mode or system
+reset do not affect these registers.
+In addition, the BKP registers can be used to implement the tamper detection and RTC
+calibration function.
+After reset, any writing access to the registers in Backup domain is disabled, that is, the
+Backup registers and RTC cannot be written to access. In order to enable access to the
+Backup registers and RTC, the Power and Backup interface clocks should be enabled firstly
+by setting the BDI bit in the RCC_AHBENR2 register, and writing access to the registers in
+Backup domain should be enabled by setting the DBP bit in the CR0 register.
+
+6.2.
+
+Characteristics
+⚫
+
+84 bytes Backup registers which can keep data under power saving mode. If tamper
+event is detected, Backup registers will be reset.
+
+⚫
+
+The active level of Tamper source (PC13) can be configured.
+
+⚫
+
+RTC Clock Calibration register provides RTC alarm and second output selection, and
+sets the calibration value.
+
+⚫
+
+Tamper control and status register (BKP_CSR) can control tamper detection with
+interrupt or event capability.
+
+6.3.
+
+Function overview
+
+6.3.1.
+
+RTC clock calibration
+In order to improve the RTC clock accuracy, the MCU provides the RTC output for calibration
+function. The RTC clock, or a clock with the frequency is f RTCCLK/64, can be output on the
+
+Doc ID 2905025
+
+Rev01
+
+66
+
+WB32FQ95xx Reference Manual
+
+PC13. It is enabled by setting the COO bit in the BKP_RTCCR register.
+The calibration value is set by CAL[6:0] in the BKP_RTCCR register, and the calibration
+function can slow down the RTC clock by steps of 1000000/2^20 ppm.
+
+6.3.2.
+
+RTC clock calibration
+In order to protect the important user data, the MCU provides the tamper detection function,
+and it can be independently enabled on TAMPER pin by setting corresponding TPE bit in the
+BKP_CR register. To prevent the tamper event from losing, the edge detection is logically
+ANDed with the TPE bit, used for tamper detection signal. So the tamper detection
+configuration should be set before enable TAMPER pin. When the tamper event is detected,
+the corresponding TEF bit in the BKP_CSR register will be set. Tamper event can generate
+an interrupt if tamper interrupt is enabled. Any tamper event will reset all Backup data
+registers.
+Note: When TPAL=0/1, if the TAMPER pin is already high/low before it is enabled(by setting
+TPE bit), an extra tamper event is detected, while there was no rising/falling edge on the
+TAMPER pin after TPE bit was set.
+
+6.4.
+
+Register description
+
+6.4.1.
+
+RTC signal output control register (BKP_RTCCR)
+Address offset：0x00
+Reset value: 0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:10
+
+­
+
+R
+
+Description
+Reserved
+RTC output selection.
+
+9
+
+ASOS
+
+RW
+
+0: RTC alarm pulse is selected as the RTC output
+1: RTC second pulse is selected as the RTC output
+This bit is reset only by a Backup domain reset.
+RTC alarm or second signal output enable
+0: Disable RTC alarm or second output
+
+8
+
+ASOE
+
+RW
+
+1: Enable RTC alarm or second output
+When enable, the TAMPER pin will output the RTC output.
+This bit is reset only by a Backup domain reset.
+
+7
+
+COO
+
+Doc ID 2905025
+
+RW
+
+RTC clock calibration output enable
+0: Disable RTC clock calibration output
+
+Rev01
+
+67
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+1: Enable RTC clock Calibration output
+When enable, the TAMPER pin will output the RTC clock. ASOE has
+the priority over COO. When ASOE is set, the TAMPER pin will output
+the RTC alarm or second signal whether COO is set or not.
+This bit is reset only by a POR/PDR.
+RTC clock calibration value
+
+6:0
+
+CAL
+
+RW
+
+The value indicates how many clock pulses are ignored or added every
+2^20 RTC clock pulses
+
+6.4.2.
+
+Tamper pin control register (BKP_CR)
+Address offset：0x04
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:2
+
+­
+
+R
+
+Description
+Reserved
+TAMPER pin active level
+
+1
+
+TPAL
+
+RW
+
+0: The TAMPER pin is active high
+1: The TAMPER pin is active low
+TAMPER detection enable
+0: The TAMPER pin is free for GPIO functions
+
+0
+
+TPE
+
+RW
+
+1: The TAMPER pin is dedicated for the Backup Reset function. The
+active level on the TAMPER pin resets all data of the BKP_DATAx
+register.
+
+6.4.3.
+
+Tamper control and status register (BKP_CSR)
+Address offset：0x08
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:10
+
+­
+
+R
+
+Description
+Reserved
+Tamper interrupt flag
+
+9
+
+TIF
+
+R
+
+0: No tamper interrupt occurred
+1: A tamper interrupt occurred
+This bit is reset by writing 1 to the CTI bit or the TPIE bit being 0
+Tamper event flag
+
+8
+
+TEF
+
+R
+
+0: No tamper event occurred
+1: A tamper event occurred
+This bit is reset by writing 1 to the CTE bit.
+
+Doc ID 2905025
+
+Rev01
+
+68
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+7:3
+
+­
+
+R
+
+Description
+Reserved
+Tamper interrupt enable
+0: Disable the tamper interrupt
+
+2
+
+TPIE
+
+RW
+
+1: Enable the tamper interrupt
+This bit is reset only by a system reset and wake-up from Standby
+mode.
+Tamper interrupt reset
+
+1
+
+CTI
+
+W
+
+0: No effect
+1: Reset the TIF bit
+This bit is always read as 0.
+Tamper event reset
+
+0
+
+CTE
+
+W
+
+0: No effect
+1: Reset the TEF bit
+This bit is always read as 0.
+
+6.4.4.
+
+Backup data register x (BKP_DATAx) (x= 0..21)
+Address offset：0x010 to 0x60
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Backup data
+
+31:0
+
+DATA
+
+RW
+
+These bits are used for general purpose data storage. The contents
+of the BKP_DATAx register will remain even if the wake-up action
+from Standby mode or system reset or power reset.
+
+6.4.5.
+
+Backup domain control register (BKP_BDCR)
+Address offset：0x100
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+­
+
+R
+
+Description
+Reserved
+RTC clock enable control, software set or clear this bit.
+
+15
+
+RTCEN
+
+RW
+
+0: RTC clock turned off
+1: RTC clock turned on
+
+­
+
+14:10
+
+R
+
+Reserved
+RTC clock source selection
+
+9:8
+
+RTCSEL
+
+RW
+
+00: no clock source selected
+01: LSE is selected as RTC clock
+
+Doc ID 2905025
+
+Rev01
+
+69
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+10: LSI is selected as RTC clock
+11: HSE/128 is selected as RTC clock
+Once RTC clock source is selected, it can not be modified by
+software until the battery domain reset. User can clear this field by
+BDRST bit.
+
+­
+
+7:3
+
+R
+
+Reserved
+External Low-speed oscillator bypass
+Set and cleared by software to bypass oscillator in debug mode. This
+
+2
+
+LSEBYP
+
+RW
+
+bit can be written only when the external 32 kHz oscillator is disabled.
+0: LSE oscillator not bypassed
+1: LSE oscillator bypassed
+External low-speed oscillator ready
+Set and cleared by hardware to indicate when the external 32kHz
+
+1
+
+LSERDY
+
+RW
+
+oscillator is stable. After the LSEON bit is cleared, LSERDY goes low
+after 6 external low-speed oscillator clock cycles.
+0: External 32 kHz oscillator not ready
+1: External 32 kHz oscillator ready
+External low-speed oscillator enable Set and cleared by software.
+
+0
+
+LSEON
+
+RW
+
+0: External 32 kHz oscillator OFF
+1: External 32 kHz oscillator ON
+
+Doc ID 2905025
+
+Rev01
+
+70
+
+

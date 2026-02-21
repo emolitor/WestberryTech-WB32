@@ -1,0 +1,310 @@
+WB32FQ95xx Reference Manual
+
+27.
+
+Debug (DBG)
+
+27.1.
+
+Overview
+The WB32FQ95xx series provide a large variety of debug, trace and test features. They are
+implemented with a standard configuration of the ARM CoreSight TM module together with a
+daisy chained standard TAP controller. Debug and trace functions are integrated into the
+ARM Cortex-M3. The debug system supports serial wire debug (SWD) and trace functions in
+addition to standard JTAG debug. The debug and trace functions refer to the following
+documents:
+⚫
+
+Cortex-M3 Technical Reference Manual
+
+⚫
+
+ARM Debug Interface v5 Architecture Specification
+
+The DBG unit helps debugger to debug power saving mode, TIMER, WWDG, IWDG. When
+corresponding bit is set, provide clock when in power saving mode or hold the state for
+TIMER, WWDG, IWDG.
+Figure 27-1. WB32FQ95xx debugging block diagram
+
+27.2.
+
+JTAG/SW function overview
+Debug capabilities can be accessed by a debug tool via Serial Wire (SW - Debug Port) or
+JTAG interface (JTAG - Debug Port).
+
+27.2.1.
+
+Switch JTAG or SW interface
+By default, the JTAG interface is active. The sequence for switching from JTAG to SWD is:
+⚫
+
+Doc ID 2905025
+
+Send 50 or more TCK cycles with TMS = 1.
+Rev01
+
+385
+
+WB32FQ95xx Reference Manual
+
+⚫
+
+Send the 16-bit sequence on TMS = 1110011110011110 (0xE79E LSB first).
+
+⚫
+
+Send 50 or more TCK cycles with TMS = 1.
+
+The sequence for switching from SWD to JTAG is:
+Send 50 or more TCK cycles with TMS = 1.
+⚫
+
+Send the 16-bit sequence on TMS = 1110011100111100 (0xE73C LSB first).
+
+⚫
+
+Send 50 or more TCK cycles with TMS = 1.
+Figure 27-2. WB32FQ95xx only support debug with SWD interface.
+
+27.2.2.
+
+Pin assignment
+The serial wire debug (SWD) provide 2-pin SW interface, known as SW data input/output
+(SWDIO) and SW clock (SWCLK). The pin assignment are:
+PA14: JTCK/SWCLK
+PA13: JTMS/SWDIO
+PB3: TRACESWO
+By default, 2-pin SWD debug mode is chosen after reset. If switch to other function with the
+GPIOx_MODER, the PA14/PA13/PB3 are released to other GPIO functions.
+
+27.2.3.
+
+JEDEC-106 ID code
+The Cortex-M3 integrates JEDEC-106 ID code, which is located in ROM table and mapped
+on the address of 0xE00F_F000_0xE00F_FFFF.
+
+27.3.
+
+Debug hold function overview
+
+27.3.1.
+
+Debug support for power saving mode
+When DBG_STANDBY bit in DBG control register (DBGMCU_CR) is set and entering the
+standby mode, the clock of AHB bus and system clock are provided by HSI, and the
+debugger can debug in standby mode. When exit the standby mode, a system reset
+generated.
+
+Doc ID 2905025
+
+Rev01
+
+386
+
+WB32FQ95xx Reference Manual
+
+When DBG_STOP bit in DBG control register (DBGMCU_CR) is set and entering the Deepsleep mode, the clock of AHB bus and system clock are provided by HSI, and the debugger
+can debug in Deep-sleep mode.
+When DBG_SLEEP bit in DBG control register (DBGMCU_CR) is set and entering the sleep
+mode, the clock of AHB bus for CPU is not closed, and the debugger can debug in sleep
+mode.
+
+27.3.2.
+
+Debug support for TIMER, WWDG, IWDG
+When the core halted and the corresponding bit in DBG control register (DBGMCU_CR) is
+set, the following behaved.
+For TIMER, the timer counters stopped and hold for debug.
+For WWDG or IWDG, the counter clock stopped for debug.
+
+27.4.
+
+Register definition
+
+27.4.1.
+
+ID code register (DBG_ID)
+Address: 0xE004 2000
+Read only
+
+Bits
+
+Fields
+
+RW
+
+31:0
+
+ID_CODE[31:0]
+
+R
+
+27.4.2.
+
+Descriptions
+DBG ID code register
+These bits read by software, These bits are unchanged constant
+
+Control register (DBGMCU_CR)
+Address offset: 0x04
+Reset value: 0x0000 0000
+Power On reset only
+
+Bits
+
+Fields
+
+RW
+
+31:14
+
+Reserved
+
+R
+
+13
+
+DBG_TIM4_STOP
+
+RW
+
+12
+
+DBG_TIM3_STOP
+
+RW
+
+11
+
+DBG_TIM2_STOP
+
+RW
+
+10
+
+DBG_TIM1_STOP
+
+RW
+
+Doc ID 2905025
+
+Descriptions
+Must be kept at reset value
+TIMER 4 hold bit
+This bit is set and reset by software
+0: no effect
+1: hold the TIMER 4 counter for debug when core halted
+TIMER 3 hold bit
+This bit is set and reset by software
+0: no effect
+1: hold the TIMER 3 counter for debug when core halted
+TIMER 2 hold bit
+This bit is set and reset by software
+0: no effect
+1: hold the TIMER 2 counter for debug when core halted
+TIMER 1 hold bit
+This bit is set and reset by software
+0: no effect
+1: hold the TIMER 1 counter for debug when core halted
+
+Rev01
+
+387
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+RW
+
+Descriptions
+WWDG hold bit
+This bit is set and reset by software
+0: no effect
+1: hold the WWDG counter clock for debug when core halted
+IWDG hold bit
+This bit is set and reset by software
+0: no effect
+1: hold the IWDG counter clock for debug when core halted
+
+9
+
+DBG_WWDG_STOP
+
+RW
+
+8
+
+DBG_IWDG_STOP
+
+RW
+
+7:6
+
+Reserved
+
+R
+
+Must be kept at reset value
+
+5
+
+TRACE_IOEN
+
+RW
+
+Trace pin allocation enable
+This bit is set and reset by software
+0: Trace pin allocation disable
+1: Trace pin allocation enable
+
+4:3
+
+Reserved
+
+R
+
+Must be kept at reset value
+
+2
+
+DBG_STANDBY
+
+RW
+
+1
+
+DBG_STOP
+
+RW
+
+0
+
+DBG_SLEEP
+
+RW
+
+Doc ID 2905025
+
+Standby mode hold register
+This bit is set and reset by software
+0: no effect
+1: At the standby mode, the clock of AHB bus and system clock are provided
+by HSI, a system reset generated when exit standby mode
+Deep-sleep mode hold register
+This bit is set and reset by software
+0: no effect
+1: At the Deep-sleep mode, the clock of AHB bus and system clock are
+provided by HSI
+Sleep mode hold register
+This bit is set and reset by software
+0: no effect
+1: At the sleep mode, the clock of AHB is on.
+
+Rev01
+
+388
+
+

@@ -1,0 +1,123 @@
+From 225c26e4be40f45dbf0d97edf72b0a8bcf5ad4c9 Mon Sep 17 00:00:00 2001
+From: Eric Molitor <534583+emolitor@users.noreply.github.com>
+Date: Sun, 28 Dec 2025 11:50:22 +0000
+Subject: [PATCH] fix: Fix various minor defects in WB32 port
+
+
+diff --git a/os/hal/ports/WB32/LLD/ADCv1/hal_adc_lld.h b/os/hal/ports/WB32/LLD/ADCv1/hal_adc_lld.h
+index 5b3ea9ed..e18c873c 100644
+--- a/os/hal/ports/WB32/LLD/ADCv1/hal_adc_lld.h
++++ b/os/hal/ports/WB32/LLD/ADCv1/hal_adc_lld.h
+@@ -110,7 +110,7 @@
+ /** @} */
+ 
+ /**
+- * @brief   ADC usbed DMAC channel setting.
++ * @brief   ADC used DMAC channel setting.
+  */
+ #if !defined(WB32_ADC_ADC1_DMA_STREAM) || defined(__DOXYGEN__)
+ #define WB32_ADC_ADC1_DMA_STREAM           WB32_DMA_STREAM_ID(1, 0)
+@@ -118,7 +118,7 @@
+ /** @} */
+ 
+ /**
+- * @brief   ADC usbed DMAC channel priority setting.
++ * @brief   ADC used DMAC channel priority setting.
+  */
+ #if !defined(WB32_ADC_ADC1_DMA_PRIORITY) || defined(__DOXYGEN__)
+ #define WB32_ADC_ADC1_DMA_PRIORITY         2
+diff --git a/os/hal/ports/WB32/LLD/DMAv1/wb32_dma.c b/os/hal/ports/WB32/LLD/DMAv1/wb32_dma.c
+index 4d1a7400..a2226e99 100644
+--- a/os/hal/ports/WB32/LLD/DMAv1/wb32_dma.c
++++ b/os/hal/ports/WB32/LLD/DMAv1/wb32_dma.c
+@@ -188,11 +188,11 @@ OSAL_IRQ_HANDLER(WB32_DMAC2_IRQ_VECTOR) {
+   dmaServeInterrupt(WB32_DMA2_STREAM1);
+ #endif
+ 
+-#if WB32_DMAC2_NUM_CHANNELS > 0
++#if WB32_DMAC2_NUM_CHANNELS > 1
+   dmaServeInterrupt(WB32_DMA2_STREAM2);
+ #endif
+ 
+-#if WB32_DMAC2_NUM_CHANNELS > 0
++#if WB32_DMAC2_NUM_CHANNELS > 2
+   dmaServeInterrupt(WB32_DMA2_STREAM3);
+ #endif
+ 
+@@ -215,7 +215,7 @@ void dmaInit(void) {
+   dma.allocated_mask = 0U;
+   dma.isr_mask = 0U;
+ 
+-#if WB32_DMAC2_NUM_CHANNELS > 0
++#if WB32_DMAC1_NUM_CHANNELS > 0
+   rccResetDMAC1();
+ #endif
+ #if WB32_DMAC2_NUM_CHANNELS > 0
+diff --git a/os/hal/ports/WB32/LLD/DMAv1/wb32_dma.h b/os/hal/ports/WB32/LLD/DMAv1/wb32_dma.h
+index 46c671e6..77225de5 100644
+--- a/os/hal/ports/WB32/LLD/DMAv1/wb32_dma.h
++++ b/os/hal/ports/WB32/LLD/DMAv1/wb32_dma.h
+@@ -291,7 +291,7 @@
+   * @{
+   */
+ #define WB32_DMAC_DST_AUTO_RELOAD_EN                         (0x1U << 31)
+-#define WB32_DMAC_DST_AUTO_RELOAD_DIS                        (0x0U << 30)
++#define WB32_DMAC_DST_AUTO_RELOAD_DIS                        (0x0U << 31)
+ /**
+   * @}
+   */
+@@ -580,12 +580,12 @@ typedef struct {
+  * @post    After use the stream can be released using @p dmaStreamRelease().
+  *
+  * @param[in] dmastp    pointer to a wb32_dma_stream_t structure
+- * @param[in] size      value to be written in the CTLH register   Size must be less than 511
++ * @param[in] size      value to be written in the CTLH register   Size must be less than 4096
+  *
+  * @special
+  */
+ #define dmaStreamSetTransactionSize(dmastp, size) {                          \
+-    (dmastp)->dmac->Ch[(dmastp)->channel].CTLH = (uint32_t)((size) & 0x1FF); \
++    (dmastp)->dmac->Ch[(dmastp)->channel].CTLH = (uint32_t)((size) & 0xFFF); \
+   }
+ 
+ /**
+diff --git a/os/hal/ports/WB32/LLD/USBv1/hal_usb_lld.c b/os/hal/ports/WB32/LLD/USBv1/hal_usb_lld.c
+index 6cfb9887..2f08a64d 100644
+--- a/os/hal/ports/WB32/LLD/USBv1/hal_usb_lld.c
++++ b/os/hal/ports/WB32/LLD/USBv1/hal_usb_lld.c
+@@ -734,7 +734,7 @@ void usb_lld_disable_endpoints(USBDriver *usbp) {
+   WB32_USB->INTROUTE = 0x00;
+ 
+   /* Disabling all endpoints.*/
+-  for (i = 1; i <= (USB_ENDOPOINTS_NUMBER & 0x0F); i++) {
++  for (i = 1; i <= (USB_ENDPOINTS_NUMBER & 0x0F); i++) {
+     WB32_USB->INDEX = i;
+     WB32_USB->INCSR2 = 0x00;
+     WB32_USB->INCSR1 = USB_INCSR1_CLRDATATOG;
+diff --git a/os/hal/ports/WB32/LLD/USBv1/hal_usb_lld.h b/os/hal/ports/WB32/LLD/USBv1/hal_usb_lld.h
+index c8ff6746..a6c8d64c 100644
+--- a/os/hal/ports/WB32/LLD/USBv1/hal_usb_lld.h
++++ b/os/hal/ports/WB32/LLD/USBv1/hal_usb_lld.h
+@@ -35,8 +35,8 @@
+  * @brief   Number of the available endpoints.
+  * @details This value does not include the endpoint 0 which is always present.
+  */
+-#if !defined(USB_ENDOPOINTS_NUMBER) || defined(__DOXYGEN__)
+-#define USB_ENDOPOINTS_NUMBER                  3
++#if !defined(USB_ENDPOINTS_NUMBER) || defined(__DOXYGEN__)
++#define USB_ENDPOINTS_NUMBER                   3
+ #endif
+ 
+ /**
+@@ -48,7 +48,7 @@
+ /**
+  * @brief   Maximum endpoint address.
+  */
+-#define USB_MAX_ENDPOINTS                      USB_ENDOPOINTS_NUMBER
++#define USB_MAX_ENDPOINTS                      USB_ENDPOINTS_NUMBER
+ 
+ /**
+  * @brief   Status stage handling method.
+-- 
+2.51.0
+

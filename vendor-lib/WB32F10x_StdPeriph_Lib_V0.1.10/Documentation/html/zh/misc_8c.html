@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: misc.c 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_6d2d5b60bd20db849a9486835a2715aa.html">Libraries</a></li><li class="navelem"><a class="el" href="dir_750c1ecf7cb1e5b3ac67739578fc1b39.html">WB32F10x_StdPeriph_Driver</a></li><li class="navelem"><a class="el" href="dir_50b1670daca233a92c946ef243e11332.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#define-members">宏定义</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle">
+<div class="title">misc.c 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>This file provides all the miscellaneous firmware functions (add-on to CMSIS functions).  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="misc_8h_source.html">misc.h</a>&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:gad6905141fba3a2d8d5570db40805dc6a"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>AIRCR_VECTKEY_MASK</b>&#160;&#160;&#160;((uint32_t)0x05FA0000)</td></tr>
+<tr class="separator:gad6905141fba3a2d8d5570db40805dc6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:gadfb1f34f803ce54c976643db8c484442"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_s_c___private___functions.html#gadfb1f34f803ce54c976643db8c484442">NVIC_PriorityGroupConfig</a> (uint32_t NVIC_PriorityGroup)</td></tr>
+<tr class="memdesc:gadfb1f34f803ce54c976643db8c484442"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the priority grouping: pre-emption priority and subpriority.  <a href="group___m_i_s_c___private___functions.html#gadfb1f34f803ce54c976643db8c484442">更多...</a><br /></td></tr>
+<tr class="separator:gadfb1f34f803ce54c976643db8c484442"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4ab373ed0870c06fca5eb51d639adf41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_s_c___private___functions.html#ga4ab373ed0870c06fca5eb51d639adf41">NVIC_Init</a> (<a class="el" href="struct_n_v_i_c___init_type_def.html">NVIC_InitTypeDef</a> *NVIC_InitStruct)</td></tr>
+<tr class="memdesc:ga4ab373ed0870c06fca5eb51d639adf41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct.  <a href="group___m_i_s_c___private___functions.html#ga4ab373ed0870c06fca5eb51d639adf41">更多...</a><br /></td></tr>
+<tr class="separator:ga4ab373ed0870c06fca5eb51d639adf41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1145208ad70edfc2fab19b8b8ef1b1a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_s_c___private___functions.html#ga1145208ad70edfc2fab19b8b8ef1b1a1">NVIC_SetVectorTable</a> (uint32_t NVIC_VectTab, uint32_t Offset)</td></tr>
+<tr class="memdesc:ga1145208ad70edfc2fab19b8b8ef1b1a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the vector table location and Offset.  <a href="group___m_i_s_c___private___functions.html#ga1145208ad70edfc2fab19b8b8ef1b1a1">更多...</a><br /></td></tr>
+<tr class="separator:ga1145208ad70edfc2fab19b8b8ef1b1a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae21011c5232f5b8f366acbecd12a1d4a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_s_c___private___functions.html#gae21011c5232f5b8f366acbecd12a1d4a">NVIC_SystemLPConfig</a> (uint8_t LowPowerMode, FunctionalState NewState)</td></tr>
+<tr class="memdesc:gae21011c5232f5b8f366acbecd12a1d4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects the condition for the system to enter low power mode.  <a href="group___m_i_s_c___private___functions.html#gae21011c5232f5b8f366acbecd12a1d4a">更多...</a><br /></td></tr>
+<tr class="separator:gae21011c5232f5b8f366acbecd12a1d4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2777d255bb06ad62bb6372a9db1ff385"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_s_c___private___functions.html#ga2777d255bb06ad62bb6372a9db1ff385">SysTick_CLKSourceConfig</a> (uint32_t SysTick_CLKSource)</td></tr>
+<tr class="memdesc:ga2777d255bb06ad62bb6372a9db1ff385"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the SysTick clock source.  <a href="group___m_i_s_c___private___functions.html#ga2777d255bb06ad62bb6372a9db1ff385">更多...</a><br /></td></tr>
+<tr class="separator:ga2777d255bb06ad62bb6372a9db1ff385"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>This file provides all the miscellaneous firmware functions (add-on to CMSIS functions). </p>
+<dl class="section author"><dt>作者</dt><dd>Westberry Application Team </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>V0.1.10 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>05-January-2023 </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

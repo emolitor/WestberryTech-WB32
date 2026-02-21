@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: TIM ExtTrigger Synchro example</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">TIM ExtTrigger Synchro example </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><pre class="fragment">  *************** (C) COPYRIGHT 2020 - 2023 Westberry Technology ***************
+  * @file    TIM/TIM_ExtTrigger_Synchro/readme.txt 
+  * @author  Westberry Application Team
+  * @version V0.1.10
+  * @date    05-January-2023
+  * @brief   Description of the TIM_ExtTrigger_Synchro example.
+  ******************************************************************************
+  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  * TIME. AS A RESULT, WESTBERRY SHALL NOT BE HELD LIABLE FOR ANY DIRECT,
+  * INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM
+  * THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  ******************************************************************************</pre><dl class="section user"><dt>例程描述 </dt><dd></dd></dl>
+<p>本例展示了如何在级联模式下将TIM外围设备与外部触发器同步。<br />
+系统时钟工作在96Mhz，通过PLL配置产生。PLL时钟源是外部8Mhz晶振。APB1的分频比是1，APB2的分频比是1。<br />
+在本例中，使用了三个计时器：<br />
+1/TIM1配置为主定时器：<br />
+ -使用TOGGLE模式 <br />
+ -TIM1 ENABLE事件用作触发器输出 <br />
+ 2/TIM1被配置为连接到TIM1的外部触发器的从属计时器。<br />
+TI2引脚（Tim1 CH2配置为输入引脚）：<br />
+ -TIM1 TI2FP2用作触发器输入<br />
+ -上升沿用于启动和停止TIM1：门模式。<br />
+ 3/TIM3是TIM1的从机，TIM4的主机，<br />
+ -使用TOGGLE模式 <br />
+ -ITR1（TIM1）用作输入触发器 <br />
+ -使用门控模式，用作从计数器的启动和停止 <br />
+由主触发输出信号（TIM1启用事件）控制。<br />
+-TIM3启用事件用作触发器输出。<br />
+ 4/TIM4是TIM3的从机，<br />
+ -使用TOGGLE模式 <br />
+ -ITR2（TIM3）用作输入触发器<br />
+ -使用门控模式，用作从计数器的启动和停止 <br />
+由主触发输出信号（TIM3启用事件）控制。<br />
+ 三个计时器的运行时间为：<br />
+TIMx频率=TIMx时钟计数器 /（TIMx_周期 + 1）= 732.2Hz。<br />
+TIM1计数器的启动和停止由外部触发器控制。<br />
+TIM3启动和停止由TIM1控制，TIM4启动和停止由TIM3控制。<br />
+ </p><dl class="section user"><dt>目录内容 </dt><dd></dd></dl>
+<ul>
+<li>TIM/TIM_ExtTrigger_Synchro/TIM_ExtTrigger_Synchro.uvprojx MDK5工程文件</li>
+<li>TIM/TIM_ExtTrigger_Synchro/TIM_ExtTrigger_Synchro.uvoptx MDK5工程配置文件</li>
+<li>TIM/TIM_ExtTrigger_Synchro/JLinkSettings.ini Jlink配置文件</li>
+<li>TIM/TIM_ExtTrigger_Synchro/main.c 主程序</li>
+</ul>
+<dl class="section user"><dt>硬件和软件环境 </dt><dd></dd></dl>
+<ul>
+<li>硬件平台搭建<ul>
+<li>HSE 连接外部8MHz晶振</li>
+<li>将TIM1引脚连接到示波器上，以监测不同的波形:<ul>
+<li>TIM1_CH1 pin (PA.08)</li>
+<li>TIM3_CH1 pin (PA.06)</li>
+<li>TIM4_CH1 pin (PB.06)</li>
+</ul>
+</li>
+<li>连接 TIM1_CH2 pin (PA.09) ExtTrigger Signal。</li>
+</ul>
+</li>
+</ul>
+<dl class="section user"><dt>如何使用？ </dt><dd></dd></dl>
+<p>为了使程序工作，您必须执行以下操作 :</p><ul>
+<li>使用 MDK5 打开此例程文件夹中的 TIM_ExtTrigger_Synchro.uvprojx 工程</li>
+<li>重新编译该工程并下载到目标存储器中</li>
+<li><p class="startli">运行此例程</p>
+<h3><center>&copy; COPYRIGHT 2020 - 2023 Westberry Technology</center></h3>
+</li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

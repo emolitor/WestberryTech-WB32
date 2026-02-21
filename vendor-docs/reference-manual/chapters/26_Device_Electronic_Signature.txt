@@ -1,0 +1,69 @@
+WB32FQ95xx Reference Manual
+
+26.
+
+Device electronic signature
+
+26.1.
+
+Overview
+This Section applies to the whole WB32FQ95xx family, unless otherwise specified.
+The electronic signature is stored in the System memory area in the Flash memory module,
+and can be read using the SWD or the CPU. It contains factory-programmed identification
+data that allow the user firmware or other external devices to automatically match its
+interface to the characteristics of the WB32FQ95xx microcontroller.
+
+26.2.
+
+Memory size registers
+Flash size register
+Base address: 0x4001 6404
+Read only = 0xXXXX where X is factory-programmed
+Please refer to section 3.3.2 in SYS for detail
+
+26.3.
+
+Unique device ID register (96 bits)
+The unique device identifier is ideally suited:
+⚫
+
+for use as serial numbers (for example USB string serial numbers or other end
+applications)
+
+⚫
+
+for use as security keys in order to increase the security of code in Flash memory while
+using and combining this unique ID with software cryptographic primitives and protocols
+before programming the internal Flash memory to activate secure boot processes, etc.
+
+The 96-bit unique device identifier provides a reference number which is unique for any
+device and in any context. These bits can never be altered by the user.
+The 96-bit unique device identifier can also be read in single bytes/half-words/words in
+different ways and then be concatenated using a custom algorithm.
+Address: 0x1FFFF7E8
+Read only = 0xXXXX where X is factory-programmed
+Bits
+
+Fields
+
+95:0
+
+U_ID[95:0]
+
+26.4.
+
+Descriptions
+Unique ID bits.
+
+MCU device ID register (MCU_ID)
+Address: 0x4001 6400
+Read only = 0xXXXX where X is factory-programmed
+Please refer to section 3.3.1 in SYS for detail
+
+Doc ID 2905025
+
+Rev01
+
+384
+
+

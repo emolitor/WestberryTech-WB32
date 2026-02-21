@@ -1,0 +1,1437 @@
+WB32FQ95xx Reference Manual
+
+5.
+
+Power control (PWR)
+
+5.1.
+
+Power supplies
+The WB32FQ95xx requires a 2.0-to-3.6 V operating voltage supply (VDD). An embedded
+regulator is used to supply the internal 1.2 V digital power.
+The real-time clock (RTC) and backup registers can be powered from the VBAT voltage
+when the main VDD supply is powered off. The VBAT power supply voltage is 1.8V ~ 3.6V.
+Table 5-1. Power supply overview
+
+5.1.1.
+
+Independent A/D converter supply and reference voltage
+To improve conversion accuracy, the ADC have an independent power supply which can be
+separately filtered and shielded from noise on the PCB.
+⚫
+
+The ADC voltage supply input is available on a separate VDDA pin.
+
+⚫
+
+An isolated supply ground connection is provided on pin VSSA
+The VREFH is connected to VDDA and the VREFL is connected to VSSA.
+These two pins are not packaged.
+
+Doc ID 2905025
+
+Rev01
+
+49
+
+WB32FQ95xx Reference Manual
+
+5.1.2.
+
+Battery backup domain
+To retain the content of the Backup registers and supply the RTC function when VDD is
+turned off, VBAT pin can be connected to an optional standby voltage supplied by a battery
+or by another source.
+The VBAT pin powers the RTC unit, the LSE oscillator and the PC13 to PC15 IOs, allowing
+the RTC to operate even when the main digital supply (VDD) is turned off. The switch to the
+VBAT supply is controlled by the Power Down Reset embedded in the Reset block.
+warning：
+⚫
+
+During the rising phase of VDD or after PDR (power down reset) is detected, VBAT and
+VDD are powered at the same time within a period of time (about 50ns). During this time,
+current may be injected into the VBAT through an internal diode between the VDD and
+VBAT.
+
+⚫
+
+If the power supply or battery connected to the VBAT cannot withstand such injection
+current, it is recommended to connect a low voltage drop diode between the external
+VBAT and the power supply.If no external battery is used in the application, it is
+recommended to connect VBAT externally to VDD with a 100 nF external ceramic
+decoupling capacitor.
+
+⚫
+
+PC14 and PC15 can be used as either GPIO or LSE pins.
+
+⚫
+
+PC13 can be used as GPIO, TAMPER pin, RTC Calibration Clock, RTC Alarm or
+second output
+
+When the backup domain is supplied by VBAT (analog switch connected to VBAT because
+VDD is not present), the following functions are available:
+⚫
+
+PC14 and PC15 can be used as LSE pins only
+
+⚫
+
+PC13 can be used as TAMPER pin, RTC Alarm or Second output (refer to Section 7.4.1:
+RTC clock calibration register (BKP_RTCCR)).
+
+Note: because analog switch can only pass a small amount of current (3mA), the use of pc13
+to pc15 I/O ports in output mode is limited: the speed must be limited below 2MHz, the
+maximum load is 30pf, and these I/O ports must not be used as current source (such as
+driving LED).
+
+5.1.3.
+
+Voltage regulator
+The voltage regulator is always enabled after Reset. It works in three different modes
+depending on the application modes.
+
+Doc ID 2905025
+
+Rev01
+
+50
+
+WB32FQ95xx Reference Manual
+
+⚫
+
+In Run mode, the regulator supplies full power to the 1.2 V domain (core, memories and
+digital peripherals).
+
+⚫
+
+In Stop mode the regulator supplies low-power to the 1.2 V domain, preserving contents
+of registers and SRAM
+
+⚫
+
+In Standby Mode, the regulator is powered off. The contents of the registers and SRAM
+are lost except for the Standby circuitry and the Backup Domain.
+
+5.2.
+
+Power supply supervisor
+
+5.2.1.
+
+Power on reset (POR)/power down reset (PDR)
+WB32FQ95xx has an integrated POR/PDR circuitry that allows proper operation starting
+from/down to 2 V.
+The device remains in Reset mode when VDD/VDDA is below a specified threshold,
+VPOR/PDR, without the need for an external reset circuit. For more details concerning the
+power on/power down reset threshold, refer to the electrical characteristics of the datasheet.
+Figure 5-1. Power on reset/power down reset waveform
+
+5.2.2.
+
+Programmable voltage detector
+You can use the PVD to monitor the VDD/VDDA power supply by comparing it to a threshold
+selected by the PLS.
+The PVD is enabled by setting the PVDE bit.
+
+Doc ID 2905025
+
+Rev01
+
+51
+
+WB32FQ95xx Reference Manual
+
+PWR_SR0 to indicate if VDD /VDDA is higher or lower than the PVD threshold. This event is
+internally connected to the EXTI line16 and can generate an interrupt if enabled through the
+EXTI registers. The PVD output interrupt can be generated when VDD /VDDA drops below
+the PVD threshold and/or when VDD /VDDA rises above the PVD threshold depending on
+EXTI line16 rising/falling edge configuration. For example: the service routine could perform
+emergency shutdown tasks.
+
+5.3.
+
+Low-power modes
+By default, the microcontroller is in Run mode after a system or a power Reset. Several
+low-power modes are available to save power when the CPU does not need to be kept
+running, for example when waiting for an external event. It is up to the user to select the
+mode that gives the best compromise between low-power consumption, short startup time
+and available wakeup sources.
+The WB32FQ95xx devices feature three low-power modes:
+⚫
+
+Sleep mode (CPU clock off, all peripherals including Cortex ® -M3 core peripherals like
+NVIC, SysTick, etc. are kept running)
+
+⚫
+
+Stop mode (all clocks are stopped)
+
+⚫
+
+Standby mode (1.2V domain powered-off)
+
+In addition, the power consumption in Run mode can be reduce by one of the following
+means:
+⚫
+
+Slowing down the system clocks
+
+⚫
+
+Gating the clocks to the APB and AHB peripherals when they are unused.
+Table 5-2. Low-power mode summary
+
+Mode
+name
+
+Entry
+
+wakeup
+
+WFI
+
+Any interrupt
+
+Effect on 1.2V
+
+Effect on VDD
+
+Voltage
+
+domain clocks
+
+Domain clocks
+
+regulator
+
+None
+
+ON
+
+HSI and
+
+Normal/low-
+
+CPU clock OFF
+no effect on other
+
+Sleep
+WFE
+
+Wakeup event
+
+clocks or analog
+clock sources
+
+Stop
+
+Standby
+
+PDDS(0) +
+
+Any EXTI line
+
+SLEEPDEEP
+
+(configured in the EXTI
+
+All 1.2V domain
+
+HSE
+
+Power/Ultra-low
+
+BIT + WFI/WFE
+
+registers)
+
+clocks OFF
+
+oscillators
+
+power mode
+
+PDDS BIT
+
+WKUP pin rising edge,
+
+OFF
+
+Ultra-low power
+
+Doc ID 2905025
+
+Rev01
+
+52
+
+WB32FQ95xx Reference Manual
+
+Mode
+
+Entry
+
+wakeup
+
+(1)+SLEEP-
+
+RTC alarm, external
+
+DEEP BIT
+
+reset in NRST pin,
+
++WFI/WFE
+
+IWDG reset
+
+name
+
+5.3.1.
+
+Effect on 1.2V
+
+Effect on VDD
+
+Voltage
+
+domain clocks
+
+Domain clocks
+
+regulator
+mode
+
+Slowing down system clocks
+In Run mode, the speed of the system clocks (SYSCLK、HCLK、FCLK) can be reduced by
+programming the prescaler registers. User can also configure the prescalers to slow down
+the peripherals frequency before entering Sleep mode.
+Please refer to RCC macro for more details.
+
+5.3.2.
+
+Peripheral clock gating
+In Run mode, peripherals and memories can be stopped at any time to reduce power
+consumption if they are not used.
+To further reduce power consumption in Sleep mode, the peripheral clocks can also be gated
+off prior to executing the WFI or WFE instructions. The SFR AHBENR0, AHBENR1,
+APBENR1 and APBENR2 can be used for this purpose.
+
+5.3.3.
+
+Sleep mode
+Entering Sleep mode
+The Sleep mode is entered by executing the WFI (Wait FOR Interrupt) or WFE (Wait for
+Event) instructions. Two options are available to select the Sleep mode entry mechanism,
+depending on the SLEEPONEXIT bit in the Cortex ® -M3 System Control register:
+⚫
+
+Sleep-now: if the SLEEPONEXIT bit is cleared, the MCU enters Sleep mode as soon as
+WFI or WFE instruction is executed.
+
+⚫
+
+Sleep-on-exit: if the SLEEPONEXIT bit is set, the MCU enters Sleep mode as soon as it
+exits the lowest priority ISR.
+
+In the Sleep mode, all I/O pins keep the same state as in the Run mode.
+Refer to Table 6.2 and Table 6.3 for details on how to enter Sleep mode.
+Exiting Sleep mode
+
+Doc ID 2905025
+
+Rev01
+
+53
+
+WB32FQ95xx Reference Manual
+
+If the WFI instruction is used to enter Sleep mode, any peripheral interrupt acknowledged by
+the nested vectored interrupt controller (NVIC) can wake up the device from Sleep mode.
+If the WFE instruction is used to enter Sleep mode, the MCU exits Sleep mode as soon as an
+event occurs. The wakeup event can be generated either by:
+⚫
+
+Enable an interrupt in the peripheral control register but not in the NVIC, and enabling
+the SEVONPEND bit in the Cortex ® -M3 System Control register. When the MCU
+resumes from WFE, the peripheral interrupt pending bit and the peripheral NVIC IRQ
+channel pending bit (in the NVIC interrupt clear pending register) have to be cleared.
+
+⚫
+
+Configure an external or internal EXTI line in event mode. When the CPU resumes from
+WFE, it is not necessary to clear the peripheral interrupt pending bit or the NVIC IRQ
+channel pending bit as the pending bit corresponding to the event line is not set.
+
+Refer to Table 6.2 and Table 6.3 for more details on how to exit Sleep mode.
+Table 5-3. Sleep-now
+Sleep-now mode
+
+Description
+WFI (Wait for Interrupt) or WFE (Wait for Event) while:
+– SLEEPDEEP = 0 and
+
+Mode entry
+
+– SLEEPONEXIT = 0
+Refer to the Cortex ® -M3 System Control register.
+If WFI was used for entry:
+Interrupt: Refer to Section 10.1.2: Interrupt and exception vectors
+
+Mode exit
+
+If WFE was used for entry
+Wakeup event: Refer to Section 10.2.3: Wakeup event management
+
+Wakeup latency
+
+None
+
+Table 5-4. Sleep-on-exit
+SLEEP-ON-EXIT
+
+Description
+WFI (wait for interrupt) while:
+– SLEEPDEEP = 0 and
+
+Mode entry
+
+– SLEEPONEXIT = 1
+Refer to the Cortex ® -M3 System Control register.
+
+Mode exit
+
+Interrupt: refer to Section 10.1.2: Interrupt and exception vectors.
+
+Wakeup latency
+
+None
+
+Note: In sleep mode, the power consumption can be further reduced by the configuration
+below:
+⚫
+
+Doc ID 2905025
+
+Reduce the system clock frequency by half. Please refer to 6.4.1 for details
+
+Rev01
+
+54
+
+WB32FQ95xx Reference Manual
+
+5.3.4.
+
+Stop mode
+The Stop mode is based on Cortex ® -M3 deepsleep mode combined with peripheral clock
+gating. In stop mode, the voltage regulator can operate in normal mode, low power mode or
+ultra low power mode.In stop mode, all clocks in the 1.2V power supply area are stopped,
+PLL, MHSI. FHSI and HSE RC oscillators are disabled, and the contents of SRAM and
+registers are retained.
+In stop mode, all I / O pins keep the same state as in the RUN mode.
+Enter stop mode
+Please refer to table 6.6 for details on how to enter stop mode. If flash programming is in
+progress, the system will not enter stop mode until the memory access is completed. If the
+access to APB is in progress, the system will not enter the stop mode until the access to APB
+is completed.
+Four stop modes are supported, and please refer to table 6-5 for detail information.
+Table 5-5. Four Stop Modes
+
+Stop
+
+Configuration of Analog parts in each mode
+
+mode
+
+CR0
+
+CFGR
+
+configure
+
+configure
+
+0x900
+
+0x3F
+
+0x22002
+
+0x3BE
+
+0x63004
+
+0x3BF
+
+0x7B004
+
+0x3B3
+
+– turn off MHSI, FHSI, HSE and PLL
+– the voltage regulator works normally, but the output voltage decreases
+SP1
+
+(about 100mV)
+– flash enters sleep mode
+– bandgap works normally
+– turn off MHSI, FHSI, HSE and PLL
+
+SP2
+
+– voltage regulator enters low power mode
+– flash power down
+– bandgap works normally
+– turn off MHSI, FHSI, HSE and PLL
+
+SP3
+
+– the voltage regulator enters the ultra-low power consumption mode
+– flash power down
+– bandgap works normally
+– turn off MHSI, FHSI, HSE and PLL
+
+SP4
+
+– the voltage regulator enters the ultra-low power consumption mode
+– flash power down
+– bandgap off
+
+Note: the DBP bit in register CR0 is not related to stop mode, please keep the default state
+during configuration.
+By programming the control bits, the following functions can be selected:
+Doc ID 2905025
+
+Rev01
+
+55
+
+WB32FQ95xx Reference Manual
+
+⚫
+
+Independent watchdog (IWDG): the IWDG is started by writing to its Key register or by
+hardware option. Once started, it cannot be stopped except the system reset
+
+⚫
+
+Real-time clock (RTC): this is configured by the RTCEN bit in the Backup domain
+control register (RCC_BDCR)
+
+⚫
+
+Internal RC oscillator (LSI RC): this is configured by the LSION bit in the RCC_LSICR)
+
+⚫
+
+External 32.768kHz oscillator (LSE OSC): this is configured by the LSEON bit in the
+Battery domain control register (BKP_BDCR)
+
+In stop mode, if SARADC is not turned off before entering this mode, it still consume current.
+By clearing ADCON bit of ANCTL_ADCENR register and ADON bit of ADC_CR2 register,
+the SARADC can be turned off.
+Exiting Stop mode
+Refer to Table 6.6 for more details on how to exit Stop mode.
+When exiting Stop mode by issuing an interrupt or a wakeup event, the MHSI RC oscillator is
+selected as system clock.
+When the voltage regulator operates in low-power mode, an additional startup delay is
+incurred when waking up from Stop mode.
+After exiting from stop mode, all clock configurations return to the initial state, and users
+need to reconfigure RCC. If the system does not successfully enter the stop mode due to the
+interruption or event coming ahead, user can read the CKF flag of PWR_SR1 to check
+whether all the configurations are back to the initial state.
+Note: after exiting standby mode, FHSI is turned off. If users need to use FHSI, please open
+it by yourself.
+Table 5-6. Stop mode
+Stop mode
+
+Description
+WFI (Wait for Interrupt) or WFE (Wait for Event) while:
+–Set SLEEPDEEP bit in Cortex ® -M3 System Control register
+–Clear PDDS bit in Power Control register
+
+Mode entry
+
+–Select the mode of voltage regulator by setting power control register 0
+Note: in order to enter the stop mode, all external interrupt request bits and RTC alarm flags must
+be cleared, otherwise the entry process of stop mode will be skipped and the program will
+continue to run.
+If WFI was used for entry:
+
+Mode exit
+
+-Any EXTI Line configured in Interrupt mode (the corresponding EXTI
+Interrupt vector must be enabled in the NVIC). 。Refer to Section 10.1.1:
+
+Doc ID 2905025
+
+Rev01
+
+56
+
+WB32FQ95xx Reference Manual
+
+Stop mode
+
+Description
+If WFE was used for entry:-Any EXTI Line configured in event mode. Refer to Section 10.1.1:
+
+Wakeup latency
+
+5.3.5.
+
+MHSI RC wake-up time + voltage regulator wake-up time from low power consumption + bandgap
+wake-up time (according to configuration).
+
+Standby mode
+The Standby mode allows to achieve the lowest power consumption. It is based on the
+Cortex ® -M3 deepsleep mode, with the voltage regulator disabled. The 1.2V domain is
+consequently powered off. The PLL, the HSI oscillator and the HSE oscillator are also turned
+off. SRAM and the register contents are lost except for registers in the Battery domain and
+Standby circuitry.
+Entering Standby mode
+Refer to Table 6.7 for more details on how to enter Standby mode
+⚫
+
+Independent watchdog (IWDG): the IWDG is started by writing to its Key register or by
+hardware option. Once started it cannot be stopped except by a reset. See Section 19.3:
+IWDG functional description
+
+⚫
+
+Real-time clock (RTC): this is configured by the RTCEN bit in the Battery domain control
+register (RCC_BDCR)
+
+⚫
+
+Internal RC oscillator (LSI RC): this is configured by the LSION bit in the Control/status
+register (RCC_CSR)
+
+⚫
+
+External 32.768 kHz oscillator (LSE OSC): this is configured by the LSEON bit in the
+Backup domain control register (RCC_BDCR)
+
+Exiting Standby mode
+The microcontroller exits the Standby mode when an external reset (NRST pin), an IWDG
+reset, a rising edge on the WKUP pin or the rising edge of an RTC alarm occurs.
+After waking up from Standby mode, program execution restarts in the same way as after a
+Reset. Power control status register STA_1 indicates the kernel exits from standby mode.
+Refer to Table 6.7 for more details on how to exit Standby mode.
+Table 5-7. Standby mode
+Standby mode
+Mode entry
+
+Doc ID 2905025
+
+Description
+WFI (Wait for Interrupt) or WFE (Wait for Event) while:
+
+Rev01
+
+57
+
+WB32FQ95xx Reference Manual
+
+Standby mode
+
+Description
+– Set SLEEPDEEP in Cortex ® -M3 System Control register
+– Set PDDS bit in Power Control register (PWR_CR)
+– Clear WUF bit in Power Control/Status register
+WKUP pin rising edge, RTC alarm event’s rising edge, external Reset in
+
+Mode exit
+
+NRST pin, IWDG Reset.
+
+Wakeup latency
+
+Start of voltage regulator in reset phase.
+
+I/O states in Standby mode
+In Standby mode, all I/O pins are high impedance except:
+⚫
+
+Reset pad (still available)
+
+⚫
+
+TAMPER pin if configured for tamper or calibration out
+
+⚫
+
+WKUP pin, if enabled
+
+Debug mode
+By default, the debug connection is lost if the application puts the MCU in Stop or Standby
+mode while the debug features are used. This is due to the fact that the Cortex ® -M3 core is
+no longer clocked.
+However, by setting some configuration bits in the DBGMCU_CR register, the software can
+be debugged even when using the low-power modes extensively.
+
+5.3.6.
+
+Module status in low power mode
+After entering sleep mode, the status of each module remains unchanged, except that the
+CPU clock is turned off; After entering the stop mode, according to the PWR_CR0
+configuration, each module can be turned off or enter the low power consumption mode;
+After entering the standby mode, each module enters the low power consumption mode or
+stop mode.
+Details are shown in the table below:
+Table 5-8. Analog state in different power mode
+MAIN
+
+FHSI
+
+LSI
+
+HSE
+
+PLL
+
+PVD
+
+ON
+
+ON
+
+ON
+
+ON
+
+CFG
+
+CFG
+
+CFG
+
+CFG
+
+ON
+
+ON
+
+ON
+
+Sleep
+mode
+
+ON
+
+ON
+
+ON
+
+ON
+
+CFG
+
+CFG
+
+CFG
+
+CFG
+
+ON
+
+ON
+
+ON
+
+Doc ID 2905025
+
+Rev01
+
+BG
+
+SRAM
+
+Core
+
+MHSI
+
+REG
+Active
+
+POR
+
+FLASH
+
+logic
+
+58
+
+WB32FQ95xx Reference Manual
+
+MAIN
+
+Stop
+mode
+Standby
+mode
+
+POR
+
+MHSI
+
+FHSI
+
+LSI
+
+HSE
+
+PLL
+
+PVD
+
+CFG
+
+CFG
+
+OFF
+
+OFF
+
+CFG
+
+OFF
+
+OFF
+
+CFG
+
+CFG
+
+CFG
+
+ON
+
+ULP
+
+PD
+
+OFF
+
+OFF
+
+CFG
+
+OFF
+
+OFF
+
+OFF
+
+OFF
+
+OFF
+
+OFF
+
+BG
+
+SRAM
+
+Core
+
+FLASH
+
+REG
+
+logic
+
+Note: OFF in the table indicates that the macro is turned off; PD in flash indicates power
+down mode; CFG indicates user configurable; ULP indicates ultra-low power consumption
+mode.
+
+5.3.7.
+
+Auto-wakeup (AWU) from low-power mode
+The RTC can be used to wakeup the MCU from low-power mode without depending on an
+external interrupt (Auto-wakeup mode). The RTC provides a programmable time base for
+waking up from Stop or Standby mode at regular intervals. For this purpose, two of the three
+alternative RTC clock sources can be selected by programming the RTCSEL[1:0] bits in
+BKP_BDCR SFR.
+⚫
+
+Low-power 32.768 kHz external crystal oscillator (LSE OSC).
+
+⚫
+
+Low-power internal RC Oscillator (LSI RC)
+
+⚫
+
+This clock source has the advantage of saving the cost of the 32.768 kHz crystal.
+
+To wakeup from Stop mode with an RTC alarm event, it is necessary to:
+⚫
+
+Configure the EXTI Line 17 to be sensitive to rising edge
+
+⚫
+
+Configure the RTC to generate the RTC alarm.
+
+To wakeup from Standby mode, there is no need to configure the EXTI Line 17.
+
+5.4.
+
+Power control registers
+
+5.4.1.
+
+Power control register 0 (PWR_CR0)
+Address offset：0x00
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:20
+
+-
+
+R
+
+Doc ID 2905025
+
+Description
+Reserved
+
+Rev01
+
+59
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Configure the state of 4K SRAM when it enters stop mode
+
+19
+
+S4KMODE
+
+RW
+
+1：4K SRAM power off
+0：4K SRAM power on
+Configure the state of 32K SRAM when it enters stop mode
+
+18
+
+S32KMODE
+
+RW
+
+1：32K SRAM power off
+0：32K SRAM power on
+Configure the state of the flash memory when it enters stop mode
+
+17
+
+FLASHMODE
+
+RW
+
+1：Flash memory enters power down mode
+0：Flash memory enters sleep mode
+Configure the status of the POR BG when it enters stop mode
+
+16
+
+PORMODE
+
+RW
+
+1：close the POR BG
+0：keep the POR BG
+Configure the status of the bandgap when it enters the stop mode. If some
+analog modules still work normally in stop mode, the bandgap reference
+module will work normally. The configuration of this bit only works when all
+
+15:14
+
+BGMODE
+
+RW
+
+analog parts stop working.
+00: The bandgap works normally
+01: The bandgap works in low power mode
+10: The bandgap is turned off
+11: Reserved
+Configure the state of the flash regulator when it enters stop mode
+
+13:12
+
+FREGMODE
+
+RW
+
+0x： The flash regulator works normally
+10： The flash regulator works in low power mode
+11： The flash regulator works is turned off
+Configure the step value of the voltage regulator
+When entering the stop mode, if the voltage regulator is in the normal
+working mode, its output voltage can be reduced to achieve the purpose of
+power saving. This bit is used to configure the adjusted step value.
+000: 0 step value
+001: 1 step value
+
+11:9
+
+REGLVL
+
+RW
+
+010: 2 step value
+011: 3 step value
+100: 4 step value
+101: 5 step value
+110: 6 step value
+111: 7 step value
+Note: about 23mv for each step.
+Configure the voltage change direction of the voltage regulator
+When entering the stop mode, if the voltage regulator is in the normal
+
+8:7
+
+REGCFG
+
+RW
+
+working mode, its output voltage can be reduced to achieve the purpose of
+power saving. This bit is used to configure the direction of voltage
+regulation.
+
+Doc ID 2905025
+
+Rev01
+
+60
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+0x：The output voltage of the voltage regulator does not change
+10：Reduce the output voltage of the voltage regulator
+11：Increase the output voltage of the voltage regulator
+Note: when the output voltage is increased or decreased, the specific step
+value is configured by REGLVL bits.
+Configure the working state of the device when the Cortex ® -M3 enters
+deep sleep mode
+
+6:5
+
+PDDS
+
+RW
+
+00：The device enters stop mode
+10：The device enters standby mode
+01/11：Reserved
+
+4
+
+-
+
+R
+
+Reserved
+Reduce the frequency of Cortex ® -M3 FCLK. When entering sleep mode,
+fFCLK can be reduced to reduce power consumption. This bit is only used in
+sleep mode.
+
+3
+
+FCLKSD
+
+RW
+
+1: When entering sleep mode, if the frequency division coefficient of FCLK
+is less than 32 (refer to the register description of RCC mode), f FCLK is
+reduced to half of the original
+0: fFCLK remains unchanged when entering sleep mode
+Configure the state of the voltage regulator when it enters stop mode
+00：The voltage regulator works normally
+
+2:1
+
+REGMODE
+
+RW
+
+01：The voltage regulator enters the low power mode
+10：The voltage regulator enters the ultra low power mode
+11： Reserved
+Disable the write protection for backup domain registers
+In reset state, RTC and backup registers are protected against parasitic
+
+0
+
+DBP
+
+RW
+
+write access. This bit must be set to enable write access to these registers.
+0：Access to RTC and backup registers is disabled
+1：Access to RTC and backup registers is enabled
+Note: if the clock of RTC is HSE / 128, this bit must be kept as' 1 '.
+
+Note:
+1)
+
+If the output voltage of the voltage regulator changes in sleep mode, it will automatically
+return to the normal state when exiting sleep mode.
+
+2)
+
+If SRAM, flash memory and other analog parts enter power saving mode in stop mode,
+when they exit stop mode, the hardware will restart them to ensure that they can work
+normally
+
+3)
+
+In standby mode, SRAM, flash memory and other analog parts all enter power saving
+mode. When the stop mode is exited, the system reset will be started, and the CPU
+instruction starts to work from the initial address.
+
+Doc ID 2905025
+
+Rev01
+
+61
+
+WB32FQ95xx Reference Manual
+
+5.4.2.
+
+Control register 1 (PWR_CR1)
+Address offset：0x04
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:4
+
+-
+
+R
+
+Description
+Reserved
+Clear CKF flag bit
+
+3
+
+CCKF
+
+W
+
+This bit is always read as 0.
+CKF flag will be cleared by hardware when writing 1 to this bit, and writing
+0 is invalid
+Clear SPF flag bit
+
+2
+
+CSPF
+
+W
+
+This bit is always read as 0.
+SPF flag will be cleared by hardware when writing 1 to this bit, and writing 0
+is invalid
+Clear SBF flag bit
+
+1
+
+CSBF
+
+W
+
+This bit is always read as 0.
+SBF flag will be cleared by hardware when writing 1 to this bit, and writing 0
+is invalid
+Clear WUF flag bit
+
+0
+
+CWUF
+
+W
+
+This bit is always read as 0.
+WUF flag will be cleared by hardware when writing 1 to this bit, and writing
+0 is invalid
+
+5.4.3.
+
+Control register 2 (PWR_CR2)
+Address offset：0x08
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Description
+Reserved
+Enable WKUP pin
+0：WKUP pin is used for GPIO. An event on the WKUP pin doesn’t wakeup
+the device from standby mode
+
+0
+
+EWUP
+
+RW
+
+1：WKUP pin is used for wakeup from standby mode and forced in input
+pull down configuration. (Rising edge on WKUP pin wakeup the system
+from standby mode)
+Note: this bit is reset by a system reset
+
+5.4.4.
+
+Status register 0 (PWR_SR0)
+Address offset：0x10
+
+Doc ID 2905025
+
+Rev01
+
+62
+
+WB32FQ95xx Reference Manual
+
+Reset value：0x0000 0000
+This register can only be read, but not written.
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Description
+Reserved
+PVD output
+
+0
+
+PVDO
+
+R
+
+0：VDD is higher than the selected PVD threshold.
+1：VDD is below the selected PVD threshold.
+
+Note: PVD is stopped in standby mode. Therefore, after standby mode or reset, until PVDE
+bit is set, this bit is 0.
+
+5.4.5.
+
+Status register 1 (PWR_SR1)
+Address offset：0x14
+Reset value：0x0000 0000
+This register is read only. It is only reset by power on reset, and its contents are retained
+when system reset occur.
+When the system exits stop mode and standby mode, user needs to read the register to
+check the state of the system.
+
+Bits
+
+Fields
+
+R/W
+
+31:4
+
+-
+
+R
+
+Description
+Reserved
+CKF Flag
+When reading, if the bit is 1, it means that when entering stop mode or
+
+3
+
+CKF
+
+R
+
+standby mode, the clock configuration of the system returns to the initial
+state. User needs to do the following operations below:
+-Write CCKF to 1 to clear the flag bit
+-Reconfigure clock
+Stop flag
+
+2
+
+SPF
+
+R
+
+When reading, if the bit is 1, the system exits from stop mode. User needs
+to write CSPF to clear the flag bit.
+Standby flag
+
+1
+
+SBF
+
+R
+
+When reading, if the bit is 1, the system exits from standby mode. User
+needs to write CSBF to clear the flag bit.
+Wakeup flag
+0: No wakup event occured
+
+0
+
+WUF
+
+R
+
+1: A wakeup event was received from the WKUP pin or from the RTC
+alarm
+Note: An additional wakeup event is detected if the WKUP pin is enabled
+(by setting the EWUP bit) when the WKUP pin level is already high.
+
+Doc ID 2905025
+
+Rev01
+
+63
+
+WB32FQ95xx Reference Manual
+
+5.4.6.
+
+General purpose register 0 (PWR_GPREG0)
+Address offset：0x18
+Reset value：0x0000 0000
+The status of this register is reset only by POR/PDR, and the contents remain unchanged
+when system reset occur.
+This register is 32-bit general-purpose register 0.
+
+5.4.7.
+
+General purpose register 1 (PWR_GPREG1)
+Address offset：0x1C
+Reset value：0x0000 0000
+The status of this register is reset only by POR/PDR, and the contents remain unchanged
+when system reset occur.
+This register is 32-bit general-purpose register 1.
+
+5.4.8.
+
+Configuration register (PWR_CFGR)
+Address offset: 0x20
+Reset value: 0x0000 03BE
+The status of this register is reset only by POR/PDR, and the contents remain unchanged
+when system reset occur.
+
+Bits
+
+Fields
+
+R/W
+
+31:13
+
+-
+
+R
+
+Description
+Reserved
+Configure the time to enter and exit low power mode.
+0x3F: Configure the time when entering and exiting stop mode Lp1.
+0x3BE: Configure the time when entering and exiting stop mode Lp2.
+
+12:0
+
+LPCFG
+
+RW
+
+0x3BF: Configure the time when entering and exiting stop mode Lp3.
+0x3B3: Configure the time when entering and exiting stop mode Lp4.
+0x13B3: Configure the time to enter and exit standby mode
+Others: Reserved.
+
+5.4.9.
+
+Analog enable register 1 (PWR_ANAKEY 1)
+Address offset: 0x28
+
+Doc ID 2905025
+
+Rev01
+
+64
+
+WB32FQ95xx Reference Manual
+
+Reset value: 0x0000 0000
+The return value is always 0 When the register is read
+It is necessary to write ANAKEY1 as 0x03 and ANAKEY2 as 0x0C to unlock the write
+protection of registers in ANCTL first.
+
+5.4.10.
+
+Analog enable register 2 (PWR_ANAKEY 2)
+Address offset: 0x2C
+Reset value: 0x0000 0000
+The return value is always 0 When the register is read
+It is necessary to write ANAKEY1 as 0x03 and ANAKEY2 as 0x0C to unlock the write
+protection of registers in ANCTL first.
+
+Doc ID 2905025
+
+Rev01
+
+65
+
+

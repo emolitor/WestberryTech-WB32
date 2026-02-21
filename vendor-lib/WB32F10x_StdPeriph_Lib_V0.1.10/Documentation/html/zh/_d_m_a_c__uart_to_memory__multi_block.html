@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: DMAC_UartToMemory_MultiBlock example</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">DMAC_UartToMemory_MultiBlock example </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><pre class="fragment">  *************** (C) COPYRIGHT 2020 - 2023 Westberry Technology ***************
+  * @file    DMAC/DMAC_UartToMemory_MultiBlock/readme.txt 
+  * @author  Westberry Application Team
+  * @version V0.1.10
+  * @date    05-January-2023
+  * @brief   Description of the DMAC DMAC_UartToMemory_MultiBlock example.
+  ******************************************************************************
+  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  * TIME. AS A RESULT, WESTBERRY SHALL NOT BE HELD LIABLE FOR ANY DIRECT,
+  * INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM
+  * THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  ******************************************************************************</pre><dl class="section user"><dt>例程描述 </dt><dd></dd></dl>
+<p>本例程演示如何使用DMAC将UART接收到的数据连续不断的传输到Memory。</p>
+<p>本例程系统时钟工作在96Mhz，通过PLL配置产生。PLL时钟源是外部8Mhz晶振。APB1的分频比是1，APB2的分频比是1。</p>
+<p>在本例程中，UART2-&gt;RBR作为DMA传输的源，memDst作为DMA传输的目标。DMAC2 Channel 0开启自动目标重载功能。 每当一个Block传输完成后，都会重载目标地址，这样UART到Memory的传输是连续不断的。 当本例程运行后，会通过UART1打印出相关信息，输入任意字符启动DMA传输。 然后每当PC向UART2发送40个字符后，就会从UART1打印出从UART2接收到的字符串。</p>
+<dl class="section user"><dt>目录内容 </dt><dd></dd></dl>
+<ul>
+<li>DMAC/DMAC_UartToMemory_MultiBlock/DMAC_UartToMemory_MultiBlock.uvprojx MDK5工程文件</li>
+<li>DMAC/DMAC_UartToMemory_MultiBlock/DMAC_UartToMemory_MultiBlock.uvoptx MDK5工程配置文件</li>
+<li>DMAC/DMAC_UartToMemory_MultiBlock/JLinkSettings.ini Jlink配置文件</li>
+<li>DMAC/DMAC_UartToMemory_MultiBlock/main.c 主程序</li>
+</ul>
+<dl class="section user"><dt>硬件和软件环境 </dt><dd></dd></dl>
+<ul>
+<li>硬件平台搭建<ul>
+<li>HSE 连接外部8MHz晶振</li>
+<li>UART1 (PA9, PA10) 连接到PC</li>
+<li>UART2 RX (PA3) 连接到PC</li>
+</ul>
+</li>
+</ul>
+<dl class="section user"><dt>如何使用？ </dt><dd></dd></dl>
+<p>为了使程序工作，您必须执行以下操作 :</p><ul>
+<li>使用 MDK5 打开此例程文件夹中的 DMAC_UartToMemory_MultiBlock.uvprojx 工程</li>
+<li>重新编译该工程并下载到目标存储器中</li>
+<li><p class="startli">运行此例程</p>
+<h3><center>&copy; COPYRIGHT 2020 - 2023 Westberry Technology</center></h3>
+</li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

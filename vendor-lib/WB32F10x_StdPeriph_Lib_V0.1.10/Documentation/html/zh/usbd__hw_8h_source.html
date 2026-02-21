@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: usbd_hw.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_6d2d5b60bd20db849a9486835a2715aa.html">Libraries</a></li><li class="navelem"><a class="el" href="dir_220393b76de29dcc6a4f5a0f02aa06e9.html">WB32F10x_USBDevice_Driver</a></li><li class="navelem"><a class="el" href="dir_67df701a17d349eaf0fdd8d3a0d10f1b.html">inc</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">usbd_hw.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="usbd__hw_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">/* Define to prevent recursive inclusion -------------------------------------*/</span></div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#ifndef __USBD_HW_H</span></div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define __USBD_HW_H</span></div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; <span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">/* Includes ------------------------------------------------------------------*/</span></div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;wb32f10x.h&quot;</span></div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">/* Exported types ------------------------------------------------------------*/</span></div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">/* Exported constants --------------------------------------------------------*/</span></div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">/* Exported macro ------------------------------------------------------------*/</span></div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">/* Exported functions --------------------------------------------------------*/</span></div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">void</span> <a class="code" href="usbd__hw_8h.html#aa98f5bdcb27ff81ac96fb89063884551">USBD_HW_ReadEP</a>(uint8_t ep_addr, uint8_t* pbuf, uint16_t size);</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> <a class="code" href="usbd__hw_8h.html#a7c34c0f05ab7e5bd6d5ce2e484fc4ed6">USBD_HW_WriteEP</a>(uint8_t ep_addr, <span class="keyword">const</span> uint8_t* pdata, uint16_t len);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> <a class="code" href="usbd__hw_8h.html#a1f4965aef2c4d4430a9033206ec24ec1">USBD_HW_Transmit</a>(uint8_t ep_addr, <span class="keyword">const</span> uint8_t* pdata, uint16_t len);</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;uint16_t <a class="code" href="usbd__hw_8h.html#a6cf88d16783749bc98046722a64b358b">USBD_HW_GetRxDataCount</a>(uint8_t ep_addr);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">void</span> <a class="code" href="usbd__hw_8h.html#affaf34831904623895e607572b8c6447">USBD_HW_ReadyToReceive</a>(uint8_t ep_addr);</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">void</span> <a class="code" href="usbd__hw_8h.html#a620e7857d261f89f399eb57c13a55c94">USBD_HW_SetStallEP</a>(uint8_t ep_addr);</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">void</span> <a class="code" href="usbd__hw_8h.html#aab31ece39f7d0af0235ebbc6479f32ad">USBD_HW_ClrStallEP</a>(uint8_t ep_addr);</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;uint8_t <a class="code" href="usbd__hw_8h.html#ab21e4ab283e4f6406f74e1dcdc7e00e1">USBD_HW_IsStalled</a>(uint8_t ep_addr);</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* __USBD_HW_H */</span><span class="preprocessor"></span></div><div class="ttc" id="usbd__hw_8h_html_a6cf88d16783749bc98046722a64b358b"><div class="ttname"><a href="usbd__hw_8h.html#a6cf88d16783749bc98046722a64b358b">USBD_HW_GetRxDataCount</a></div><div class="ttdeci">uint16_t USBD_HW_GetRxDataCount(uint8_t ep_addr)</div><div class="ttdoc">Get the last received packet size of an OUT endpoint.</div><div class="ttdef"><b>Definition:</b> usbd_hw.c:89</div></div>
+<div class="ttc" id="usbd__hw_8h_html_a7c34c0f05ab7e5bd6d5ce2e484fc4ed6"><div class="ttname"><a href="usbd__hw_8h.html#a7c34c0f05ab7e5bd6d5ce2e484fc4ed6">USBD_HW_WriteEP</a></div><div class="ttdeci">void USBD_HW_WriteEP(uint8_t ep_addr, const uint8_t *pdata, uint16_t len)</div><div class="ttdoc">Write data to the specified endpoint.</div><div class="ttdef"><b>Definition:</b> usbd_hw.c:55</div></div>
+<div class="ttc" id="usbd__hw_8h_html_affaf34831904623895e607572b8c6447"><div class="ttname"><a href="usbd__hw_8h.html#affaf34831904623895e607572b8c6447">USBD_HW_ReadyToReceive</a></div><div class="ttdeci">void USBD_HW_ReadyToReceive(uint8_t ep_addr)</div><div class="ttdoc">Ready to receive from an OUT endpoint.</div><div class="ttdef"><b>Definition:</b> usbd_hw.c:107</div></div>
+<div class="ttc" id="usbd__hw_8h_html_aa98f5bdcb27ff81ac96fb89063884551"><div class="ttname"><a href="usbd__hw_8h.html#aa98f5bdcb27ff81ac96fb89063884551">USBD_HW_ReadEP</a></div><div class="ttdeci">void USBD_HW_ReadEP(uint8_t ep_addr, uint8_t *pbuf, uint16_t size)</div><div class="ttdoc">Read data from the specified endpoint.</div><div class="ttdef"><b>Definition:</b> usbd_hw.c:37</div></div>
+<div class="ttc" id="usbd__hw_8h_html_ab21e4ab283e4f6406f74e1dcdc7e00e1"><div class="ttname"><a href="usbd__hw_8h.html#ab21e4ab283e4f6406f74e1dcdc7e00e1">USBD_HW_IsStalled</a></div><div class="ttdeci">uint8_t USBD_HW_IsStalled(uint8_t ep_addr)</div><div class="ttdoc">Get stall status of non-control endpoint.</div><div class="ttdef"><b>Definition:</b> usbd_hw.c:165</div></div>
+<div class="ttc" id="usbd__hw_8h_html_aab31ece39f7d0af0235ebbc6479f32ad"><div class="ttname"><a href="usbd__hw_8h.html#aab31ece39f7d0af0235ebbc6479f32ad">USBD_HW_ClrStallEP</a></div><div class="ttdeci">void USBD_HW_ClrStallEP(uint8_t ep_addr)</div><div class="ttdoc">Clear Stall condition of a non-control endpoint.</div><div class="ttdef"><b>Definition:</b> usbd_hw.c:144</div></div>
+<div class="ttc" id="usbd__hw_8h_html_a1f4965aef2c4d4430a9033206ec24ec1"><div class="ttname"><a href="usbd__hw_8h.html#a1f4965aef2c4d4430a9033206ec24ec1">USBD_HW_Transmit</a></div><div class="ttdeci">void USBD_HW_Transmit(uint8_t ep_addr, const uint8_t *pdata, uint16_t len)</div><div class="ttdoc">Transmits data over an IN endpoint.</div><div class="ttdef"><b>Definition:</b> usbd_hw.c:72</div></div>
+<div class="ttc" id="usbd__hw_8h_html_a620e7857d261f89f399eb57c13a55c94"><div class="ttname"><a href="usbd__hw_8h.html#a620e7857d261f89f399eb57c13a55c94">USBD_HW_SetStallEP</a></div><div class="ttdeci">void USBD_HW_SetStallEP(uint8_t ep_addr)</div><div class="ttdoc">Set Stall condition of a non-control endpoint.</div><div class="ttdef"><b>Definition:</b> usbd_hw.c:123</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

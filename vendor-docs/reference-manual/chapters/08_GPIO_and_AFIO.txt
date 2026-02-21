@@ -1,0 +1,1860 @@
+WB32FQ95xx Reference Manual
+
+8.
+
+General-purpose and alternate-function I/Os (GPIOs
+and AFIOs)
+
+8.1.
+
+Introduction
+Each general-purpose I/O port contains five 32-bit configuration registers(GPIOx_MODER,
+GPIOx_OTYPER,GPIOx_OSPEEDR, GPIOx_SMIT and GPIOx_PUPDR, two 32-bit data
+registers（GPIOx_IDR and GPIOx_ODR）and one 32-bit set/reset register (GPIOx_BSRR).
+In addition all GPIOs have one 32-bit locking register (GPIOx_LCKR) and two 32-bit
+alternate function selection registers (GPIOx_AFRH and GPIOx_AFRL).
+
+8.2.
+
+GPIO main features
+⚫
+
+Output states: push-pull or open drain + pull-up/down
+
+⚫
+
+Output data from output data register (GPIOx_ODR) or peripheral (alternate function
+output)
+
+⚫
+
+Speed selection for each I/O
+
+⚫
+
+Input states: floating, pull-up/down, analog
+
+⚫
+
+Input data to input data register (GPIOx_IDR) or peripheral (alternate function input)
+
+⚫
+
+Bit set and reset register (GPIOx_ BSRR) for bitwise write access to GPIOx_ODR
+
+⚫
+
+Locking mechanism (GPIOx_LCKR) provided to freeze the I/O port configurations
+
+⚫
+
+Auxiliary configuration mechanism (GPIOx_CFGMSK), which can temporarily freeze I/O
+port configuration functions
+
+⚫
+
+Alternate function selection registers
+
+⚫
+
+Highly flexible pin multiplexing allows the use of I/O pins as GPIOs or as one of several
+peripheral functions
+
+8.3.
+
+GPIO functional description
+According to the hardware characteristics of each I/O port listed in the datasheet, each
+
+Doc ID 2905025
+
+Rev01
+
+89
+
+WB32FQ95xx Reference Manual
+
+general-purpose I/O (GPIO) port can be individually configured by software in several
+modes:
+⚫
+
+Input pull-up
+
+⚫
+
+Input-pull-down
+
+⚫
+
+Analog
+
+⚫
+
+Schmitt trigger
+
+⚫
+
+Output open-drain with pull-up or pull-down capability
+
+⚫
+
+Output push-pull with pull-up or pull-down capability
+
+⚫
+
+Alternate function push-pull with pull-up or pull-down capability
+
+⚫
+
+Alternate function open-drain with pull-up or pull-down capability
+
+Each I/O port bit is freely programmable, however the I/O port registers have to be accessed
+as 32-bit words, half-words or bytes. The purpose of the GPIOx_BSRR and GPIOx_BRR
+registers is to allow atomic read/modify accesses to any of the GPIOx_ODR registers. In this
+way, there is no risk of an IRQ occurring between the read and the modify access.The
+GPIOx_CFGMSK register assists in register configuration.
+Table 8-1. Port bit configuration table
+MODE[1:0]
+
+OTYPER
+
+OSPEED[1:0]
+0
+
+0
+
+GP Output
+
+PP
+
+0
+
+0
+
+1
+
+GP Output
+
+PP + PU
+
+0
+
+1
+
+0
+
+GP Output
+
+PP + PD
+
+1
+
+1
+
+1
+
+0
+
+0
+
+GP Output
+
+OD
+
+1
+
+0
+
+1
+
+GP Output
+
+OD + PU
+
+1
+
+1
+
+0
+
+GP Output
+
+OD + PD
+
+1
+
+1
+
+1
+
+Reserved (GP Output OD)
+
+0
+
+0
+
+0
+
+AF
+
+PP
+
+0
+
+0
+
+1
+
+AF
+
+PP + PU
+
+1
+
+0
+
+AF
+
+PP + PD
+
+0
+
+1
+
+1
+
+1
+
+0
+
+0
+
+AF
+
+OD
+
+1
+
+0
+
+1
+
+AF
+
+OD + PU
+
+0
+
+Doc ID 2905025
+
+I/O configuration
+
+0
+
+01
+
+10
+
+PUPD[1:0]
+
+Reserved
+
+SPEED[1:0]
+
+0
+
+SPEED[1:0]
+
+Rev01
+
+Reserved
+
+90
+
+WB32FQ95xx Reference Manual
+
+MODE[1:0]
+
+OTYPER
+
+OSPEED[1:0]
+
+PUPD[1:0]
+
+I/O configuration
+
+1
+
+1
+
+0
+
+1
+
+1
+
+1
+
+AF
+
+OD + PD
+Reserved
+
+x
+
+x
+
+x
+
+0
+
+0
+
+Input
+
+Floating
+
+x
+
+x
+
+x
+
+0
+
+1
+
+Input
+
+PU
+
+x
+
+x
+
+x
+
+1
+
+0
+
+Input
+
+PD
+
+x
+
+x
+
+x
+
+1
+
+1
+
+x
+
+x
+
+x
+
+0
+
+0
+
+x
+
+x
+
+x
+
+0
+
+1
+
+x
+
+x
+
+x
+
+1
+
+0
+
+x
+
+x
+
+x
+
+1
+
+1
+
+00
+Reserved (Input Floating)
+Input /Output
+
+Analog
+
+11
+
+8.3.1.
+
+Reserved
+
+General-purpose I/O (GPIO)
+During and just after reset, the alternate functions are not active and most of the I/O ports are
+configured in input floating mode.
+The pins listed below are in pull-up/pull-down after reset:
+⚫
+
+PA14：pull-up state
+
+⚫
+
+PA13：pull-up state
+
+⚫
+
+PA12：pull-up state
+
+⚫
+
+PA11：pull-down state
+
+When the pin is configured as output, the value written to the output data register
+(GPIOx_ODR) is output on the I/O pin. It is possible to use the output driver in push-pull
+mode or open-drain mode (only the low level is driven, high level is HI-Impedance).The input
+data register (GPIOx_IDR) captures the data present on the I/O pin every APB clock cycle.
+All GPIO pins have weak internal pull-up and pull-down resistors, which can be activated or
+depending on the value in the GPIOx_PUPDR register.
+
+8.3.2.
+
+I/O pin alternate function multiplexer and mapping
+The device I/O pins are connected to embedded peripherals/modules through a multiplexer
+that allows only one peripheral alternate function (AF) connected to an I/O pin at a time. In
+this way, there can be no conflict between peripherals available on the same I/O pin.
+
+Doc ID 2905025
+
+Rev01
+
+91
+
+WB32FQ95xx Reference Manual
+
+Each I/O pin has a multiplexer with up to sixteen alternate function inputs (AF0 to AF15) that
+can be configured through the GPIOx_AFRL (for pin 0 to 7) and GPIOx_AFRH (for pin 8 to15)
+registers:
+⚫
+
+After reset the multiplexer selection is alternate function 0 (AF0). The I/Os are
+configured in alternate function mode through GPIOx_MODER register.
+
+⚫
+
+The specific alternate function assignments for each pin are detailed in the device
+datasheet.
+
+In addition to this flexible I/O multiplexing architecture, each peripheral has alternate
+functions mapped onto different I/O pins to optimize the number of peripherals available in
+smaller packages.
+To use an I/O in a given configuration, the user has to proceed as follows:
+⚫
+
+Debug function: after each device reset these pins are assigned as alternate function
+pins immediately usable by the debugger host
+
+⚫
+
+System function: MCO pins have to be configured in alternate function mode.
+
+⚫
+
+GPIO: configure the I/O as output, input or analog in the GPIOx_MODER
+
+⚫
+
+Peripheral alternate function：
+◼
+
+Connect the I/O to the AFx in one of the GPIOx_AFRL or GPIOx_AFRH register.
+
+◼
+
+Select the type, pull-up/pull-down and output speed via the GPIOx_OTYPER,
+GPIOx_PUPDR and GPIOx_OSPEEDER registers, respectively.
+
+◼
+⚫
+
+Configure the I/O as an alternate function in the GPIOx_MODER register.
+
+Additional functions:
+◼
+
+For the ADC, CMPx, configure the desired I/O in analog mode in the
+GPIOx_MODER register and configure the required function in the ADC and CMPx
+registers.
+
+◼
+
+For additional functions like RTC_OUT, RTC_TS, RTC_TAMPx, WKUPx and
+oscillators, configure the required function in the related RTC, PWR and RCC
+registers. These functions have priority over the configuration in the standard GPIO
+registers.
+
+Doc ID 2905025
+
+Rev01
+
+92
+
+WB32FQ95xx Reference Manual
+
+8.3.3.
+
+I/O port control registers
+Each of the GPIO ports has four 32-bit memory-mapped control registers (GPIOx_MODER,
+GPIOx_OTYPER, GPIOx_OSPEEDR, GPIOx_PUPDR) to configure up to 16 I/Os. The
+GPIOx_MODER register is used to select the I/O mode (input, output, AF, analog). The
+GPIOx_OTYPER and GPIOx_OSPEEDR registers are used to select the output type
+(push-pull or open-drain) and speed. The GPIOx_PUPDR register is used to select the
+pull-up/pull-down whatever the I/O direction.
+
+8.3.4.
+
+I/O port data registers
+Each GPIO has two 16-bit memory-mapped data registers: input and output data registers
+(GPIOx_IDR and GPIOx_ODR). GPIOx_ODR stores the data to be output, it is read/write
+accessible. The data input through the I/O are stored into the input data register
+(GPIOx_IDR), a read-only register.
+
+8.3.5.
+
+I/O data bit handling
+The bit set reset register (GPIOx_BSRR) is a 32-bit register which allows the application to
+set and reset each individual bit in the output data register (GPIOx_ODR). The bit set reset
+register has twice the size of GPIOx_ODR.
+There are two control bits in GPIOx_BSRR for each bit in GPIOx_ODR: BS(i) and
+BR(i).When written to 1, bit BS(i) sets the corresponding ODR(i) bit. When written to 1, bit
+BR(i) resets the ODR(i) corresponding bit.
+Writing any bit to 0 in GPIOx_BSRR does not have any effect on the corresponding bit in
+GPIOx_ODR. If there is an attempt to both set and reset a bit in GPIOx_BSRR, the set action
+takes priority.
+Using the GPIOx_BSRR register to change the values of individual bits in GPIOx_ODR is a
+“one-shot” effect that does not lock the GPIOx_ODR bits. The GPIOx_ODR bits can
+always be accessed directly. The GPIOx_BSRR register provides a way of performing
+atomic bit-wise handling.
+There is no need for the software to disable interrupts when programming the GPIOx_ODR
+at bit level: it is possible to modify one or more bits in a single atomic write access.
+
+Doc ID 2905025
+
+Rev01
+
+93
+
+WB32FQ95xx Reference Manual
+
+8.3.6.
+
+GPIO locking mechanism
+It is possible to freeze the GPIO control registers by applying a specific write sequence to the
+GPIOx_LCKR register. The frozen registers are GPIOx_MODER, GPIOx_OTYPER, GPIOx_
+OSPEEDR,
+
+GPIOx_PUPDR,GPIOx_CURRENT,GPIOx_SMIT,GPIOx_AFRL
+
+and
+
+GPIOx_AFRH.
+To write the GPIOx_LCKR register, a specific write / read sequence has to be applied. When
+the right LOCK sequence is applied to bit 16 in this register, the value of LCKR[15:0] is used
+to lock the configuration of the I/Os (during the write sequence the LCKR[15:0] value must be
+the same).
+When the LOCK sequence has been applied to the bits, the value of the bits can no longer
+be modified until the next MCU reset or peripheral reset. Each GPIOx_LCKR bit freezes the
+corresponding bits in the control registers（GPIOx_MODER, GPIOx_OTYPER, GPIOx_
+OSPEEDR, GPIOx_PUPDR, GPIOx_CURRENT, GPIOx_SMIT, GPIOx_AFRL and GPIOx_
+AFRH）.
+The LOCK sequence can only be performed using a word (32-bit long) access to the
+GPIOx_LCKR register due to the fact that GPIOx_LCKR bit 16 has to be set at the same
+time as the [15:0] bits.
+The configuration auxiliary register GPIOx_CFGMSK function is similar to the GPIOx_LCKR
+register, which can be used to quickly configure the value of the register. When the specific
+bit of GPIOx_CFGMSK is set to 1, the corresponding GPIO register bits cannot be
+written.There are no restrictions on GPIOx_CFGMSK's reading and writing.
+
+8.3.7.
+
+I/O alternate function input/output
+Two registers are provided to select one of the alternate function inputs/outputs available for
+each I/O. With these registers, the user can connect an alternate function to some other pin
+as required by the application.
+This means that a number of possible peripheral functions are multiplexed on each GPIO
+using the GPIOx_AFRL and GPIOx_AFRH alternate function registers. The application can
+thus select any one of the possible functions for each I/O. The AF selection signal being
+common to the alternate function input and alternate function output, a single channel is
+selected for the alternate function input/output of a given I/O.
+Use the GPIOx_AFRL and GPIOx_AFRH multiplexing function registers to multiplex
+peripheral functions on each GPIO:
+
+Doc ID 2905025
+
+Rev01
+
+94
+
+WB32FQ95xx Reference Manual
+
+Table 8-2. Pin function selection
+AFR[3:0]
+PA0
+
+0
+
+1
+
+WKUP
+
+TIM2_CH1
+_ETR
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+UART2_
+CTS
+UART2_
+RTS
+
+PA1
+
+TIM2_CH2
+
+PA2
+
+TIM2_CH3
+
+UART2_TX
+
+PA3
+
+TIM2_CH4
+
+UART2_RX
+
+PA4
+
+QSPI_
+NSS0
+
+PA5
+
+QSPI_SCK
+
+PA6
+
+TIM1_
+CH1N
+
+PA7
+PORTA
+PA8
+
+QSPI_
+MI_IO1
+QSPI_
+MO_IO0
+
+TIM1_BKIN TIM3_CH1
+
+MCO
+
+TIM3_CH2
+
+SPIS1_
+NSS
+SPIS1_
+SCK
+
+UART2_CK
+
+SPIS1_SO
+SPIS1_SI
+
+TIM1_CH1
+
+UART1_CK
+
+PA9
+
+TIM1_CH2
+
+UART1_TX
+
+PA10
+
+TIM1_CH3
+
+UART1_RX
+
+PA11
+
+TIM1_CH4
+
+PA12
+
+TIM1_ETR
+
+PA13
+
+SWDIO
+
+PA14
+
+SWCLK
+TIM2_CH1
+_ETR
+TIM1_
+CH2N
+TIM1_
+CH3N
+
+PA15
+PB0
+PB1
+PB2
+
+BOOT1
+
+PB3
+
+SWO
+
+UART1_
+CTS
+UART1_
+RTS
+
+I2C1_
+SMBAI
+TIM3_CH3
+TIM3_CH4
+
+TIM2_CH2
+
+PB4
+
+TIM3_CH1
+
+PORTB PB5
+
+TIM3_CH2
+
+I2C1_
+SMBAI
+
+PB6
+
+TIM4_CH1
+
+I2C1_SCL
+
+PB7
+
+TIM4_CH2
+
+I2C1_SDA
+
+PB8
+
+TIM4_CH3
+
+I2C1_SCL
+
+PB9
+
+TIM4_CH4
+
+I2C1_SDA
+
+TIM4_CH1
+
+I2C2_SCL
+
+PB10
+
+Doc ID 2905025
+
+TIM2_CH3
+
+Rev01
+
+QSPI_
+NSS1
+QSPI_
+NSS2
+QSPI_
+NSS0
+QSPI_
+IO2
+QSPI_
+IO3
+
+SPIS1_
+NSS
+
+QSPI_SCK
+
+SPIS1_
+SCK
+
+QSPI_
+MI_IO1
+QSPI_
+MO_IO0
+QSPI_
+NSS1
+SPIM2_
+NSS1
+SPIM2_
+NSS2
+
+QSPI_
+NSS2
+
+SPIS1_SO
+SPIS1_SI
+UART1_TX
+UART1_RX
+UART1_
+CTS
+UART1_
+RTS
+UART3_TX
+
+95
+
+WB32FQ95xx Reference Manual
+
+AFR[3:0]
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+SPIM2_
+NSS1
+SPIM2_
+NSS0
+SPIM2_
+SCK
+
+SPIS2_
+NSS
+SPIS2_
+SCK
+
+SPIM2_MI
+
+SPIS2_SO
+
+SPIM2_MO
+
+SPIS2_SI
+
+SPIM2_
+NSS0
+SPIM2_
+SCK
+
+SPIS2_
+NSS
+SPIS2_
+SCK
+
+PC2
+
+SPIM2_MI
+
+SPIS2_SO
+
+PC3
+
+SPIM2_MO
+
+SPIS2_SI
+
+PB11
+
+TIM2_CH4
+
+PB12
+
+TIM1_BKIN
+
+I2C2_SDA
+
+TIM1_
+CH1N
+TIM1_
+CH2N
+TIM1_
+CH3N
+
+PB13
+PB14
+PB15
+PC0
+PC1
+
+7
+UART3_RX
+UART3_CK
+UART3_
+CTS
+UART3_
+RTS
+
+PC4 TRACECK
+SPIM2_
+NSS2
+
+PC5 TRACED0
+
+PORTC
+
+PC6
+
+TIM3_CH1
+
+PC7
+
+TIM3_CH2
+
+PC8
+
+TIM3_CH3
+
+PC9 TRACED1
+
+TIM3_CH4
+
+PC10 TRACED2
+
+UART3_TX
+
+PC11 TRACED3
+
+UART3_RX
+
+PC12
+PC13
+
+TIM4_ETR
+
+UART3_CK
+
+TAMPER_
+RTC
+
+PC14 OSC32_IN
+PC15
+
+OSC32_
+OUT
+
+PD0
+
+OSC_IN
+
+PORTD PD1 OSC_OUT
+PD2
+
+8.3.8.
+
+TIM3_ETR
+
+External interrupt/wakeup lines
+All ports have external interrupt capability. To use external interrupt lines, the port must be
+configured in input mode. Refer to Section 11: Extended interrupts and events controller
+(EXTI)
+
+Doc ID 2905025
+
+Rev01
+
+96
+
+WB32FQ95xx Reference Manual
+
+8.3.9.
+
+Input configuration
+When the I/O port is programmed as input:
+⚫
+
+The output buffer is disabled
+
+⚫
+
+The Schmitt trigger input is activated
+
+⚫
+
+The pull-up and pull-down resistors are activated depending on the value in the
+GPIOx_PUPDR register
+
+⚫
+
+The data present on the I/O pin are sampled into the input data register every APB clock
+cycle
+
+⚫
+
+8.3.10.
+
+A read access to the input data register provides the I/O state
+
+Output configuration
+When the I/O port is programmed as output:
+⚫
+
+The output buffer is enabled:
+◼
+
+Open drain mode: A “0” in the Output register activates the N-MOS whereas a
+“1”in the Output register leaves the port in Hi-Impedance (the P-MOS is never
+activated)
+
+◼
+
+Push-pull mode: A “0” in the Output register activates the N-MOS whereas a “1”
+in the Output register activates the P-MOS
+
+◼
+
+The Schmitt trigger input is activated
+
+◼
+
+The pull-up and pull-down resistors are activated depending on the value in the
+GPIOx_PUPDR register
+
+⚫
+
+The data present on the I/O pin are sampled into the input data register every AHB clock
+cycle
+
+8.3.11.
+
+⚫
+
+A read access to the input data register gets the I/O state
+
+⚫
+
+A read access to the output data register gets the last written value
+
+Alternate function configuration
+When the I/O port is programmed as alternate function:
+
+Doc ID 2905025
+
+Rev01
+
+97
+
+WB32FQ95xx Reference Manual
+
+⚫
+
+The output buffer can be configured in open-drain or push-pull mode
+
+⚫
+
+The output buffer is driven by the signals coming from the peripheral (Output enable and
+output data)
+
+⚫
+
+The Schmitt trigger input is activated
+
+⚫
+
+The weak pull-up and pull-down resistors are activated or not depending on the value in
+the GPIOx_PUPDR register
+
+⚫
+
+The data present on the I/O pin are sampled into the input data register every APB clock
+cycle
+
+⚫
+
+8.3.12.
+
+A read access to the input data register gets the I/O state
+
+Analog configuration
+When the I/O port is programmed as analog configuration:
+⚫
+
+The output buffer is disabled
+
+⚫
+
+The Schmitt trigger input is deactivated, providing zero consumption for every analog
+value of the I/O pin. The output of the Schmitt trigger is forced to a constant value (0)
+
+8.3.13.
+
+⚫
+
+The weak pull-up and pull-down resistors are disabled by hardware
+
+⚫
+
+Read access to the input data register gets the value “0”
+
+Using the HSE or LSE oscillator pins as GPIOs
+When the HSE or LSE oscillator is switched OFF (default state after reset), the related
+oscillator pins can be used as normal GPIOs.
+When the HSE or LSE oscillator is switched ON (by setting the ANCTL or BKP bit in the
+corresponding register) the oscillator takes control of its associated pins.
+When the oscillator is configured in a user external clock mode, only the OSC_IN or
+OSC32_IN pin is reserved for clock input and the OSC_OUT or OSC32_OUT pin can still be
+used as normal GPIO.
+
+8.3.14.
+
+Using the GPIO pins in the backup supply domain
+The PC13/PC14/PC15 GPIO functionality is lost when the core supply domain is powered off
+(when the device enters Standby mode). In this case, if the GPIO configuration is not
+
+Doc ID 2905025
+
+Rev01
+
+98
+
+WB32FQ95xx Reference Manual
+
+bypassed by the RTC configuration, these pins are in input mode.
+
+8.4.
+
+GPIO registers
+
+8.4.1.
+
+GPIO port mode register（GPIOx_MODER）
+Address offset：0x00
+Reset value：
+0x2A80 0000 (port A)
+0x0000 0000 (other ports)
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Port x configuration bits
+These bits are written by software to configure the I/O mode.
+
+2y+1:2y
+(y=0..15)
+
+MODERy[1:0]
+
+RW
+
+00：Input mode (reset state)
+01：General purpose output mode
+10：Alternate function mode
+11：Analog mode
+
+8.4.2.
+
+GPIO port output type register（GPIOx_OTYPER）
+Address offset：0x04
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+­
+
+R
+
+Description
+Reserved
+Port x configuration bits
+
+15:0
+
+OTy
+
+RW
+
+These bits are written by software to configure the I/O output type.
+0：Output push-pull (reset state)
+1：Output open-drain
+
+8.4.3.
+
+GPIO port output speed register（GPIOx_OSPEEDR）
+Address offset：0x08
+Reset value：
+0x0F00 0000 (port A)
+0x0000 0000 (other ports)
+
+Doc ID 2905025
+
+Rev01
+
+99
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Port x configuration bits
+
+2y+1:2y
+(y=0..15)
+
+These bits are written by software to configure the I/O output speed.
+OSPEEDRy
+
+RW
+
+00：High speed（reset state）
+01：Low speed
+Others：Reserved
+
+8.4.4.
+
+GPIO port pull-up/pull-down register（GPIOx_PUPDR）
+Address offset：0x0C
+Reset value：
+0x2580 0000 (port A)
+0x0000 0000 (other ports)
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Port x configuration bits
+These bits are written by software to configure the I/O pull-up or pull-down
+
+2y+1:2y
+(y=0..15)
+
+PUPDRy[1:0]
+
+RW
+
+00：No pull-up or pull-down
+01：Pull-up
+10：Pull-down
+11：Reserved
+
+8.4.5.
+
+GPIO port input data register（GPIOx_IDR）
+Address offset：0x10
+Reset value：0xXXXX XXXX
+
+Bits
+
+Fields
+
+R/W
+
+Description
+
+31:16
+
+­
+
+R
+
+Reserved
+Port input data(y = 0..15)
+
+15:0
+
+IDRy
+
+R
+
+These bits are read-only.
+They contain the input value of the corresponding I/O port.
+
+8.4.6.
+
+GPIO port output data register（GPIOx_ODR）
+Address offset：0x14
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+­
+
+R
+
+15:0
+
+ODRy
+
+RW
+
+Doc ID 2905025
+
+Description
+Reserved
+ALTODR_SEL=0 ,Port output data) (y = 0..15)
+These bits can be read and written by software.
+
+Rev01
+
+100
+
+WB32FQ95xx Reference Manual
+
+Note: For atomic bit set/reset, the ODR bits can be individually set and/or reset by writing to
+the GPIOx_BSRR or GPIOx_BRR registers (x = A..F).
+
+8.4.7.
+
+GPIO port bit set/reset register （GPIOx_BSRR）
+Address offset：0x18
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Port x reset bit y (y= 0..15)
+
+31:16
+
+BRy
+
+W
+
+These bits are write-only. A read to these bits returns 0x0000.
+0：No action on the corresponding ODRx bit
+1：Resets the corresponding ODRx bit
+Port x set bit y (y= 0..15)
+
+15:0
+
+BSy
+
+W
+
+These bits are write-only. A read to these bits returns 0x0000.
+0:No action on the corresponding ODRx bit
+1:Sets the corresponding ODRx bit
+
+8.4.8.
+
+GPIO port configuration lock register（GPIOx_LCKR）
+Address offset：0x1C
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:17
+
+­
+
+R
+
+Description
+Reserved
+This bit can be read any time. It can only be modified using the lock key
+write sequence.
+0： Port configuration lock key not active
+1：Port configuration lock key active. The GPIOx_LCKR register is locked
+until the next MCU reset or peripheral reset.
+
+16
+
+LCKK
+
+RW
+
+LOCK key write sequence:
+WR LCKR[16] = ‘1’+ LCKR[15:0]
+WR LCKR[16] = ‘0’+ LCKR[15:0]
+WR LCKR[16] = ‘1’+ LCKR[15:0]
+RD LCKR
+RD LCKR[16] = ‘1’
+（this read operation is optional but it confirms that the
+lock is active)）
+Port x lock bit y (y= 0..15)
+
+15:0
+
+LCKy
+
+RW
+
+These bits are read/write but can only be written when the LCKK bit is ‘0.
+0：Port configuration not locked
+1：Port configuration locked
+
+Doc ID 2905025
+
+Rev01
+
+101
+
+WB32FQ95xx Reference Manual
+
+Note: During the LOCK key write sequence, the value of LCK[15:0] must not change.
+Any error in the lock sequence aborts the lock.After the first lock sequence on any bit of the
+port, any read access on the LCKK bit will return ‘1’ until the next MCU reset or peripheral
+reset.
+
+8.4.9.
+
+GPIO alternate function low register（GPIOx_AFRL）
+Address offset：0x20
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Alternate function selection for port x pin y(y =0..7)
+These bits are written by software to configure alternate function I/Os.
+AFSELy selection：
+0000: AF0
+0001: AF1
+0010: AF2
+0011: AF3
+0100: AF4
+
+4y+3:4y
+(y=0..7)
+
+0101: AF5
+AFRy[3:0]
+
+RW
+
+0110: AF6
+0111: AF7
+1000: AF8
+1001: AF9
+1010: AF10
+1011: AF11
+1100: AF12
+1101: AF13
+1110: AF14
+1111: AF15
+
+8.4.10.
+
+GPIO alternate function high register（GPIOx_AFRH）
+Address offset：0x24
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+Alternate function selection for port x pin y(y =8..15)
+
+4y­29
+:4y­32
+
+Description
+
+AFRy[3:0]
+
+(y=8..15)
+
+Doc ID 2905025
+
+RW
+
+These bits are written by software to configure alternate function I/Os.
+AFSELy selection：
+0000: AF0
+
+Rev01
+
+102
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+0001: AF1
+0010: AF2
+0011: AF3
+0100: AF4
+0101: AF5
+0110: AF6
+0111: AF7
+1000: AF8
+1001: AF9
+1010: AF10
+1011: AF11
+1100: AF12
+1101: AF13
+1110: AF14
+1111: AF15
+
+8.4.11.
+
+GPIO Port Schmitt Register（GPIOx_SMIT）
+Address offset：0x28
+Reset value：
+0x0000FFFF (port A,B,C)
+0x0000 0007(port D)
+
+Bits
+
+Fields
+
+R/W
+
+31:17
+
+­
+
+R
+
+Description
+Reserved
+Port x configuration bits)(y=0..15
+
+15:0
+
+SMITy[1:0]
+
+RW
+
+These bits are written by software to configure the I/O Schmitt function.
+0：Schmidt function closed
+1：Schmidt function enable
+
+8.4.12.
+
+GPIO Port driver register（GPIOx_CURRENT)
+Address offset：0x2C
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+Description
+Port x configuration bits
+These bits are written by software to configure the I/O drive current.
+
+2y+1:2y
+
+CURRENTy
+
+(y=0..15)
+
+[1:0]
+
+RW
+
+00：4mA drive current
+01：8mA drive current
+10：12mA drive current
+11：16mA drive current
+
+Doc ID 2905025
+
+Rev01
+
+103
+
+WB32FQ95xx Reference Manual
+
+8.4.13.
+
+GPIO Port configuration auxiliary register（GPIOx_CFGMSK）
+Address offset：0x30
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+­
+
+R
+
+Description
+Reserved
+Port x lock bit y(y= 0..15)
+
+15:0
+
+CFGMSKy
+
+RW
+
+These bits are read/write bits and can perform write operations.
+0：Port configuration is not locked
+1：Port configuration is locked
+
+8.5.
+
+AFIO registers
+
+8.5.1.
+
+External interrupt configuration register 1（AFIO_EXTICR1）
+Address offset：0x08
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+­
+
+R
+
+Description
+Reserved
+EXTI x configuration (x = 0 to 3)
+These bits are written by software to select the source input for EXTIx
+external interrupt.
+
+4y+3:4y
+(y=0..3)
+
+EXTIy[3:0]
+
+RW
+
+0000：PA[x] pin
+0001：PB[x] pin
+0010：PC[x] pin
+0011：PD[x] pin
+Others：Reserved
+
+8.5.2.
+
+External interrupt configuration register 2（AFIO_EXTICR2）
+Address offset：0x0C
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+­
+
+R
+
+Reserved
+EXTI x configuration (x = 4 to 7)
+
+4y­13:
+4y­16
+
+Description
+
+EXTIy[3:0]
+
+(y=4..7)
+
+Doc ID 2905025
+
+RW
+
+These bits are written by software to select the source input for EXTIx
+external interrupt.
+0000：PA[x] pin
+
+Rev01
+
+104
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+Description
+0001：PB[x] pin
+0010：PC[x] pin
+0011：PD[x] pin
+Others：Reserved
+
+8.5.3.
+
+External interrupt configuration register 3（AFIO_EXTICR3）
+Address offset：0x10
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+­
+
+R
+
+Description
+Reserved
+EXTI x configuration (x = 8 to 11)
+These bits are written by software to select the source input for EXTIx
+external interrupt.
+
+4y­29
+:4y­32
+
+EXTIy[3:0]
+
+RW
+
+(y=8..11)
+
+0000：PA[x] pin
+0001：PB[x] pin
+0010：PC[x] pin
+0011：PD[x] pin
+Others：Reserved
+
+8.5.4.
+
+External interrupt configuration register 4 （AFIO_EXTICR4）
+Address offset：0x14
+Reset value：0x0000 0000
+
+Bits
+
+Fields
+
+R/W
+
+31:16
+
+­
+
+R
+
+Description
+Reserved
+EEXTI x configuration (x = 12 to 15)
+These bits are written by software to select the source input for EXTIx
+external interrupt.
+
+4y­45
+:4y­48
+
+EXTIy[3:0]
+
+(y=12..15)
+
+RW
+
+0000：PA[x] pin
+0001：PB[x] pin
+0010：PC[x] pin
+0011：PD[x] pin
+Others：Reserved
+
+Doc ID 2905025
+
+Rev01
+
+105
+
+

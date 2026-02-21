@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: RTC_interrupts_define</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#define-members">宏定义</a>  </div>
+  <div class="headertitle">
+<div class="title">RTC_interrupts_define<div class="ingroups"><a class="el" href="group___w_b32_f10x___std_periph___driver.html">WB32F10x_StdPeriph_Driver</a> &raquo; <a class="el" href="group___r_t_c.html">RTC</a> &raquo; <a class="el" href="group___r_t_c___exported___constants.html">RTC_Exported_Constants</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:gabcfefb2f22cb8ca65113c2c13d0e0640"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___r_t_c__interrupts__define.html#gabcfefb2f22cb8ca65113c2c13d0e0640">RTC_IT_OW</a>&#160;&#160;&#160;((uint16_t)0x0004)</td></tr>
+<tr class="separator:gabcfefb2f22cb8ca65113c2c13d0e0640"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga92f0316a3c69aefc2b20c3392843d3da"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___r_t_c__interrupts__define.html#ga92f0316a3c69aefc2b20c3392843d3da">RTC_IT_ALR</a>&#160;&#160;&#160;((uint16_t)0x0002)</td></tr>
+<tr class="separator:ga92f0316a3c69aefc2b20c3392843d3da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga960bccbc10da872549cf52c03dd342f1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___r_t_c__interrupts__define.html#ga960bccbc10da872549cf52c03dd342f1">RTC_IT_SEC</a>&#160;&#160;&#160;((uint16_t)0x0001)</td></tr>
+<tr class="separator:ga960bccbc10da872549cf52c03dd342f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5c941995b804ce4c7ef62e28e0133a83"><td class="memItemLeft" align="right" valign="top"><a id="ga5c941995b804ce4c7ef62e28e0133a83"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IS_RTC_IT</b>(IT)&#160;&#160;&#160;((((IT) &amp; (uint16_t)0xFFF8) == 0x00) &amp;&amp; ((IT) != 0x00))</td></tr>
+<tr class="separator:ga5c941995b804ce4c7ef62e28e0133a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2e10d8ccb2aa398ac14bde526f98dbc9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><b>IS_RTC_GET_IT</b>(IT)</td></tr>
+<tr class="separator:ga2e10d8ccb2aa398ac14bde526f98dbc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="ga2e10d8ccb2aa398ac14bde526f98dbc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2e10d8ccb2aa398ac14bde526f98dbc9">&#9670;&nbsp;</a></span>IS_RTC_GET_IT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IS_RTC_GET_IT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">IT</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">(((IT) == <a class="code" href="group___r_t_c__interrupts__define.html#gabcfefb2f22cb8ca65113c2c13d0e0640">RTC_IT_OW</a>) || ((IT) == <a class="code" href="group___r_t_c__interrupts__define.html#ga92f0316a3c69aefc2b20c3392843d3da">RTC_IT_ALR</a>) || \</div><div class="line">                           ((IT) == <a class="code" href="group___r_t_c__interrupts__define.html#ga960bccbc10da872549cf52c03dd342f1">RTC_IT_SEC</a>))</div><div class="ttc" id="group___r_t_c__interrupts__define_html_ga960bccbc10da872549cf52c03dd342f1"><div class="ttname"><a href="group___r_t_c__interrupts__define.html#ga960bccbc10da872549cf52c03dd342f1">RTC_IT_SEC</a></div><div class="ttdeci">#define RTC_IT_SEC</div><div class="ttdef"><b>Definition:</b> wb32f10x_rtc.h:42</div></div>
+<div class="ttc" id="group___r_t_c__interrupts__define_html_ga92f0316a3c69aefc2b20c3392843d3da"><div class="ttname"><a href="group___r_t_c__interrupts__define.html#ga92f0316a3c69aefc2b20c3392843d3da">RTC_IT_ALR</a></div><div class="ttdeci">#define RTC_IT_ALR</div><div class="ttdef"><b>Definition:</b> wb32f10x_rtc.h:41</div></div>
+<div class="ttc" id="group___r_t_c__interrupts__define_html_gabcfefb2f22cb8ca65113c2c13d0e0640"><div class="ttname"><a href="group___r_t_c__interrupts__define.html#gabcfefb2f22cb8ca65113c2c13d0e0640">RTC_IT_OW</a></div><div class="ttdeci">#define RTC_IT_OW</div><div class="ttdef"><b>Definition:</b> wb32f10x_rtc.h:40</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ga92f0316a3c69aefc2b20c3392843d3da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga92f0316a3c69aefc2b20c3392843d3da">&#9670;&nbsp;</a></span>RTC_IT_ALR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTC_IT_ALR&#160;&#160;&#160;((uint16_t)0x0002)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Alarm interrupt </p>
+
+</div>
+</div>
+<a id="gabcfefb2f22cb8ca65113c2c13d0e0640"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabcfefb2f22cb8ca65113c2c13d0e0640">&#9670;&nbsp;</a></span>RTC_IT_OW</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTC_IT_OW&#160;&#160;&#160;((uint16_t)0x0004)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Overflow interrupt </p>
+
+</div>
+</div>
+<a id="ga960bccbc10da872549cf52c03dd342f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga960bccbc10da872549cf52c03dd342f1">&#9670;&nbsp;</a></span>RTC_IT_SEC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTC_IT_SEC&#160;&#160;&#160;((uint16_t)0x0001)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Second interrupt </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

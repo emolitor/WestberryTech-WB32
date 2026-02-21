@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: TIM OnePulse example</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">TIM OnePulse example </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><pre class="fragment">  *************** (C) COPYRIGHT 2020 - 2023 Westberry Technology ***************
+  * @file    TIM/TIM_OnePulse/readme.txt 
+  * @author  Westberry Application Team
+  * @version V0.1.10
+  * @date    05-January-2023
+  * @brief   Description of the TIM_OnePulse example.
+  ******************************************************************************
+  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  * TIME. AS A RESULT, WESTBERRY SHALL NOT BE HELD LIABLE FOR ANY DIRECT,
+  * INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM
+  * THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  ******************************************************************************</pre><dl class="section user"><dt>例程描述 </dt><dd></dd></dl>
+<p>这个例子说明了如何使用TIM外围设备在定时器输入引脚中接收到外部信号的上升沿后生成单脉冲模式。<br />
+系统时钟工作在96Mhz，通过PLL配置产生。PLL时钟源是外部8Mhz晶振。APB1的分频比是1，APB2的分频比是1。<br />
+TIM1CLK = SystemCoreClock：<br />
+ -预分频器 = 0 <br />
+自动重载值为65535（TIM1-&gt;ARR），所以触发TIM1输入的最大频率值是96000000 / 65535 = 1464Hz。<br />
+TIM1配置如下：<br />
+使用单脉冲模式，外部信号连接至TIM1_CH2引脚（PA.09）。<br />
+上升沿作为有源边，输出单脉冲信号<br />
+在TIM1_CH1（PA.08）上。<br />
+Tim_脉冲定义延迟值，延迟值固定为：<br />
+delay = CCR1 / TIM1计数器时钟<br />
+ = 16383 / 96000000 = 170.65 us。<br />
+（TIM_period - TIM_pulse）定义一个脉冲值，脉冲值固定为：<br />
+一个脉冲值 =（Tim_周期 - Tim_脉冲）/ Tim1 计数器时钟 <br />
+ =（65535 - 16383） / 96000000 = 512us。<br />
+</p>
+<dl class="section user"><dt>目录内容 </dt><dd></dd></dl>
+<ul>
+<li>TIM/TIM_OnePulse/TIM_OnePulse.uvprojx MDK5工程文件</li>
+<li>TIM/TIM_OnePulse/TIM_OnePulse.uvoptx MDK5工程配置文件</li>
+<li>TIM/TIM_OnePulse/JLinkSettings.ini Jlink配置文件</li>
+<li>TIM/TIM_OnePulse/main.c 主程序</li>
+</ul>
+<dl class="section user"><dt>硬件和软件环境 </dt><dd></dd></dl>
+<ul>
+<li>硬件平台搭建<ul>
+<li>HSE 连接外部8MHz晶振</li>
+<li>引脚连接:<ul>
+<li>TIM1_CH1 pin (PA.08) 接到示波器</li>
+<li>TIM1_CH2 pin (PA.09) 接到外部信号</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<dl class="section user"><dt>如何使用？ </dt><dd></dd></dl>
+<p>为了使程序工作，您必须执行以下操作 :</p><ul>
+<li>使用 MDK5 打开此例程文件夹中的 TIM_OnePulse.uvprojx 工程</li>
+<li>重新编译该工程并下载到目标存储器中</li>
+<li><p class="startli">运行此例程</p>
+<h3><center>&copy; COPYRIGHT 2020 - 2023 Westberry Technology</center></h3>
+</li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

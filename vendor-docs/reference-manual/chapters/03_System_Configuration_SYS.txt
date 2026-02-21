@@ -1,0 +1,1133 @@
+WB32FQ95xx Reference Manual
+
+3.
+
+System configuration (SYS)
+
+3.1.
+
+Overview
+System configuration block provide system information for software. Software will do proper
+configuration base on the status and hardware configuration based on such information.
+Following information can be read from SYS block:
+⚫
+
+Production date code and boot loader firmware versions
+
+⚫
+
+SRAM and FLASH density configurations
+
+⚫
+
+Maximal operation frequency
+
+⚫
+
+System boot status and configuration
+
+⚫
+
+Security status and configuration
+
+⚫
+
+The protection status of User Code space, System memory space and Information
+block
+
+Note: When the system configuration in information block be updated, the system
+configuration will be only active after system reset.
+
+3.2.
+
+Main features of SYS
+
+3.2.1.
+
+Security level configuration
+WB32FQ95xx offers different security level options for end user. User code space protection
+is defined by security configuration. Customer can select security level according to system
+requirement in different project development stage.
+Table 3-1. Security level configuration
+
+Security level
+
+RD_PROT
+
+SRAM_DIS
+
+SWD_DIS
+
+SMEM_DIS
+
+Description
+
+Level 0
+
+0
+
+0
+
+0
+
+0
+
+No protection
+
+Level 1
+
+1
+
+1
+
+0
+
+1
+
+Level 2
+
+1
+
+1
+
+1
+
+0
+
+Level 3
+
+1
+
+1
+
+1
+
+1
+
+Doc ID 2905025
+
+Rev01
+
+ISP not support, and user program code
+can not be read out through SWD.
+ISP support
+Highest level and upgrade program
+defined by customer directly.
+
+37
+
+WB32FQ95xx Reference Manual
+
+Beside these security levels, WB32FQ95xx offers secondary development space protection
+while needed. Please refer to section 3.2.5.
+Note: While RD_PROT bit be set, DMA read from code space is prohibited.
+
+3.2.2.
+
+Information block write protection
+WB32FQ95xx has 8 information blocks. There are 256 bytes for each information block with
+dedicate protection control and status. Information block and protection setting listed in
+below:
+Table 3-2. Information write protection
+
+Block no
+
+Address space
+
+Protection bit
+
+Description
+
+Block 0
+
+0x1FFF_F000 -0x1FFF_F0FF
+
+-
+
+Read Only
+
+Block 1
+
+0x1FFF_F100 -0x1FFF_F1FF
+
+-
+
+Read Only
+
+Block 2
+
+0x1FFF_F200 -0x1FFF_F2FF
+
+-
+
+Read Only
+
+Block 3
+
+0x1FFF_F300 -0x1FFF_F3FF
+
+-
+
+Read Only
+
+Block 4
+
+0x1FFF_F400 -0x1FFF_F4FF
+
+SYS_IF4LCK
+
+Boot control
+
+Block 5
+
+0x1FFF_F500 -0x1FFF_F5FF
+
+SYS_IF5LCK
+
+User code write protection
+
+Block 6
+
+0x1FFF_F600 -0x1FFF_F6FF
+
+SYS_IF6LCK
+
+Secondary development protection
+
+Block 7
+
+0x1FFF_F700 -0x1FFF_F7FF
+
+SYS_IF7LCK
+
+Reboot function configuration and OTP space
+
+Note:Information block 0 ­ 3 is permanently protected, Any modification of block 0-3 is
+prohibited by hardware. Information block 4 ­7 protection is controlled by user. After blocks
+4-7 be set as write protected, any erase operation in block 4 7 will cause the data in main
+array damaged
+Address space 0x1FFF_F720 ­ 0x1FFF_F7FF of Information block 7 can be used as OTP
+area for user if write protection not be set
+
+3.2.3.
+
+The write protection of system memory space
+WB32FQ95xx has 4K bytes system memory.
+System memory space:
+
+3.2.4.
+
+0x1FFF_E000 ­ 0x1FFF_EFFF
+
+User program space write protection control
+WB32FQ95xx write protection is based on 4K bytes. There are 32 write protection bits for the
+
+Doc ID 2905025
+
+Rev01
+
+38
+
+WB32FQ95xx Reference Manual
+
+whole array (bit0-bit31). The bit 31 also controls the user program space beyond 128K bytes.
+Protection bit of user program memory space list in below table:
+Table 3-3. User program space protection
+Block No
+
+Address space
+
+Write protection
+
+Description
+
+Block 0
+
+0x0800_0000 -0x0800_0FFF
+
+MAIN_WEN[0]
+
+User configure
+
+Block 1
+
+0x0800_1000 -0x0800_1FFF
+
+MAIN_WEN[1]
+
+User configure
+
+Block 2
+
+0x0800_2000 -0x0800_2FFF
+
+MAIN_WEN[2]
+
+User configure
+
+Block 3
+
+0x0800_3000 -0x0800_3FFF
+
+MAIN_WEN[3]
+
+User configure
+
+Block 4
+
+0x0800_4000 -0x0800_4FFF
+
+MAIN_WEN[4]
+
+User configure
+
+Block 5
+
+0x0800_5000 -0x0800_5FFF
+
+MAIN_WEN[5]
+
+User configure
+
+Block 6
+
+0x0800_6000 -0x0800_6FFF
+
+MAIN_WEN[6]
+
+User configure
+
+Block 7
+
+0x0800_7000 -0x0800_7FFF
+
+MAIN_WEN[7]
+
+User configure
+
+Block 8
+
+0x0800_8000 -0x0800_8FFF
+
+MAIN_WEN[8]
+
+User configure
+
+Block 9
+
+0x0800_9000 -0x0800_9FFF
+
+MAIN_WEN[9]
+
+User configure
+
+Block 10
+
+0x0800_A000 -0x0800_AFFF
+
+MAIN_WEN[10]
+
+User configure
+
+Block 11
+
+0x0800_B000 -0x0800_BFFF
+
+MAIN_WEN[11]
+
+User configure
+
+Block 12
+
+0x0800_C000 -0x0800_CFFF
+
+MAIN_WEN[12]
+
+User configure
+
+Block 13
+
+0x0800_D000 -0x0800_DFFF
+
+MAIN_WEN[13]
+
+User configure
+
+Block 14
+
+0x0800_E000 -0x0800_EFFF
+
+MAIN_WEN[14]
+
+User configure
+
+Block 15
+
+0x0800_F000 -0x0800_FFFF
+
+MAIN_WEN[15]
+
+User configure
+
+Block 16
+
+0x0801_0000 -0x0801_0FFF
+
+MAIN_WEN[16]
+
+User configure
+
+Block 17
+
+0x0801_1000 -0x0801_1FFF
+
+MAIN_WEN[17]
+
+User configure
+
+Block 18
+
+0x0801_2000 -0x0801_2FFF
+
+MAIN_WEN[18]
+
+User configure
+
+Block 19
+
+0x0801_3000 -0x0801_3FFF
+
+MAIN_WEN[19]
+
+User configure
+
+Block 20
+
+0x0801_4000 -0x0801_4FFF
+
+MAIN_WEN[20]
+
+User configure
+
+Block 21
+
+0x0801_5000 -0x0801_5FFF
+
+MAIN_WEN[21]
+
+User configure
+
+Block 22
+
+0x0801_6000 -0x0801_6FFF
+
+MAIN_WEN[22]
+
+User configure
+
+Block 23
+
+0x0801_7000 -0x0801_7FFF
+
+MAIN_WEN[23]
+
+User configure
+
+Block 24
+
+0x0801_8000 -0x0801_8FFF
+
+MAIN_WEN[24]
+
+User configure
+
+Block 25
+
+0x0801_9000 -0x0801_9FFF
+
+MAIN_WEN[25]
+
+User configure
+
+Block 26
+
+0x0801_A000 -0x0801_AFFF
+
+MAIN_WEN[26]
+
+User configure
+
+Block 27
+
+0x0801_B000 -0x0801_BFFF
+
+MAIN_WEN[27]
+
+User configure
+
+Block 28
+
+0x0801_C000 -0x0801_CFFF
+
+MAIN_WEN[28]
+
+User configure
+
+Doc ID 2905025
+
+Rev01
+
+39
+
+WB32FQ95xx Reference Manual
+
+Block No
+
+Address space
+
+Write protection
+
+Description
+
+Block 29
+
+0x0801_D000 -0x0801_DFFF
+
+MAIN_WEN[29]
+
+User configure
+
+Block 30
+
+0x0801_E000 -0x0801_EFFF
+
+MAIN_WEN[30]
+
+User configure
+
+Block 31
+
+0x0801_F000 -0x0801_FFFF
+
+MAIN_WEN[31]
+
+User configure
+
+Block 32
+
+0x0802_0000 -0x0803_FFFF
+
+MAIN_WEN[31]
+
+Beyond 128K bytes space
+
+When read protection is activated, the write protection function in different boot mode is
+listed below:
+Table 3-4. User space write protection (read protect enabled)(low density product)
+Boot mode
+
+0x0800_0000 -0x0800_0FFF
+
+Other space
+
+Boot from SRAM
+
+Write protection
+
+Write protection
+
+Boot from system program
+
+Write protection
+
+MAIN_WEN
+
+Boot from user program
+
+Write protection
+
+MAIN_WEN
+
+Table 3-5. User space write protection (read protect enabled)(high density product)
+Boot mode
+
+0x0800_0000 -0x0800_1FFF
+
+Other space
+
+Boot from SRAM
+
+Write protection
+
+Write protection
+
+Boot from system program
+
+Write protection
+
+MAIN_WEN
+
+Boot from user program
+
+Write protection
+
+MAIN_WEN
+
+Note: 192K bytes flash product only support lowest 4K bytes write protection when read
+protection is active.
+Note: The flash density of high density product is >= 128K bytes and low density product
+<=64K bytes.
+
+3.2.5.
+
+Secondary Development
+WB32FQ95xx supports secondary development function. While the function is enabled
+(SENDEV_ EN=1), the main array is separated into user code and special code area.
+Only instruction can be stored in special space, and constant data used for special code
+space has to be stored in user code space. The program in special code space is executive
+only, any data read operation to special code space will cause hardware exception interrupt.
+The user code space is defined by SENDEV_SIZE, and special code space is beyond
+SENDEV_SIZE. For example: Flash memory size=64KB, SENDEV_SIZE = 48KB, then
+special code space is from 48KB to 64KB. After user code space/special code space
+configured, and secondary development function be enabled, user should reset the chip to
+active it.
+
+Doc ID 2905025
+
+Rev01
+
+40
+
+WB32FQ95xx Reference Manual
+
+3.3.
+
+SYS Register Description
+
+3.3.1.
+
+ID Register (SYS_ID)
+Address bias: 0x00
+Reset value: 0x3AXX XXXX
+
+Bits
+
+Fields
+
+R/W
+
+31:24
+
+-
+
+R
+
+Description
+Reserved
+Part No
+0x11:WB32F101
+0x12:WB32F102
+
+23:18
+
+CHIP_ID
+
+R
+
+0x13:WB32F103
+0x14:WB32F104
+0x15:WB32F105
+Others: Reserved
+
+17:14
+
+MASK_VER
+
+R
+
+MASK version
+
+13:0
+
+-
+
+R
+
+Reserved
+
+3.3.2.
+
+Memory control Register (SYS_MEMSZ)
+Address bias: 0x04
+Reset value: NA
+
+Bits
+
+Fields
+
+R/W
+
+31:6
+
+-
+
+-
+
+Description
+Reserved
+SRAM density
+00: SRAM density is 36K Bytes.
+
+5:4
+
+SRAM_SIZE
+
+R
+
+01: SRAM density is 28K Bytes.
+10: SRAM density is 20K Bytes.
+11: SRAM density is 12K Bytes.
+FLASH density
+0000: Reserved configuration.
+0010: Reserved configuration.
+0011: FLASH density is 256K Bytes.
+
+3:0
+
+FLASH_SIZE
+
+R
+
+0100: FLASH density is 128K Bytes.
+0110: FLASH density is 96K Bytes.
+0111: FLASH density is 64K Bytes.
+1111: FLASH density is 192K Bytes.
+Others: FLASH density is 32K Bytes.
+
+Doc ID 2905025
+
+Rev01
+
+41
+
+WB32FQ95xx Reference Manual
+
+3.3.3.
+
+Security control Register (SYS_BTCR)
+Address bias: 0x0C
+Reset value:NA
+
+Bits
+
+Fields
+
+R/W
+
+31:25
+
+-
+
+-
+
+Description
+Reserved
+System memory boot control
+
+24
+
+SMEM_DIS
+
+R
+
+0:System memory boot enable
+1:System memory boot disable
+
+23:17
+
+-
+
+-
+
+16
+
+SRAM_DIS
+
+R
+
+Reserved
+SRAM boot control
+0: SRAM boot enable
+1: SRAM boot disable
+
+15:9
+
+-
+
+-
+
+Reserved
+SWD control
+
+8
+
+SWD_DIS
+
+R
+
+0:SWD enable
+1:SWD disable
+
+7:1
+
+-
+
+-
+
+Reserved
+Read protection control
+
+0
+
+RD_PROT
+
+R
+
+0:Read protection enable
+1:Read protection disable
+
+3.3.4.
+
+FLASH write protection register (SYS_MEMWEN)
+Address bias: 0x10
+Reset value: NA
+
+Bits
+
+Fields
+
+R/W
+
+Description
+FLASH Write protection control
+
+31:0
+
+MAIN_WEN
+
+R
+
+0: Main array Erase/Write disable.
+1: Main array Erase/Write enable.
+
+Note: Each control bit protect 4K Bytes memory space, for high density product, bit 31 also
+protect the space beyond 128K Bytes.
+
+3.3.5.
+
+Secondary development control Register (SYS_SENDEV)
+Address bias: 0x14
+Reset value: NA
+
+Bits
+
+Fields
+
+Doc ID 2905025
+
+R/W
+
+Description
+
+Rev01
+
+42
+
+WB32FQ95xx Reference Manual
+
+Bits
+
+Fields
+
+R/W
+
+31:17
+
+-
+
+-
+
+Description
+Reserved
+Secondary development control
+
+16
+
+SENDEV_EN
+
+R
+
+0:Secondary development disable
+1:Secondary development enable
+
+15:12
+
+-
+
+-
+
+Reserved
+Secondary development code space control, the granuality is 1K Byte.
+
+11:0
+
+SENDEV_SIZE
+
+R
+
+When Secondary development enabled, the memory space beyond
+SENDEV_SIZE is special code space.
+
+3.3.6.
+
+Reboot control Register (SYS_RSTCR)
+Address bias: 0x18
+Reset value: 0x0000 000x
+
+Bits
+
+Fields
+
+R/W
+
+31:3
+
+-
+
+-
+
+Description
+Reserved
+Standby Mode reset control
+
+2
+
+RST_STBY
+
+R
+
+0:Reset disabled when enter standby mode
+1: Reset enabled when enter standby mode
+Stop mode reset control
+
+1
+
+RST_STOP
+
+R
+
+0:Reset disabled when enter stop mode
+1:Reset enabled when enter stop mode
+IWDG start control
+
+0
+
+IWDG_EN
+
+R
+
+0:IWDG start by software
+1:IWDG automatically start after reset
+
+3.3.7.
+
+Information block 4 protection register (SYS_IF4LCK)
+Address bias: 0x1C
+Reset value: 0x0000 000x
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Description
+Reserved
+4th Information block Erase/Write control
+
+0
+
+SYS_IF4LCK
+
+R
+
+1:4th Information block Erase/Write disable
+0:4th Information block Erase/Write enable
+
+Note: When Information block is protected, Any Erase/Write in Information 4 will cause main
+array data damage.
+
+Doc ID 2905025
+
+Rev01
+
+43
+
+WB32FQ95xx Reference Manual
+
+3.3.8.
+
+Information block 5 protection register (SYS_IF5LCK)
+Address bias: 0x20
+Reset value: 0x0000 000x
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Description
+Reserved
+5th Information block Erase/Write control
+
+0
+
+SYS_IF5LCK
+
+R
+
+1:5th Information block Erase/Write disable
+0:5th Information block Erase/Write enable
+
+Note: When Information block is protected, Any Erase/Write in Information block 5 will cause
+main array data damage.
+
+3.3.9.
+
+Information block 6 protection register (SYS_IF6LCK)
+Address bias: 0x24
+Reset value: 0x0000 000x
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Description
+Reserved
+6th Information block Erase/Write control
+
+0
+
+SYS_IF6LCK
+
+R
+
+1:6th Information block Erase/Write disable
+0:6th Information block Erase/Write enable
+
+Note: When Information block is protected, Any Erase/Write in Information block 6 will cause
+main array data damage.
+
+3.3.10.
+
+Information block 7 protection register (SYS_IF7LCK)
+Address bias: 0x28
+Reset value: 0x0000 000x
+
+Bits
+
+Fields
+
+R/W
+
+31:1
+
+-
+
+R
+
+Description
+Reserved
+7th Information block Erase/Write control
+
+0
+
+SYS_IF7LCK
+
+R
+
+1:7th Information block Erase/Write disable
+0:7th Information block Erase/Write enable
+
+Note: When Information block is protected, Any Erase/Write in Information block 7 will cause
+main array data damage.
+
+Doc ID 2905025
+
+Rev01
+
+44
+
+WB32FQ95xx Reference Manual
+
+3.3.11.
+
+Boot control Register (SYS_BTSR)
+Address bias: 0x34
+Reset value: 0x0000 0002
+
+Bits
+
+Fields
+
+R/W
+
+31:2
+
+-
+
+R
+
+Description
+Reserved
+Boot mode
+00:Reserved
+
+1:0
+
+BOOT_MODE
+
+R
+
+01:Boot from system memory
+10: Boot from user code space
+11:Boot from SRAM
+
+Doc ID 2905025
+
+Rev01
+
+45
+
+

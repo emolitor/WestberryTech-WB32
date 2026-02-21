@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: wb32f10x_fmc.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_6d2d5b60bd20db849a9486835a2715aa.html">Libraries</a></li><li class="navelem"><a class="el" href="dir_750c1ecf7cb1e5b3ac67739578fc1b39.html">WB32F10x_StdPeriph_Driver</a></li><li class="navelem"><a class="el" href="dir_90f859fba41039494a578a3e36efb779.html">inc</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">wb32f10x_fmc.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="wb32f10x__fmc_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">/* Define to prevent recursive inclusion -------------------------------------*/</span></div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#ifndef __WB32F10x_FMC_H</span></div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#define __WB32F10x_FMC_H</span></div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; <span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">/* Includes ------------------------------------------------------------------*/</span></div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;wb32f10x.h&quot;</span></div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">/* Exported types ------------------------------------------------------------*/</span></div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">/* Exported constants --------------------------------------------------------*/</span></div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">/* Exported macro ------------------------------------------------------------*/</span></div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">/* Exported functions --------------------------------------------------------*/</span></div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;uint32_t <a class="code" href="group___f_m_c.html#ga613ac8dfeeca8416109cc402ccf85bf0">FMC_ClearPageLatch</a>(<span class="keywordtype">void</span>);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;uint32_t <a class="code" href="group___f_m_c.html#ga7d9c49e10fdd100f9d29db58b80fd3e1">FMC_ErasePage</a>(uint32_t Page_Address);</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;uint32_t <a class="code" href="group___f_m_c.html#ga2656a3cc4f1a979867ea9e97f1bdb9fc">FMC_EraseSector</a>(uint32_t Sector_Address);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;uint32_t <a class="code" href="group___f_m_c.html#ga465311359faf4297d119b5182293af49">FMC_EraseBulk</a>(<span class="keywordtype">void</span>);</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;uint32_t <a class="code" href="group___f_m_c.html#ga2e4ce5d7d8eefae06ac31df1e46ad5f8">FMC_ProgramPage</a>(uint32_t Page_Address);</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* __WB32F10x_FMC_H */</span><span class="preprocessor"></span></div><div class="ttc" id="group___f_m_c_html_ga465311359faf4297d119b5182293af49"><div class="ttname"><a href="group___f_m_c.html#ga465311359faf4297d119b5182293af49">FMC_EraseBulk</a></div><div class="ttdeci">uint32_t FMC_EraseBulk(void)</div><div class="ttdoc">Erase main flash memory.</div><div class="ttdef"><b>Definition:</b> wb32f10x_fmc.c:165</div></div>
+<div class="ttc" id="group___f_m_c_html_ga7d9c49e10fdd100f9d29db58b80fd3e1"><div class="ttname"><a href="group___f_m_c.html#ga7d9c49e10fdd100f9d29db58b80fd3e1">FMC_ErasePage</a></div><div class="ttdeci">uint32_t FMC_ErasePage(uint32_t Page_Address)</div><div class="ttdoc">Erase a specified FLASH page.</div><div class="ttdef"><b>Definition:</b> wb32f10x_fmc.c:124</div></div>
+<div class="ttc" id="group___f_m_c_html_ga2656a3cc4f1a979867ea9e97f1bdb9fc"><div class="ttname"><a href="group___f_m_c.html#ga2656a3cc4f1a979867ea9e97f1bdb9fc">FMC_EraseSector</a></div><div class="ttdeci">uint32_t FMC_EraseSector(uint32_t Sector_Address)</div><div class="ttdoc">Erase a specified FLASH sector.</div><div class="ttdef"><b>Definition:</b> wb32f10x_fmc.c:145</div></div>
+<div class="ttc" id="group___f_m_c_html_ga2e4ce5d7d8eefae06ac31df1e46ad5f8"><div class="ttname"><a href="group___f_m_c.html#ga2e4ce5d7d8eefae06ac31df1e46ad5f8">FMC_ProgramPage</a></div><div class="ttdeci">uint32_t FMC_ProgramPage(uint32_t Page_Address)</div><div class="ttdoc">Programs the data to the specified page address.</div><div class="ttdef"><b>Definition:</b> wb32f10x_fmc.c:186</div></div>
+<div class="ttc" id="group___f_m_c_html_ga613ac8dfeeca8416109cc402ccf85bf0"><div class="ttname"><a href="group___f_m_c.html#ga613ac8dfeeca8416109cc402ccf85bf0">FMC_ClearPageLatch</a></div><div class="ttdeci">uint32_t FMC_ClearPageLatch(void)</div><div class="ttdoc">Clear page latches.</div><div class="ttdef"><b>Definition:</b> wb32f10x_fmc.c:105</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

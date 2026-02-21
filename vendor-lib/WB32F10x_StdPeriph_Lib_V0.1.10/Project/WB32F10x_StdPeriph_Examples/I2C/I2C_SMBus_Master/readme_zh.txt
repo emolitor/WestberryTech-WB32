@@ -1,0 +1,60 @@
+/**
+  @page I2C_SMBus_Master I2C_SMBus_Master example
+  
+  @verbatim
+  *************** (C) COPYRIGHT 2020 - 2023 Westberry Technology ***************
+  * @file    I2C/I2C_SMBus_Master/readme.txt 
+  * @author  Westberry Application Team
+  * @version V0.1.10
+  * @date    05-January-2023
+  * @brief   Description of the I2C I2C_SMBus_Master example.
+  ******************************************************************************
+  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  * TIME. AS A RESULT, WESTBERRY SHALL NOT BE HELD LIABLE FOR ANY DIRECT,
+  * INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM
+  * THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  ******************************************************************************
+   @endverbatim
+
+@par 例程描述 
+
+本例程演示如何使用I2C SMBus模式。
+
+本例程系统时钟工作在96Mhz，通过PLL配置产生。PLL时钟源是外部8Mhz晶振。APB1的分频比是1，APB2的分频比是1。
+
+本例程以驱动 MAX1617A 为例。首先通过SMBus总线读取 MAX1617A 的 ID，
+然后设置报警温度为30度，读取当前温度。
+当 MAX1617A 检测到当前温度达到报警温度时，产生ALERT信号时，
+本例程会通过SMBus Alert Response address协议清除ALERT信号。
+
+
+@par 目录内容 
+
+  - I2C/I2C_SMBus_Master/I2C_SMBus_Master.uvprojx   MDK5工程文件
+  - I2C/I2C_SMBus_Master/I2C_SMBus_Master.uvoptx    MDK5工程配置文件
+  - I2C/I2C_SMBus_Master/JLinkSettings.ini          Jlink配置文件
+  - I2C/I2C_SMBus_Master/main.c                     主程序
+
+
+@par 硬件和软件环境 
+
+  - 硬件平台搭建
+    - HSE 连接外部8MHz晶振
+    - UART1 (PA9, PA10) 连接到PC
+    - I2C1 管脚和 MAX1617A 连接如下：
+      - PB6 (I2C1_SCL) 管脚连接到 MAX1617A SMBCLK (pin14)
+      - PB7 (I2C1_SDA) 管脚连接到 MAX1617A SMBDATA (pin12)
+      - PB5 (I2C1_SMBAL) 管脚连接到 MAX1617A /ALERT (pin11)
+
+
+@par 如何使用？ 
+
+为了使程序工作，您必须执行以下操作 :
+ - 使用 MDK5 打开此例程文件夹中的 I2C_SMBus_Master.uvprojx 工程
+ - 重新编译该工程并下载到目标存储器中
+ - 运行此例程
+   
+ * <h3><center>&copy; COPYRIGHT 2020 - 2023 Westberry Technology</center></h3>
+ */

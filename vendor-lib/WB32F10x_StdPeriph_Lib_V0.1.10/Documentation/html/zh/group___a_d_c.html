@@ -1,0 +1,1563 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: ADC</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#groups">模块</a> &#124;
+<a href="#nested-classes">结构体</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle">
+<div class="title">ADC<div class="ingroups"><a class="el" href="group___w_b32_f10x___std_periph___driver.html">WB32F10x_StdPeriph_Driver</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>ADC driver modules  
+<a href="#details">更多...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
+模块</h2></td></tr>
+<tr class="memitem:group___a_d_c___exported___constants"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c___exported___constants.html">ADC_Exported_Constants</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group___a_d_c___private___defines"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c___private___defines.html">ADC_Private_Defines</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group___a_d_c___private___functions"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c___private___functions.html">ADC_Private_Functions</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+结构体</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_a_d_c___init_type_def.html">ADC_InitTypeDef</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ADC Init structure definition  <a href="struct_a_d_c___init_type_def.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ga1962afdd9eebe5c896bbba2e4f26fe09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga1962afdd9eebe5c896bbba2e4f26fe09">ADC_DeInit</a> (void)</td></tr>
+<tr class="memdesc:ga1962afdd9eebe5c896bbba2e4f26fe09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitializes the ADC peripheral registers to their default reset values.  <a href="#ga1962afdd9eebe5c896bbba2e4f26fe09">更多...</a><br /></td></tr>
+<tr class="separator:ga1962afdd9eebe5c896bbba2e4f26fe09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadc1012522059ab30d266fe9d634a2bde"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#gadc1012522059ab30d266fe9d634a2bde">ADC_Init</a> (<a class="el" href="struct_a_d_c___init_type_def.html">ADC_InitTypeDef</a> *ADC_InitStruct)</td></tr>
+<tr class="memdesc:gadc1012522059ab30d266fe9d634a2bde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the ADC peripheral according to the specified parameters in the ADC_InitStruct.  <a href="#gadc1012522059ab30d266fe9d634a2bde">更多...</a><br /></td></tr>
+<tr class="separator:gadc1012522059ab30d266fe9d634a2bde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6c6e754d1d0a98d56e465efaf73272ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga6c6e754d1d0a98d56e465efaf73272ec">ADC_StructInit</a> (<a class="el" href="struct_a_d_c___init_type_def.html">ADC_InitTypeDef</a> *ADC_InitStruct)</td></tr>
+<tr class="memdesc:ga6c6e754d1d0a98d56e465efaf73272ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills each ADC_InitStruct member with its default value.  <a href="#ga6c6e754d1d0a98d56e465efaf73272ec">更多...</a><br /></td></tr>
+<tr class="separator:ga6c6e754d1d0a98d56e465efaf73272ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga17fefa48db4b468048475c4a23356d69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga17fefa48db4b468048475c4a23356d69">ADC_Cmd</a> (FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga17fefa48db4b468048475c4a23356d69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the ADC peripheral.  <a href="#ga17fefa48db4b468048475c4a23356d69">更多...</a><br /></td></tr>
+<tr class="separator:ga17fefa48db4b468048475c4a23356d69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad18134d003dc80378525e9b962e63a90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#gad18134d003dc80378525e9b962e63a90">ADC_DMACmd</a> (FunctionalState NewState)</td></tr>
+<tr class="memdesc:gad18134d003dc80378525e9b962e63a90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the ADC DMA request.  <a href="#gad18134d003dc80378525e9b962e63a90">更多...</a><br /></td></tr>
+<tr class="separator:gad18134d003dc80378525e9b962e63a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga91e3ce954e05f71abdf54def54ea842f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga91e3ce954e05f71abdf54def54ea842f">ADC_InjectedDMACmd</a> (FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga91e3ce954e05f71abdf54def54ea842f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the ADC injected group DMA request.  <a href="#ga91e3ce954e05f71abdf54def54ea842f">更多...</a><br /></td></tr>
+<tr class="separator:ga91e3ce954e05f71abdf54def54ea842f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2aecd97c7e448df687eaa529b81a1415"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga2aecd97c7e448df687eaa529b81a1415">ADC_ITConfig</a> (uint16_t ADC_IT, FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga2aecd97c7e448df687eaa529b81a1415"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the specified ADC interrupts.  <a href="#ga2aecd97c7e448df687eaa529b81a1415">更多...</a><br /></td></tr>
+<tr class="separator:ga2aecd97c7e448df687eaa529b81a1415"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac986d438ba0a25be89591ee40fa66c2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#gac986d438ba0a25be89591ee40fa66c2d">ADC_ResetCalibration</a> (void)</td></tr>
+<tr class="memdesc:gac986d438ba0a25be89591ee40fa66c2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the selected ADC calibration registers.  <a href="#gac986d438ba0a25be89591ee40fa66c2d">更多...</a><br /></td></tr>
+<tr class="separator:gac986d438ba0a25be89591ee40fa66c2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga56a03207429273ec2e0e2e3715666180"><td class="memItemLeft" align="right" valign="top">FlagStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga56a03207429273ec2e0e2e3715666180">ADC_GetResetCalibrationStatus</a> (void)</td></tr>
+<tr class="memdesc:ga56a03207429273ec2e0e2e3715666180"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the selected ADC reset calibration registers status.  <a href="#ga56a03207429273ec2e0e2e3715666180">更多...</a><br /></td></tr>
+<tr class="separator:ga56a03207429273ec2e0e2e3715666180"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga158ddc2473c259a6c868b5e433b56922"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga158ddc2473c259a6c868b5e433b56922">ADC_StartCalibration</a> (void)</td></tr>
+<tr class="memdesc:ga158ddc2473c259a6c868b5e433b56922"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the selected ADC calibration process.  <a href="#ga158ddc2473c259a6c868b5e433b56922">更多...</a><br /></td></tr>
+<tr class="separator:ga158ddc2473c259a6c868b5e433b56922"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1c0291cd9a7bcc493b2cd42da52c43d2"><td class="memItemLeft" align="right" valign="top">FlagStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga1c0291cd9a7bcc493b2cd42da52c43d2">ADC_GetCalibrationStatus</a> (void)</td></tr>
+<tr class="memdesc:ga1c0291cd9a7bcc493b2cd42da52c43d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the selected ADC calibration status.  <a href="#ga1c0291cd9a7bcc493b2cd42da52c43d2">更多...</a><br /></td></tr>
+<tr class="separator:ga1c0291cd9a7bcc493b2cd42da52c43d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga70dcb2d976b8dc5cbcbc10ad5f6ff751"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga70dcb2d976b8dc5cbcbc10ad5f6ff751">ADC_SoftwareStartConvCmd</a> (FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga70dcb2d976b8dc5cbcbc10ad5f6ff751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the selected ADC software start conversion .  <a href="#ga70dcb2d976b8dc5cbcbc10ad5f6ff751">更多...</a><br /></td></tr>
+<tr class="separator:ga70dcb2d976b8dc5cbcbc10ad5f6ff751"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae64ae715dd57b437adeaa18bf28cc3ef"><td class="memItemLeft" align="right" valign="top">FlagStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#gae64ae715dd57b437adeaa18bf28cc3ef">ADC_GetSoftwareStartConvStatus</a> (void)</td></tr>
+<tr class="memdesc:gae64ae715dd57b437adeaa18bf28cc3ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the selected ADC Software start conversion Status.  <a href="#gae64ae715dd57b437adeaa18bf28cc3ef">更多...</a><br /></td></tr>
+<tr class="separator:gae64ae715dd57b437adeaa18bf28cc3ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga45a8918f6de87cd9c8c4996f49b61fc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga45a8918f6de87cd9c8c4996f49b61fc8">ADC_DiscModeChannelCountConfig</a> (uint8_t Number)</td></tr>
+<tr class="memdesc:ga45a8918f6de87cd9c8c4996f49b61fc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the discontinuous mode for the selected ADC regular group channel.  <a href="#ga45a8918f6de87cd9c8c4996f49b61fc8">更多...</a><br /></td></tr>
+<tr class="separator:ga45a8918f6de87cd9c8c4996f49b61fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4eccf0ece6321a338cebd9c97bd9656b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga4eccf0ece6321a338cebd9c97bd9656b">ADC_DiscModeCmd</a> (FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga4eccf0ece6321a338cebd9c97bd9656b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the discontinuous mode on regular group channel for the ADC  <a href="#ga4eccf0ece6321a338cebd9c97bd9656b">更多...</a><br /></td></tr>
+<tr class="separator:ga4eccf0ece6321a338cebd9c97bd9656b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9a57b1fde45dcb58fac3e4b6f9fdaf9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga9a57b1fde45dcb58fac3e4b6f9fdaf9f">ADC_RegularChannelConfig</a> (uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime)</td></tr>
+<tr class="memdesc:ga9a57b1fde45dcb58fac3e4b6f9fdaf9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.  <a href="#ga9a57b1fde45dcb58fac3e4b6f9fdaf9f">更多...</a><br /></td></tr>
+<tr class="separator:ga9a57b1fde45dcb58fac3e4b6f9fdaf9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga97fa2cb254b2e8b898f1adbe5c4ef0b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga97fa2cb254b2e8b898f1adbe5c4ef0b1">ADC_ExternalTrigConvCmd</a> (FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga97fa2cb254b2e8b898f1adbe5c4ef0b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the ADC conversion through external trigger.  <a href="#ga97fa2cb254b2e8b898f1adbe5c4ef0b1">更多...</a><br /></td></tr>
+<tr class="separator:ga97fa2cb254b2e8b898f1adbe5c4ef0b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6d45e76dff7c9387dbdffc7f94df342b"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga6d45e76dff7c9387dbdffc7f94df342b">ADC_GetConversionValue</a> (void)</td></tr>
+<tr class="memdesc:ga6d45e76dff7c9387dbdffc7f94df342b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last ADC conversion result data for regular channel.  <a href="#ga6d45e76dff7c9387dbdffc7f94df342b">更多...</a><br /></td></tr>
+<tr class="separator:ga6d45e76dff7c9387dbdffc7f94df342b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa5d42970f4712e2e963a28df7f9f0cab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#gaa5d42970f4712e2e963a28df7f9f0cab">ADC_AutoInjectedConvCmd</a> (FunctionalState NewState)</td></tr>
+<tr class="memdesc:gaa5d42970f4712e2e963a28df7f9f0cab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the selected ADC automatic injected group conversion after regular one.  <a href="#gaa5d42970f4712e2e963a28df7f9f0cab">更多...</a><br /></td></tr>
+<tr class="separator:gaa5d42970f4712e2e963a28df7f9f0cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7a79f91f37eaf3a8082009d18e0813e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga7a79f91f37eaf3a8082009d18e0813e5">ADC_InjectedDiscModeCmd</a> (FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga7a79f91f37eaf3a8082009d18e0813e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the discontinuous mode for injected group channel for the ADC  <a href="#ga7a79f91f37eaf3a8082009d18e0813e5">更多...</a><br /></td></tr>
+<tr class="separator:ga7a79f91f37eaf3a8082009d18e0813e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga60ba90b4c172da949ba1b8678e769680"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga60ba90b4c172da949ba1b8678e769680">ADC_ExternalTrigInjectedConvConfig</a> (uint32_t ADC_ExternalTrigInjecConv)</td></tr>
+<tr class="memdesc:ga60ba90b4c172da949ba1b8678e769680"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the ADC external trigger for injected channels conversion.  <a href="#ga60ba90b4c172da949ba1b8678e769680">更多...</a><br /></td></tr>
+<tr class="separator:ga60ba90b4c172da949ba1b8678e769680"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5ff0370733524599315124be7064649e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga5ff0370733524599315124be7064649e">ADC_ExternalTrigInjectedConvCmd</a> (FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga5ff0370733524599315124be7064649e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the ADC injected channels conversion through external trigger  <a href="#ga5ff0370733524599315124be7064649e">更多...</a><br /></td></tr>
+<tr class="separator:ga5ff0370733524599315124be7064649e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6d70a692097569605740fe836377fb1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga6d70a692097569605740fe836377fb1b">ADC_SoftwareStartInjectedConvCmd</a> (FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga6d70a692097569605740fe836377fb1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the selected ADC start of the injected channels conversion.  <a href="#ga6d70a692097569605740fe836377fb1b">更多...</a><br /></td></tr>
+<tr class="separator:ga6d70a692097569605740fe836377fb1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga96d1531464958696ceaf06c65cc6659b"><td class="memItemLeft" align="right" valign="top">FlagStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga96d1531464958696ceaf06c65cc6659b">ADC_GetSoftwareStartInjectedConvCmdStatus</a> (void)</td></tr>
+<tr class="memdesc:ga96d1531464958696ceaf06c65cc6659b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the selected ADC Software start injected conversion Status.  <a href="#ga96d1531464958696ceaf06c65cc6659b">更多...</a><br /></td></tr>
+<tr class="separator:ga96d1531464958696ceaf06c65cc6659b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6b9153ac40fec10f8dee500516136ef1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga6b9153ac40fec10f8dee500516136ef1">ADC_InjectedChannelConfig</a> (uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime)</td></tr>
+<tr class="memdesc:ga6b9153ac40fec10f8dee500516136ef1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures for the selected ADC injected channel its corresponding rank in the sequencer and its sample time.  <a href="#ga6b9153ac40fec10f8dee500516136ef1">更多...</a><br /></td></tr>
+<tr class="separator:ga6b9153ac40fec10f8dee500516136ef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf770c22c2e62dc4c9f05d35289d823d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#gaf770c22c2e62dc4c9f05d35289d823d5">ADC_InjectedSequencerLengthConfig</a> (uint8_t Length)</td></tr>
+<tr class="memdesc:gaf770c22c2e62dc4c9f05d35289d823d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the sequencer length for injected channels  <a href="#gaf770c22c2e62dc4c9f05d35289d823d5">更多...</a><br /></td></tr>
+<tr class="separator:gaf770c22c2e62dc4c9f05d35289d823d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga30b212d627f5cd70e710f0057006dd50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga30b212d627f5cd70e710f0057006dd50">ADC_SetInjectedOffset</a> (uint8_t ADC_InjectedChannel, uint16_t Offset)</td></tr>
+<tr class="memdesc:ga30b212d627f5cd70e710f0057006dd50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the injected channels conversion value offset  <a href="#ga30b212d627f5cd70e710f0057006dd50">更多...</a><br /></td></tr>
+<tr class="separator:ga30b212d627f5cd70e710f0057006dd50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabbfe0f46045fc4c61452e4f702909f7c"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#gabbfe0f46045fc4c61452e4f702909f7c">ADC_GetInjectedConversionValue</a> (uint8_t ADC_InjectedChannel)</td></tr>
+<tr class="memdesc:gabbfe0f46045fc4c61452e4f702909f7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ADC injected channel conversion result  <a href="#gabbfe0f46045fc4c61452e4f702909f7c">更多...</a><br /></td></tr>
+<tr class="separator:gabbfe0f46045fc4c61452e4f702909f7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae80734bf7793b481ebe0aec476d0a33d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#gae80734bf7793b481ebe0aec476d0a33d">ADC_AnalogWatchdogCmd</a> (uint32_t ADC_AnalogWatchdog)</td></tr>
+<tr class="memdesc:gae80734bf7793b481ebe0aec476d0a33d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the analog watchdog on single/all regular or injected channels  <a href="#gae80734bf7793b481ebe0aec476d0a33d">更多...</a><br /></td></tr>
+<tr class="separator:gae80734bf7793b481ebe0aec476d0a33d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga61b34c862416c4f268d76a1bffadd8b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga61b34c862416c4f268d76a1bffadd8b6">ADC_AnalogWatchdogThresholdsConfig</a> (uint16_t HighThreshold, uint16_t LowThreshold)</td></tr>
+<tr class="memdesc:ga61b34c862416c4f268d76a1bffadd8b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the high and low thresholds of the analog watchdog.  <a href="#ga61b34c862416c4f268d76a1bffadd8b6">更多...</a><br /></td></tr>
+<tr class="separator:ga61b34c862416c4f268d76a1bffadd8b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafab66f9f82551b99a6ab2d00e88b5694"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#gafab66f9f82551b99a6ab2d00e88b5694">ADC_AnalogWatchdogSingleChannelConfig</a> (uint8_t ADC_Channel)</td></tr>
+<tr class="memdesc:gafab66f9f82551b99a6ab2d00e88b5694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the analog watchdog guarded single channel  <a href="#gafab66f9f82551b99a6ab2d00e88b5694">更多...</a><br /></td></tr>
+<tr class="separator:gafab66f9f82551b99a6ab2d00e88b5694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga848682e2d7d3de9f8cf03ffa4c11f0b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga848682e2d7d3de9f8cf03ffa4c11f0b5">ADC_TempSensorVrefintCmd</a> (FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga848682e2d7d3de9f8cf03ffa4c11f0b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the temperature sensor and Vrefint channel.  <a href="#ga848682e2d7d3de9f8cf03ffa4c11f0b5">更多...</a><br /></td></tr>
+<tr class="separator:ga848682e2d7d3de9f8cf03ffa4c11f0b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9022d10319f02074f830887aab9d3216"><td class="memItemLeft" align="right" valign="top">FlagStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga9022d10319f02074f830887aab9d3216">ADC_GetFlagStatus</a> (uint8_t ADC_FLAG)</td></tr>
+<tr class="memdesc:ga9022d10319f02074f830887aab9d3216"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the specified ADC flag is set or not.  <a href="#ga9022d10319f02074f830887aab9d3216">更多...</a><br /></td></tr>
+<tr class="separator:ga9022d10319f02074f830887aab9d3216"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae8a5d4ba423ed3061725a4cb331a8bd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#gae8a5d4ba423ed3061725a4cb331a8bd1">ADC_ClearFlag</a> (uint8_t ADC_FLAG)</td></tr>
+<tr class="memdesc:gae8a5d4ba423ed3061725a4cb331a8bd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the ADC's pending flags.  <a href="#gae8a5d4ba423ed3061725a4cb331a8bd1">更多...</a><br /></td></tr>
+<tr class="separator:gae8a5d4ba423ed3061725a4cb331a8bd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5d766f4ed702e465183b7d91cfbe12f1"><td class="memItemLeft" align="right" valign="top">ITStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga5d766f4ed702e465183b7d91cfbe12f1">ADC_GetITStatus</a> (uint16_t ADC_IT)</td></tr>
+<tr class="memdesc:ga5d766f4ed702e465183b7d91cfbe12f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the specified ADC interrupt has occurred or not.  <a href="#ga5d766f4ed702e465183b7d91cfbe12f1">更多...</a><br /></td></tr>
+<tr class="separator:ga5d766f4ed702e465183b7d91cfbe12f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga06e8047db33c89ef576bf868f7d011c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#ga06e8047db33c89ef576bf868f7d011c8">ADC_ClearITPendingBit</a> (uint16_t ADC_IT)</td></tr>
+<tr class="memdesc:ga06e8047db33c89ef576bf868f7d011c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the ADC's interrupt pending bits.  <a href="#ga06e8047db33c89ef576bf868f7d011c8">更多...</a><br /></td></tr>
+<tr class="separator:ga06e8047db33c89ef576bf868f7d011c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf34c778c93b5413e87fe091836270d64"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a_d_c.html#gaf34c778c93b5413e87fe091836270d64">ADC_GetADValue</a> (uint16_t data)</td></tr>
+<tr class="memdesc:gaf34c778c93b5413e87fe091836270d64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adjust the ADC conversion result.  <a href="#gaf34c778c93b5413e87fe091836270d64">更多...</a><br /></td></tr>
+<tr class="separator:gaf34c778c93b5413e87fe091836270d64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<p>ADC driver modules </p>
+<h2 class="groupheader">函数说明</h2>
+<a id="gae80734bf7793b481ebe0aec476d0a33d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae80734bf7793b481ebe0aec476d0a33d">&#9670;&nbsp;</a></span>ADC_AnalogWatchdogCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_AnalogWatchdogCmd </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>ADC_AnalogWatchdog</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the analog watchdog on single/all regular or injected channels </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_AnalogWatchdog</td><td>the ADC analog watchdog configuration. This parameter can be one of the following values: <ul>
+<li>ADC_AnalogWatchdog_SingleRegEnable: Analog watchdog on a single regular channel </li>
+<li>ADC_AnalogWatchdog_SingleInjecEnable: Analog watchdog on a single injected channel </li>
+<li>ADC_AnalogWatchdog_SingleRegOrInjecEnable: Analog watchdog on a single regular or injected channel </li>
+<li>ADC_AnalogWatchdog_AllRegEnable: Analog watchdog on all regular channel </li>
+<li>ADC_AnalogWatchdog_AllInjecEnable: Analog watchdog on all injected channel </li>
+<li>ADC_AnalogWatchdog_AllRegAllInjecEnable: Analog watchdog on all regular and injected channels </li>
+<li>ADC_AnalogWatchdog_None: No channel guarded by the analog watchdog </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gafab66f9f82551b99a6ab2d00e88b5694"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafab66f9f82551b99a6ab2d00e88b5694">&#9670;&nbsp;</a></span>ADC_AnalogWatchdogSingleChannelConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_AnalogWatchdogSingleChannelConfig </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ADC_Channel</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the analog watchdog guarded single channel </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_Channel</td><td>the ADC channel to configure for the analog watchdog. This parameter can be one of the following values: <ul>
+<li>ADC_Channel_0: ADC Channel0 selected </li>
+<li>ADC_Channel_1: ADC Channel1 selected </li>
+<li>ADC_Channel_2: ADC Channel2 selected </li>
+<li>ADC_Channel_3: ADC Channel3 selected </li>
+<li>ADC_Channel_4: ADC Channel4 selected </li>
+<li>ADC_Channel_5: ADC Channel5 selected </li>
+<li>ADC_Channel_6: ADC Channel6 selected </li>
+<li>ADC_Channel_7: ADC Channel7 selected </li>
+<li>ADC_Channel_8: ADC Channel8 selected </li>
+<li>ADC_Channel_9: ADC Channel9 selected </li>
+<li>ADC_Channel_10: ADC Channel10 selected </li>
+<li>ADC_Channel_11: ADC Channel11 selected </li>
+<li>ADC_Channel_12: ADC Channel12 selected </li>
+<li>ADC_Channel_13: ADC Channel13 selected </li>
+<li>ADC_Channel_14: ADC Channel14 selected </li>
+<li>ADC_Channel_15: ADC Channel15 selected </li>
+<li>ADC_Channel_16: ADC Channel16 selected </li>
+<li>ADC_Channel_17: ADC Channel17 selected </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga61b34c862416c4f268d76a1bffadd8b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga61b34c862416c4f268d76a1bffadd8b6">&#9670;&nbsp;</a></span>ADC_AnalogWatchdogThresholdsConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_AnalogWatchdogThresholdsConfig </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>HighThreshold</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>LowThreshold</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the high and low thresholds of the analog watchdog. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">HighThreshold</td><td>the ADC analog watchdog High threshold value. This parameter must be a 12bit value. </td></tr>
+    <tr><td class="paramname">LowThreshold</td><td>the ADC analog watchdog Low threshold value. This parameter must be a 12bit value. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaa5d42970f4712e2e963a28df7f9f0cab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa5d42970f4712e2e963a28df7f9f0cab">&#9670;&nbsp;</a></span>ADC_AutoInjectedConvCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_AutoInjectedConvCmd </td>
+          <td>(</td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the selected ADC automatic injected group conversion after regular one. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">NewState</td><td>new state of the selected ADC auto injected conversion This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gae8a5d4ba423ed3061725a4cb331a8bd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae8a5d4ba423ed3061725a4cb331a8bd1">&#9670;&nbsp;</a></span>ADC_ClearFlag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_ClearFlag </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ADC_FLAG</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clears the ADC's pending flags. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_FLAG</td><td>specifies the flag to clear. This parameter can be any combination of the following values: <ul>
+<li>ADC_FLAG_AWD: Analog watchdog flag </li>
+<li>ADC_FLAG_EOC: End of conversion flag </li>
+<li>ADC_FLAG_JEOC: End of injected group conversion flag </li>
+<li>ADC_FLAG_JSTRT: Start of injected group conversion flag </li>
+<li>ADC_FLAG_STRT: Start of regular group conversion flag </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga06e8047db33c89ef576bf868f7d011c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga06e8047db33c89ef576bf868f7d011c8">&#9670;&nbsp;</a></span>ADC_ClearITPendingBit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_ClearITPendingBit </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>ADC_IT</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clears the ADC's interrupt pending bits. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_IT</td><td>specifies the ADC interrupt pending bit to clear. This parameter can be any combination of the following values: <ul>
+<li>ADC_IT_EOC: End of conversion interrupt mask </li>
+<li>ADC_IT_AWD: Analog watchdog interrupt mask </li>
+<li>ADC_IT_JEOC: End of injected conversion interrupt mask </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga17fefa48db4b468048475c4a23356d69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga17fefa48db4b468048475c4a23356d69">&#9670;&nbsp;</a></span>ADC_Cmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_Cmd </td>
+          <td>(</td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the ADC peripheral. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">NewState</td><td>new state of the ADC peripheral. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga1962afdd9eebe5c896bbba2e4f26fe09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1962afdd9eebe5c896bbba2e4f26fe09">&#9670;&nbsp;</a></span>ADC_DeInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_DeInit </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deinitializes the ADC peripheral registers to their default reset values. </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga45a8918f6de87cd9c8c4996f49b61fc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga45a8918f6de87cd9c8c4996f49b61fc8">&#9670;&nbsp;</a></span>ADC_DiscModeChannelCountConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_DiscModeChannelCountConfig </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>Number</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the discontinuous mode for the selected ADC regular group channel. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Number</td><td>specifies the discontinuous mode regular channel count value. This number must be between 1 and 8. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga4eccf0ece6321a338cebd9c97bd9656b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4eccf0ece6321a338cebd9c97bd9656b">&#9670;&nbsp;</a></span>ADC_DiscModeCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_DiscModeCmd </td>
+          <td>(</td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the discontinuous mode on regular group channel for the ADC </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">NewState</td><td>new state of the selected ADC discontinuous mode on regular group channel. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gad18134d003dc80378525e9b962e63a90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad18134d003dc80378525e9b962e63a90">&#9670;&nbsp;</a></span>ADC_DMACmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_DMACmd </td>
+          <td>(</td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the ADC DMA request. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">NewState</td><td>new state of the selected ADC DMA transfer. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga97fa2cb254b2e8b898f1adbe5c4ef0b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga97fa2cb254b2e8b898f1adbe5c4ef0b1">&#9670;&nbsp;</a></span>ADC_ExternalTrigConvCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_ExternalTrigConvCmd </td>
+          <td>(</td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the ADC conversion through external trigger. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">NewState</td><td>new state of the selected ADC external trigger start of conversion. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga5ff0370733524599315124be7064649e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5ff0370733524599315124be7064649e">&#9670;&nbsp;</a></span>ADC_ExternalTrigInjectedConvCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_ExternalTrigInjectedConvCmd </td>
+          <td>(</td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the ADC injected channels conversion through external trigger </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">NewState</td><td>new state of the selected ADC external trigger start of injected conversion. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga60ba90b4c172da949ba1b8678e769680"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga60ba90b4c172da949ba1b8678e769680">&#9670;&nbsp;</a></span>ADC_ExternalTrigInjectedConvConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_ExternalTrigInjectedConvConfig </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>ADC_ExternalTrigInjecConv</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the ADC external trigger for injected channels conversion. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_ExternalTrigInjecConv</td><td>specifies the ADC trigger to start injected conversion. This parameter can be one of the following values: <ul>
+<li>ADC_ExternalTrigInjecConv_T1_TRGO: Timer1 TRGO event selected </li>
+<li>ADC_ExternalTrigInjecConv_T1_CC4: Timer1 capture compare4 selected </li>
+<li>ADC_ExternalTrigInjecConv_T2_TRGO: Timer2 TRGO event selected </li>
+<li>ADC_ExternalTrigInjecConv_T2_CC1: Timer2 capture compare1 selected </li>
+<li>ADC_ExternalTrigInjecConv_T3_CC4: Timer3 capture compare4 selected </li>
+<li>ADC_ExternalTrigInjecConv_T4_TRGO: Timer4 TRGO event selected </li>
+<li>ADC_ExternalTrigInjecConv_Ext_IT15: External interrupt line 15 </li>
+<li>ADC_ExternalTrigInjecConv_None: Injected conversion started by software and not by external trigger </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaf34c778c93b5413e87fe091836270d64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf34c778c93b5413e87fe091836270d64">&#9670;&nbsp;</a></span>ADC_GetADValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t ADC_GetADValue </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adjust the ADC conversion result. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>the ADC conversion result. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Adjusted</td><td>result. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga1c0291cd9a7bcc493b2cd42da52c43d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1c0291cd9a7bcc493b2cd42da52c43d2">&#9670;&nbsp;</a></span>ADC_GetCalibrationStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FlagStatus ADC_GetCalibrationStatus </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the selected ADC calibration status. </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">The</td><td>new state of ADC calibration (SET or RESET). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga6d45e76dff7c9387dbdffc7f94df342b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6d45e76dff7c9387dbdffc7f94df342b">&#9670;&nbsp;</a></span>ADC_GetConversionValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t ADC_GetConversionValue </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the last ADC conversion result data for regular channel. </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">The</td><td>Data conversion value. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga9022d10319f02074f830887aab9d3216"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9022d10319f02074f830887aab9d3216">&#9670;&nbsp;</a></span>ADC_GetFlagStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FlagStatus ADC_GetFlagStatus </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ADC_FLAG</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks whether the specified ADC flag is set or not. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_FLAG</td><td>specifies the flag to check. This parameter can be one of the following values: <ul>
+<li>ADC_FLAG_AWD: Analog watchdog flag </li>
+<li>ADC_FLAG_EOC: End of conversion flag </li>
+<li>ADC_FLAG_JEOC: End of injected group conversion flag </li>
+<li>ADC_FLAG_JSTRT: Start of injected group conversion flag </li>
+<li>ADC_FLAG_STRT: Start of regular group conversion flag </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">The</td><td>new state of ADC_FLAG (SET or RESET). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gabbfe0f46045fc4c61452e4f702909f7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabbfe0f46045fc4c61452e4f702909f7c">&#9670;&nbsp;</a></span>ADC_GetInjectedConversionValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t ADC_GetInjectedConversionValue </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ADC_InjectedChannel</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the ADC injected channel conversion result </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_InjectedChannel</td><td>the converted ADC injected channel. This parameter can be one of the following values: <ul>
+<li>ADC_InjectedChannel_1: Injected Channel1 selected </li>
+<li>ADC_InjectedChannel_2: Injected Channel2 selected </li>
+<li>ADC_InjectedChannel_3: Injected Channel3 selected </li>
+<li>ADC_InjectedChannel_4: Injected Channel4 selected </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">The</td><td>Data conversion value. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga5d766f4ed702e465183b7d91cfbe12f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5d766f4ed702e465183b7d91cfbe12f1">&#9670;&nbsp;</a></span>ADC_GetITStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ITStatus ADC_GetITStatus </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>ADC_IT</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks whether the specified ADC interrupt has occurred or not. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_IT</td><td>specifies the ADC interrupt source to check. This parameter can be one of the following values: <ul>
+<li>ADC_IT_EOC: End of conversion interrupt mask </li>
+<li>ADC_IT_AWD: Analog watchdog interrupt mask </li>
+<li>ADC_IT_JEOC: End of injected conversion interrupt mask </li>
+<li>ADC_IT_OVF: ADC fifo overflow interrupt mask </li>
+<li>ADC_IT_EMP: ADC fifo empty interrupt mask </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">The</td><td>new state of ADC_IT (SET or RESET). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga56a03207429273ec2e0e2e3715666180"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga56a03207429273ec2e0e2e3715666180">&#9670;&nbsp;</a></span>ADC_GetResetCalibrationStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FlagStatus ADC_GetResetCalibrationStatus </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the selected ADC reset calibration registers status. </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">The</td><td>new state of ADC reset calibration registers (SET or RESET). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gae64ae715dd57b437adeaa18bf28cc3ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae64ae715dd57b437adeaa18bf28cc3ef">&#9670;&nbsp;</a></span>ADC_GetSoftwareStartConvStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FlagStatus ADC_GetSoftwareStartConvStatus </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the selected ADC Software start conversion Status. </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">The</td><td>new state of ADC software start conversion (SET or RESET). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga96d1531464958696ceaf06c65cc6659b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga96d1531464958696ceaf06c65cc6659b">&#9670;&nbsp;</a></span>ADC_GetSoftwareStartInjectedConvCmdStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FlagStatus ADC_GetSoftwareStartInjectedConvCmdStatus </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the selected ADC Software start injected conversion Status. </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">The</td><td>new state of ADC software start injected conversion (SET or RESET). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gadc1012522059ab30d266fe9d634a2bde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadc1012522059ab30d266fe9d634a2bde">&#9670;&nbsp;</a></span>ADC_Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_Init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_a_d_c___init_type_def.html">ADC_InitTypeDef</a> *&#160;</td>
+          <td class="paramname"><em>ADC_InitStruct</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes the ADC peripheral according to the specified parameters in the ADC_InitStruct. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_InitStruct</td><td>pointer to an <a class="el" href="struct_a_d_c___init_type_def.html" title="ADC Init structure definition">ADC_InitTypeDef</a> structure that contains the configuration information for the ADC peripheral. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga6b9153ac40fec10f8dee500516136ef1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6b9153ac40fec10f8dee500516136ef1">&#9670;&nbsp;</a></span>ADC_InjectedChannelConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_InjectedChannelConfig </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ADC_Channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>Rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ADC_SampleTime</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures for the selected ADC injected channel its corresponding rank in the sequencer and its sample time. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_Channel</td><td>the ADC channel to configure. This parameter can be one of the following values: <ul>
+<li>ADC_Channel_0: ADC Channel0 selected </li>
+<li>ADC_Channel_1: ADC Channel1 selected </li>
+<li>ADC_Channel_2: ADC Channel2 selected </li>
+<li>ADC_Channel_3: ADC Channel3 selected </li>
+<li>ADC_Channel_4: ADC Channel4 selected </li>
+<li>ADC_Channel_5: ADC Channel5 selected </li>
+<li>ADC_Channel_6: ADC Channel6 selected </li>
+<li>ADC_Channel_7: ADC Channel7 selected </li>
+<li>ADC_Channel_8: ADC Channel8 selected </li>
+<li>ADC_Channel_9: ADC Channel9 selected </li>
+<li>ADC_Channel_10: ADC Channel10 selected </li>
+<li>ADC_Channel_11: ADC Channel11 selected </li>
+<li>ADC_Channel_12: ADC Channel12 selected </li>
+<li>ADC_Channel_13: ADC Channel13 selected </li>
+<li>ADC_Channel_14: ADC Channel14 selected </li>
+<li>ADC_Channel_15: ADC Channel15 selected </li>
+<li>ADC_Channel_16: ADC Channel16 selected </li>
+<li>ADC_Channel_17: ADC Channel17 selected </li>
+</ul>
+</td></tr>
+    <tr><td class="paramname">Rank</td><td>The rank in the injected group sequencer. This parameter must be between 1 and 4. </td></tr>
+    <tr><td class="paramname">ADC_SampleTime</td><td>The sample time value to be set for the selected channel. This parameter can be one of the following values: <ul>
+<li>ADC_SampleTime_1Cycles5: Sample time equal to 1.5 cycles </li>
+<li>ADC_SampleTime_7Cycles5: Sample time equal to 7.5 cycles </li>
+<li>ADC_SampleTime_13Cycles5: Sample time equal to 13.5 cycles </li>
+<li>ADC_SampleTime_28Cycles5: Sample time equal to 28.5 cycles </li>
+<li>ADC_SampleTime_41Cycles5: Sample time equal to 41.5 cycles </li>
+<li>ADC_SampleTime_55Cycles5: Sample time equal to 55.5 cycles </li>
+<li>ADC_SampleTime_71Cycles5: Sample time equal to 71.5 cycles </li>
+<li>ADC_SampleTime_239Cycles5: Sample time equal to 239.5 cycles </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga7a79f91f37eaf3a8082009d18e0813e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7a79f91f37eaf3a8082009d18e0813e5">&#9670;&nbsp;</a></span>ADC_InjectedDiscModeCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_InjectedDiscModeCmd </td>
+          <td>(</td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the discontinuous mode for injected group channel for the ADC </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">NewState</td><td>new state of the selected ADC discontinuous mode on injected group channel. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga91e3ce954e05f71abdf54def54ea842f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga91e3ce954e05f71abdf54def54ea842f">&#9670;&nbsp;</a></span>ADC_InjectedDMACmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_InjectedDMACmd </td>
+          <td>(</td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the ADC injected group DMA request. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">NewState</td><td>new state of the selected ADC injected group DMA transfer. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaf770c22c2e62dc4c9f05d35289d823d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf770c22c2e62dc4c9f05d35289d823d5">&#9670;&nbsp;</a></span>ADC_InjectedSequencerLengthConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_InjectedSequencerLengthConfig </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>Length</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures the sequencer length for injected channels </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Length</td><td>The sequencer length. This parameter must be a number between 1 to 4. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga2aecd97c7e448df687eaa529b81a1415"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2aecd97c7e448df687eaa529b81a1415">&#9670;&nbsp;</a></span>ADC_ITConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_ITConfig </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>ADC_IT</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the specified ADC interrupts. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_IT</td><td>specifies the ADC interrupt sources to be enabled or disabled. This parameter can be any combination of the following values: <ul>
+<li>ADC_IT_EOC: End of conversion interrupt mask </li>
+<li>ADC_IT_AWD: Analog watchdog interrupt mask </li>
+<li>ADC_IT_JEOC: End of injected conversion interrupt mask </li>
+<li>ADC_IT_OVF: ADC fifo overflow interrupt mask </li>
+<li>ADC_IT_EMP: ADC fifo empty interrupt mask </li>
+</ul>
+</td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the specified ADC interrupts. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga9a57b1fde45dcb58fac3e4b6f9fdaf9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9a57b1fde45dcb58fac3e4b6f9fdaf9f">&#9670;&nbsp;</a></span>ADC_RegularChannelConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_RegularChannelConfig </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ADC_Channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>Rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ADC_SampleTime</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configures for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_Channel</td><td>the ADC channel to configure. This parameter can be one of the following values: <ul>
+<li>ADC_Channel_0: ADC Channel0 selected </li>
+<li>ADC_Channel_1: ADC Channel1 selected </li>
+<li>ADC_Channel_2: ADC Channel2 selected </li>
+<li>ADC_Channel_3: ADC Channel3 selected </li>
+<li>ADC_Channel_4: ADC Channel4 selected </li>
+<li>ADC_Channel_5: ADC Channel5 selected </li>
+<li>ADC_Channel_6: ADC Channel6 selected </li>
+<li>ADC_Channel_7: ADC Channel7 selected </li>
+<li>ADC_Channel_8: ADC Channel8 selected </li>
+<li>ADC_Channel_9: ADC Channel9 selected </li>
+<li>ADC_Channel_10: ADC Channel10 selected </li>
+<li>ADC_Channel_11: ADC Channel11 selected </li>
+<li>ADC_Channel_12: ADC Channel12 selected </li>
+<li>ADC_Channel_13: ADC Channel13 selected </li>
+<li>ADC_Channel_14: ADC Channel14 selected </li>
+<li>ADC_Channel_15: ADC Channel15 selected </li>
+<li>ADC_Channel_16: ADC Channel16 selected </li>
+<li>ADC_Channel_17: ADC Channel17 selected </li>
+</ul>
+</td></tr>
+    <tr><td class="paramname">Rank</td><td>The rank in the regular group sequencer. This parameter must be between 1 to 16. </td></tr>
+    <tr><td class="paramname">ADC_SampleTime</td><td>The sample time value to be set for the selected channel. This parameter can be one of the following values: <ul>
+<li>ADC_SampleTime_1Cycles5: Sample time equal to 1.5 cycles </li>
+<li>ADC_SampleTime_7Cycles5: Sample time equal to 7.5 cycles </li>
+<li>ADC_SampleTime_13Cycles5: Sample time equal to 13.5 cycles </li>
+<li>ADC_SampleTime_28Cycles5: Sample time equal to 28.5 cycles </li>
+<li>ADC_SampleTime_41Cycles5: Sample time equal to 41.5 cycles </li>
+<li>ADC_SampleTime_55Cycles5: Sample time equal to 55.5 cycles </li>
+<li>ADC_SampleTime_71Cycles5: Sample time equal to 71.5 cycles </li>
+<li>ADC_SampleTime_239Cycles5: Sample time equal to 239.5 cycles </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gac986d438ba0a25be89591ee40fa66c2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac986d438ba0a25be89591ee40fa66c2d">&#9670;&nbsp;</a></span>ADC_ResetCalibration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_ResetCalibration </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Resets the selected ADC calibration registers. </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga30b212d627f5cd70e710f0057006dd50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga30b212d627f5cd70e710f0057006dd50">&#9670;&nbsp;</a></span>ADC_SetInjectedOffset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_SetInjectedOffset </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ADC_InjectedChannel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>Offset</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the injected channels conversion value offset </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_InjectedChannel</td><td>the ADC injected channel to set its offset. This parameter can be one of the following values: <ul>
+<li>ADC_InjectedChannel_1: Injected Channel1 selected </li>
+<li>ADC_InjectedChannel_2: Injected Channel2 selected </li>
+<li>ADC_InjectedChannel_3: Injected Channel3 selected </li>
+<li>ADC_InjectedChannel_4: Injected Channel4 selected </li>
+</ul>
+</td></tr>
+    <tr><td class="paramname">Offset</td><td>the offset value for the selected ADC injected channel This parameter must be a 12bit value. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga70dcb2d976b8dc5cbcbc10ad5f6ff751"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga70dcb2d976b8dc5cbcbc10ad5f6ff751">&#9670;&nbsp;</a></span>ADC_SoftwareStartConvCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_SoftwareStartConvCmd </td>
+          <td>(</td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the selected ADC software start conversion . </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">NewState</td><td>new state of the selected ADC software start conversion. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga6d70a692097569605740fe836377fb1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6d70a692097569605740fe836377fb1b">&#9670;&nbsp;</a></span>ADC_SoftwareStartInjectedConvCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_SoftwareStartInjectedConvCmd </td>
+          <td>(</td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the selected ADC start of the injected channels conversion. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">NewState</td><td>new state of the selected ADC software start injected conversion. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga158ddc2473c259a6c868b5e433b56922"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga158ddc2473c259a6c868b5e433b56922">&#9670;&nbsp;</a></span>ADC_StartCalibration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_StartCalibration </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts the selected ADC calibration process. </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga6c6e754d1d0a98d56e465efaf73272ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6c6e754d1d0a98d56e465efaf73272ec">&#9670;&nbsp;</a></span>ADC_StructInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_StructInit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_a_d_c___init_type_def.html">ADC_InitTypeDef</a> *&#160;</td>
+          <td class="paramname"><em>ADC_InitStruct</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fills each ADC_InitStruct member with its default value. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ADC_InitStruct</td><td>: pointer to an <a class="el" href="struct_a_d_c___init_type_def.html" title="ADC Init structure definition">ADC_InitTypeDef</a> structure which will be initialized. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga848682e2d7d3de9f8cf03ffa4c11f0b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga848682e2d7d3de9f8cf03ffa4c11f0b5">&#9670;&nbsp;</a></span>ADC_TempSensorVrefintCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADC_TempSensorVrefintCmd </td>
+          <td>(</td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the temperature sensor and Vrefint channel. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">NewState</td><td>new state of the temperature sensor. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">None</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

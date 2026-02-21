@@ -1,0 +1,10 @@
+var searchData=
+[
+  ['nmi_5fhandler',['NMI_Handler',['../group___w_b32_f10x___std_periph___template.html#ga6ad7a5e3ee69cb6db6a6b9111ba898bc',1,'NMI_Handler(void):&#160;wb32f10x_it.c'],['../group___w_b32_f10x___std_periph___template.html#ga6ad7a5e3ee69cb6db6a6b9111ba898bc',1,'NMI_Handler(void):&#160;main.c']]],
+  ['nvic_5fdecodepriority',['NVIC_DecodePriority',['../group___c_m_s_i_s___core___n_v_i_c_functions.html#ga3387607fd8a1a32cccd77d2ac672dd96',1,'core_cm3.h']]],
+  ['nvic_5fencodepriority',['NVIC_EncodePriority',['../group___c_m_s_i_s___core___n_v_i_c_functions.html#gadb94ac5d892b376e4f3555ae0418ebac',1,'core_cm3.h']]],
+  ['nvic_5finit',['NVIC_Init',['../group___m_i_s_c___exported___functions.html#ga4ab373ed0870c06fca5eb51d639adf41',1,'NVIC_Init(NVIC_InitTypeDef *NVIC_InitStruct):&#160;misc.c'],['../group___m_i_s_c___private___functions.html#ga4ab373ed0870c06fca5eb51d639adf41',1,'NVIC_Init(NVIC_InitTypeDef *NVIC_InitStruct):&#160;misc.c']]],
+  ['nvic_5fprioritygroupconfig',['NVIC_PriorityGroupConfig',['../group___m_i_s_c___exported___functions.html#gadfb1f34f803ce54c976643db8c484442',1,'NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup):&#160;misc.c'],['../group___m_i_s_c___private___functions.html#gadfb1f34f803ce54c976643db8c484442',1,'NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup):&#160;misc.c']]],
+  ['nvic_5fsetvectortable',['NVIC_SetVectorTable',['../group___m_i_s_c___exported___functions.html#ga1145208ad70edfc2fab19b8b8ef1b1a1',1,'NVIC_SetVectorTable(uint32_t NVIC_VectTab, uint32_t Offset):&#160;misc.c'],['../group___m_i_s_c___private___functions.html#ga1145208ad70edfc2fab19b8b8ef1b1a1',1,'NVIC_SetVectorTable(uint32_t NVIC_VectTab, uint32_t Offset):&#160;misc.c']]],
+  ['nvic_5fsystemlpconfig',['NVIC_SystemLPConfig',['../group___m_i_s_c___exported___functions.html#gae21011c5232f5b8f366acbecd12a1d4a',1,'NVIC_SystemLPConfig(uint8_t LowPowerMode, FunctionalState NewState):&#160;misc.c'],['../group___m_i_s_c___private___functions.html#gae21011c5232f5b8f366acbecd12a1d4a',1,'NVIC_SystemLPConfig(uint8_t LowPowerMode, FunctionalState NewState):&#160;misc.c']]]
+];

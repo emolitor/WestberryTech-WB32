@@ -1,0 +1,985 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: CRC</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#groups">模块</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle">
+<div class="title">CRC<div class="ingroups"><a class="el" href="group___w_b32_f10x___std_periph___driver.html">WB32F10x_StdPeriph_Driver</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>CRC driver modules  
+<a href="#details">更多...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
+模块</h2></td></tr>
+<tr class="memitem:group___c_r_c___private___functions"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c___private___functions.html">CRC_Private_Functions</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:gac310c0b4b066d22f610eca6e29401572"><td class="memItemLeft" align="right" valign="top"><a id="gac310c0b4b066d22f610eca6e29401572"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CRC16_IBM_ComputeBytes_Update</b>&#160;&#160;&#160;<a class="el" href="group___c_r_c___private___functions.html#ga638312790b06e03791f585e5add5621e">CRC16_Modbus_ComputeBytes_Update</a></td></tr>
+<tr class="separator:gac310c0b4b066d22f610eca6e29401572"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga907e9d13ad73ec1573e605149ed15537"><td class="memItemLeft" align="right" valign="top"><a id="ga907e9d13ad73ec1573e605149ed15537"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CRC16_IBM_ComputeHalfWords_Update</b>&#160;&#160;&#160;<a class="el" href="group___c_r_c___private___functions.html#ga25360a282ee6496753d9603b1b3eb392">CRC16_Modbus_ComputeHalfWords_Update</a></td></tr>
+<tr class="separator:ga907e9d13ad73ec1573e605149ed15537"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ga7cdeffc0c722ca24826965ca1df8b774"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga7cdeffc0c722ca24826965ca1df8b774">CRC8_ComputeBytes</a> (const uint8_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga7cdeffc0c722ca24826965ca1df8b774"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 8-bit CRC of a given buffer of byte(8-bit) with default seed.  <a href="#ga7cdeffc0c722ca24826965ca1df8b774">更多...</a><br /></td></tr>
+<tr class="separator:ga7cdeffc0c722ca24826965ca1df8b774"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad1645ff28290f3c8210273fe555cde9c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#gad1645ff28290f3c8210273fe555cde9c">CRC8_ComputeBytes_Update</a> (uint8_t seed, const uint8_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:gad1645ff28290f3c8210273fe555cde9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 8-bit CRC of a given buffer of byte(8-bit) with user-defined seed.  <a href="#gad1645ff28290f3c8210273fe555cde9c">更多...</a><br /></td></tr>
+<tr class="separator:gad1645ff28290f3c8210273fe555cde9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga648ec0ab35bf6321dd3dae83d42a7957"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga648ec0ab35bf6321dd3dae83d42a7957">CRC16_CCITT_ComputeBytes</a> (const uint8_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga648ec0ab35bf6321dd3dae83d42a7957"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 16-bit CRC-CCITT of a given buffer of byte(8-bit) with default seed.  <a href="#ga648ec0ab35bf6321dd3dae83d42a7957">更多...</a><br /></td></tr>
+<tr class="separator:ga648ec0ab35bf6321dd3dae83d42a7957"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadf694f28ec296e3dc5ecda2bd26acce9"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#gadf694f28ec296e3dc5ecda2bd26acce9">CRC16_CCITT_ComputeBytes_Update</a> (uint16_t seed, const uint8_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:gadf694f28ec296e3dc5ecda2bd26acce9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 16-bit CRC-CCITT of a given buffer of byte(8-bit) with user-defined seed.  <a href="#gadf694f28ec296e3dc5ecda2bd26acce9">更多...</a><br /></td></tr>
+<tr class="separator:gadf694f28ec296e3dc5ecda2bd26acce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf25d8eb7a65dd0ed94d3813f9a136bc7"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#gaf25d8eb7a65dd0ed94d3813f9a136bc7">CRC16_Modbus_ComputeBytes</a> (const uint8_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:gaf25d8eb7a65dd0ed94d3813f9a136bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 16-bit CRC(Modbus) of a given buffer of byte(8-bit) with default seed.  <a href="#gaf25d8eb7a65dd0ed94d3813f9a136bc7">更多...</a><br /></td></tr>
+<tr class="separator:gaf25d8eb7a65dd0ed94d3813f9a136bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga638312790b06e03791f585e5add5621e"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga638312790b06e03791f585e5add5621e">CRC16_Modbus_ComputeBytes_Update</a> (uint16_t seed, const uint8_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga638312790b06e03791f585e5add5621e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 16-bit CRC(Modbus) of a given buffer of byte(8-bit) with user-defined seed.  <a href="#ga638312790b06e03791f585e5add5621e">更多...</a><br /></td></tr>
+<tr class="separator:ga638312790b06e03791f585e5add5621e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga941bd2095bdcef1ed146784a0ae49062"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga941bd2095bdcef1ed146784a0ae49062">CRC16_IBM_ComputeBytes</a> (const uint8_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga941bd2095bdcef1ed146784a0ae49062"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 16-bit CRC(IBM) of a given buffer of byte(8-bit) with default seed.  <a href="#ga941bd2095bdcef1ed146784a0ae49062">更多...</a><br /></td></tr>
+<tr class="separator:ga941bd2095bdcef1ed146784a0ae49062"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga26365c54bbe95b3b71f8c72a00bc46a3"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga26365c54bbe95b3b71f8c72a00bc46a3">CRC32_ComputeBytes</a> (const uint8_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga26365c54bbe95b3b71f8c72a00bc46a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 32-bit CRC of a given buffer of byte(8-bit) with default seed.  <a href="#ga26365c54bbe95b3b71f8c72a00bc46a3">更多...</a><br /></td></tr>
+<tr class="separator:ga26365c54bbe95b3b71f8c72a00bc46a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga03dc30e730da87ae3653466784001f21"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga03dc30e730da87ae3653466784001f21">CRC32_ComputeBytes_Update</a> (uint32_t seed, const uint8_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga03dc30e730da87ae3653466784001f21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 32-bit CRC of a given buffer of byte(8-bit) with user-defined seed.  <a href="#ga03dc30e730da87ae3653466784001f21">更多...</a><br /></td></tr>
+<tr class="separator:ga03dc30e730da87ae3653466784001f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1d81f5c8615e02d1ac15680ab581fd91"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga1d81f5c8615e02d1ac15680ab581fd91">CRC32_MPEG2_ComputeBytes</a> (const uint8_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga1d81f5c8615e02d1ac15680ab581fd91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 32-bit CRC(MPEG2) of a given buffer of byte(8-bit) with default seed.  <a href="#ga1d81f5c8615e02d1ac15680ab581fd91">更多...</a><br /></td></tr>
+<tr class="separator:ga1d81f5c8615e02d1ac15680ab581fd91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga679501533d741df583878ad01c1deac8"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga679501533d741df583878ad01c1deac8">CRC32_MPEG2_ComputeBytes_Update</a> (uint32_t seed, const uint8_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga679501533d741df583878ad01c1deac8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 32-bit CRC(MPEG2) of a given buffer of byte(8-bit) with user-defined seed.  <a href="#ga679501533d741df583878ad01c1deac8">更多...</a><br /></td></tr>
+<tr class="separator:ga679501533d741df583878ad01c1deac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga413da08242c14cca666d42d705e4659d"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga413da08242c14cca666d42d705e4659d">CRC16_CCITT_ComputeHalfWords</a> (const uint16_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga413da08242c14cca666d42d705e4659d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 16-bit CRC-CCITT of a given buffer of halfword(16-bit) with default seed.  <a href="#ga413da08242c14cca666d42d705e4659d">更多...</a><br /></td></tr>
+<tr class="separator:ga413da08242c14cca666d42d705e4659d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga340110e7c1785bc383bf03e8f21a240e"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga340110e7c1785bc383bf03e8f21a240e">CRC16_CCITT_ComputeHalfWords_Update</a> (uint16_t seed, const uint16_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga340110e7c1785bc383bf03e8f21a240e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 16-bit CRC-CCITT of a given buffer of halfword(16-bit) with user-defined seed.  <a href="#ga340110e7c1785bc383bf03e8f21a240e">更多...</a><br /></td></tr>
+<tr class="separator:ga340110e7c1785bc383bf03e8f21a240e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacf28e45e1d0a1b37c0fefe274bde61ee"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#gacf28e45e1d0a1b37c0fefe274bde61ee">CRC16_Modbus_ComputeHalfWords</a> (const uint16_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:gacf28e45e1d0a1b37c0fefe274bde61ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 16-bit CRC(Modbus) of a given buffer of halfword(16-bit) with default seed.  <a href="#gacf28e45e1d0a1b37c0fefe274bde61ee">更多...</a><br /></td></tr>
+<tr class="separator:gacf28e45e1d0a1b37c0fefe274bde61ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga25360a282ee6496753d9603b1b3eb392"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga25360a282ee6496753d9603b1b3eb392">CRC16_Modbus_ComputeHalfWords_Update</a> (uint16_t seed, const uint16_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga25360a282ee6496753d9603b1b3eb392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 16-bit CRC(Modbus) of a given buffer of halfword(16-bit) with user-defined seed.  <a href="#ga25360a282ee6496753d9603b1b3eb392">更多...</a><br /></td></tr>
+<tr class="separator:ga25360a282ee6496753d9603b1b3eb392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1987d62ba590d2ce7c2432005329b4a0"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga1987d62ba590d2ce7c2432005329b4a0">CRC16_IBM_ComputeHalfWords</a> (const uint16_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga1987d62ba590d2ce7c2432005329b4a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 16-bit CRC(IBM) of a given buffer of halfword(16-bit) with default seed.  <a href="#ga1987d62ba590d2ce7c2432005329b4a0">更多...</a><br /></td></tr>
+<tr class="separator:ga1987d62ba590d2ce7c2432005329b4a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga65269beaa23b221d5a07c47d9f6be388"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga65269beaa23b221d5a07c47d9f6be388">CRC32_ComputeWords</a> (const uint32_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga65269beaa23b221d5a07c47d9f6be388"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 32-bit CRC of a given buffer of word(32-bit) with default seed.  <a href="#ga65269beaa23b221d5a07c47d9f6be388">更多...</a><br /></td></tr>
+<tr class="separator:ga65269beaa23b221d5a07c47d9f6be388"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3ea7df67744cd0472794841fcca0268b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga3ea7df67744cd0472794841fcca0268b">CRC32_ComputeWords_Update</a> (uint32_t seed, const uint32_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga3ea7df67744cd0472794841fcca0268b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 32-bit CRC of a given buffer of word(32-bit) with user-defined seed.  <a href="#ga3ea7df67744cd0472794841fcca0268b">更多...</a><br /></td></tr>
+<tr class="separator:ga3ea7df67744cd0472794841fcca0268b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga43bf83292e90529200588587e82db324"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga43bf83292e90529200588587e82db324">CRC32_MPEG2_ComputeWords</a> (const uint32_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga43bf83292e90529200588587e82db324"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 32-bit CRC(MPEG2) of a given buffer of word(32-bit) with default seed.  <a href="#ga43bf83292e90529200588587e82db324">更多...</a><br /></td></tr>
+<tr class="separator:ga43bf83292e90529200588587e82db324"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4ea2dda386854be8e5e28586716ccd41"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_r_c.html#ga4ea2dda386854be8e5e28586716ccd41">CRC32_MPEG2_ComputeWords_Update</a> (uint32_t seed, const uint32_t *ptr_data, uint32_t data_len)</td></tr>
+<tr class="memdesc:ga4ea2dda386854be8e5e28586716ccd41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the 32-bit CRC(MPEG2) of a given buffer of word(32-bit) with user-defined seed.  <a href="#ga4ea2dda386854be8e5e28586716ccd41">更多...</a><br /></td></tr>
+<tr class="separator:ga4ea2dda386854be8e5e28586716ccd41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<p>CRC driver modules </p>
+<h2 class="groupheader">函数说明</h2>
+<a id="ga648ec0ab35bf6321dd3dae83d42a7957"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga648ec0ab35bf6321dd3dae83d42a7957">&#9670;&nbsp;</a></span>CRC16_CCITT_ComputeBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t CRC16_CCITT_ComputeBytes </td>
+          <td>(</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 16-bit CRC-CCITT of a given buffer of byte(8-bit) with default seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>16-bit CRC-CCITT </dd></dl>
+
+</div>
+</div>
+<a id="gadf694f28ec296e3dc5ecda2bd26acce9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadf694f28ec296e3dc5ecda2bd26acce9">&#9670;&nbsp;</a></span>CRC16_CCITT_ComputeBytes_Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t CRC16_CCITT_ComputeBytes_Update </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 16-bit CRC-CCITT of a given buffer of byte(8-bit) with user-defined seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>User-defined seed </td></tr>
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>16-bit CRC-CCITT </dd></dl>
+
+</div>
+</div>
+<a id="ga413da08242c14cca666d42d705e4659d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga413da08242c14cca666d42d705e4659d">&#9670;&nbsp;</a></span>CRC16_CCITT_ComputeHalfWords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t CRC16_CCITT_ComputeHalfWords </td>
+          <td>(</td>
+          <td class="paramtype">const uint16_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 16-bit CRC-CCITT of a given buffer of halfword(16-bit) with default seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>16-bit CRC-CCITT </dd></dl>
+
+</div>
+</div>
+<a id="ga340110e7c1785bc383bf03e8f21a240e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga340110e7c1785bc383bf03e8f21a240e">&#9670;&nbsp;</a></span>CRC16_CCITT_ComputeHalfWords_Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t CRC16_CCITT_ComputeHalfWords_Update </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint16_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 16-bit CRC-CCITT of a given buffer of halfword(16-bit) with user-defined seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>User-defined seed </td></tr>
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>16-bit CRC-CCITT </dd></dl>
+
+</div>
+</div>
+<a id="ga941bd2095bdcef1ed146784a0ae49062"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga941bd2095bdcef1ed146784a0ae49062">&#9670;&nbsp;</a></span>CRC16_IBM_ComputeBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t CRC16_IBM_ComputeBytes </td>
+          <td>(</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 16-bit CRC(IBM) of a given buffer of byte(8-bit) with default seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>16-bit CRC(IBM) </dd></dl>
+
+</div>
+</div>
+<a id="ga1987d62ba590d2ce7c2432005329b4a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1987d62ba590d2ce7c2432005329b4a0">&#9670;&nbsp;</a></span>CRC16_IBM_ComputeHalfWords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t CRC16_IBM_ComputeHalfWords </td>
+          <td>(</td>
+          <td class="paramtype">const uint16_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 16-bit CRC(IBM) of a given buffer of halfword(16-bit) with default seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>16-bit CRC(IBM) </dd></dl>
+
+</div>
+</div>
+<a id="gaf25d8eb7a65dd0ed94d3813f9a136bc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf25d8eb7a65dd0ed94d3813f9a136bc7">&#9670;&nbsp;</a></span>CRC16_Modbus_ComputeBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t CRC16_Modbus_ComputeBytes </td>
+          <td>(</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 16-bit CRC(Modbus) of a given buffer of byte(8-bit) with default seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>16-bit CRC(Modbus) </dd></dl>
+
+</div>
+</div>
+<a id="ga638312790b06e03791f585e5add5621e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga638312790b06e03791f585e5add5621e">&#9670;&nbsp;</a></span>CRC16_Modbus_ComputeBytes_Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t CRC16_Modbus_ComputeBytes_Update </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 16-bit CRC(Modbus) of a given buffer of byte(8-bit) with user-defined seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>User-defined seed </td></tr>
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>16-bit CRC(Modbus) </dd></dl>
+
+</div>
+</div>
+<a id="gacf28e45e1d0a1b37c0fefe274bde61ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gacf28e45e1d0a1b37c0fefe274bde61ee">&#9670;&nbsp;</a></span>CRC16_Modbus_ComputeHalfWords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t CRC16_Modbus_ComputeHalfWords </td>
+          <td>(</td>
+          <td class="paramtype">const uint16_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 16-bit CRC(Modbus) of a given buffer of halfword(16-bit) with default seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>16-bit CRC(Modbus) </dd></dl>
+
+</div>
+</div>
+<a id="ga25360a282ee6496753d9603b1b3eb392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga25360a282ee6496753d9603b1b3eb392">&#9670;&nbsp;</a></span>CRC16_Modbus_ComputeHalfWords_Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t CRC16_Modbus_ComputeHalfWords_Update </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint16_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 16-bit CRC(Modbus) of a given buffer of halfword(16-bit) with user-defined seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>User-defined seed </td></tr>
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>16-bit CRC(Modbus) </dd></dl>
+
+</div>
+</div>
+<a id="ga26365c54bbe95b3b71f8c72a00bc46a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga26365c54bbe95b3b71f8c72a00bc46a3">&#9670;&nbsp;</a></span>CRC32_ComputeBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t CRC32_ComputeBytes </td>
+          <td>(</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 32-bit CRC of a given buffer of byte(8-bit) with default seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>32-bit CRC </dd></dl>
+
+</div>
+</div>
+<a id="ga03dc30e730da87ae3653466784001f21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga03dc30e730da87ae3653466784001f21">&#9670;&nbsp;</a></span>CRC32_ComputeBytes_Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t CRC32_ComputeBytes_Update </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 32-bit CRC of a given buffer of byte(8-bit) with user-defined seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>User-defined seed </td></tr>
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>32-bit CRC </dd></dl>
+
+</div>
+</div>
+<a id="ga65269beaa23b221d5a07c47d9f6be388"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga65269beaa23b221d5a07c47d9f6be388">&#9670;&nbsp;</a></span>CRC32_ComputeWords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t CRC32_ComputeWords </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 32-bit CRC of a given buffer of word(32-bit) with default seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>32-bit CRC </dd></dl>
+
+</div>
+</div>
+<a id="ga3ea7df67744cd0472794841fcca0268b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3ea7df67744cd0472794841fcca0268b">&#9670;&nbsp;</a></span>CRC32_ComputeWords_Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t CRC32_ComputeWords_Update </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 32-bit CRC of a given buffer of word(32-bit) with user-defined seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>User-defined seed </td></tr>
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>32-bit CRC </dd></dl>
+
+</div>
+</div>
+<a id="ga1d81f5c8615e02d1ac15680ab581fd91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1d81f5c8615e02d1ac15680ab581fd91">&#9670;&nbsp;</a></span>CRC32_MPEG2_ComputeBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t CRC32_MPEG2_ComputeBytes </td>
+          <td>(</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 32-bit CRC(MPEG2) of a given buffer of byte(8-bit) with default seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>32-bit CRC(MPEG2) </dd></dl>
+
+</div>
+</div>
+<a id="ga679501533d741df583878ad01c1deac8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga679501533d741df583878ad01c1deac8">&#9670;&nbsp;</a></span>CRC32_MPEG2_ComputeBytes_Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t CRC32_MPEG2_ComputeBytes_Update </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 32-bit CRC(MPEG2) of a given buffer of byte(8-bit) with user-defined seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>User-defined seed </td></tr>
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>32-bit CRC(MPEG2) </dd></dl>
+
+</div>
+</div>
+<a id="ga43bf83292e90529200588587e82db324"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga43bf83292e90529200588587e82db324">&#9670;&nbsp;</a></span>CRC32_MPEG2_ComputeWords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t CRC32_MPEG2_ComputeWords </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 32-bit CRC(MPEG2) of a given buffer of word(32-bit) with default seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>32-bit CRC(MPEG2) </dd></dl>
+
+</div>
+</div>
+<a id="ga4ea2dda386854be8e5e28586716ccd41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4ea2dda386854be8e5e28586716ccd41">&#9670;&nbsp;</a></span>CRC32_MPEG2_ComputeWords_Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t CRC32_MPEG2_ComputeWords_Update </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 32-bit CRC(MPEG2) of a given buffer of word(32-bit) with user-defined seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>User-defined seed </td></tr>
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>32-bit CRC(MPEG2) </dd></dl>
+
+</div>
+</div>
+<a id="ga7cdeffc0c722ca24826965ca1df8b774"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7cdeffc0c722ca24826965ca1df8b774">&#9670;&nbsp;</a></span>CRC8_ComputeBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t CRC8_ComputeBytes </td>
+          <td>(</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 8-bit CRC of a given buffer of byte(8-bit) with default seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>8-bit CRC </dd></dl>
+
+</div>
+</div>
+<a id="gad1645ff28290f3c8210273fe555cde9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad1645ff28290f3c8210273fe555cde9c">&#9670;&nbsp;</a></span>CRC8_ComputeBytes_Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t CRC8_ComputeBytes_Update </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>ptr_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the 8-bit CRC of a given buffer of byte(8-bit) with user-defined seed. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>User-defined seed </td></tr>
+    <tr><td class="paramname">ptr_data</td><td>Pointer to the buffer containing the data to be computed </td></tr>
+    <tr><td class="paramname">data_len</td><td>Length of the buffer to be computed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>8-bit CRC </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

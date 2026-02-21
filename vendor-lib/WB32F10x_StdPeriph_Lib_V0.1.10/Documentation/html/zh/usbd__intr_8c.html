@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: usbd_intr.c 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_6d2d5b60bd20db849a9486835a2715aa.html">Libraries</a></li><li class="navelem"><a class="el" href="dir_220393b76de29dcc6a4f5a0f02aa06e9.html">WB32F10x_USBDevice_Driver</a></li><li class="navelem"><a class="el" href="dir_40825d314d0bf151ac5f639289681c55.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#enum-members">枚举</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle">
+<div class="title">usbd_intr.c 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;wb32f10x.h&quot;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="usbd__core_8h_source.html">usbd_core.h</a>&quot;</code><br />
+<code>#include &quot;usbd_user.h&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:a4aa8a3848fe429bf907f03ff36f9a3c8"><td class="memItemLeft" align="right" valign="top"><a id="a4aa8a3848fe429bf907f03ff36f9a3c8"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>Endpoint0State_t</b> { <b>EP0_STATE_IDLE</b>, 
+<b>EP0_STATE_TX</b>, 
+<b>EP0_STATE_RX</b>, 
+<b>EP0_STATE_STALL</b>
+ }</td></tr>
+<tr class="separator:a4aa8a3848fe429bf907f03ff36f9a3c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:a09c91ea1ab7b3a9c4ef82a7c77e110d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usbd__intr_8c.html#a09c91ea1ab7b3a9c4ef82a7c77e110d3">USBD_EndPoint0</a> (void)</td></tr>
+<tr class="memdesc:a09c91ea1ab7b3a9c4ef82a7c77e110d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle Endpoint 0 Event  <a href="#a09c91ea1ab7b3a9c4ef82a7c77e110d3">更多...</a><br /></td></tr>
+<tr class="separator:a09c91ea1ab7b3a9c4ef82a7c77e110d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafdd7ab09727bf76c28edaaf9bdfccad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usbd__intr_8c.html#aafdd7ab09727bf76c28edaaf9bdfccad">Handle_USBD_INT</a> (uint8_t IntrUSB, uint8_t IntrIn, uint8_t IntrOut)</td></tr>
+<tr class="memdesc:aafdd7ab09727bf76c28edaaf9bdfccad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle USBD Interrupts.  <a href="#aafdd7ab09727bf76c28edaaf9bdfccad">更多...</a><br /></td></tr>
+<tr class="separator:aafdd7ab09727bf76c28edaaf9bdfccad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>Westberry Application Team </dd></dl>
+<dl class="section attention"><dt>注意</dt><dd></dd></dl>
+<p>Copyright (c) 2020 - 2023 Westberry Technology (ChangZhou) Corp., Ltd All rights reserved.</p>
+<p>THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME. AS A RESULT, WESTBERRY TECHNOLOGY SHALL NOT BE HELD LIABLE FOR ANY DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS. </p>
+</div><h2 class="groupheader">函数说明</h2>
+<a id="aafdd7ab09727bf76c28edaaf9bdfccad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafdd7ab09727bf76c28edaaf9bdfccad">&#9670;&nbsp;</a></span>Handle_USBD_INT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Handle_USBD_INT </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>IntrUSB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>IntrIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>IntrOut</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handle USBD Interrupts. </p>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="a09c91ea1ab7b3a9c4ef82a7c77e110d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09c91ea1ab7b3a9c4ef82a7c77e110d3">&#9670;&nbsp;</a></span>USBD_EndPoint0()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void USBD_EndPoint0 </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handle Endpoint 0 Event </p>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>

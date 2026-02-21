@@ -1,0 +1,892 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WB32F10x Standard Peripherals Firmware Library: UART_Private_Functions</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">WB32F10x Standard Peripherals Firmware Library
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle">
+<div class="title">UART_Private_Functions<div class="ingroups"><a class="el" href="group___w_b32_f10x___std_periph___driver.html">WB32F10x_StdPeriph_Driver</a> &raquo; <a class="el" href="group___u_a_r_t.html">UART</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ga78d1bed44f47ad24ff2b6f34cf8f4653"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#ga78d1bed44f47ad24ff2b6f34cf8f4653">UART_DeInit</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:ga78d1bed44f47ad24ff2b6f34cf8f4653"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitializes the UARTx peripheral registers to their default reset values.  <a href="#ga78d1bed44f47ad24ff2b6f34cf8f4653">更多...</a><br /></td></tr>
+<tr class="separator:ga78d1bed44f47ad24ff2b6f34cf8f4653"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafa42d3571c479818210b9bc065337506"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#gafa42d3571c479818210b9bc065337506">UART_Init</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, <a class="el" href="struct_u_a_r_t___init_type_def.html">UART_InitTypeDef</a> *UART_InitStruct)</td></tr>
+<tr class="memdesc:gafa42d3571c479818210b9bc065337506"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the UARTx peripheral according to the specified parameters in the UART_InitStruct.  <a href="#gafa42d3571c479818210b9bc065337506">更多...</a><br /></td></tr>
+<tr class="separator:gafa42d3571c479818210b9bc065337506"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga73087c97b8a29a580894ced7b125bc41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#ga73087c97b8a29a580894ced7b125bc41">UART_StructInit</a> (<a class="el" href="struct_u_a_r_t___init_type_def.html">UART_InitTypeDef</a> *UART_InitStruct)</td></tr>
+<tr class="memdesc:ga73087c97b8a29a580894ced7b125bc41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills each UART_InitStruct member with its default value.  <a href="#ga73087c97b8a29a580894ced7b125bc41">更多...</a><br /></td></tr>
+<tr class="separator:ga73087c97b8a29a580894ced7b125bc41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac1ffc816995c40fe8a23b2beefc78053"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#gac1ffc816995c40fe8a23b2beefc78053">UART_WriteData</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, uint16_t Data)</td></tr>
+<tr class="memdesc:gac1ffc816995c40fe8a23b2beefc78053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write data to THR register or Tx FIFO.  <a href="#gac1ffc816995c40fe8a23b2beefc78053">更多...</a><br /></td></tr>
+<tr class="separator:gac1ffc816995c40fe8a23b2beefc78053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga38e37d3d82c61c1af9619b35060b079e"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#ga38e37d3d82c61c1af9619b35060b079e">UART_ReadData</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:ga38e37d3d82c61c1af9619b35060b079e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read data from RBR register or Rx FIFO.  <a href="#ga38e37d3d82c61c1af9619b35060b079e">更多...</a><br /></td></tr>
+<tr class="separator:ga38e37d3d82c61c1af9619b35060b079e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea5082e8ba20dcba4945dd9b00f72277"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#gaea5082e8ba20dcba4945dd9b00f72277">UART_RxFIFOThresholdConfig</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, uint8_t Threshold)</td></tr>
+<tr class="memdesc:gaea5082e8ba20dcba4945dd9b00f72277"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure UARTx's Rx FIFO trigger threshold.  <a href="#gaea5082e8ba20dcba4945dd9b00f72277">更多...</a><br /></td></tr>
+<tr class="separator:gaea5082e8ba20dcba4945dd9b00f72277"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6db4398e1651e5c82d038669fcd3d113"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#ga6db4398e1651e5c82d038669fcd3d113">UART_TxFIFOThresholdConfig</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, uint8_t Threshold)</td></tr>
+<tr class="memdesc:ga6db4398e1651e5c82d038669fcd3d113"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure UARTx's Tx FIFO trigger threshold.  <a href="#ga6db4398e1651e5c82d038669fcd3d113">更多...</a><br /></td></tr>
+<tr class="separator:ga6db4398e1651e5c82d038669fcd3d113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa113b62b13016eb4f8dc36a3f69699cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#gaa113b62b13016eb4f8dc36a3f69699cb">UART_FIFOCmd</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:gaa113b62b13016eb4f8dc36a3f69699cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the UARTx's FIFO.  <a href="#gaa113b62b13016eb4f8dc36a3f69699cb">更多...</a><br /></td></tr>
+<tr class="separator:gaa113b62b13016eb4f8dc36a3f69699cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga48f8849f5ac78729633df52e2c78d306"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#ga48f8849f5ac78729633df52e2c78d306">UART_ResetRxFIFO</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:ga48f8849f5ac78729633df52e2c78d306"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the UART's Rx FIFO.  <a href="#ga48f8849f5ac78729633df52e2c78d306">更多...</a><br /></td></tr>
+<tr class="separator:ga48f8849f5ac78729633df52e2c78d306"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7242d2db394a08ce6015fc17ecc5c62b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#ga7242d2db394a08ce6015fc17ecc5c62b">UART_ResetTxFIFO</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:ga7242d2db394a08ce6015fc17ecc5c62b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the UART's Tx FIFO.  <a href="#ga7242d2db394a08ce6015fc17ecc5c62b">更多...</a><br /></td></tr>
+<tr class="separator:ga7242d2db394a08ce6015fc17ecc5c62b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga10a24a1d38b827a6c074d8d22a4adeb6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#ga10a24a1d38b827a6c074d8d22a4adeb6">UART_ForceBreakCmd</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga10a24a1d38b827a6c074d8d22a4adeb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force the serial out to spacing state or not.  <a href="#ga10a24a1d38b827a6c074d8d22a4adeb6">更多...</a><br /></td></tr>
+<tr class="separator:ga10a24a1d38b827a6c074d8d22a4adeb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab5bb64e7520bb9fc109f316452fa671f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#gab5bb64e7520bb9fc109f316452fa671f">UART_IrDACmd</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:gab5bb64e7520bb9fc109f316452fa671f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the UARTx's IrDA SIR Mode.  <a href="#gab5bb64e7520bb9fc109f316452fa671f">更多...</a><br /></td></tr>
+<tr class="separator:gab5bb64e7520bb9fc109f316452fa671f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacd67edc751aadfc7fe7fb2d73dc241fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#gacd67edc751aadfc7fe7fb2d73dc241fd">UART_ProgrammableTHREModeCmd</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:gacd67edc751aadfc7fe7fb2d73dc241fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the UARTx's Programmable THRE Interrupt Mode.  <a href="#gacd67edc751aadfc7fe7fb2d73dc241fd">更多...</a><br /></td></tr>
+<tr class="separator:gacd67edc751aadfc7fe7fb2d73dc241fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga125de5b2d1d61517456afaf0ae20265c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#ga125de5b2d1d61517456afaf0ae20265c">UART_LineStatusClearModeConfig</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, uint8_t Mode)</td></tr>
+<tr class="memdesc:ga125de5b2d1d61517456afaf0ae20265c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select the method for clearing the status in the LSR register.  <a href="#ga125de5b2d1d61517456afaf0ae20265c">更多...</a><br /></td></tr>
+<tr class="separator:ga125de5b2d1d61517456afaf0ae20265c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa8712d0148ad4e2fbeaa9e120f055d6b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#gaa8712d0148ad4e2fbeaa9e120f055d6b">UART_ITConfig</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, uint8_t UART_IT, FunctionalState NewState)</td></tr>
+<tr class="memdesc:gaa8712d0148ad4e2fbeaa9e120f055d6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the UARTx's interrupts.  <a href="#gaa8712d0148ad4e2fbeaa9e120f055d6b">更多...</a><br /></td></tr>
+<tr class="separator:gaa8712d0148ad4e2fbeaa9e120f055d6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8390b8d6caf0d4747df3e16aaf81bb1f"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#ga8390b8d6caf0d4747df3e16aaf81bb1f">UART_GetIntID</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:ga8390b8d6caf0d4747df3e16aaf81bb1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get UARTx's Interrupt ID.  <a href="#ga8390b8d6caf0d4747df3e16aaf81bb1f">更多...</a><br /></td></tr>
+<tr class="separator:ga8390b8d6caf0d4747df3e16aaf81bb1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8778fc5eb3a14c0dcb938e72c01236e8"><td class="memItemLeft" align="right" valign="top">FlagStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#ga8778fc5eb3a14c0dcb938e72c01236e8">UART_GetFlagStatus</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, uint32_t UART_FLAG)</td></tr>
+<tr class="memdesc:ga8778fc5eb3a14c0dcb938e72c01236e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the specified UART flag is set or not.  <a href="#ga8778fc5eb3a14c0dcb938e72c01236e8">更多...</a><br /></td></tr>
+<tr class="separator:ga8778fc5eb3a14c0dcb938e72c01236e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7abed25e60abe01f0d0ecfb24255850e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#ga7abed25e60abe01f0d0ecfb24255850e">UART_GetLineStatus</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:ga7abed25e60abe01f0d0ecfb24255850e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get UARTx's Line status.  <a href="#ga7abed25e60abe01f0d0ecfb24255850e">更多...</a><br /></td></tr>
+<tr class="separator:ga7abed25e60abe01f0d0ecfb24255850e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa2fb558bf59ddf20876383c1a11d04fc"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#gaa2fb558bf59ddf20876383c1a11d04fc">UART_GetModemStatus</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx)</td></tr>
+<tr class="memdesc:gaa2fb558bf59ddf20876383c1a11d04fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get UARTx's Modem Status.  <a href="#gaa2fb558bf59ddf20876383c1a11d04fc">更多...</a><br /></td></tr>
+<tr class="separator:gaa2fb558bf59ddf20876383c1a11d04fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9979b712f41c0bab28aae4b3e65d5d3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#ga9979b712f41c0bab28aae4b3e65d5d3f">UART_LoopBackModeCmd</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, FunctionalState NewState)</td></tr>
+<tr class="memdesc:ga9979b712f41c0bab28aae4b3e65d5d3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables the UARTx's LoopBack Mode.  <a href="#ga9979b712f41c0bab28aae4b3e65d5d3f">更多...</a><br /></td></tr>
+<tr class="separator:ga9979b712f41c0bab28aae4b3e65d5d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa80beec7320eb82bdb4b9a92aa31ce6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_a_r_t___private___functions.html#gaa80beec7320eb82bdb4b9a92aa31ce6e">UART_ModemForceRtsPinState</a> (<a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *UARTx, SignalState NewState)</td></tr>
+<tr class="memdesc:gaa80beec7320eb82bdb4b9a92aa31ce6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control RTS Pin State.  <a href="#gaa80beec7320eb82bdb4b9a92aa31ce6e">更多...</a><br /></td></tr>
+<tr class="separator:gaa80beec7320eb82bdb4b9a92aa31ce6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<h2 class="groupheader">函数说明</h2>
+<a id="ga78d1bed44f47ad24ff2b6f34cf8f4653"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga78d1bed44f47ad24ff2b6f34cf8f4653">&#9670;&nbsp;</a></span>UART_DeInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_DeInit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deinitializes the UARTx peripheral registers to their default reset values. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gaa113b62b13016eb4f8dc36a3f69699cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa113b62b13016eb4f8dc36a3f69699cb">&#9670;&nbsp;</a></span>UART_FIFOCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_FIFOCmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the UARTx's FIFO. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the FIFO. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga10a24a1d38b827a6c074d8d22a4adeb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga10a24a1d38b827a6c074d8d22a4adeb6">&#9670;&nbsp;</a></span>UART_ForceBreakCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_ForceBreakCmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Force the serial out to spacing state or not. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the Break control bit. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga8778fc5eb3a14c0dcb938e72c01236e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8778fc5eb3a14c0dcb938e72c01236e8">&#9670;&nbsp;</a></span>UART_GetFlagStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FlagStatus UART_GetFlagStatus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>UART_FLAG</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks whether the specified UART flag is set or not. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">UART_FLAG</td><td>specifies the flag to check. This parameter can be one of the following values: <ul>
+<li>UART_FLAG_BUSY: Busy flag. </li>
+<li>UART_FLAG_TFNF: Transmit FIFO Not Full flag. </li>
+<li>UART_FLAG_TFE: Transmit FIFO Empty flag. </li>
+<li>UART_FLAG_RFNE: Receive FIFO Not Empty flag. </li>
+<li>UART_FLAG_RFF: Receive FIFO Full flag. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The new state of UART_FLAG (SET or RESET). </dd></dl>
+
+</div>
+</div>
+<a id="ga8390b8d6caf0d4747df3e16aaf81bb1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8390b8d6caf0d4747df3e16aaf81bb1f">&#9670;&nbsp;</a></span>UART_GetIntID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t UART_GetIntID </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get UARTx's Interrupt ID. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>Interrupt ID. </dd></dl>
+
+</div>
+</div>
+<a id="ga7abed25e60abe01f0d0ecfb24255850e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7abed25e60abe01f0d0ecfb24255850e">&#9670;&nbsp;</a></span>UART_GetLineStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t UART_GetLineStatus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get UARTx's Line status. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>UARTx's Line status. </dd></dl>
+
+</div>
+</div>
+<a id="gaa2fb558bf59ddf20876383c1a11d04fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa2fb558bf59ddf20876383c1a11d04fc">&#9670;&nbsp;</a></span>UART_GetModemStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t UART_GetModemStatus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get UARTx's Modem Status. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>UARTx's Modem Status. </dd></dl>
+
+</div>
+</div>
+<a id="gafa42d3571c479818210b9bc065337506"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafa42d3571c479818210b9bc065337506">&#9670;&nbsp;</a></span>UART_Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_Init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___init_type_def.html">UART_InitTypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UART_InitStruct</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes the UARTx peripheral according to the specified parameters in the UART_InitStruct. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">UART_InitStruct</td><td>pointer to a <a class="el" href="struct_u_a_r_t___init_type_def.html" title="UART Init Structure definition">UART_InitTypeDef</a> structure that contains the configuration information for the specified UART peripheral. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gab5bb64e7520bb9fc109f316452fa671f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab5bb64e7520bb9fc109f316452fa671f">&#9670;&nbsp;</a></span>UART_IrDACmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_IrDACmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the UARTx's IrDA SIR Mode. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the IrDA SIR Mode. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gaa8712d0148ad4e2fbeaa9e120f055d6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa8712d0148ad4e2fbeaa9e120f055d6b">&#9670;&nbsp;</a></span>UART_ITConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_ITConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>UART_IT</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the UARTx's interrupts. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">UART_IT</td><td>specifies the UART interrupt sources to be enabled or disabled. This parameter can be a combination of the following values: <ul>
+<li>UART_IT_RDA </li>
+<li>UART_IT_THRE </li>
+<li>UART_IT_RLS </li>
+<li>UART_IT_MSI </li>
+</ul>
+</td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the interrupts. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga125de5b2d1d61517456afaf0ae20265c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga125de5b2d1d61517456afaf0ae20265c">&#9670;&nbsp;</a></span>UART_LineStatusClearModeConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_LineStatusClearModeConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>Mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Select the method for clearing the status in the LSR register. </p>
+<dl class="section note"><dt>注解</dt><dd>This is applicable only for Overrun Error, Parity Error, Framing Error, and Break Interrupt status bits. </dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">Mode</td><td>the method for clearing the status in the LSR register. This parameter can be: 0 or 1. <ul>
+<li>0: LSR status bits are cleared either on reading Rx FIFO (RBR Read) or on reading LSR register. </li>
+<li>1: LSR status bits are cleared only on reading LSR register. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga9979b712f41c0bab28aae4b3e65d5d3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9979b712f41c0bab28aae4b3e65d5d3f">&#9670;&nbsp;</a></span>UART_LoopBackModeCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_LoopBackModeCmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the UARTx's LoopBack Mode. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the LoopBack Mode. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gaa80beec7320eb82bdb4b9a92aa31ce6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa80beec7320eb82bdb4b9a92aa31ce6e">&#9670;&nbsp;</a></span>UART_ModemForceRtsPinState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_ModemForceRtsPinState </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SignalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Control RTS Pin State. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the RTS Pin State. This parameter can be: ACTIVE or INACTIVE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gacd67edc751aadfc7fe7fb2d73dc241fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gacd67edc751aadfc7fe7fb2d73dc241fd">&#9670;&nbsp;</a></span>UART_ProgrammableTHREModeCmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_ProgrammableTHREModeCmd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FunctionalState&#160;</td>
+          <td class="paramname"><em>NewState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables the UARTx's Programmable THRE Interrupt Mode. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">NewState</td><td>new state of the Programmable THRE Interrupt Mode. This parameter can be: ENABLE or DISABLE. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga38e37d3d82c61c1af9619b35060b079e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga38e37d3d82c61c1af9619b35060b079e">&#9670;&nbsp;</a></span>UART_ReadData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t UART_ReadData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read data from RBR register or Rx FIFO. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The received data </dd></dl>
+
+</div>
+</div>
+<a id="ga48f8849f5ac78729633df52e2c78d306"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga48f8849f5ac78729633df52e2c78d306">&#9670;&nbsp;</a></span>UART_ResetRxFIFO()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_ResetRxFIFO </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reset the UART's Rx FIFO. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga7242d2db394a08ce6015fc17ecc5c62b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7242d2db394a08ce6015fc17ecc5c62b">&#9670;&nbsp;</a></span>UART_ResetTxFIFO()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_ResetTxFIFO </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reset the UART's Tx FIFO. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gaea5082e8ba20dcba4945dd9b00f72277"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaea5082e8ba20dcba4945dd9b00f72277">&#9670;&nbsp;</a></span>UART_RxFIFOThresholdConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_RxFIFOThresholdConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>Threshold</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configure UARTx's Rx FIFO trigger threshold. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">Threshold</td><td>This parameter can be one of the following values: <ul>
+<li>UART_RxFIFOThreshold_1 </li>
+<li>UART_RxFIFOThreshold_4 </li>
+<li>UART_RxFIFOThreshold_8 </li>
+<li>UART_RxFIFOThreshold_14 </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga73087c97b8a29a580894ced7b125bc41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga73087c97b8a29a580894ced7b125bc41">&#9670;&nbsp;</a></span>UART_StructInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_StructInit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___init_type_def.html">UART_InitTypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UART_InitStruct</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fills each UART_InitStruct member with its default value. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UART_InitStruct</td><td>pointer to a <a class="el" href="struct_u_a_r_t___init_type_def.html" title="UART Init Structure definition">UART_InitTypeDef</a> structure which will be initialized. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga6db4398e1651e5c82d038669fcd3d113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6db4398e1651e5c82d038669fcd3d113">&#9670;&nbsp;</a></span>UART_TxFIFOThresholdConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_TxFIFOThresholdConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>Threshold</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configure UARTx's Tx FIFO trigger threshold. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">Threshold</td><td>This parameter can be one of the following values: <ul>
+<li>UART_TxFIFOThreshold_0 </li>
+<li>UART_TxFIFOThreshold_2 </li>
+<li>UART_TxFIFOThreshold_4 </li>
+<li>UART_TxFIFOThreshold_8 </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gac1ffc816995c40fe8a23b2beefc78053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac1ffc816995c40fe8a23b2beefc78053">&#9670;&nbsp;</a></span>UART_WriteData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UART_WriteData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_u_a_r_t___type_def.html">UART_TypeDef</a> *&#160;</td>
+          <td class="paramname"><em>UARTx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>Data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write data to THR register or Tx FIFO. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UARTx</td><td>Pointer to selected UART peripheral. This parameter can be one of the following values: UART1, UART2, UART3. </td></tr>
+    <tr><td class="paramname">Data</td><td>the data to write. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>None </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by Westberry Technology (ChangZhou) Corp., Ltd. All rights reserved.
+</small></address>
+</body>
+</html>
