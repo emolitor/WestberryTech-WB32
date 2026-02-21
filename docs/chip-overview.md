@@ -7,11 +7,6 @@ Changzhou, China, specializing in low-power, high-performance reconfigurable mic
 Their product line targets motor control, wearables, automotive peripherals, consumer
 electronics, and gaming keyboards.
 
-| Date | Milestone |
-|------|-----------|
-| August 2021 | Released the WB32F10x, their first general-purpose MCU product line |
-| December 2023 | Released the Gaming Keyboard SoC with tri-mode wireless support |
-
 The gaming keyboard market has become Westberry's primary commercial segment, with WB32
 parts appearing in boards from several major manufacturers.
 
@@ -28,7 +23,6 @@ parts appearing in boards from several major manufacturers.
 | WB32F105xx | Extended temperature range | Industrial |
 | WB32FQ95xx | USB keyboard focus | Gaming keyboards (QMK/VIA) |
 | WB32F3G71xx | Newer variant | Advanced applications |
-| Gaming Keyboard SoC | Tri-mode wireless (2023) | RGB wireless keyboards |
 
 ### WB32FQ95xx
 
@@ -105,18 +99,6 @@ in several important ways. STM32 code cannot be directly ported; driver adaptati
 | USB | Full-speed | Full-speed |
 | DMA Channels | 6 (2 controllers) | 7-12 |
 | Package | LQFP48/64 | LQFP48/64/100 |
-| Price | Lower | Higher |
-
-**Advantages over STM32**:
-- Lower cost at equivalent feature sets
-- ROM-based DFU bootloader (always available, does not consume user flash)
-- Higher maximum clock speed (96-128 MHz vs 72 MHz)
-- Drop-in physical replacement for STM32F10x LQFP48
-
-**Disadvantages**:
-- Limited public documentation (some datasheets require vendor contact)
-- Smaller developer community and ecosystem
-- Less mature tooling (custom OpenOCD driver required, no mainstream IDE support)
 
 ---
 
@@ -129,6 +111,8 @@ WB32 microcontrollers are used in production keyboards from several manufacturer
 - **MonsGeek**
 - **Inland**
 - **Shortcut Studio** (Bridge75 uses WB32FQ95 + CH582F for wireless)
+- **QK/Neo** (Neo Gen 1 boards use WB32FQ95 + CH582F for wireless)
+- **Polygon** (PG7 uses WB32FQ95 + CH582F for wireless)
 
 ---
 
@@ -139,7 +123,6 @@ WB32 microcontrollers are used in production keyboards from several manufacturer
 | Framework | WB32 Support |
 |-----------|-------------|
 | QMK Firmware | Official support for WB32FQ95xx and WB32F3G71xx |
-| VIA | Compatible through QMK |
 | ChibiOS | Community port in ChibiOS-Contrib |
 | Bare Metal | Vendor Standard Peripheral Library |
 
@@ -166,7 +149,7 @@ WB32 microcontrollers are used in production keyboards from several manufacturer
 - [qmk/ChibiOS-Contrib WB32 Port](https://github.com/qmk/ChibiOS-Contrib/tree/master/os/hal/ports/WB32)
 
 ### Sourcing
-- [JLCPCB](https://jlcpcb.com/) (search for WB32FQ95)
+- [Westberry Taobao](https://world.taobao.com/dianpu/471165391.htm?spm=a21wu.12321156-tw/qwen.shop-area.1.59ad6dc0ANXkNx)
 
 ---
 
