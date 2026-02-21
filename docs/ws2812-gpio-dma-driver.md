@@ -423,37 +423,6 @@ comfortable margin on both the T0H upper bound and the T1H lower bound.
 
 ---
 
-## Validation
-
-### Development Board (GDB Register-Level)
-
-An 8-phase GDB validation script confirmed correct operation at the register level across 13
-test points:
-
-| Phase | Validation |
-|-------|------------|
-| 1 | Firmware boots, DMA stream allocated (non-null) |
-| 2 | All peripheral registers (DMA DAR/CTLL/CFGH, TIM3 PSC/DIER, GPIO mode) match expected config |
-| 3 | Buffer encoding: 3-phase per bit, GRB byte order, MSB-first, all SET phases correct |
-| 4 | Three consecutive frames complete (12 blocks each), no DMA errors |
-| 5 | Interrupt mask lifecycle: enabled during transfer, cleared by dmaStreamDisable, re-enabled by flush fix |
-| 6 | 30-second stability: 0 stuck states, 0 errors across 6 sample points |
-| 7 | 8 reset cycles: driver re-initializes correctly every time |
-| 8 | Full register dump during active transfer matches expected values |
-
-See [`docs/validation/ws2812-dma.md`](validation/ws2812-dma.md) for full results.
-
-### Real Keyboard (Visual + Stress)
-
-Production validation on a Bridge75 ANSI keyboard (81 WS2812 LEDs):
-
-- Rainbow animation: flicker-free across all 81 LEDs
-- Solid color: no artifacts
-- USB insertion stress: 20+ cycles with zero lockups (after Bug 8 fix)
-- UART stress (200 msg/s wireless traffic): 1860 frames / 2 minutes, zero timeouts, zero errors
-
----
-
 ## Integration
 
 ### File Placement

@@ -172,13 +172,3 @@ code-level details.
 Fixes are available on the `em-wb32-improvements` branch at
 `https://github.com/emolitor/ChibiOS-Contrib`.
 
----
-
-## Validation
-
-All port validation phases have been completed and passed. The port has been tested in
-production firmware (Bridge75 keyboard, 81 WS2812 LEDs, wireless operation) and is
-considered production-ready for typical embedded applications.
-
-See [`docs/validation/`](validation/) for individual phase results covering clock
-configuration, GPIO, UART, SPI, I2C, USB, ADC, DMA, timers, and flash operations.

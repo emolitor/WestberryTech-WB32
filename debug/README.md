@@ -63,5 +63,3 @@ directory on your platform.
 
 - [emolitor/openocd](https://github.com/emolitor/openocd) -- OpenOCD fork with
   WB32 flash driver, build instructions, and configuration
-- [docs/debug-war-stories.md](../docs/debug-war-stories.md) -- Debugging case
-  studies from WB32 driver development

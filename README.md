@@ -13,7 +13,6 @@ WB32 chips are pin-compatible STM32F10x alternatives used in keyboards from GMMK
 | GPIO OSPEEDR polarity inverted from STM32 | STM32 speed settings give opposite result | [Silicon Errata](docs/silicon-errata.md) |
 | 11 ChibiOS-Contrib HAL bugs | DMA, PWM, USB, ADC drivers affected | [Bug Fixes](docs/chibios-bug-fixes.md) |
 | PWM+DMA unusable for WS2812 multi-chunk | Timer generates stale pulses at boundaries | [WS2812 Driver](docs/ws2812-gpio-dma-driver.md) |
-| ChibiOS DMA ISR priority must be >= 3 | Priority 1-2 causes kernel crash/deadlock | [Debug War Stories](docs/debug-war-stories.md) |
 | CH582F wireless module UART protocol | Undocumented protocol used by many keyboards | [CH582F Protocol](docs/wireless/ch582f-protocol.md) |
 
 ## Quick Start
@@ -46,9 +45,7 @@ wb32-dfu-updater_cli -t -s 0x8000000 -D firmware.bin
 | [ChibiOS Bug Fixes](docs/chibios-bug-fixes.md) | All 11 fixes with before/after code |
 | [WS2812 GPIO DMA Driver](docs/ws2812-gpio-dma-driver.md) | Architecture, 8 bugs, timing, validation |
 | [QMK Integration](docs/qmk-integration.md) | Submodule config, build commands |
-| [Debug War Stories](docs/debug-war-stories.md) | 3 resolved bugs with root cause analysis |
 | [CH582F Protocol](docs/wireless/ch582f-protocol.md) | Wireless module UART protocol reference |
-| [Validation Results](docs/validation/) | Hardware test results for all drivers |
 
 ## Examples
 
@@ -100,7 +97,6 @@ See [vendor-docs/README.md](vendor-docs/README.md) for a complete index.
 ```
 WestberryTech-WB32/
 ├── docs/                    # Technical documentation
-│   ├── validation/          # Hardware test results
 │   └── wireless/            # CH582F protocol reference
 ├── vendor-docs/             # Official Westberry documentation
 │   ├── datasheets/          # DS001-DS005 + WB32FQ95xC

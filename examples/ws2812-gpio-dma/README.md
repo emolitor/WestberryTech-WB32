@@ -86,11 +86,3 @@ Eight bugs were found and fixed during development and hardware validation:
 8. ChEnReg not auto-cleared after non-circular transfer (stale handshake
    requests)
 
-## Validation
-
-- **GDB register validation**: 8 phases, 13 test points, all passing
-- **Keyboard validation**: Flicker-free rainbow animation on Bridge75 ANSI (81
-  LEDs) across extended operation with concurrent USB and UART traffic
-
-See [docs/validation/ws2812-dma.md](../../docs/validation/ws2812-dma.md) for
-the full test report.
