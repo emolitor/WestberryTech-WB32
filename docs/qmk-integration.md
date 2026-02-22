@@ -8,7 +8,7 @@ variants.
 ## Overview
 
 The QMK firmware for WB32-based keyboards depends on a fixed ChibiOS-Contrib HAL port that
-fixes 11 bugs in the upstream WB32 drivers (DMA, PWM, USB, ADC, GPIO, and timer subsystems)
+fixes several bugs in the upstream WB32 drivers (DMA, PWM, USB, ADC, GPIO, and timer subsystems)
 and adds a WWDG driver. The firmware also includes a custom WS2812 GPIO DMA driver that
 replaces QMK's default bitbang implementation.
 
@@ -65,19 +65,12 @@ cd emolitor-qmk_firmware
 # ANSI layout (default keymap, wireless enabled)
 make shortcut/bridge75/ansi:default
 
-# ANSI layout (devtest keymap, wireless disabled, SWD-safe)
-make shortcut/bridge75/ansi:devtest WIRELESS_ENABLE=no
-
 # ISO layout
 make shortcut/bridge75/iso:default
 
 # ANSI layout without RGB
 make shortcut/bridge75/ansi_norgb:default
 ```
-
-The `devtest` keymap disables the `DEVBOARD_NO_USB_POWER` guard that protects PA14 (SWCLK)
-from being reconfigured as a GPIO output. Use `devtest` when debugging via SWD on a
-development board.
 
 ### Flashing
 

@@ -26,7 +26,7 @@ arbitrarily long LED strips within the 511-transfer limit.
 
 See [docs/ws2812-gpio-dma-driver.md](../../docs/ws2812-gpio-dma-driver.md) for
 the full architecture documentation and
-[docs/silicon-errata.md](../../docs/silicon-errata.md) for details on the
+[docs/errata.md](../../docs/errata.md) for details on the
 BLOCK_TS hardware erratum.
 
 ## Key Features
@@ -36,7 +36,6 @@ BLOCK_TS hardware erratum.
 - Double buffer: 2 x 504 phases = 4,032 bytes total DMA buffer
 - Branchless bit encoding (~40 us per block, 7x faster than branching
   approach)
-- 8 hardware bugs identified and fixed during development
 - Validated flicker-free on Bridge75 ANSI keyboard (81 LEDs)
 
 ## Configuration
@@ -70,19 +69,3 @@ BLOCK_TS hardware erratum.
 
 4. The driver provides the standard QMK WS2812 interface: `ws2812_init()`,
    `ws2812_setleds()`, and `ws2812_write()`.
-
-## Hardware Bugs Fixed
-
-Eight bugs were found and fixed during development and hardware validation:
-
-1. ISR priority too low for reliable DMA callback timing
-2. Wrong DMA completion flag constant
-3. Missing null pointer checks on DMA stream
-4. PWM timing corruption from stale CCR values (led to GPIO DMA approach)
-5. `dmaStreamDisable()` clears all interrupt masks (must re-enable before each
-   block)
-6. Stale UG event triggers spurious DMA transfer at frame start
-7. Stale UIF flag at block boundaries
-8. ChEnReg not auto-cleared after non-circular transfer (stale handshake
-   requests)
-

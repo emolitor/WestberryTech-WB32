@@ -1,5 +1,7 @@
 /*
  * WB32FQ95xx Multi-Transfer DMA Validation Demo
+ * Copyright 2025 emolitor (github.com/emolitor)
+ * SPDX-License-Identifier: GPL-2.0-or-later
  *
  * This demo validates the multi-chunk DMA transfer mechanism needed to work
  * around the WB32FQ95xx silicon errata where DMA BLOCK_TS is limited to 9 bits

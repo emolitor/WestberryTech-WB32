@@ -1,5 +1,7 @@
 /*
     WB32FQ95 External SPI Flash Validation Demo
+    Copyright 2025 emolitor (github.com/emolitor)
+    SPDX-License-Identifier: GPL-2.0-or-later
 
     Tests an external SPI NOR flash chip connected via the WB32FQ95 QSPI
     peripheral (used in standard SPI mode through ChibiOS's SPIDQ driver).

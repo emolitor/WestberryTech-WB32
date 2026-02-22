@@ -1,5 +1,7 @@
 /*
- * WB32FQ95xx Single-Transfer DMA Validation
+ * WB32FQ95xx Single-Transfer DMA Validatioa
+ * Copyright 2025 emolitor (github.com/emolitor)
+ * SPDX-License-Identifier: GPL-2.0-or-later
  *
  * STEP 1: Validate that DMA+PWM works at all with a small buffer
  * STEP 2: Validate max single transfer (511 elements)

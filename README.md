@@ -2,7 +2,7 @@
 
 Comprehensive open-source documentation, drivers, and tools for Westberry Technology WB32F10x and WB32FQ95xx ARM Cortex-M3 microcontrollers.
 
-WB32 chips are pin-compatible STM32F10x alternatives used in keyboards from GMMK, Akko, MonsGeek, Inland, Shortcut Studio, and others. Despite widespread use, public documentation is scarce. This repository consolidates about a year of reverse engineering, hardware testing, and driver development into a single reference.
+WB32 chips are pin-compatible STM32F10x alternatives used in keyboards from GMMK, Akko, MonsGeek, Neo, Shortcut Studio, and others. Despite widespread use, public documentation is scarce. This repository consolidates about a year of reverse engineering, hardware testing, and driver development into a single reference.
 
 ## Documentation
 
@@ -36,12 +36,7 @@ The driver is maintained in a dedicated OpenOCD fork: [emolitor/openocd](https:/
 
 ## Vendor Documentation
 
-The `vendor-docs/` directory contains datasheets, the reference manual (with searchable text extracts), application notes, and a reference schematic.
-
-```bash
-# Search the reference manual
-grep -r "DMA_CTLH" vendor-docs/reference-manual/chapters/
-```
+The `vendor-docs/` directory contains datasheets, the reference manual, application notes, and a reference schematic.
 
 See [vendor-docs/README.md](vendor-docs/README.md) for a complete index.
 
@@ -56,7 +51,14 @@ See [vendor-docs/README.md](vendor-docs/README.md) for a complete index.
 | [qmk/ChibiOS-Contrib](https://github.com/qmk/ChibiOS-Contrib) | Upstream ChibiOS-Contrib (WB32 port) |
 | [QMK Firmware](https://github.com/qmk/qmk_firmware) | Keyboard firmware with WB32 support |
 
-## Hardware Tested
+## Development Hardware
+
+You can source WB32F104 development boards from WestberryTech TaoBao store. For
+the WB32FQ95 you need to rework the board to replace the WB32F104 with a
+WB32FQ95. It's possible to do this with either a hotplate or hot-air rework
+station.
+
+- [Westberry Taobao](https://world.taobao.com/dianpu/471165391.htm?spm=a21wu.12321156-tw/qwen.shop-area.1.59ad6dc0ANXkNx)
 
 | Device | Flash | SRAM | Debug Probe |
 |--------|-------|------|-------------|
@@ -71,7 +73,7 @@ WestberryTech-WB32/
 │   └── wireless/            # CH582F protocol reference
 ├── vendor-docs/             # Official Westberry documentation
 │   ├── datasheets/          # DS001-DS005 + WB32FQ95xC
-│   ├── reference-manual/    # PDF + searchable text chapters
+│   ├── reference-manual/    # PDF
 │   ├── application-notes/   # AN001-AN005
 │   └── schematics/          # Reference board schematic
 ├── vendor-lib/              # WB32F10x Standard Peripheral Library

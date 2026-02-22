@@ -150,26 +150,3 @@ WB32 microcontrollers are used in production keyboards from several manufacturer
 
 ### Sourcing Chips and Devboards
 - [Westberry Taobao](https://world.taobao.com/dianpu/471165391.htm?spm=a21wu.12321156-tw/qwen.shop-area.1.59ad6dc0ANXkNx)
-
----
-
-## Documentation Gaps
-
-Westberry publishes limited public documentation compared to vendors like ST or NXP. The
-following information gaps are known:
-
-1. **Detailed variant specifications** -- exact flash/SRAM sizes for each sub-variant are
-   not always publicly listed.
-2. **Official datasheets** -- may require NDA or distributor access for some families.
-3. **Full reference manual** -- only partial documentation is publicly available.
-4. **Errata** -- no official errata sheet has been published. See
-   [errata.md](errata.md) for community-discovered hardware issues, including
-   the DMA BLOCK_TS 9-bit limitation.
-5. **Gaming Keyboard SoC (2023)** -- no technical specifications have been published.
-
-### Obtaining Missing Documentation
-
-1. Request datasheets from JLCPCB's parts service
-2. Contact Westberry Technology directly
-3. Check with keyboard manufacturers using WB32
-4. Monitor Westberry's GitHub for updates

@@ -13,9 +13,9 @@ tri-mode keyboards, it handles Bluetooth and 2.4 GHz RF connectivity while the m
 Communication between the main MCU and the CH582F module uses a simple UART serial protocol.
 
 This protocol is not specific to any one keyboard. It is used across products from multiple
-manufacturers including GMMK, Akko, MonsGeek, Shortcut Studio, and others. The wireless module
-firmware is provided by WCH as a binary blob; the keyboard manufacturer implements the host
-side of this protocol in their main MCU firmware.
+manufacturers including GMMK, Akko, MonsGeek, Neo, Shortcut Studio, and others. The wireless
+module firmware is provided by WCH as a binary blob; the keyboard manufacturer implements the
+host side of this protocol in their main MCU firmware.
 
 This document is derived from the Shortcut Studio Bridge75 keyboard firmware, which uses the
 protocol on a WB32FQ95xx main MCU. The protocol itself is MCU-agnostic. An open-source QMK

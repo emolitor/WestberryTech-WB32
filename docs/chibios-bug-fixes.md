@@ -9,7 +9,7 @@ subset of these are available on the `em-wb32-improvements` branch:
 - **Branch**: `em-wb32-improvements`
 
 The fixes cover DMA controller issues, incorrect register definitions, and corrections to
-the ADC and USB drivers.
+the ADC and USB drivers. I'm in the process of merging these upstream.
 
 ---
 

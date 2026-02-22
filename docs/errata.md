@@ -82,7 +82,7 @@ All flash programming tools and drivers must account for the inverted bit model:
 
 ### Validation
 
-Confirmed by hardware test on WB32F104RC and WB32FQ95xC (2026-02-05). After sector erase, all bytes read as 0x00. Programming sets bits from 0 to 1. Attempting to clear a set bit without erase leaves it unchanged, producing OR'd corruption.
+Confirmed by hardware test on WB32F104RC and WB32FQ95xC. After sector erase, all bytes read as 0x00. Programming sets bits from 0 to 1. Attempting to clear a set bit without erase leaves it unchanged, producing OR'd corruption.
 
 ---
 

@@ -2,15 +2,6 @@
 
 This demo validates the multi-chunk DMA transfer mechanism needed to work around the WB32FQ95xx silicon errata where DMA BLOCK_TS is limited to 9 bits (max 511) instead of the documented 12 bits (max 4095).
 
-## Hardware Validation Status: PASSED (2026-01-25)
-
-All tests passed on real WB32FQ95xC hardware via CMSIS-DAP SWD.
-
-| Test Suite | Tests | Result |
-|------------|-------|--------|
-| Single-transfer DMA | 4 tests | **ALL PASS** |
-| Multi-chunk DMA | 4 tests | **ALL PASS** |
-
 **Key Metrics:**
 - 424 total DMA callbacks with 0 errors
 - ISR completes in ~42 cycles (90 available per PWM period)
@@ -19,7 +10,7 @@ All tests passed on real WB32FQ95xC hardware via CMSIS-DAP SWD.
 ## Hardware Requirements
 
 - WB32FQ95 development board
-- CMSIS-DAP debug adapter (e.g., DAPLink, WB-Link)
+- CMSIS-DAP debug adapter (e.g., DAPLink, WB-Link, Pico Debug Probe)
 - Optional: Oscilloscope to observe PWM output on PA7
 
 ## Quick Start
@@ -189,16 +180,14 @@ This demo validates the same multi-transfer mechanism used in `ws2812_pwm.c`:
 
 ## Known Issues
 
-### BOOT0 Pin Configuration (Backburner)
+### BOOT0 Pin Configuration
 
-**Status:** Documented, not yet resolved
-
-On the reworked WB32F104RC → WB32FQ95 dev board, the chip boots to ROM (PC=0x1fffe090) instead of flash (PC=0x08000xxx). This requires manual intervention via the debugger to start execution from flash.
+On the WB32F104RC → WB32FQ95 dev board, the chip boots to ROM (PC=0x1fffe090) instead of flash (PC=0x08000xxx) depending upon
+the boot pin configuration. You can either change the boot pin jumper or just manually set PC/SP.
 
 **Symptoms:**
 - After `reset run`, chip enters ROM code instead of user flash
 - Vector table at 0x08000000 is correctly programmed
-- Verified by reading flash contents
 
 **Workaround:**
 After flashing, manually set PC/SP from the vector table:
@@ -211,35 +200,3 @@ reg sp $sp
 reg pc $pc
 resume
 ```
-
-**Likely Cause:**
-BOOT0 pin (pin 60 on LQFP64) is tied high or floating on this board. The WB32FQ95 interprets BOOT0=1 as "boot from ROM".
-
-**Future Fix:**
-- Check BOOT0 pin routing on the PCB
-- Add pull-down resistor to BOOT0 if needed
-- Or configure boot mode via option bytes (if supported)
-
----
-
-## Troubleshooting
-
-### OpenOCD can't connect
-
-Check CMSIS-DAP adapter is connected and recognized:
-```bash
-lsusb | grep -i dap
-```
-
-### Tests fail with timeout
-
-Check:
-1. PWM timer is running (TIM3)
-2. DMA handshake is correct (TIM3_UP = 6)
-3. DMA priority is high enough
-
-### DMA errors
-
-Check `dma_regs` output for:
-- Correct source/destination addresses
-- Correct transfer size in CTLH

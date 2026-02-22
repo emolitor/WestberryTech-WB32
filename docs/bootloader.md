@@ -2,7 +2,7 @@
 
 ## Overview
 
-WB32 microcontrollers include a ROM-based DFU bootloader that does not consume user flash space. Unlike STM32 microcontrollers, which require a separate bootloader to be programmed into flash, the WB32 bootloader resides in system ROM and is always available for firmware updates and recovery.
+WB32 microcontrollers include a ROM-based DFU bootloader that does not consume user flash space and is always available for firmware updates and recovery.
 
 ## Key Features
 
@@ -117,12 +117,9 @@ openocd -f interface/cmsis-dap.cfg -f target/wb32fq95x.cfg \
 
 ## Troubleshooting
 
-### Device Not Detected
+### Device Not Detected on Linux
 
-1. **Check the USB connection** -- try a different cable or port.
-2. **Verify DFU mode** -- the device should not be running normal firmware. LED behavior or lack of normal function indicates DFU.
-3. **Driver issues (Windows)** -- install the WinUSB driver via [Zadig](https://zadig.akeo.ie/).
-4. **Permissions (Linux)** -- add a udev rule for Westberry devices:
+Add a udev rule for Westberry devices:
 
 ```
 # /etc/udev/rules.d/50-wb32.rules
@@ -130,28 +127,6 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="342d", MODE="0666"
 ```
 
 Reload rules: `sudo udevadm control --reload-rules`
-
-### Flash Fails
-
-1. **Erase first** -- some tools require an explicit erase before programming.
-2. **Check file format** -- use `.bin` format at the correct start address (0x08000000).
-3. **Power cycle** -- reset the device and re-enter DFU mode.
-4. **Try OpenOCD** -- use SWD as a bypass if USB DFU is unreliable.
-
-### Bricked Device Recovery
-
-The ROM bootloader cannot be erased. If firmware is corrupted:
-
-1. Hold the BOOT/RESET button
-2. Connect USB while holding
-3. The device should enumerate in DFU mode
-4. Flash working firmware
-
-If DFU mode also fails, use SWD:
-
-1. Connect a debug probe (J-Link, CMSIS-DAP, or WB-Link)
-2. Use OpenOCD to erase and reflash
-3. The ROM bootloader remains intact regardless of flash state
 
 ## Memory Map
 

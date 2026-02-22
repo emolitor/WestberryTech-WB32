@@ -37,10 +37,9 @@ Requires ChibiOS and ChibiOS-Contrib.
 
 ### ws2812-gpio-dma/
 
-WS2812 RGB LED driver extracted from QMK firmware. Uses timer-triggered DMA to
-write GPIO BSRR values directly, with ISR-chained block transfers and
-double-buffered encoding. Handles up to 127 LEDs within the WB32 DMA hardware
-constraints.
+Custom QMK WS2812 RGB LED driver. Uses timer-triggered DMA to write GPIO BSRR
+values directly, with ISR-chained block transfers. Handles up to 127 LEDs 
+127 LEDs within the WB32 DMA hardware constraints.
 
 This is a QMK custom driver source file, not a standalone buildable project.
 See [docs/ws2812-gpio-dma-driver.md](../docs/ws2812-gpio-dma-driver.md) for
