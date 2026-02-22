@@ -9,7 +9,11 @@ subset of these are available on the `em-wb32-improvements` branch:
 - **Branch**: `em-wb32-improvements`
 
 The fixes cover DMA controller issues, incorrect register definitions, and corrections to
-the ADC and USB drivers. I'm in the process of merging these upstream.
+the ADC and USB drivers. Upstream PRs:
+
+- [ChibiOS-Contrib#434](https://github.com/ChibiOS/ChibiOS-Contrib/pull/434) -- Typo fixes (Fix 5, 6)
+- [ChibiOS-Contrib#435](https://github.com/ChibiOS/ChibiOS-Contrib/pull/435) -- DMA fixes (Fix 1, 2, 3, 4, 11)
+- [ChibiOS-Contrib#436](https://github.com/ChibiOS/ChibiOS-Contrib/pull/436) -- Timer fixes (Fix 7, 8)
 
 ---
 
@@ -29,6 +33,7 @@ git checkout emolitor/em-wb32-improvements
 ## Fix 1: DMA Block Transfer Size Mask
 
 **File**: `LLD/DMAv1/wb32_dma.h:588`
+**PR**: [ChibiOS-Contrib#435](https://github.com/ChibiOS/ChibiOS-Contrib/pull/435)
 
 The reference manual documents the CTLH register BLOCK_TS field as bits [11:0], implying a
 maximum single-block transfer size of 4095. Hardware testing confirms only bits [8:0] are
@@ -60,6 +65,7 @@ request for 1024 elements also transfers 0. No error is generated.
 ## Fix 2: DMA ISR Conditional Checks
 
 **File**: `LLD/DMAv1/wb32_dma.c:191-196`
+**PR**: [ChibiOS-Contrib#435](https://github.com/ChibiOS/ChibiOS-Contrib/pull/435)
 
 The DMAC2 interrupt handler conditionals were all comparing against `> 0`, meaning stream
 handlers for channels 2 and 3 could execute even when those channels were not allocated.
@@ -86,6 +92,7 @@ than 3 channels.
 ## Fix 3: dmaInit() Reset Conditional
 
 **File**: `LLD/DMAv1/wb32_dma.c:218`
+**PR**: [ChibiOS-Contrib#435](https://github.com/ChibiOS/ChibiOS-Contrib/pull/435)
 
 The DMAC1 reset block incorrectly checked `WB32_DMAC2_NUM_CHANNELS` instead of
 `WB32_DMAC1_NUM_CHANNELS`.
@@ -112,6 +119,7 @@ configured, leaving DMAC1 in an undefined state after a soft reset.
 ## Fix 4: DST_AUTO_RELOAD_DIS Bit Position
 
 **File**: `LLD/DMAv1/wb32_dma.h:294`
+**PR**: [ChibiOS-Contrib#435](https://github.com/ChibiOS/ChibiOS-Contrib/pull/435)
 
 The destination auto-reload disable constant used bit position 30 instead of the correct
 bit position 31.
@@ -136,6 +144,7 @@ changed.
 ## Fix 5: ADC Comment Typos
 
 **File**: `LLD/ADCv1/hal_adc_lld.h:113, 121`
+**PR**: [ChibiOS-Contrib#434](https://github.com/ChibiOS/ChibiOS-Contrib/pull/434)
 
 Two comment typos corrected.
 
@@ -156,6 +165,7 @@ Two comment typos corrected.
 ## Fix 6: USB Macro Name Typo
 
 **Files**: `LLD/USBv1/hal_usb_lld.h:38, 51` and `LLD/USBv1/hal_usb_lld.c:737`
+**PR**: [ChibiOS-Contrib#434](https://github.com/ChibiOS/ChibiOS-Contrib/pull/434)
 
 The USB endpoint count macro was misspelled in three locations.
 
@@ -179,6 +189,7 @@ using the standard spelling would not see the WB32-specific value.
 ## Fix 7: PWM Driver BDTR Register Access
 
 **Files**: `LLD/TIMv1/hal_pwm_lld.c:435-444, 463-471`
+**PR**: [ChibiOS-Contrib#436](https://github.com/ChibiOS/ChibiOS-Contrib/pull/436)
 
 The Break and Dead-Time Register (BDTR) was unconditionally written for all timer instances
 when `WB32_PWM_USE_TIM1` was defined. Only TIM1 (the advanced timer) has a BDTR register.
@@ -228,6 +239,7 @@ from writes to unmapped register space.
 ## Fix 8: PWM OC5M/OC6M Macro Bit Shift
 
 **File**: `LLD/TIMv1/wb32_tim.h:358-359, 367-368`
+**PR**: [ChibiOS-Contrib#436](https://github.com/ChibiOS/ChibiOS-Contrib/pull/436)
 
 The output compare mode macros for channels 5 and 6 used `>> 2` for the high bit
 extraction, inconsistent with channels 1-4 which use `>> 3`.
@@ -293,6 +305,8 @@ gives approximately 10.9 ms maximum period.
 ---
 
 ## Fix 11: ADC/USB/DMA Consistency Improvements
+
+**PR**: [ChibiOS-Contrib#435](https://github.com/ChibiOS/ChibiOS-Contrib/pull/435)
 
 Several minor corrections were included alongside the above fixes:
 
