@@ -1,4 +1,4 @@
-# WestberryTech WB32 — Community Documentation & Tools
+# WestberryTech WB32 — Community Documentation
 
 Comprehensive open-source documentation, drivers, and tools for Westberry Technology WB32F10x and WB32FQ95xx ARM Cortex-M3 microcontrollers.
 
