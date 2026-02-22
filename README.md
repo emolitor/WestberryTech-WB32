@@ -53,12 +53,10 @@ See [vendor-docs/README.md](vendor-docs/README.md) for a complete index.
 
 ## Development Hardware
 
-You can source WB32F104 development boards from WestberryTech TaoBao store. For
-the WB32FQ95 you need to rework the board to replace the WB32F104 with a
+You can source WB32F104 development boards from the [Westberry Taobao store](https://world.taobao.com/dianpu/471165391.htm?spm=a21wu.12321156-tw/qwen.shop-area.1.59ad6dc0ANXkNx).
+For the WB32FQ95 you need to rework the board to replace the WB32F104 with a
 WB32FQ95. It's possible to do this with either a hotplate or hot-air rework
 station.
-
-- [Westberry Taobao](https://world.taobao.com/dianpu/471165391.htm?spm=a21wu.12321156-tw/qwen.shop-area.1.59ad6dc0ANXkNx)
 
 | Device | Flash | SRAM | Debug Probe |
 |--------|-------|------|-------------|
