@@ -36,7 +36,7 @@ The driver is maintained in a dedicated OpenOCD fork: [emolitor/openocd](https:/
 
 ## Vendor Documentation
 
-The `vendor-docs/` directory contains datasheets, the reference manual, application notes, and a reference schematic.
+The [`vendor-docs/`](vendor-docs/) directory contains datasheets, the reference manual, application notes, and a reference schematic.
 
 See [vendor-docs/README.md](vendor-docs/README.md) for a complete index.
 
@@ -83,7 +83,7 @@ WestberryTech-WB32/
 
 This project is licensed under the [GNU General Public License v2.0](LICENSE).
 
-The vendor peripheral library (`vendor-lib/`) and vendor documentation (`vendor-docs/`) are provided by Westberry Technology and are subject to their respective licenses.
+The vendor peripheral library ([`vendor-lib/`](vendor-lib/)) and vendor documentation ([`vendor-docs/`](vendor-docs/)) are provided by Westberry Technology and are subject to their respective licenses.
 
 ## Contributing
 

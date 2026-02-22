@@ -5,21 +5,21 @@ microcontrollers.
 
 ## Projects
 
-### blink/
+### [blink/](blink/)
 
 Bare metal LED blink for WB32F104. The simplest possible WB32 program --
 configures a GPIO pin and toggles it in a delay loop. No RTOS, no interrupts.
 
-Uses the vendor standard peripheral library (`vendor-lib/`).
+Uses the vendor standard peripheral library ([`vendor-lib/`](../../vendor-lib/)).
 
-### systick-blink/
+### [systick-blink/](systick-blink/)
 
 SysTick timer-driven LED blink. Demonstrates the ARM Cortex-M3 SysTick
 interrupt handler for periodic timing instead of a busy-wait delay loop.
 
-Uses the vendor standard peripheral library (`vendor-lib/`).
+Uses the vendor standard peripheral library ([`vendor-lib/`](../../vendor-lib/)).
 
-### dma-multi-transfer/
+### [dma-multi-transfer/](dma-multi-transfer/)
 
 ChibiOS DMA validation project. Tests multi-chunk ISR-chained DMA transfers as
 a workaround for the WB32 BLOCK_TS silicon errata (9-bit field limits each DMA
@@ -28,14 +28,14 @@ development board.
 
 Requires ChibiOS and ChibiOS-Contrib.
 
-### spi-flash/
+### [spi-flash/](spi-flash/)
 
 SPI flash read/write test using the ChibiOS SPI driver. Demonstrates SPI
 peripheral initialization and basic flash memory communication.
 
 Requires ChibiOS and ChibiOS-Contrib.
 
-### ws2812-gpio-dma/
+### [ws2812-gpio-dma/](ws2812-gpio-dma/)
 
 Custom QMK WS2812 RGB LED driver. Uses timer-triggered DMA to write GPIO BSRR
 values directly, with ISR-chained block transfers. Handles up to 127 LEDs 
@@ -52,7 +52,7 @@ full architecture documentation and the
 
 - `arm-none-eabi-gcc` (and associated binutils)
 
-**ChibiOS projects** (`dma-multi-transfer/`, `spi-flash/`) additionally require:
+**ChibiOS projects** ([`dma-multi-transfer/`](dma-multi-transfer/), [`spi-flash/`](spi-flash/)) additionally require:
 
 - [ChibiOS](https://github.com/ChibiOS/ChibiOS) (21.11.x branch)
 - [ChibiOS-Contrib](https://github.com/ChibiOS/ChibiOS-Contrib) (chibios-21.11.x branch)
@@ -87,9 +87,9 @@ Build output is placed in `build/` within each project directory.
 
 ## Vendor Library Path
 
-The bare metal examples (`blink/`, `systick-blink/`) reference the vendor
+The bare metal examples ([`blink/`](blink/), [`systick-blink/`](systick-blink/)) reference the vendor
 standard peripheral library at `../../vendor-lib/` relative to the example
-directory. This path resolves to the top-level `vendor-lib/` directory in this
+directory. This path resolves to the top-level [`vendor-lib/`](../../vendor-lib/) directory in this
 repository.
 
 ## Flashing

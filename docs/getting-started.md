@@ -47,7 +47,7 @@ arm-none-eabi-gcc --version
 
 ## First Bare Metal Project (Blink)
 
-The `examples/blink/` directory contains a minimal LED blink project that demonstrates the
+The [`examples/blink/`](../examples/blink/) directory contains a minimal LED blink project that demonstrates the
 bare metal build setup.
 
 ### Project Files
@@ -67,7 +67,7 @@ cd examples/blink
 make
 ```
 
-The Makefile expects the vendor Standard Peripheral Library at `vendor-lib/`. Output files
+The Makefile expects the vendor Standard Peripheral Library at [`vendor-lib/`](../vendor-lib/). Output files
 are placed in `build/`:
 
 - `build/Template.elf` -- ELF with debug symbols
