@@ -81,6 +81,7 @@ in several important ways. STM32 code cannot be directly ported; driver adaptati
 | Area | STM32F10x | WB32FQ95xx |
 |------|-----------|------------|
 | DMA Handshake | Fixed peripheral mapping | Different channel assignments |
+| DMA LLI | Supported | Not supported (LLP register reserved); use auto-reload or ISR chaining |
 | USB DMA | Shared with DMA1/2 | Separate USB DMA master |
 | Clock Tree | Single PLL, HSE/HSI | Additional FHSI (48 MHz) option |
 | Flash Controller | FPEC registers | FMC registers (different layout) |
