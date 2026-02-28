@@ -91,10 +91,11 @@ in several important ways. STM32 code cannot be directly ported; driver adaptati
 ## Pin Mappings (LQFP48/64)
 
 Pin assignments for all peripherals on the WB32F10x / WB32FQ95xx. All AF mappings below
-have been validated against real WB32F104RC (LQFP64) silicon using the register-level test
-suite in `examples/pin-validation/` (148 AF entries, 162 total tests, all passing). The
-WB32 uses an alternate-function multiplexer (AF0-AF7) rather than the STM32F1-style remap
-registers. Each pin's function is selected by its AF number.
+have been validated against real silicon on both the WB32F104RC and WB32FQ95 (both LQFP64)
+using the register-level test suite in `examples/pin-validation/` (148 AF entries, 162
+total tests, all passing on both chips -- identical AF mappings confirmed). The WB32 uses
+an alternate-function multiplexer (AF0-AF7) rather than the STM32F1-style remap registers.
+Each pin's function is selected by its AF number.
 
 Pins marked **(64)** are only available on the LQFP64 package.
 

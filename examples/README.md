@@ -37,12 +37,14 @@ Requires ChibiOS and ChibiOS-Contrib.
 
 ### [pin-validation/](pin-validation/)
 
-Bare metal AF pin mapping validation test suite for WB32F104RC (LQFP64). Validates
-all 148 alternate function entries from the datasheet (DS004, Table 3.4-2) via
-register read-back, plus functional tests for UART loopback, timer counters, ADC
+Bare metal AF pin mapping validation test suite for WB32F104RC and WB32FQ95 (LQFP64).
+Validates all 148 alternate function entries from the datasheet (DS004, Table 3.4-2)
+via register read-back, plus functional tests for UART loopback, timer counters, ADC
 channels, SPI/I2C init, LED controller, and USB clock access. No jumper wires
 required -- all tests use internal hardware features. Results are reported via
-UART1 serial and stored in a GDB/OpenOCD-inspectable SRAM struct.
+UART1 serial and stored in a GDB/OpenOCD-inspectable SRAM struct. Both chips
+produce identical results (162 pass, 0 fail, 8 skip). Build with `make CHIP=FQ95`
+for the WB32FQ95 (128KB flash) or plain `make` for the WB32F104RC (256KB flash).
 
 Uses the vendor standard peripheral library ([`vendor-lib/`](../../vendor-lib/)).
 
