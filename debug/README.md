@@ -22,7 +22,7 @@ OpenOCD's GDB server. Located in [`gdb/`](gdb/).
 Start OpenOCD in one terminal:
 
 ```bash
-openocd -f interface/cmsis-dap.cfg -f target/wb32fq95x.cfg
+openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg
 ```
 
 In another terminal, connect GDB with a script:

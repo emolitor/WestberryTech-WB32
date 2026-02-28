@@ -34,7 +34,7 @@ make MAIN=main.c
 
 **Terminal 1 - Start OpenOCD:**
 ```bash
-openocd -f interface/cmsis-dap.cfg -f target/wb32fq95x.cfg
+openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg
 ```
 
 **Terminal 2 - Run GDB:**

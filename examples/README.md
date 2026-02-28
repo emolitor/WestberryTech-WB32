@@ -110,7 +110,7 @@ repository.
 Use OpenOCD with a CMSIS-DAP, J-Link, or WB-Link debug probe:
 
 ```bash
-openocd -f interface/cmsis-dap.cfg -f target/wb32fq95x.cfg \
+openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg \
   -c "init; halt; flash probe 0" \
   -c "flash write_image erase build/Template.bin 0x08000000" \
   -c "verify_image build/Template.bin 0x08000000" \

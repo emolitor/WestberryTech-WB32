@@ -46,7 +46,7 @@ Test on actual hardware with a debug probe (CMSIS-DAP, J-Link, or WB-Link):
 
 ```bash
 # Minimum test: probe + erase + write + verify
-openocd -f interface/cmsis-dap.cfg -f target/wb32fq95x.cfg \
+openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg \
   -c "init; halt; flash probe 0" \
   -c "flash write_image erase test.bin 0x08000000" \
   -c "verify_image test.bin 0x08000000" \

@@ -83,7 +83,7 @@ wb32-dfu-updater_cli -t -s 0x8000000 -D shortcut_bridge75_ansi_default.bin
 Via OpenOCD with a CMSIS-DAP probe:
 
 ```bash
-openocd -f interface/cmsis-dap.cfg -f target/wb32fq95x.cfg \
+openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg \
   -c "init; halt; flash probe 0" \
   -c "flash write_image erase shortcut_bridge75_ansi_default.bin 0x08000000" \
   -c "verify_image shortcut_bridge75_ansi_default.bin 0x08000000" \

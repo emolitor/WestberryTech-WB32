@@ -4,7 +4,7 @@
 # OpenOCD TCL script: flash, run, poll test_results from SRAM
 #
 # Usage:
-#   openocd -f interface/cmsis-dap.cfg -f target/wb32f10x.cfg \
+#   openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg \
 #           -f examples/pin-validation/flash_and_test.tcl
 #
 # After first build, update TEST_RESULTS_ADDR from the .map file:

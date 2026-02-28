@@ -102,7 +102,7 @@ For development and debugging, OpenOCD with an SWD debug probe provides more con
 
 **Flash via OpenOCD:**
 ```bash
-openocd -f interface/cmsis-dap.cfg -f target/wb32fq95x.cfg \
+openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg \
   -c "init; halt; flash probe 0" \
   -c "flash write_image erase firmware.bin 0x08000000" \
   -c "verify_image firmware.bin 0x08000000" \

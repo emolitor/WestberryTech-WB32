@@ -126,20 +126,13 @@ OpenOCD requires a custom flash driver for WB32 devices. See the
 [emolitor/openocd](https://github.com/emolitor/openocd) fork for build
 instructions.
 
-### Flash a WB32F10x Device
+### Flash Any WB32 Device
+
+The unified `target/wb32.cfg` works for all WB32 families (WB32F10x and WB32FQ95xx).
+The flash driver auto-detects the chip family and flash size at runtime.
 
 ```bash
-openocd -f interface/cmsis-dap.cfg -f target/wb32f10x.cfg \
-  -c "init; halt; flash probe 0" \
-  -c "flash write_image erase firmware.bin 0x08000000" \
-  -c "verify_image firmware.bin 0x08000000" \
-  -c "reset run; shutdown"
-```
-
-### Flash a WB32FQ95xx Device
-
-```bash
-openocd -f interface/cmsis-dap.cfg -f target/wb32fq95x.cfg \
+openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg \
   -c "init; halt; flash probe 0" \
   -c "flash write_image erase firmware.bin 0x08000000" \
   -c "verify_image firmware.bin 0x08000000" \
@@ -199,7 +192,7 @@ bundled with QMK MSYS on Windows.
 Start the OpenOCD server:
 
 ```bash
-openocd -f interface/cmsis-dap.cfg -f target/wb32f10x.cfg
+openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg
 ```
 
 In a separate terminal, connect with GDB:

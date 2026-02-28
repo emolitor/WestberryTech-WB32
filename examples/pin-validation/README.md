@@ -28,7 +28,7 @@ make flash
 Or manually:
 
 ```bash
-openocd -f interface/cmsis-dap.cfg -f target/wb32f10x.cfg \
+openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg \
     -c "program build/PinValidation.bin 0x08000000 verify reset exit"
 ```
 
@@ -53,7 +53,7 @@ make test
 Or:
 
 ```bash
-openocd -f interface/cmsis-dap.cfg -f target/wb32f10x.cfg \
+openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg \
     -f flash_and_test.tcl
 ```
 
