@@ -35,6 +35,17 @@ peripheral initialization and basic flash memory communication.
 
 Requires ChibiOS and ChibiOS-Contrib.
 
+### [pin-validation/](pin-validation/)
+
+Bare metal AF pin mapping validation test suite for WB32F104RC (LQFP64). Validates
+all 148 alternate function entries from the datasheet (DS004, Table 3.4-2) via
+register read-back, plus functional tests for UART loopback, timer counters, ADC
+channels, SPI/I2C init, LED controller, and USB clock access. No jumper wires
+required -- all tests use internal hardware features. Results are reported via
+UART1 serial and stored in a GDB/OpenOCD-inspectable SRAM struct.
+
+Uses the vendor standard peripheral library ([`vendor-lib/`](../../vendor-lib/)).
+
 ### [ws2812-gpio-dma/](ws2812-gpio-dma/)
 
 Custom QMK WS2812 RGB LED driver. Uses timer-triggered DMA to write GPIO BSRR
@@ -87,7 +98,7 @@ Build output is placed in `build/` within each project directory.
 
 ## Vendor Library Path
 
-The bare metal examples ([`blink/`](blink/), [`systick-blink/`](systick-blink/)) reference the vendor
+The bare metal examples ([`blink/`](blink/), [`systick-blink/`](systick-blink/), [`pin-validation/`](pin-validation/)) reference the vendor
 standard peripheral library at `../../vendor-lib/` relative to the example
 directory. This path resolves to the top-level [`vendor-lib/`](../../vendor-lib/) directory in this
 repository.
