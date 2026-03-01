@@ -120,16 +120,11 @@ These preprocessor defines must be set in the Makefile or compiler flags:
 
 ---
 
-## Flashing via OpenOCD
+## Flashing
 
-OpenOCD requires a custom flash driver for WB32 devices. See the
-[emolitor/openocd](https://github.com/emolitor/openocd) fork for build
-instructions.
+Two methods are available: **OpenOCD** via an SWD debug probe, and **USB DFU** using the ROM bootloader. See [flashing.md](flashing.md) for the complete guide including backup, verification, mass erase, helper commands, and troubleshooting.
 
-### Flash Any WB32 Device
-
-The unified `target/wb32.cfg` works for all WB32 families (WB32F10x and WB32FQ95xx).
-The flash driver auto-detects the chip family and flash size at runtime.
+### Quick Reference: OpenOCD
 
 ```bash
 openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg \
@@ -139,49 +134,15 @@ openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg \
   -c "reset run; shutdown"
 ```
 
-Replace `interface/cmsis-dap.cfg` with `interface/jlink.cfg` or the appropriate config for
-your debug probe.
+Requires the [emolitor/openocd](https://github.com/emolitor/openocd) fork with WB32 flash driver.
 
----
-
-## Flashing via DFU
-
-WB32 microcontrollers include a ROM-based DFU bootloader that does not consume user flash.
-This allows reflashing over USB without a debug probe.
-
-### Entering DFU Mode
-
-| Method | Procedure |
-|--------|-----------|
-| QK_BOOT keycode | Press the QMK `QK_BOOT` key combination (keyboards only) |
-| RESET button | Hold the BOOT/RESET button while powering on or pressing hardware reset |
-| Software reset | Trigger `NVIC_SystemReset()` with the bootloader flag set |
-
-When in DFU mode, the device enumerates as a USB device with VID `0x342D` (Westberry).
-
-### Flash with wb32-dfu-updater
+### Quick Reference: USB DFU
 
 ```bash
 wb32-dfu-updater_cli -t -s 0x8000000 -D firmware.bin
 ```
 
-| Option | Description |
-|--------|-------------|
-| `-t` | Transfer mode |
-| `-s 0x8000000` | Start address (flash base) |
-| `-D <file>` | Download (write) file to device |
-| `-U <file>` | Upload (read) from device to file |
-
-The tool is available from
-[WestberryTech/wb32-dfu-updater](https://github.com/WestberryTech/wb32-dfu-updater) and is
-bundled with QMK MSYS on Windows.
-
-### Flash with QMK Toolbox
-
-1. Open QMK Toolbox
-2. Select the firmware file (`.bin` or `.hex`)
-3. Put the device into DFU mode
-4. Click "Flash"
+Put the device in DFU mode first (QK_BOOT keycode, RESET button, or software reset). Tool available from [WestberryTech/wb32-dfu-updater](https://github.com/WestberryTech/wb32-dfu-updater).
 
 ---
 

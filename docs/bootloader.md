@@ -98,22 +98,7 @@ Or for newer variants:
 
 ## OpenOCD Alternative
 
-For development and debugging, OpenOCD with an SWD debug probe provides more control than USB DFU. See the [emolitor/openocd](https://github.com/emolitor/openocd) fork for WB32-specific configuration and build instructions.
-
-**Flash via OpenOCD:**
-```bash
-openocd -f interface/cmsis-dap.cfg -f target/wb32.cfg \
-  -c "init; halt; flash probe 0" \
-  -c "flash write_image erase firmware.bin 0x08000000" \
-  -c "verify_image firmware.bin 0x08000000" \
-  -c "reset run; shutdown"
-```
-
-**Advantages of OpenOCD over DFU:**
-- Full debug access (breakpoints, watchpoints, memory inspection)
-- Flash verification after write
-- Works even if USB is non-functional on the target
-- Faster iteration during development
+For development and debugging, OpenOCD with an SWD debug probe provides more control than USB DFU. See [flashing.md](flashing.md) for the complete OpenOCD flashing guide including building the fork, backup, verification, mass erase, and helper commands.
 
 ## Troubleshooting
 
