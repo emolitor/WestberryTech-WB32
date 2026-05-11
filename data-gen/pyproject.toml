@@ -1,0 +1,24 @@
+[project]
+name = "wb32-data"
+version = "0.1.0"
+description = "Generates machine-readable data for Westberry Tech WB32 microcontroller families"
+requires-python = ">=3.11"
+dependencies = [
+    "pyyaml>=6.0",
+    "pdfplumber>=0.11",
+    "pymupdf>=1.24",
+    "pydantic>=2.6",
+    "anthropic>=0.40",
+    "click>=8.1",
+    "rich>=13.7",
+]
+
+[project.scripts]
+wb32-data = "wb32_data.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

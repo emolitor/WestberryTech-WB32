@@ -1,0 +1,38 @@
+pdf: vendor-docs/datasheets/EN_DS1104041_WB32FQ95xC_V01.pdf
+chip: WB32FQ95xC
+sections:
+  features:
+    pages: [1]
+    extractor: text
+  block_diagram:
+    pages: [8]
+    save_images: true
+  clock_tree:
+    pages: [9]
+    save_images: true
+  pinouts:
+    pages: [10, 11]
+    save_images: true
+  pin_description:
+    pages: [12, 13]
+    extractor: pin_description_table
+  pin_af_matrix:
+    pages: [13, 14]
+    extractor: pin_af_matrix
+  electrical:
+    pages: [23, 24, 25, 26, 27, 28, 29]
+    extractor: text
+  package_lqfp64:
+    pages: [30]
+    extractor: package_dimensions
+    save_images: true
+  package_lqfp48:
+    pages: [31]
+    extractor: package_dimensions
+    save_images: true
+  ordering_decode:
+    pages: [32]
+    extractor: text
+  ordering_variants:
+    pages: [33]
+    extractor: ordering_variants

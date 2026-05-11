@@ -1,0 +1,21 @@
+pdf: vendor-docs/datasheets/DS005_WB32F105xx_DataSheet_EN_V4.0.pdf
+chip: WB32F105xx
+sections:
+  features:
+    pages: [1]
+    extractor: text
+  pin_description:
+    pages: [15, 16]
+    extractor: pin_description_table
+  pin_af_matrix:
+    pages: [17, 18, 19]
+    extractor: pin_af_matrix
+  package:
+    pages: [37, 38]
+    extractor: package_dimensions
+  ordering_decode:
+    pages: [39, 40]
+    extractor: text
+  ordering_variants:
+    pages: [41]
+    extractor: ordering_variants

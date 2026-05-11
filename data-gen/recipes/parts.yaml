@@ -1,0 +1,82 @@
+# Registry of WB32 parts the generator can produce.
+#
+# Each entry resolves to one data/chips/<name>.yaml output file. The same
+# physical die can have multiple entries (one per package). Pin counts and
+# flash size come from the datasheet ordering table when available, otherwise
+# from hand-curated entries here.
+#
+# Fields:
+#   name           — canonical part name; becomes the YAML filename
+#   family         — chip family (drives header + ChibiOS selection)
+#   package        — LQFP48 / LQFP64 / etc.
+#   flash_bytes    — internal flash in bytes
+#   ram_bytes      — internal SRAM in bytes
+#   chibios_chip   — directory under ChibiOS-Contrib/os/hal/ports/WB32/, or null
+#                    (F10x families don't have a ChibiOS port; FQ95xx + F3G71xx do)
+#   pdf_recipes    — list of recipe files under data-gen/recipes/ to apply
+
+parts:
+  # ---- WB32F101xx ----
+  - name: WB32F101xC
+    family: WB32F101xx
+    package: LQFP48
+    flash_bytes: 0x10000      # 64 KB (highest WB32F101xx variant per chip-overview.md)
+    ram_bytes: 0x5000         # 20 KB
+    chibios_chip: null
+    pdf_recipes: [DS001_WB32F101xx.yaml]
+
+  # ---- WB32F102xx ----
+  - name: WB32F102xC
+    family: WB32F102xx
+    package: LQFP48
+    flash_bytes: 0x20000      # 128 KB
+    ram_bytes: 0x5000         # 20 KB
+    chibios_chip: null
+    pdf_recipes: [DS002_WB32F102xx.yaml]
+
+  # ---- WB32F103xx ----
+  - name: WB32F103xC
+    family: WB32F103xx
+    package: LQFP48
+    flash_bytes: 0x20000      # 128 KB
+    ram_bytes: 0x5000         # 20 KB
+    chibios_chip: null
+    pdf_recipes: [DS003_WB32F103xx.yaml]
+
+  # ---- WB32F104xx ----
+  - name: WB32F104RC
+    family: WB32F104xx
+    package: LQFP64
+    flash_bytes: 0x40000      # 256 KB (validated dev board, README confirms)
+    ram_bytes: 0x9000         # 36 KB
+    chibios_chip: null
+    pdf_recipes: [DS004_WB32F104xx.yaml]
+
+  # ---- WB32F105xx ----
+  - name: WB32F105RC
+    family: WB32F105xx
+    package: LQFP64
+    flash_bytes: 0x40000      # 256 KB (industrial-temp counterpart of F104RC)
+    ram_bytes: 0x9000         # 36 KB
+    chibios_chip: null
+    pdf_recipes: [DS005_WB32F105xx.yaml]
+
+  # ---- WB32FQ95xx ----
+  - name: WB32FQ95xC
+    family: WB32FQ95xx
+    package: LQFP48
+    flash_bytes: 0x40000      # 256 KB
+    ram_bytes: 0x9000         # 36 KB
+    chibios_chip: WB32FQ95xx
+    pdf_recipes: [EN_DS1104041_WB32FQ95xC_V01.yaml]
+
+  # ---- WB32F3G71xx (newer family, ChibiOS-only) ----
+  - name: WB32F3G71xx
+    family: WB32F3G71xx
+    package: LQFP48           # placeholder — actual package not documented
+    flash_bytes: null         # unknown until vendor publishes datasheet
+    ram_bytes: null
+    chibios_chip: WB32F3G71xx
+    pdf_recipes: []
+    notes:
+      - "No vendor StdPeriph library or datasheet available — register layout assumed compatible with WB32FQ95xx via shared CMSIS header."
