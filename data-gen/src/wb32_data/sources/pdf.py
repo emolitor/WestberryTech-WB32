@@ -26,6 +26,7 @@ import yaml
 
 from wb32_data.models import (
     PdfData,
+    PdfElectrical,
     PdfOrderingVariant,
     PdfPackage,
     PdfPinAfEntry,
@@ -121,6 +122,10 @@ class PdfExtractor:
                     data.ordering_variants.extend(_extract_ordering_variants(page_objs))
                 elif extractor == "package_dimensions":
                     data.packages.extend(_extract_package_dimensions(page_objs))
+                elif extractor == "electrical":
+                    electrical = _extract_electrical(page_objs)
+                    if electrical is not None:
+                        data.electrical = electrical
                 elif extractor in (None, "text"):
                     pass     # raw text already captured
                 else:
@@ -175,6 +180,7 @@ def _pdf_data_to_dict(d: PdfData) -> dict:
         "pin_af_matrix": [asdict(p) for p in d.pin_af_matrix],
         "packages": [asdict(p) for p in d.packages],
         "ordering_variants": [asdict(p) for p in d.ordering_variants],
+        "electrical": asdict(d.electrical) if d.electrical is not None else None,
         "raw_text_by_page": {str(k): v for k, v in d.raw_text_by_page.items()},
         "saved_images": list(d.saved_images),
         "notes": list(d.notes),
@@ -182,6 +188,7 @@ def _pdf_data_to_dict(d: PdfData) -> dict:
 
 
 def _pdf_data_from_dict(d: dict) -> PdfData:
+    elec = d.get("electrical")
     return PdfData(
         pdf_path=d["pdf_path"],
         sha256=d["sha256"],
@@ -194,6 +201,7 @@ def _pdf_data_from_dict(d: dict) -> PdfData:
             pin_count=p.get("pin_count"),
         ) for p in d.get("packages", [])],
         ordering_variants=[PdfOrderingVariant(**p) for p in d.get("ordering_variants", [])],
+        electrical=PdfElectrical(**elec) if elec else None,
         raw_text_by_page={int(k): v for k, v in d.get("raw_text_by_page", {}).items()},
         saved_images=list(d.get("saved_images", [])),
         notes=list(d.get("notes", [])),
@@ -373,6 +381,128 @@ def _extract_ordering_variants(pages) -> list[PdfOrderingVariant]:
                 }
                 out.append(PdfOrderingVariant(part_number=first, raw_attributes=attributes))
     return out
+
+
+# ---------------------------------------------------------------------------
+# Electrical operating conditions (page 24 on the FQ95xC datasheet).
+#
+# The "General operating conditions" table has the shape:
+#   ['Symbel', 'Parameter', 'Min', 'Max', 'Unit']
+#   ['f\nHCLK', 'InternalAHBclockfrequency', '0', '96', 'MHz']
+#   ['VDD',    'Standardoperatingvoltage',   '2', '3.6', 'V']
+#   ['T',      'Ambienttemperature',         '‐40','85', '°C']
+# (note the typo "Symbel" in the vendor PDF, the U+2010 hyphen used as negative
+# sign in '‐40', and the leading newline in symbols like 'f\nHCLK').
+# ---------------------------------------------------------------------------
+
+
+def _extract_electrical(pages) -> PdfElectrical | None:
+    elec = PdfElectrical()
+    populated = False
+    for page in pages:
+        for tbl in page.extract_tables():
+            if not _is_electrical_table(tbl):
+                continue
+            if _fill_electrical(elec, tbl):
+                populated = True
+    return elec if populated else None
+
+
+def _is_electrical_table(tbl: list[list[str | None]]) -> bool:
+    """Match only the 'General operating conditions' table (5 columns:
+    Symbol|Parameter|Min|Max|Unit). The 7-column characterisation tables on
+    later pages re-use symbols like VDD for context-specific limits (USB
+    operating voltage, etc.) which would silently overwrite the general
+    conditions if we matched on them too."""
+    if not tbl or not tbl[0]:
+        return False
+    header = [(c or "").strip().lower() for c in tbl[0]]
+    return (
+        len(header) == 5
+        and header[0] in {"symbel", "symbol"}
+        and header[1] == "parameter"
+        and header[2] == "min"
+        and header[3] == "max"
+    )
+
+
+def _fill_electrical(elec: PdfElectrical, tbl: list[list[str | None]]) -> bool:
+    """Read a 5-column ['Symbol','Parameter','Min','Max','Unit'] table and pull
+    out the rows we recognise. Returns True if anything was populated."""
+    header = [(c or "").strip().lower() for c in tbl[0]]
+    try:
+        i_sym, i_par, i_min, i_max = (
+            header.index(header[0]),
+            header.index("parameter"),
+            header.index("min"),
+            header.index("max"),
+        )
+    except ValueError:
+        return False
+
+    populated = False
+    last_symbol = ""
+    for row in tbl[1:]:
+        sym = _normalise_symbol((row[i_sym] or "")) if i_sym < len(row) else ""
+        if sym:
+            last_symbol = sym
+        param = (row[i_par] or "").strip().lower() if i_par < len(row) else ""
+        mn = _parse_electrical_number((row[i_min] or "")) if i_min < len(row) else None
+        mx = _parse_electrical_number((row[i_max] or "")) if i_max < len(row) else None
+
+        # Map known (symbol, parameter) combos.
+        if last_symbol == "f_HCLK" and mx is not None:
+            elec.f_hclk_max_mhz = int(mx)
+            populated = True
+        elif last_symbol == "f_PCLK1" and mx is not None:
+            elec.f_pclk1_max_mhz = int(mx)
+            populated = True
+        elif last_symbol == "f_PCLK2" and mx is not None:
+            elec.f_pclk2_max_mhz = int(mx)
+            populated = True
+        elif last_symbol == "VDD" and mn is not None and mx is not None:
+            elec.vdd_min, elec.vdd_max = mn, mx
+            populated = True
+        elif last_symbol == "VDDA" and mn is not None and mx is not None:
+            if "adcused" in param.replace(" ", "") or "adcinuse" in param.replace(" ", ""):
+                elec.vdda_adc_min, elec.vdda_adc_max = mn, mx
+            else:
+                elec.vdda_min, elec.vdda_max = mn, mx
+            populated = True
+        elif last_symbol == "VBAT" and mn is not None and mx is not None:
+            elec.vbat_min, elec.vbat_max = mn, mx
+            populated = True
+        elif last_symbol == "T" and "ambient" in param.replace(" ", "") and mn is not None and mx is not None:
+            elec.temperature_min, elec.temperature_max = int(mn), int(mx)
+            populated = True
+    return populated
+
+
+_UNICODE_MINUS = "‐‑‒–—−"           # various hyphens/minuses used in PDFs
+
+
+def _normalise_symbol(cell: str) -> str:
+    """Turn 'f\nHCLK' into 'f_HCLK' and trim whitespace."""
+    s = cell.strip()
+    if not s:
+        return ""
+    return s.replace("\n", "_").replace(" ", "_")
+
+
+def _parse_electrical_number(cell: str) -> float | None:
+    """Parse a Min/Max cell. '2', '3.6', '‐40' → float; '‐', '-' alone → None."""
+    s = cell.strip()
+    if not s:
+        return None
+    # Normalise any unicode hyphen/minus to ASCII '-'.
+    for ch in _UNICODE_MINUS:
+        s = s.replace(ch, "-")
+    if s in {"-", ""}:
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        return None
 
 
 # ---------------------------------------------------------------------------

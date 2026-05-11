@@ -15,7 +15,7 @@ core:
   nvic_prio_bits: 4
 sources:
   generated_by: wb32-data 0.1.0
-  generated_at: '2026-05-11T14:26:47Z'
+  generated_at: '2026-05-11T15:37:14Z'
   inputs:
   - kind: header
     name: vendor CMSIS wb32f10x.h
@@ -1616,6 +1616,27 @@ flash:
   sector_size: 256
   page_program_size: 256
   notes: Different register layout than STM32 FPEC controller
+electrical:
+  vdd_min: 2.0
+  vdd_max: 3.6
+  vdda_min: 2.0
+  vdda_max: 3.6
+  vdda_adc_min: 2.4
+  vdda_adc_max: 3.6
+  vbat_min: 1.8
+  vbat_max: 3.6
+  temperature_range:
+  - -40
+  - 85
+  f_hclk_max_mhz: 96
+  f_pclk1_max_mhz: 96
+  f_pclk2_max_mhz: 96
+  package_dimensions:
+    package: LQFP48
+    body:
+    - 7.0
+    - 7.0
+    pin_count: 48
 bootloader:
   rom_dfu: true
   flash_start_address: 0x8000000

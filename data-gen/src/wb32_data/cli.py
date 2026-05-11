@@ -319,6 +319,14 @@ def inspect_pdf(recipe: Path, repo_root: Path, save_images: bool) -> None:
 # ---------------------------------------------------------------------------
 
 
+def _rel(path: Path, root: Path) -> str:
+    """Best-effort repo-relative path; falls back to absolute when out of tree."""
+    try:
+        return str(path.relative_to(root))
+    except ValueError:
+        return str(path)
+
+
 def _load_parts_registry(repo_root: Path) -> list[dict]:
     """Load data-gen/recipes/parts.yaml."""
     import yaml
@@ -336,6 +344,7 @@ def _collect_sources(
     vendor_docs: Path,
     chibios_contrib: Path | None,
     repo_root: Path,
+    image_out_dir: Path | None = None,
 ):
     """Run every relevant source parser for a single part entry."""
     from wb32_data.sources.markdown import parse_chip_overview as _parse_md
@@ -363,7 +372,7 @@ def _collect_sources(
                     repo_root,
                     repo_root / "data-gen" / ".pdf-cache",
                 )
-                pdf_data = extractor.extract(rec)
+                pdf_data = extractor.extract(rec, image_out_dir=image_out_dir)
 
     md_path = repo_root / "docs" / "chip-overview.md"
     markdown = _parse_md(md_path) if md_path.exists() else None
@@ -409,6 +418,7 @@ def generate(
     # header, so emit them once up front rather than per-chip.
     _emit_shared(out, vendor_lib, repo_root)
 
+    diagrams_root = out / "diagrams"
     for part in parts:
         name = part["name"]
         console.print(f"[bold]{name}[/]: gathering sources...")
@@ -418,6 +428,7 @@ def generate(
             vendor_docs=vendor_docs,
             chibios_contrib=chibios_contrib,
             repo_root=repo_root,
+            image_out_dir=diagrams_root / name,
         )
         chip_data = merge_chip(part, header, chibios, pdf_data, markdown)
         # Apply any user-curated overlay.
@@ -426,10 +437,10 @@ def generate(
             import yaml as _yaml
             overlay = _yaml.safe_load(override_path.read_text(encoding="utf-8")) or {}
             _deep_merge(chip_data, overlay)
-            console.print(f"  applied override: {override_path.relative_to(repo_root)}")
+            console.print(f"  applied override: {_rel(override_path, repo_root)}")
         target = chips_dir / f"{name}.yaml"
         emit_chip_yaml(chip_data, target)
-        console.print(f"  [green]wrote[/] {target.relative_to(repo_root)}")
+        console.print(f"  [green]wrote[/] {_rel(target, repo_root)}")
 
 
 def _emit_shared(out: Path, vendor_lib: Path, repo_root: Path) -> None:
@@ -628,7 +639,7 @@ def validate(
         console.print(
             f"  errors: {len(report.errors)}, "
             f"warnings: {len(report.warnings)}, "
-            f"info: {len(report.infos)} → {out_path.relative_to(repo_root)}"
+            f"info: {len(report.infos)} → {_rel(out_path, repo_root)}"
         )
         if report.errors:
             any_errors = True

@@ -239,6 +239,25 @@ class PdfOrderingVariant:
 
 
 @dataclass
+class PdfElectrical:
+    """Structured operating-conditions facts from the datasheet electrical section."""
+
+    vdd_min: Optional[float] = None
+    vdd_max: Optional[float] = None
+    vdda_min: Optional[float] = None              # analog supply, ADC not used
+    vdda_max: Optional[float] = None
+    vdda_adc_min: Optional[float] = None          # analog supply, ADC in use
+    vdda_adc_max: Optional[float] = None
+    vbat_min: Optional[float] = None
+    vbat_max: Optional[float] = None
+    temperature_min: Optional[int] = None
+    temperature_max: Optional[int] = None
+    f_hclk_max_mhz: Optional[int] = None
+    f_pclk1_max_mhz: Optional[int] = None
+    f_pclk2_max_mhz: Optional[int] = None
+
+
+@dataclass
 class PdfData:
     pdf_path: str                                          # repo-relative
     sha256: str
@@ -246,6 +265,7 @@ class PdfData:
     pin_af_matrix: list[PdfPinAfEntry] = field(default_factory=list)
     packages: list[PdfPackage] = field(default_factory=list)
     ordering_variants: list[PdfOrderingVariant] = field(default_factory=list)
+    electrical: Optional[PdfElectrical] = None
     raw_text_by_page: dict[int, str] = field(default_factory=dict)
     saved_images: list[str] = field(default_factory=list)  # repo-relative paths
     notes: list[str] = field(default_factory=list)

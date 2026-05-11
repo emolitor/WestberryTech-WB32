@@ -11,7 +11,7 @@ CHIBIOS_CONTRIB ?= $(HOME)/Development/Personal/WB32/ChibiOS-Contrib
 
 CHIP ?=
 
-.PHONY: help venv install data validate clean distclean
+.PHONY: help venv install data validate test clean distclean
 
 help:
 	@echo "Targets:"
@@ -34,7 +34,7 @@ $(VENV)/bin/python:
 venv: $(VENV)/bin/python
 
 install: venv
-	$(PIP) install -e .
+	$(PIP) install -e ".[dev]"
 
 data: install
 	$(PY) -m wb32_data generate \
@@ -53,6 +53,9 @@ validate: install
 		--repo-root $(REPO_ROOT) \
 		--data $(DATA_DIR) \
 		$(if $(CHIP),--chip $(CHIP),)
+
+test: install
+	$(PY) -m pytest $(PYTEST_ARGS)
 
 clean:
 	rm -rf $(DATA_DIR)/chips/*.yaml $(DATA_DIR)/validation-reports/*.md

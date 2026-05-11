@@ -13,6 +13,11 @@ dependencies = [
     "rich>=13.7",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+]
+
 [project.scripts]
 wb32-data = "wb32_data.cli:main"
 
@@ -22,3 +27,10 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+    "requires_chibios: skip if ChibiOS-Contrib WB32 port is not on disk",
+]

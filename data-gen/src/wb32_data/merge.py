@@ -63,7 +63,41 @@ def merge_chip(
         "clocks": _clocks_block(header),
         "flash": _flash_block(header),
     }
+    electrical = _electrical_block(pdf, package)
+    if electrical:
+        out["electrical"] = electrical
     return out
+
+
+def _electrical_block(p: PdfData | None, package: str) -> dict[str, Any] | None:
+    if p is None:
+        return None
+    out: dict[str, Any] = {}
+    e = p.electrical
+    if e is not None:
+        if e.vdd_min is not None: out["vdd_min"] = e.vdd_min
+        if e.vdd_max is not None: out["vdd_max"] = e.vdd_max
+        if e.vdda_min is not None: out["vdda_min"] = e.vdda_min
+        if e.vdda_max is not None: out["vdda_max"] = e.vdda_max
+        if e.vdda_adc_min is not None: out["vdda_adc_min"] = e.vdda_adc_min
+        if e.vdda_adc_max is not None: out["vdda_adc_max"] = e.vdda_adc_max
+        if e.vbat_min is not None: out["vbat_min"] = e.vbat_min
+        if e.vbat_max is not None: out["vbat_max"] = e.vbat_max
+        if e.temperature_min is not None and e.temperature_max is not None:
+            out["temperature_range"] = [e.temperature_min, e.temperature_max]
+        if e.f_hclk_max_mhz is not None: out["f_hclk_max_mhz"] = e.f_hclk_max_mhz
+        if e.f_pclk1_max_mhz is not None: out["f_pclk1_max_mhz"] = e.f_pclk1_max_mhz
+        if e.f_pclk2_max_mhz is not None: out["f_pclk2_max_mhz"] = e.f_pclk2_max_mhz
+
+    if p.packages:
+        match = next((pkg for pkg in p.packages if pkg.name == package), None) or p.packages[0]
+        pkg_dim: dict[str, Any] = {"package": match.name}
+        if match.body_mm: pkg_dim["body"] = list(match.body_mm)
+        if match.pitch_mm is not None: pkg_dim["pitch"] = match.pitch_mm
+        if match.pin_count is not None: pkg_dim["pin_count"] = match.pin_count
+        out["package_dimensions"] = pkg_dim
+
+    return out or None
 
 
 # ---------------------------------------------------------------------------

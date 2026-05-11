@@ -1,0 +1,51 @@
+# Hand-curated overlay for WB32F102xC.
+#
+# Generated chip YAML never includes these fields because no source captures
+# them. The bootloader and errata facts are shared across the whole WB32 line
+# (sourced from docs/bootloader.md and docs/errata.md). Each entry has a
+# `_reason:` note describing where the fact comes from.
+
+bootloader:
+  rom_dfu: true
+  flash_start_address: 0x08000000
+  rom_base_address: 0x1FFFF000
+  rom_size: 0x1000          # 4 KB
+  usb_vid: 0x342D
+  notes:
+    - "Westberry Technology USB DFU bootloader, stored in system ROM (0x1FFFF000) and not erasable."
+    - "Entry methods: QMK QK_BOOT keycode, BOOT button held at reset, or NVIC_SystemReset() with bootloader flag."
+    - "Compatible with QMK Toolbox and wb32-dfu-updater_cli (-t -s 0x8000000 -D firmware.bin)."
+  _reason: "Documented in docs/bootloader.md; not present in vendor headers, ChibiOS port, or datasheet PDFs."
+
+errata:
+  - id: WB32-E001
+    summary: "DMA BLOCK_TS field limited to 9 bits (max 511 per transfer)"
+    severity: high
+    workaround: "Use ISR block chaining: split large transfers into chunks of <=511 elements and reconfigure in the TFR interrupt callback."
+    _reason: "Documented in docs/errata.md; confirmed by register-level OpenOCD tests on production hardware."
+
+  - id: WB32-E002
+    summary: "Flash erases to 0x00 (inverted bit model) — programming sets bits, cannot clear without erase"
+    severity: medium
+    workaround: "Pad partial pages with 0x00, verify erase by checking for 0x00000000, always erase before reprogramming."
+    _reason: "Documented in docs/errata.md; confirmed by hardware test on WB32F104RC and WB32FQ95xC."
+
+  - id: WB32-E003
+    summary: "ChibiOS dmaStreamDisable() clears all interrupt masks; dmaStreamEnable() does not restore them"
+    severity: medium
+    affects: chibios
+    workaround: "Re-enable WB32_DMAC_IT_TFR and WB32_DMAC_IT_ERR via dmaStreamEnableInterrupt() before every dmaStreamEnable() call."
+    _reason: "Driver-level issue in ChibiOS WB32 port. Documented in docs/errata.md; confirmed during WS2812 GPIO DMA driver validation."
+
+  - id: WB32-E004
+    summary: "GPIO OSPEEDR polarity inverted from STM32 (0=high speed, 1=low speed; only two levels)"
+    severity: low
+    workaround: "Use ChibiOS PAL macros which handle polarity internally; never assume STM32-compatible OSPEEDR values."
+    _reason: "Documented in docs/errata.md and chip-overview.md; confirmed by register inspection on WB32FQ95."
+
+  - id: WB32-E005
+    summary: "DMA ChEnReg not auto-cleared after non-circular transfer — stale handshakes may fire spurious DMA on next enable"
+    severity: medium
+    affects: chibios
+    workaround: "Write (ch_mask << 8) to ChEnReg before reconfiguring; this clears the channel enable bit without clearing interrupt masks (see WB32-E003)."
+    _reason: "Documented in docs/errata.md; confirmed during WS2812 GPIO DMA driver development."

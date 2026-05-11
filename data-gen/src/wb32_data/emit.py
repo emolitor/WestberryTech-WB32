@@ -40,6 +40,7 @@ _HEX_KEYS = {
     "offset", "reset",
     "usb_vid", "usb_pid",
     "flash_start_address",
+    "rom_base_address", "rom_size",
 }
 
 
