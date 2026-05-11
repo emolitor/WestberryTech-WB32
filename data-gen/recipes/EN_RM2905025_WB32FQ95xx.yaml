@@ -1,0 +1,27 @@
+pdf: vendor-docs/reference-manual/EN_RM2905025_WB32FQ95xx_V01.pdf
+chip: WB32FQ95xx
+description: |
+  Per-peripheral page ranges for the WB32FQ95xx reference manual.
+  Each section's pages cover one peripheral's register definitions
+  (Chapter "X.5. Register definition" subsections). Tables that span
+  pages without a re-heading inherit the last-seen register context.
+
+sections:
+  ADC:
+    pages: [152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172]
+  TIM1:
+    pages: [197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215]
+  TIM_general:
+    pages: [228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248]
+  RTC:
+    pages: [249, 250, 251, 252, 253, 254]
+  IWDG:
+    pages: [255, 256, 257]
+  WWDG:
+    pages: [258, 259, 260]
+  SPI:
+    pages: [291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312]
+  I2C:
+    pages: [323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368]
+  UART:
+    pages: [369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383]

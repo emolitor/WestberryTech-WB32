@@ -107,6 +107,7 @@ class PinSignal:
     kind: Literal["af", "analog", "default", "alternate"] = "af"
     notes: str = ""
     only_package: Optional[str] = None   # e.g. "LQFP64" if pin only present on bigger package
+    applies_to: tuple[str, ...] = ()     # chip families this signal applies to; empty = all
 
 
 # ---------------------------------------------------------------------------

@@ -15,7 +15,7 @@ core:
   nvic_prio_bits: 4
 sources:
   generated_by: wb32-data 0.1.0
-  generated_at: '2026-05-11T13:03:29Z'
+  generated_at: '2026-05-11T13:54:13Z'
   inputs:
   - kind: header
     name: vendor CMSIS wb32f10x.h
@@ -1616,3 +1616,26 @@ flash:
   sector_size: 256
   page_program_size: 256
   notes: Different register layout than STM32 FPEC controller
+bootloader:
+  rom_dfu: true
+  flash_start_address: 0x8000000
+  usb_vid: 0x342D
+  notes:
+  - Westberry Technology USB DFU bootloader, stored in ROM and not erasable.
+  - Entry via QMK QK_BOOT keycode, BOOT button held at reset, or NVIC_SystemReset() with bootloader flag.
+  _reason: Documented in docs/bootloader.md; not present in vendor headers, ChibiOS port, or datasheet PDFs.
+errata:
+- id: dma-lli-reserved
+  severity: high
+  summary: DMA Linked-List-Item (LLP) register reserved despite STM32-similar struct layout
+  workaround: Use auto-reload or ISR-chained transfers instead of LLI mode
+  _reason: Documented in docs/errata.md and confirmed by examples/dma-multi-transfer.
+- id: gpio-speed-encoding
+  severity: low
+  summary: GPIO output speed has two levels (LOW/HIGH) with encoding inverted relative to STM32
+  workaround: Use the vendor SDK macros, not STM32-style raw register writes
+  _reason: Documented in docs/chip-overview.md and validated via examples/pin-validation.
+development_hardware:
+  taobao_url: https://world.taobao.com/dianpu/471165391.htm
+  reworked_from: WB32F104RC dev board with WB32FQ95xC replacement
+  _reason: From README.md 'Development Hardware' section.

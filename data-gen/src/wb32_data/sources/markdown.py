@@ -30,36 +30,63 @@ _TABLE_SEPARATOR_RE = re.compile(r"^\s*\|[\s\-:|]+\|\s*$")
 _AF_NUMBER_RE = re.compile(r"AF(\d+)", re.IGNORECASE)
 _PIN_NAME_RE = re.compile(r"^P[A-D]\d{1,2}$")
 _LQFP64_NOTE_RE = re.compile(r"\(\s*64\s*\)|LQFP64", re.IGNORECASE)
+_APPLIES_TO_RE = re.compile(r"<!--\s*applies-to:\s*(?P<families>[^>]+?)\s*-->", re.IGNORECASE)
 
 
 def parse_chip_overview(path: Path) -> MarkdownData:
-    """Parse docs/chip-overview.md tables into pin/AF claims."""
+    """Parse docs/chip-overview.md tables into pin/AF claims.
+
+    Recognises ``<!-- applies-to: A, B, C -->`` comments preceding a heading
+    and attaches the listed chip families to every PinSignal emitted from
+    tables under that heading. The applicability scope ends at the next
+    same-or-lower heading level (so a `<!-- applies-to: ... -->` before a
+    `###` heading covers all tables under that `###` until the next `###`
+    or `##`).
+    """
     text = path.read_text(encoding="utf-8", errors="replace")
     lines = text.splitlines()
 
     data = MarkdownData()
     section_stack: list[str] = []
+    pending_applies_to: tuple[str, ...] = ()
+    current_applies_to: tuple[str, ...] = ()
     i = 0
     while i < len(lines):
         line = lines[i]
+
+        applies = _APPLIES_TO_RE.match(line.strip())
+        if applies:
+            pending_applies_to = tuple(
+                f.strip() for f in applies.group("families").split(",") if f.strip()
+            )
+            i += 1
+            continue
+
         heading = _HEADING_RE.match(line)
         if heading:
             level = len(heading.group("level"))
             title = heading.group("title").strip()
-            # Maintain a stack so we know what section a later table belongs to.
             section_stack = section_stack[: level - 2]
             section_stack.append(title)
+            # The pending tag attaches to this heading and stays in effect
+            # until the next pending tag (typically associated with the next
+            # heading) overwrites it.
+            if pending_applies_to:
+                current_applies_to = pending_applies_to
+                pending_applies_to = ()
+            elif level <= 3:
+                # New ### or ## with no pending tag — reset scope.
+                current_applies_to = ()
             i += 1
             continue
 
         if _TABLE_ROW_RE.match(line):
-            # Found a table. Consume header + separator + data rows.
             header_cells = _split_row(line)
             if i + 1 < len(lines) and _TABLE_SEPARATOR_RE.match(lines[i + 1]):
                 i += 2
                 while i < len(lines) and _TABLE_ROW_RE.match(lines[i]):
                     data_cells = _split_row(lines[i])
-                    _maybe_emit_pin_signal(data, header_cells, data_cells, section_stack)
+                    _maybe_emit_pin_signal(data, header_cells, data_cells, section_stack, current_applies_to)
                     i += 1
                 continue
         i += 1
@@ -76,6 +103,7 @@ def _maybe_emit_pin_signal(
     header: list[str],
     row: list[str],
     section_stack: list[str],
+    applies_to: tuple[str, ...] = (),
 ) -> None:
     """If ``row`` looks like a Pin/Function/AF table row, extract a PinSignal.
 
@@ -132,6 +160,7 @@ def _maybe_emit_pin_signal(
             kind=af_kind,                    # type: ignore[arg-type]
             notes=notes,
             only_package=only_package,
+            applies_to=applies_to,
         )
     )
 

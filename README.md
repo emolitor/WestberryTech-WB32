@@ -35,6 +35,37 @@ OpenOCD flash driver and debug for WB32. Supports sector erase, mass erase, page
 
 The driver is maintained in a dedicated OpenOCD fork: [emolitor/openocd](https://github.com/emolitor/openocd). See the fork for build instructions, usage, and FMC register reference.
 
+## Structured Data
+
+Machine-readable YAML data for every WB32 variant, inspired by
+[stm32-data](https://github.com/embassy-rs/stm32-data) and
+[ch32-data](https://github.com/ch32-rs/ch32-data). Per-chip files capture
+memory map, peripheral instances, register bit-fields, interrupts, DMA
+peripheral handshake numbers, pin AF mappings, clock-enable bits, and IRQ
+priorities — drawn from the vendor CMSIS header, the ChibiOS-Contrib WB32
+port, the vendor datasheets and reference manual, and the repository
+markdown (in that trust order).
+
+| Path | Contents |
+|------|----------|
+| [`data/chips/`](data/chips/) | Per-chip YAML — WB32F101xC, F102xC, F103xC, F104RC, F105RC, FQ95xC, F3G71xx |
+| [`data/peripherals/`](data/peripherals/) | Shared register-block definitions (GPIO, TIM, UART, I2C, SPI, ADC, …) with bit-fields from the reference manual |
+| [`data/interrupts/`](data/interrupts/) | Family-level interrupt tables |
+| [`data/_overrides/`](data/_overrides/) | Hand-curated overlays for facts no source captures (bootloader VID/PID, errata) |
+| [`data/validation-reports/`](data/validation-reports/) | Per-chip cross-source disagreement reports |
+| [`data/schema.md`](data/schema.md) | Full per-chip YAML schema |
+| [`data-gen/`](data-gen/) | Python generator that produces the above from `vendor-lib/`, `vendor-docs/`, ChibiOS-Contrib, and the repo's markdown |
+
+To regenerate:
+
+```bash
+make -C data-gen data       # all chips
+make -C data-gen validate   # cross-source validation, non-zero exit on errors
+```
+
+The generator is reproducible — running it should produce identical output
+given the same inputs.
+
 ## Vendor Documentation
 
 The [`vendor-docs/`](vendor-docs/) directory contains datasheets, the reference manual, application notes, and a reference schematic.
@@ -76,6 +107,14 @@ WestberryTech-WB32/
 │   ├── application-notes/   # AN001-AN005
 │   └── schematics/          # Reference board schematic
 ├── vendor-lib/              # WB32F10x Standard Peripheral Library
+├── data/                    # Machine-readable YAML (stm32-data inspired)
+│   ├── chips/               # Per-chip files
+│   ├── peripherals/         # Shared register-block definitions
+│   ├── interrupts/          # Family interrupt tables
+│   ├── _overrides/          # Hand-curated overlays
+│   ├── validation-reports/  # Cross-source disagreements
+│   └── schema.md            # YAML schema
+├── data-gen/                # Python generator for data/
 ├── examples/                # Bare metal and ChibiOS examples
 └── debug/                   # GDB scripts and J-Link config
 ```

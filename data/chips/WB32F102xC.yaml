@@ -15,7 +15,7 @@ core:
   nvic_prio_bits: 4
 sources:
   generated_by: wb32-data 0.1.0
-  generated_at: '2026-05-11T13:03:06Z'
+  generated_at: '2026-05-11T13:54:13Z'
   inputs:
   - kind: header
     name: vendor CMSIS wb32f10x.h

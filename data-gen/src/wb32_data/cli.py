@@ -201,6 +201,49 @@ def inspect_chibios(chibios_contrib: Path, chip_family: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# inspect-refman — diagnostic for the reference-manual bit-field extractor
+# ---------------------------------------------------------------------------
+
+
+@main.command("inspect-refman")
+@click.option("--recipe", type=click.Path(exists=True, dir_okay=False, path_type=Path), required=True)
+@click.option("--repo-root", type=click.Path(exists=True, file_okay=False, path_type=Path), required=True)
+@click.option("--section", type=str, default=None, help="Inspect only this recipe section")
+def inspect_refman(recipe: Path, repo_root: Path, section: str | None) -> None:
+    """Extract bit-fields from the reference manual using a recipe and summarize."""
+    from wb32_data.sources.reference_manual import extract_reference_manual, load_recipe
+
+    rec = load_recipe(recipe)
+    pdf_path = (repo_root / rec["pdf"]).resolve()
+    if not pdf_path.exists():
+        console.print(f"[red]ERROR[/]: pdf not found at {pdf_path}")
+        sys.exit(2)
+
+    if section is not None:
+        rec = {**rec, "sections": {section: rec["sections"][section]}}
+
+    result = extract_reference_manual(pdf_path, rec, repo_root)
+
+    console.rule(f"[bold]{pdf_path.name}")
+    console.print(
+        f"register groups: {len(result.fields_by_reg)} | "
+        f"total fields: {sum(len(v) for v in result.fields_by_reg.values())} | "
+        f"orphan tables: {len(result.unmatched_tables)}"
+    )
+    t = Table(show_header=True, header_style="bold")
+    t.add_column("peripheral"); t.add_column("register"); t.add_column("fields", justify="right"); t.add_column("sample")
+    for (periph, reg), fields in sorted(result.fields_by_reg.items()):
+        sample = ", ".join(f.name for f in fields[:4]) + ("..." if len(fields) > 4 else "")
+        t.add_row(periph, reg, str(len(fields)), sample)
+    console.print(t)
+
+    if result.unmatched_tables:
+        console.rule("[yellow]Orphan tables (no register context)")
+        for p, name in result.unmatched_tables[:10]:
+            console.print(f"  page {p}: {name}")
+
+
+# ---------------------------------------------------------------------------
 # inspect-pdf — diagnostic for the PDF extractor
 # ---------------------------------------------------------------------------
 
@@ -325,7 +368,11 @@ def _collect_sources(
     md_path = repo_root / "docs" / "chip-overview.md"
     markdown = _parse_md(md_path) if md_path.exists() else None
 
-    return header, chibios, pdf_data, markdown
+    from wb32_data.sources.pin_validation import parse_pin_defs
+    pin_defs = repo_root / "examples" / "pin-validation" / "pin_defs.h"
+    pin_val = parse_pin_defs(pin_defs) if pin_defs.exists() else None
+
+    return header, chibios, pdf_data, markdown, pin_val
 
 
 @main.command()
@@ -358,10 +405,14 @@ def generate(
     chips_dir = out / "chips"
     chips_dir.mkdir(exist_ok=True)
 
+    # Shared register-block and interrupt YAMLs depend only on the vendor
+    # header, so emit them once up front rather than per-chip.
+    _emit_shared(out, vendor_lib, repo_root)
+
     for part in parts:
         name = part["name"]
         console.print(f"[bold]{name}[/]: gathering sources...")
-        header, chibios, pdf_data, markdown = _collect_sources(
+        header, chibios, pdf_data, markdown, pin_val = _collect_sources(
             part,
             vendor_lib=vendor_lib,
             vendor_docs=vendor_docs,
@@ -369,9 +420,165 @@ def generate(
             repo_root=repo_root,
         )
         chip_data = merge_chip(part, header, chibios, pdf_data, markdown)
+        # Apply any user-curated overlay.
+        override_path = out / "_overrides" / f"{name}.yaml"
+        if override_path.exists():
+            import yaml as _yaml
+            overlay = _yaml.safe_load(override_path.read_text(encoding="utf-8")) or {}
+            _deep_merge(chip_data, overlay)
+            console.print(f"  applied override: {override_path.relative_to(repo_root)}")
         target = chips_dir / f"{name}.yaml"
         emit_chip_yaml(chip_data, target)
         console.print(f"  [green]wrote[/] {target.relative_to(repo_root)}")
+
+
+def _emit_shared(out: Path, vendor_lib: Path, repo_root: Path) -> None:
+    """Emit data/peripherals/<block>.yaml and data/interrupts/WB32F10x.yaml."""
+    from wb32_data.emit import emit_yaml
+    from wb32_data.sources.headers import parse_bitfield_definitions
+
+    cmsis = vendor_lib / "Libraries" / "CMSIS" / "Device" / "WB" / "WB32F10x" / "wb32f10x.h"
+    header = parse_cmsis_header(cmsis)
+
+    # ---- Peripheral register blocks ----
+    drv_dir = vendor_lib / "Libraries" / "WB32F10x_StdPeriph_Driver" / "inc"
+    bitfields_by_reg: dict[tuple[str, str], list] = {}
+    bitfield_sources: dict[tuple[str, str, str], str] = {}   # (periph, reg, field_name) -> source name
+
+    if cmsis.exists():
+        for key, fields in parse_bitfield_definitions(
+            cmsis.read_text(encoding="utf-8", errors="replace")
+        ).items():
+            bitfields_by_reg.setdefault(key, []).extend(fields)
+            for f in fields:
+                bitfield_sources[(*key, f.name)] = "header"
+
+    if drv_dir.exists():
+        for hdr in sorted(drv_dir.glob("wb32f10x_*.h")):
+            for key, fields in parse_bitfield_definitions(
+                hdr.read_text(encoding="utf-8", errors="replace")
+            ).items():
+                for f in fields:
+                    if (*key, f.name) not in bitfield_sources:
+                        bitfields_by_reg.setdefault(key, []).append(f)
+                        bitfield_sources[(*key, f.name)] = "header"
+
+    # ---- Layer on reference-manual bit-fields ----
+    refman_recipe = repo_root / "data-gen" / "recipes" / "EN_RM2905025_WB32FQ95xx.yaml"
+    refman_disagreements: list[str] = []
+    if refman_recipe.exists():
+        try:
+            from wb32_data.sources.reference_manual import extract_reference_manual, load_recipe as _load_rm_recipe
+            rec = _load_rm_recipe(refman_recipe)
+            refman_pdf = (repo_root / rec["pdf"]).resolve()
+            if refman_pdf.exists():
+                manual = extract_reference_manual(refman_pdf, rec, repo_root)
+                for key, fields in manual.fields_by_reg.items():
+                    existing = {f.name: f for f in bitfields_by_reg.get(key, [])}
+                    for f in fields:
+                        if f.name in existing:
+                            # Cross-check: if header and manual disagree on bit
+                            # offset/width, log it but keep the header version.
+                            e = existing[f.name]
+                            if (e.bit_offset, e.bit_width) != (f.bit_offset, f.bit_width):
+                                refman_disagreements.append(
+                                    f"{key[0]}_{key[1]}.{f.name}: header={e.bit_offset}+{e.bit_width}, "
+                                    f"manual={f.bit_offset}+{f.bit_width}"
+                                )
+                            continue
+                        bitfields_by_reg.setdefault(key, []).append(f)
+                        bitfield_sources[(*key, f.name)] = "reference_manual"
+                console.print(
+                    f"  reference manual: {len(manual.fields_by_reg)} register groups, "
+                    f"{sum(len(v) for v in manual.fields_by_reg.values())} fields"
+                    + (f", [yellow]{len(refman_disagreements)} disagreements with header[/]"
+                       if refman_disagreements else "")
+                )
+        except Exception as e:
+            console.print(f"  [yellow]reference manual extraction failed:[/] {e}")
+
+    peripherals_dir = out / "peripherals"
+    peripherals_dir.mkdir(parents=True, exist_ok=True)
+    for typedef, block in header.register_blocks.items():
+        registers = []
+        for r in block.registers:
+            entry: dict = {
+                "name": r.name,
+                "offset": r.offset,
+                "size": r.size,
+                "access": r.access,
+            }
+            if r.description:
+                entry["description"] = r.description
+            # Attach any bit-fields parsed from the same peripheral prefix.
+            # Block "GPIO_TypeDef" → prefix "GPIO" → look up (GPIO, MODER) etc.
+            prefix = typedef.removesuffix("_TypeDef")
+            fields = bitfields_by_reg.get((prefix, r.name)) or []
+            if fields:
+                entry["fields"] = []
+                for f in fields:
+                    src = bitfield_sources.get((prefix, r.name, f.name), "header")
+                    field_entry: dict = {
+                        "name": f.name,
+                        "bits": [f.bit_offset, f.bit_width],
+                    }
+                    if src != "header":
+                        field_entry["source"] = src
+                    entry["fields"].append(field_entry)
+            registers.append(entry)
+        emit_yaml(
+            {
+                "name": typedef,
+                "applies_to": ["WB32F10x", "WB32FQ95xx", "WB32F3G71xx"],
+                "registers": registers,
+            },
+            peripherals_dir / f"{typedef}.yaml",
+            header="Generated by wb32-data — shared peripheral register block.",
+        )
+    console.print(f"  [green]wrote[/] {len(header.register_blocks)} peripheral block(s) to data/peripherals/")
+    if refman_disagreements:
+        console.print("  [yellow]Header/manual bit-field disagreements (header kept):[/]")
+        for d in refman_disagreements[:10]:
+            console.print(f"    {d}")
+        if len(refman_disagreements) > 10:
+            console.print(f"    ... +{len(refman_disagreements) - 10} more")
+
+    # ---- Interrupt family table ----
+    interrupts_dir = out / "interrupts"
+    interrupts_dir.mkdir(parents=True, exist_ok=True)
+    emit_yaml(
+        {
+            "family": "WB32F10x",
+            "applies_to": [
+                "WB32F101xx", "WB32F102xx", "WB32F103xx", "WB32F104xx",
+                "WB32F105xx", "WB32FQ95xx", "WB32F3G71xx",
+            ],
+            "core_exceptions": [
+                {"number": i.number, "name": i.name, "description": i.description}
+                for i in header.core_exceptions
+            ],
+            "vendor_irqs": [
+                {"number": i.number, "name": i.name, "description": i.description}
+                for i in header.interrupts
+            ],
+        },
+        interrupts_dir / "WB32F10x.yaml",
+        header="Generated by wb32-data — shared interrupt table for all WB32 families.",
+    )
+    console.print(f"  [green]wrote[/] data/interrupts/WB32F10x.yaml")
+
+
+def _deep_merge(target: dict, overlay: dict) -> None:
+    """Recursively merge ``overlay`` into ``target`` in-place.
+
+    Lists in the overlay replace the target list outright. Dicts merge by key.
+    Scalars in the overlay overwrite the target.
+    """
+    for key, value in overlay.items():
+        if isinstance(value, dict) and isinstance(target.get(key), dict):
+            _deep_merge(target[key], value)
+        else:
+            target[key] = value
 
 
 @main.command()
@@ -405,14 +612,17 @@ def validate(
     for part in parts:
         name = part["name"]
         console.print(f"[bold]{name}[/]: validating...")
-        header, chibios, pdf_data, markdown = _collect_sources(
+        header, chibios, pdf_data, markdown, pin_val = _collect_sources(
             part,
             vendor_lib=vendor_lib,
             vendor_docs=vendor_docs,
             chibios_contrib=chibios_contrib,
             repo_root=repo_root,
         )
-        report = run_validation(name, header, chibios, pdf_data, markdown)
+        report = run_validation(
+            name, header, chibios, pdf_data, markdown, pin_val,
+            chip_family=part.get("family"),
+        )
         out_path = reports_dir / f"{name}.md"
         out_path.write_text(report.to_markdown(), encoding="utf-8")
         console.print(

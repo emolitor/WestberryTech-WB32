@@ -100,6 +100,7 @@ Each pin's function is selected by its AF number.
 
 Pins marked **(64)** are only available on the LQFP64 package.
 
+<!-- applies-to: WB32F101xx, WB32F102xx, WB32F103xx, WB32F104xx, WB32F105xx, WB32FQ95xx, WB32F3G71xx -->
 ### SWD (Serial Wire Debug)
 
 | Pin | Function | AF | Notes |
@@ -107,6 +108,7 @@ Pins marked **(64)** are only available on the LQFP64 package.
 | PA13 | SWDIO | Default | Active after reset; also QSPI_NSS1 (AF4) |
 | PA14 | SWCLK | Default | Active after reset; also QSPI_NSS2 (AF4) |
 
+<!-- applies-to: WB32F102xx, WB32F103xx, WB32F104xx, WB32F105xx, WB32FQ95xx, WB32F3G71xx -->
 ### USB
 
 | Pin | Function | Notes |
@@ -117,6 +119,7 @@ Pins marked **(64)** are only available on the LQFP64 package.
 USB uses a dedicated analog connection, not the AF multiplexer. When USB is not in use,
 PA11 and PA12 can be used for other AF functions (TIM1, LED, UART1).
 
+<!-- applies-to: WB32F101xx, WB32F102xx, WB32F103xx, WB32F104xx, WB32F105xx, WB32FQ95xx, WB32F3G71xx -->
 ### UART
 
 | Pin | Function | AF | Notes |
@@ -144,19 +147,21 @@ PA11 and PA12 can be used for other AF functions (TIM1, LED, UART1).
 | PC11 | UART3 RX | AF7 | **(64)** |
 | PC12 | UART3 CK | AF7 | **(64)** |
 
+<!-- applies-to: WB32F101xx, WB32F102xx, WB32F103xx, WB32F104xx, WB32F105xx, WB32FQ95xx, WB32F3G71xx -->
 ### I2C
 
 | Pin | Function | AF | Notes |
 |-----|----------|----|-------|
-| PB6 | I2C1 SCL | AF5 | Default I2C1 pins |
-| PB7 | I2C1 SDA | AF3 | |
-| PB8 | I2C1 SCL | AF3 | Alternate I2C1 pins |
-| PB9 | I2C1 SDA | AF3 | |
-| PB10 | I2C2 SCL | AF3 | Also UART3_TX, TIM2_CH3 |
-| PB11 | I2C2 SDA | AF3 | Also UART3_RX, TIM2_CH4 |
-| PB5 | I2C1 SMBAI | AF6 | SMBus alert |
-| PA15 | I2C SMBAI | AF3 | SMBus alert |
+| PB6 | I2C1 SCL | AF4 | Default I2C1 pins |
+| PB7 | I2C1 SDA | AF4 | |
+| PB8 | I2C1 SCL | AF4 | Alternate I2C1 pins |
+| PB9 | I2C1 SDA | AF4 | |
+| PB10 | I2C2 SCL | AF4 | Also UART3_TX, TIM2_CH3 |
+| PB11 | I2C2 SDA | AF4 | Also UART3_RX, TIM2_CH4 |
+| PB5 | I2C1 SMBAI | AF4 | SMBus alert |
+| PA15 | I2C SMBAI | AF4 | SMBus alert |
 
+<!-- applies-to: WB32F101xx, WB32F102xx, WB32F103xx, WB32F104xx, WB32F105xx, WB32FQ95xx, WB32F3G71xx -->
 ### SPI / QSPI
 
 The WB32 has three SPI-capable peripherals: QSPI (quad-capable), SPIM2 (master), and two
@@ -167,30 +172,30 @@ groups.
 
 | Pin | Function | AF | Notes |
 |-----|----------|----|-------|
-| PA4 | QSPI_NSS0 | AF4 | Also SPIS1_NSS (AF5), ADC_IN4 |
-| PA5 | QSPI_SCK | AF4 | Also SPIS1_SCK (AF5), ADC_IN5 |
-| PA6 | QSPI_MI (IO1) | AF4 | Also SPIS1_SO (AF5), TIM3_CH1 |
-| PA7 | QSPI_MO (IO0) | AF4 | Also SPIS1_SI (AF5), TIM3_CH2 |
+| PA4 | QSPI_NSS0 | AF5 | Also SPIS1_NSS (AF6), ADC_IN4 |
+| PA5 | QSPI_SCK | AF5 | Also SPIS1_SCK (AF6), ADC_IN5 |
+| PA6 | QSPI_MI (IO1) | AF5 | Also SPIS1_SO (AF6), TIM3_CH1 |
+| PA7 | QSPI_MO (IO0) | AF5 | Also SPIS1_SI (AF6), TIM3_CH2 |
 
 **QSPI (Port B -- alternate)**
 
 | Pin | Function | AF | Notes |
 |-----|----------|----|-------|
-| PA15 | QSPI_NSS0 | AF4 | Also SPIS1_NSS (AF5), TIM2_CH1_ETR |
-| PB3 | QSPI_SCK | AF4 | Also SPIS1_SCK (AF5), SWO, TIM2_CH2 |
-| PB4 | QSPI_MI (IO1) | AF4 | Also SPIS1_SO (AF5), TIM3_CH1 |
-| PB5 | QSPI_MO (IO0) | AF4 | Also SPIS1_SI (AF5), TIM3_CH2, I2S_SD1 |
-| PB0 | QSPI_IO2 | AF4 | Quad mode only |
-| PB1 | QSPI_IO3 | AF4 | Quad mode only |
+| PA15 | QSPI_NSS0 | AF5 | Also SPIS1_NSS (AF6), TIM2_CH1_ETR |
+| PB3 | QSPI_SCK | AF5 | Also SPIS1_SCK (AF6), SWO, TIM2_CH2 |
+| PB4 | QSPI_MI (IO1) | AF5 | Also SPIS1_SO (AF6), TIM3_CH1 |
+| PB5 | QSPI_MO (IO0) | AF5 | Also SPIS1_SI (AF6), TIM3_CH2, I2S_SD1 |
+| PB0 | QSPI_IO2 | AF5 | Quad mode only |
+| PB1 | QSPI_IO3 | AF5 | Quad mode only |
 
 **QSPI Chip Selects**
 
 | Pin | Function | AF | Notes |
 |-----|----------|----|-------|
-| PA13 | QSPI_NSS1 | AF4 | Also SWDIO (default) |
-| PA14 | QSPI_NSS2 | AF4 | Also SWCLK (default) |
-| PB6 | QSPI_NSS1 | AF4 | |
-| PB10 | QSPI_NSS2 | AF4 | |
+| PA13 | QSPI_NSS1 | AF5 | Also SWDIO (default) |
+| PA14 | QSPI_NSS2 | AF5 | Also SWCLK (default) |
+| PB6 | QSPI_NSS1 | AF5 | |
+| PB10 | QSPI_NSS2 | AF5 | |
 
 **SPIM2 (Port B -- LQFP64)**
 
@@ -205,20 +210,21 @@ groups.
 
 | Pin | Function | AF | Notes |
 |-----|----------|----|-------|
-| PC0 | SPIM2_NSS0 | AF4 | **(64)** Also SPIS2_NSS (AF5) |
-| PC1 | SPIM2_SCK | AF4 | **(64)** Also SPIS2_SCK (AF5) |
-| PC2 | SPIM2_MI | AF4 | **(64)** Also SPIS2_SO (AF5) |
-| PC3 | SPIM2_MO | AF4 | **(64)** Also SPIS2_SI (AF5) |
+| PC0 | SPIM2_NSS0 | AF5 | **(64)** Also SPIS2_NSS (AF6) |
+| PC1 | SPIM2_SCK | AF5 | **(64)** Also SPIS2_SCK (AF6) |
+| PC2 | SPIM2_MI | AF5 | **(64)** Also SPIS2_SO (AF6) |
+| PC3 | SPIM2_MO | AF5 | **(64)** Also SPIS2_SI (AF6) |
 
 **SPIM2 Additional Chip Selects**
 
 | Pin | Function | AF | Notes |
 |-----|----------|----|-------|
-| PB7 | SPIM2_NSS1 | AF4 | |
-| PB8 | SPIM2_NSS2 | AF4 | |
-| PB11 | SPIM2_NSS1 | AF4 | |
-| PC5 | SPIM2_NSS2 | AF4 | **(64)** |
+| PB7 | SPIM2_NSS1 | AF5 | |
+| PB8 | SPIM2_NSS2 | AF5 | |
+| PB11 | SPIM2_NSS1 | AF5 | |
+| PC5 | SPIM2_NSS2 | AF5 | **(64)** |
 
+<!-- applies-to: WB32F101xx, WB32F102xx, WB32F103xx, WB32F104xx, WB32F105xx, WB32FQ95xx, WB32F3G71xx -->
 ### Timers
 
 **TIM1 (Advanced Timer)**
@@ -256,8 +262,8 @@ groups.
 
 | Pin | Function | AF | Notes |
 |-----|----------|----|-------|
-| PA6 | TIM3_CH1 | AF2 | Also QSPI_MI (AF4) |
-| PA7 | TIM3_CH2 | AF2 | Also QSPI_MO (AF4) |
+| PA6 | TIM3_CH1 | AF2 | Also QSPI_MI (AF5) |
+| PA7 | TIM3_CH2 | AF2 | Also QSPI_MO (AF5) |
 | PB0 | TIM3_CH3 | AF2 | |
 | PB1 | TIM3_CH4 | AF2 | |
 | PB4 | TIM3_CH1 | AF2 | Alternate CH1 |
@@ -272,31 +278,33 @@ groups.
 
 | Pin | Function | AF | Notes |
 |-----|----------|----|-------|
-| PB6 | TIM4_CH1 | AF2 | Also I2C1_SCL (AF5) |
-| PB7 | TIM4_CH2 | AF2 | Also I2C1_SDA (AF3) |
+| PB6 | TIM4_CH1 | AF2 | Also I2C1_SCL (AF4) |
+| PB7 | TIM4_CH2 | AF2 | Also I2C1_SDA (AF4) |
 | PB8 | TIM4_CH3 | AF2 | |
 | PB9 | TIM4_CH4 | AF2 | |
 | PB10 | TIM4_CH1 | AF2 | Alternate CH1 |
 | PC12 | TIM4_ETR | AF2 | **(64)** |
 
+<!-- applies-to: WB32F103xx, WB32F104xx, WB32F105xx, WB32FQ95xx, WB32F3G71xx -->
 ### I2S (Inter-IC Sound)
 
 | Pin | Function | AF | Notes |
 |-----|----------|----|-------|
-| PA15 | I2S_WS | AF2 | Word select |
-| PB3 | I2S_SCLK | AF2 | Serial clock |
+| PA15 | I2S_WS | AF3 | Word select |
+| PB3 | I2S_SCLK | AF3 | Serial clock |
 | PB0 | I2S_MCLK | AF3 | Master clock |
 | PB5 | I2S_SD1 | AF3 | Serial data 1 |
-| PB12 | I2S_WS | AF2 | **(64)** Alt word select |
-| PB13 | I2S_SCLK | AF2 | **(64)** Alt serial clock |
-| PB15 | I2S_SD0 | AF2 | **(64)** Serial data 0 |
-| PC0 | I2S_WS | AF2 | **(64)** Alt word select |
-| PC1 | I2S_SCLK | AF2 | **(64)** Alt serial clock |
-| PC2 | I2S_SD0 | AF2 | **(64)** Alt serial data 0 |
-| PC3 | I2S_SD1 | AF2 | **(64)** Alt serial data 1 |
+| PB12 | I2S_WS | AF3 | **(64)** Alt word select |
+| PB13 | I2S_SCLK | AF3 | **(64)** Alt serial clock |
+| PB15 | I2S_SD0 | AF3 | **(64)** Serial data 0 |
+| PC0 | I2S_WS | AF3 | **(64)** Alt word select |
+| PC1 | I2S_SCLK | AF3 | **(64)** Alt serial clock |
+| PC2 | I2S_SD0 | AF3 | **(64)** Alt serial data 0 |
+| PC3 | I2S_SD1 | AF3 | **(64)** Alt serial data 1 |
 | PC6 | I2S_MCLK | AF3 | **(64)** Alt master clock |
 | PC7 | I2S_MCLK | AF3 | **(64)** Alt master clock |
 
+<!-- applies-to: WB32F101xx, WB32F102xx, WB32F103xx, WB32F104xx, WB32F105xx, WB32FQ95xx, WB32F3G71xx -->
 ### ADC
 
 The ADC requires enabling the ANCTL SAR ADC circuitry before conversions work:
@@ -324,6 +332,7 @@ The ADC requires enabling the ANCTL SAR ADC circuitry before conversions work:
 | - | ADC_CH16 | Internal temperature sensor |
 | - | ADC_CH17 | Internal Vref |
 
+<!-- applies-to: WB32F101xx, WB32F102xx, WB32F103xx, WB32F104xx, WB32F105xx, WB32FQ95xx, WB32F3G71xx -->
 ### Oscillator
 
 | Pin | Function | Notes |
@@ -331,6 +340,7 @@ The ADC requires enabling the ANCTL SAR ADC circuitry before conversions work:
 | PD0 | XTAL_IN | External crystal input (12 MHz typical) |
 | PD1 | XTAL_OUT | External crystal output |
 
+<!-- applies-to: WB32F103xx, WB32F104xx, WB32F105xx, WB32FQ95xx, WB32F3G71xx -->
 ### LED Controller
 
 The WB32 has a dedicated hardware LED controller. LED outputs can be mapped to multiple
@@ -373,17 +383,22 @@ internal bit-reordering transform.
 | PC12 | LED6 | AF5 |
 | PD2 | LED7 | AF5 |
 
+<!-- applies-to: WB32F101xx, WB32F102xx, WB32F103xx, WB32F104xx, WB32F105xx, WB32FQ95xx, WB32F3G71xx -->
 ### Alternate Function Summary
+
+Column meanings transcribed from the vendor datasheets (DS001–DS005 and
+`EN_DS1104041_WB32FQ95xC_V01.pdf`). The previous version of this table had
+a systematic off-by-one error which was corrected to match the datasheets.
 
 | AF | Function |
 |----|----------|
-| AF0 | System (default after reset) |
+| AF0 | System (default after reset): SWO, WKUP, TAMPER_RTC, OSC trace, MCO, BOOT1 |
 | AF1 | TIM1 / TIM2 |
-| AF2 | TIM3 / TIM4 / I2S (WS, SCLK, SD0, SD1) |
-| AF3 | I2C1 (SDA, alt SCL) / I2C2 / I2S (MCLK, SD1) / I2C SMBAI |
-| AF4 | QSPI / SPIM2 (Port C) / LED (PB12-PB15 only) |
-| AF5 | SPIS1 / SPIM2 (Port B) / SPIS2 (Port C) / LED (PA, PC, PD pins) / I2C1 SCL (PB6) |
-| AF6 | SPIS2 (Port B) / I2C1 SMBAI (PB5) |
+| AF2 | TIM3 / TIM4 |
+| AF3 | I2S (WS, SCLK, SD0, SD1, MCLK) |
+| AF4 | I2C1 / I2C2 / I2C_SMBAI / LED (PB12-PB15 only) |
+| AF5 | QSPI / SPIM2 (Port B and Port C) / LED (PA, PC, PD pins) |
+| AF6 | SPIS1 / SPIS2 |
 | AF7 | UART1 / UART2 / UART3 |
 
 ---

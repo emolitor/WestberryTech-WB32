@@ -1,0 +1,32 @@
+# Hand-curated overlay for WB32FQ95xC.
+#
+# Generated chip YAML never includes these fields because no source captures
+# them. Each entry has a `_reason:` note describing where the fact comes
+# from. Deep-merged on top of the generated output.
+
+bootloader:
+  rom_dfu: true
+  flash_start_address: 0x08000000
+  usb_vid: 0x342D
+  notes:
+    - "Westberry Technology USB DFU bootloader, stored in ROM and not erasable."
+    - "Entry via QMK QK_BOOT keycode, BOOT button held at reset, or NVIC_SystemReset() with bootloader flag."
+  _reason: "Documented in docs/bootloader.md; not present in vendor headers, ChibiOS port, or datasheet PDFs."
+
+errata:
+  - id: dma-lli-reserved
+    severity: high
+    summary: "DMA Linked-List-Item (LLP) register reserved despite STM32-similar struct layout"
+    workaround: "Use auto-reload or ISR-chained transfers instead of LLI mode"
+    _reason: "Documented in docs/errata.md and confirmed by examples/dma-multi-transfer."
+
+  - id: gpio-speed-encoding
+    severity: low
+    summary: "GPIO output speed has two levels (LOW/HIGH) with encoding inverted relative to STM32"
+    workaround: "Use the vendor SDK macros, not STM32-style raw register writes"
+    _reason: "Documented in docs/chip-overview.md and validated via examples/pin-validation."
+
+development_hardware:
+  taobao_url: "https://world.taobao.com/dianpu/471165391.htm"
+  reworked_from: "WB32F104RC dev board with WB32FQ95xC replacement"
+  _reason: "From README.md 'Development Hardware' section."

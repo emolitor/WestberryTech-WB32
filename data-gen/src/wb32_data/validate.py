@@ -22,6 +22,7 @@ from wb32_data.models import (
     MarkdownData,
     PdfData,
 )
+from wb32_data.sources.pin_validation import PinValidationData
 
 
 Severity = Literal["error", "warning", "info"]
@@ -95,6 +96,8 @@ def validate(
     chibios: ChibiosData | None,
     pdf: PdfData | None,
     markdown: MarkdownData | None,
+    pin_validation: PinValidationData | None = None,
+    chip_family: str | None = None,
 ) -> ValidationReport:
     report = ValidationReport(chip=chip)
 
@@ -102,18 +105,103 @@ def validate(
         _validate_irqs_against_chibios(header, chibios, report)
         _validate_capabilities_against_header(header, chibios, report)
 
-    if pdf is not None and markdown is not None:
-        _validate_markdown_af_against_pdf(markdown, pdf, report)
+    # Filter markdown signals to only those that apply to this chip family.
+    md_for_chip = markdown
+    if markdown is not None and chip_family is not None:
+        filtered = [
+            ps for ps in markdown.pin_signals
+            if not ps.applies_to or chip_family in ps.applies_to
+        ]
+        from wb32_data.models import MarkdownData as _MarkdownData
+        md_for_chip = _MarkdownData(pin_signals=filtered)
 
-    if markdown is not None:
-        _validate_markdown_peripherals_against_header(header, markdown, report)
+    if pdf is not None and md_for_chip is not None:
+        _validate_markdown_af_against_pdf(md_for_chip, pdf, report)
+
+    if pdf is not None and pin_validation is not None:
+        _validate_pin_validation_against_pdf(pin_validation, pdf, report)
+
+    if md_for_chip is not None and pin_validation is not None:
+        _validate_pin_validation_against_markdown(pin_validation, md_for_chip, report)
+
+    if md_for_chip is not None:
+        _validate_markdown_peripherals_against_header(header, md_for_chip, report)
         if chibios is not None:
-            _validate_markdown_peripherals_against_chibios(chibios, markdown, report)
+            _validate_markdown_peripherals_against_chibios(chibios, md_for_chip, report)
 
     if pdf is not None:
         _validate_pin_descriptions_against_header(header, pdf, report)
 
     return report
+
+
+def _validate_pin_validation_against_pdf(
+    pin_val: PinValidationData,
+    pdf: PdfData,
+    report: ValidationReport,
+) -> None:
+    """The in-tree pin_defs.h is hand-transcribed from a datasheet table; it
+    should match the parsed datasheet AF matrix. Disagreements indicate the
+    transcription has bugs."""
+    pdf_lookup: dict[tuple[str, str], int] = {}
+    for entry in pdf.pin_af_matrix:
+        for sig in (s.strip() for s in entry.signal.split("\n") if s.strip()):
+            pdf_lookup[(entry.pin, sig)] = entry.af
+
+    for ent in pin_val.entries:
+        signal = ent.signal
+        af_pdf = pdf_lookup.get((ent.pin_name, signal))
+        if af_pdf is None:
+            # Try a relaxed match (collapsing underscores).
+            candidates = [
+                af for (pin, sig), af in pdf_lookup.items()
+                if pin == ent.pin_name and sig.replace("_", "").upper() == signal.replace("_", "").upper()
+            ]
+            if not candidates:
+                continue   # not in PDF — likely the LED column the PDF doesn't have
+            af_pdf = candidates[0]
+        if af_pdf != ent.af:
+            report.add(
+                "error",
+                "pin_defs.h disagrees with datasheet",
+                f"{ent.pin_name} {signal}: pin_defs.h says AF{ent.af}, datasheet says AF{af_pdf}",
+                ("pin_defs.h", "pdf"),
+            )
+
+
+def _validate_pin_validation_against_markdown(
+    pin_val: PinValidationData,
+    markdown: MarkdownData,
+    report: ValidationReport,
+) -> None:
+    """When pin_defs.h and the markdown agree, it's worth noting — that
+    increases confidence (or, equivalently, suggests both were written from
+    the same source mistake). When they disagree, it's a real inconsistency
+    inside the repository."""
+    md_lookup: dict[tuple[str, str], int] = {}
+    for ps in markdown.pin_signals:
+        if ps.af is None:
+            continue
+        signal = ps.signal.strip()
+        md_lookup[(ps.pin, signal)] = ps.af
+
+    for ent in pin_val.entries:
+        md_af = md_lookup.get((ent.pin_name, ent.signal))
+        if md_af is None:
+            # Try relaxed match
+            for (pin, sig), af in md_lookup.items():
+                if pin == ent.pin_name and sig.replace("_", "").upper() == ent.signal.replace("_", "").upper():
+                    md_af = af
+                    break
+        if md_af is None:
+            continue
+        if md_af != ent.af:
+            report.add(
+                "warning",
+                "pin_defs.h vs. markdown",
+                f"{ent.pin_name} {ent.signal}: pin_defs.h says AF{ent.af}, markdown says AF{md_af}",
+                ("pin_defs.h", "markdown"),
+            )
 
 
 def _validate_irqs_against_chibios(
