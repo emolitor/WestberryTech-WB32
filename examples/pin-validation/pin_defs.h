@@ -7,10 +7,14 @@
     AF numbering follows the DS004 AF column subtitles:
         AF0=SYS, AF1=TIM1/2, AF2=TIM3/4, AF3=I2S, AF4=I2C/LED,
         AF5=SPI(M), AF6=SPI(S), AF7=UART.
-    An earlier version of this table had a systematic off-by-one error for
-    I2C / I2S / QSPI / SPIM2 / SPIS entries; the wb32-data cross-source
-    validator (see ../../data-gen) surfaced the disagreement against the
-    vendor datasheet and the table was corrected to match.
+    Earlier versions of this table had systematic off-by-one errors against
+    the vendor datasheet AF matrix; the wb32-data cross-source validator
+    (see ../../data-gen) surfaced each one and the entries were corrected.
+    Corrections to date:
+      1. I2C / I2S / QSPI / SPIM2 / SPIS entries (FQ95xC).
+      2. LED Controller entries on PA8-PA11, PC6-PC12, and PD2 — these were
+         AF5 but the F101-F105 datasheets place all LED Controller outputs
+         on AF4 (PB12-PB15 were already AF4 and are unchanged).
 
     Note: test_gpio_af.c only verifies that the AF value can be written to
     and read back from GPIO_AFR — it does not verify peripheral signal
@@ -79,19 +83,19 @@ static const pin_af_entry_t af_table[] = {
   { GPIOA,  7, 6, "PA7_AF6_SPIS1_SI" },
   /* PA8 */
   { GPIOA,  8, 1, "PA8_AF1_TIM1_CH1" },
-  { GPIOA,  8, 5, "PA8_AF5_LED0" },
+  { GPIOA,  8, 4, "PA8_AF4_LED0" },
   { GPIOA,  8, 7, "PA8_AF7_UART1_CK" },
   /* PA9 -- UART1 TX (excluded) */
   { GPIOA,  9, 1, "PA9_AF1_TIM1_CH2" },
-  { GPIOA,  9, 5, "PA9_AF5_LED1" },
+  { GPIOA,  9, 4, "PA9_AF4_LED1" },
   { GPIOA,  9, 7, "PA9_AF7_UART1_TX" },
   /* PA10 -- UART1 RX (excluded) */
   { GPIOA, 10, 1, "PA10_AF1_TIM1_CH3" },
-  { GPIOA, 10, 5, "PA10_AF5_LED2" },
+  { GPIOA, 10, 4, "PA10_AF4_LED2" },
   { GPIOA, 10, 7, "PA10_AF7_UART1_RX" },
   /* PA11 */
   { GPIOA, 11, 1, "PA11_AF1_TIM1_CH4" },
-  { GPIOA, 11, 5, "PA11_AF5_LED3" },
+  { GPIOA, 11, 4, "PA11_AF4_LED3" },
   { GPIOA, 11, 7, "PA11_AF7_UART1_CTS" },
   /* PA12 */
   { GPIOA, 12, 1, "PA12_AF1_TIM1_ETR" },
@@ -213,26 +217,26 @@ static const pin_af_entry_t af_table[] = {
   /* PC6 */
   { GPIOC,  6, 2, "PC6_AF2_TIM3_CH1" },
   { GPIOC,  6, 3, "PC6_AF3_I2S_MCLK" },
-  { GPIOC,  6, 5, "PC6_AF5_LED0" },
+  { GPIOC,  6, 4, "PC6_AF4_LED0" },
   /* PC7 */
   { GPIOC,  7, 2, "PC7_AF2_TIM3_CH2" },
   { GPIOC,  7, 3, "PC7_AF3_I2S_MCLK" },
-  { GPIOC,  7, 5, "PC7_AF5_LED1" },
+  { GPIOC,  7, 4, "PC7_AF4_LED1" },
   /* PC8 */
   { GPIOC,  8, 2, "PC8_AF2_TIM3_CH3" },
-  { GPIOC,  8, 5, "PC8_AF5_LED2" },
+  { GPIOC,  8, 4, "PC8_AF4_LED2" },
   /* PC9 */
   { GPIOC,  9, 2, "PC9_AF2_TIM3_CH4" },
-  { GPIOC,  9, 5, "PC9_AF5_LED3" },
+  { GPIOC,  9, 4, "PC9_AF4_LED3" },
   /* PC10 */
-  { GPIOC, 10, 5, "PC10_AF5_LED4" },
+  { GPIOC, 10, 4, "PC10_AF4_LED4" },
   { GPIOC, 10, 7, "PC10_AF7_UART3_TX" },
   /* PC11 */
-  { GPIOC, 11, 5, "PC11_AF5_LED5" },
+  { GPIOC, 11, 4, "PC11_AF4_LED5" },
   { GPIOC, 11, 7, "PC11_AF7_UART3_RX" },
   /* PC12 */
   { GPIOC, 12, 2, "PC12_AF2_TIM4_ETR" },
-  { GPIOC, 12, 5, "PC12_AF5_LED6" },
+  { GPIOC, 12, 4, "PC12_AF4_LED6" },
   { GPIOC, 12, 7, "PC12_AF7_UART3_CK" },
   /* PC13 -- TAMPER_RTC (AF0 only, skip) */
   /* PC14 -- OSC32_IN (AF0 only, skip) */
@@ -243,7 +247,7 @@ static const pin_af_entry_t af_table[] = {
   /* PD1 -- OSC_OUT (excluded) */
   /* PD2 */
   { GPIOD,  2, 2, "PD2_AF2_TIM3_ETR" },
-  { GPIOD,  2, 5, "PD2_AF5_LED7" },
+  { GPIOD,  2, 4, "PD2_AF4_LED7" },
 };
 
 #define AF_TABLE_SIZE (sizeof(af_table) / sizeof(af_table[0]))

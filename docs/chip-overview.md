@@ -347,14 +347,19 @@ The WB32 has a dedicated hardware LED controller. LED outputs can be mapped to m
 pin groups. The segment code API (`LED_SetSegmentCode`/`LED_GetSegmentCode`) applies an
 internal bit-reordering transform.
 
-**Group 1: PA8-PA11 (AF5) -- LED0-LED3**
+All LED Controller outputs use **AF4**, matching the vendor datasheets (DS001-DS005).
+A previous version of this section had AF5 for Groups 1, 3, and 4; the wb32-data
+cross-source validator surfaced the disagreement against the datasheet AF matrix
+and the table was corrected.
+
+**Group 1: PA8-PA11 (AF4) -- LED0-LED3**
 
 | Pin | Function | AF |
 |-----|----------|----|
-| PA8 | LED0 | AF5 |
-| PA9 | LED1 | AF5 |
-| PA10 | LED2 | AF5 |
-| PA11 | LED3 | AF5 |
+| PA8 | LED0 | AF4 |
+| PA9 | LED1 | AF4 |
+| PA10 | LED2 | AF4 |
+| PA11 | LED3 | AF4 |
 
 **Group 2: PB12-PB15 (AF4) -- LED4-LED7 (LQFP64)**
 
@@ -365,23 +370,23 @@ internal bit-reordering transform.
 | PB14 | LED6 | AF4 |
 | PB15 | LED7 | AF4 |
 
-**Group 3: PC6-PC9 (AF5) -- LED0-LED3 (LQFP64)**
+**Group 3: PC6-PC9 (AF4) -- LED0-LED3 (LQFP64)**
 
 | Pin | Function | AF |
 |-----|----------|----|
-| PC6 | LED0 | AF5 |
-| PC7 | LED1 | AF5 |
-| PC8 | LED2 | AF5 |
-| PC9 | LED3 | AF5 |
+| PC6 | LED0 | AF4 |
+| PC7 | LED1 | AF4 |
+| PC8 | LED2 | AF4 |
+| PC9 | LED3 | AF4 |
 
-**Group 4: PC10-PC12, PD2 (AF5) -- LED4-LED7 (LQFP64)**
+**Group 4: PC10-PC12, PD2 (AF4) -- LED4-LED7 (LQFP64)**
 
 | Pin | Function | AF |
 |-----|----------|----|
-| PC10 | LED4 | AF5 |
-| PC11 | LED5 | AF5 |
-| PC12 | LED6 | AF5 |
-| PD2 | LED7 | AF5 |
+| PC10 | LED4 | AF4 |
+| PC11 | LED5 | AF4 |
+| PC12 | LED6 | AF4 |
+| PD2 | LED7 | AF4 |
 
 <!-- applies-to: WB32F101xx, WB32F102xx, WB32F103xx, WB32F104xx, WB32F105xx, WB32FQ95xx, WB32F3G71xx -->
 ### Alternate Function Summary
@@ -396,8 +401,8 @@ a systematic off-by-one error which was corrected to match the datasheets.
 | AF1 | TIM1 / TIM2 |
 | AF2 | TIM3 / TIM4 |
 | AF3 | I2S (WS, SCLK, SD0, SD1, MCLK) |
-| AF4 | I2C1 / I2C2 / I2C_SMBAI / LED (PB12-PB15 only) |
-| AF5 | QSPI / SPIM2 (Port B and Port C) / LED (PA, PC, PD pins) |
+| AF4 | I2C1 / I2C2 / I2C_SMBAI / LED Controller (all LED pins) |
+| AF5 | QSPI / SPIM2 (Port B and Port C) |
 | AF6 | SPIS1 / SPIS2 |
 | AF7 | UART1 / UART2 / UART3 |
 

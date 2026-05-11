@@ -297,11 +297,19 @@ def _extract_pin_af_matrix(pages) -> list[PdfPinAfEntry]:
     return out
 
 
+_PORT_HEADERS = {"Port", "ort"}                # "ort" = leftmost "P" clipped by pdfplumber on DS004/DS005 page 16
+_TRUNCATED_PORT_RE = re.compile(r"^[A-G]\d{1,2}$")
+
+
 def _is_pin_af_table(tbl: list[list[str | None]]) -> bool:
     if not tbl or not tbl[0]:
         return False
     header = [(c or "").strip() for c in tbl[0]]
-    return header[:2] == ["Port", "AF0"] and "AF7" in header
+    if len(header) < 2 or header[1] != "AF0":
+        return False
+    if header[0] not in _PORT_HEADERS:
+        return False
+    return "AF7" in header
 
 
 def _parse_pin_af_table(tbl: list[list[str | None]]) -> list[PdfPinAfEntry]:
@@ -311,6 +319,9 @@ def _parse_pin_af_table(tbl: list[list[str | None]]) -> list[PdfPinAfEntry]:
         if not row or not row[0]:
             continue
         port = (row[0] or "").strip()
+        # Repair pdfplumber clipping the leading "P" (DS004/DS005 page 16).
+        if _TRUNCATED_PORT_RE.match(port):
+            port = "P" + port
         if not port.startswith("P") or len(port) < 3:
             continue
         # row[1..8] correspond to AF0..AF7

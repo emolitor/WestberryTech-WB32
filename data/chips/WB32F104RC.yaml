@@ -15,7 +15,7 @@ core:
   nvic_prio_bits: 4
 sources:
   generated_by: wb32-data 0.1.0
-  generated_at: '2026-05-11T13:54:13Z'
+  generated_at: '2026-05-11T14:26:46Z'
   inputs:
   - kind: header
     name: vendor CMSIS wb32f10x.h
@@ -720,6 +720,12 @@ pins:
     signal: QSPI_NSS2
   - kind: analog
     signal: CMPA_N3
+  - kind: af
+    af: 0
+    signal: SWO_CLK
+  - kind: af
+    af: 5
+    signal: QSPI_NSS2
 - number: 50
   name: PA15
   type: I/O
@@ -737,6 +743,21 @@ pins:
     signal: SPIS1_NSS
   - kind: analog
     signal: CMPB_P3
+  - kind: af
+    af: 1
+    signal: TIM2_CH1_ETR
+  - kind: af
+    af: 3
+    signal: I2S_WS
+  - kind: af
+    af: 4
+    signal: I2C_SMBAI
+  - kind: af
+    af: 5
+    signal: QSPI_NSS0
+  - kind: af
+    af: 6
+    signal: SPIS1_NSS
 - number: 55
   name: PB3
   type: I/O
@@ -754,6 +775,21 @@ pins:
     signal: SPIS1_SCK
   - kind: analog
     signal: CMPB_N3
+  - kind: af
+    af: 0
+    signal: SWO
+  - kind: af
+    af: 1
+    signal: TIM2_CH2
+  - kind: af
+    af: 3
+    signal: I2S_SCLK
+  - kind: af
+    af: 5
+    signal: QSPI_SCK
+  - kind: af
+    af: 6
+    signal: SPIS1_SCK
 - number: 56
   name: PB4
   type: I/O
@@ -767,6 +803,15 @@ pins:
     signal: SPIS1_SO
   - kind: analog
     signal: CMPA_P1
+  - kind: af
+    af: 2
+    signal: TIM3_CH1
+  - kind: af
+    af: 5
+    signal: QSPI_MI_IO1
+  - kind: af
+    af: 6
+    signal: SPIS1_SO
 - number: 57
   name: PB5
   type: I/O
@@ -784,6 +829,21 @@ pins:
     signal: SPIS1_SI
   - kind: analog
     signal: CMPA_P2
+  - kind: af
+    af: 2
+    signal: TIM3_CH2
+  - kind: af
+    af: 3
+    signal: I2S_SD1
+  - kind: af
+    af: 4
+    signal: I2C1_SMBAI
+  - kind: af
+    af: 5
+    signal: QSPI_MO_IO0
+  - kind: af
+    af: 6
+    signal: SPIS1_SI
 - number: 58
   name: PB6
   type: I/O
@@ -799,6 +859,18 @@ pins:
     signal: UART1_TX
   - kind: analog
     signal: CMPA_N1
+  - kind: af
+    af: 2
+    signal: TIM4_CH1
+  - kind: af
+    af: 4
+    signal: I2C1_SCL
+  - kind: af
+    af: 5
+    signal: QSPI_NSS1
+  - kind: af
+    af: 7
+    signal: UART1_TX
 - number: 59
   name: PB7
   type: I/O
@@ -890,6 +962,176 @@ pins:
   type: S
   main_function: VDD
   signals: []
+- name: PA0
+  signals:
+  - kind: af
+    af: 0
+    signal: WKUP
+  - kind: af
+    af: 1
+    signal: TIM2_CH1_ETR
+  - kind: af
+    af: 7
+    signal: UART2_CTS
+- name: PA1
+  signals:
+  - kind: af
+    af: 1
+    signal: TIM2_CH2
+  - kind: af
+    af: 7
+    signal: UART2_RTS
+- name: PA10
+  signals:
+  - kind: af
+    af: 1
+    signal: TIM1_CH3
+  - kind: af
+    af: 4
+    signal: LED2
+  - kind: af
+    af: 7
+    signal: UART1_RX
+- name: PA11
+  signals:
+  - kind: af
+    af: 1
+    signal: TIM1_CH4
+  - kind: af
+    af: 4
+    signal: LED3
+  - kind: af
+    af: 7
+    signal: UART1_CTS
+- name: PA12
+  signals:
+  - kind: af
+    af: 1
+    signal: TIM1_ETR
+  - kind: af
+    af: 7
+    signal: UART1_RTS
+- name: PA13
+  signals:
+  - kind: af
+    af: 0
+    signal: SWO_DIO
+  - kind: af
+    af: 5
+    signal: QSPI_NSS1
+- name: PA2
+  signals:
+  - kind: af
+    af: 1
+    signal: TIM2_CH3
+  - kind: af
+    af: 7
+    signal: UART2_TX
+- name: PA3
+  signals:
+  - kind: af
+    af: 1
+    signal: TIM2_CH4
+  - kind: af
+    af: 7
+    signal: UART2_RX
+- name: PA4
+  signals:
+  - kind: af
+    af: 5
+    signal: QSPI_NSS0
+  - kind: af
+    af: 6
+    signal: SPIS1_NSS
+  - kind: af
+    af: 7
+    signal: UART2_CK
+- name: PA5
+  signals:
+  - kind: af
+    af: 5
+    signal: QSPI_SCK
+  - kind: af
+    af: 6
+    signal: SPIS1_SCK
+- name: PA6
+  signals:
+  - kind: af
+    af: 1
+    signal: TIM1_BKIN
+  - kind: af
+    af: 2
+    signal: TIM3_CH1
+  - kind: af
+    af: 5
+    signal: QSPI_MI_IO1
+  - kind: af
+    af: 6
+    signal: SPIS1_SO
+- name: PA7
+  signals:
+  - kind: af
+    af: 1
+    signal: TIM1_CH1N
+  - kind: af
+    af: 2
+    signal: TIM3_CH2
+  - kind: af
+    af: 5
+    signal: QSPI_MO_IO0
+  - kind: af
+    af: 6
+    signal: SPIS1_SI
+- name: PA8
+  signals:
+  - kind: af
+    af: 0
+    signal: MCO
+  - kind: af
+    af: 1
+    signal: TIM1_CH1
+  - kind: af
+    af: 4
+    signal: LED0
+  - kind: af
+    af: 7
+    signal: UART1_CK
+- name: PA9
+  signals:
+  - kind: af
+    af: 1
+    signal: TIM1_CH2
+  - kind: af
+    af: 4
+    signal: LED1
+  - kind: af
+    af: 7
+    signal: UART1_TX
+- name: PB0
+  signals:
+  - kind: af
+    af: 1
+    signal: TIM1_CH2N
+  - kind: af
+    af: 2
+    signal: TIM3_CH3
+  - kind: af
+    af: 3
+    signal: I2S_MCLK
+  - kind: af
+    af: 5
+    signal: QSPI_IO2
+- name: PB1
+  signals:
+  - kind: af
+    af: 1
+    signal: TIM1_CH3N
+  - kind: af
+    af: 2
+    signal: TIM3_CH4
+  - kind: af
+    af: 5
+    signal: QSPI_IO3
 - name: PB10
   signals:
   - kind: af
@@ -995,6 +1237,11 @@ pins:
   - kind: af
     af: 6
     signal: SPIS2_SI
+- name: PB2
+  signals:
+  - kind: af
+    af: 0
+    signal: BOOT1
 - name: PC0
   signals:
   - kind: af

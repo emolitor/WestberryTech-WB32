@@ -8,7 +8,7 @@ sections:
     pages: [15, 16]
     extractor: pin_description_table
   pin_af_matrix:
-    pages: [17, 18, 19]
+    pages: [16, 17, 18]
     extractor: pin_af_matrix
   package:
     pages: [37, 38]
