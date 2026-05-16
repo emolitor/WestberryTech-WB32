@@ -37,7 +37,7 @@ On WB32FQ95xx: UART1, PA9 = TX, PA10 = RX, alternate function AF7.
 
 The transport is half-duplex at the protocol level: the host sends a message, then waits for
 an ACK before sending the next message. The module may also send unsolicited messages (LED
-state changes, connection events, battery reports) at any time.
+state changes, connection events, battery threshold notifications) at any time.
 
 ---
 
