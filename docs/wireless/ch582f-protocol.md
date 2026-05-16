@@ -112,6 +112,28 @@ Total frame size for each command is payload length + 2 (command byte + checksum
 | VID/PID | `0xAD` | 4 bytes | `[VID_LO, VID_HI, PID_LO, PID_HI]` -- sets USB identifiers on the 2.4G dongle |
 | Raw Pass-through | `0x91` | 32 bytes | Opaque data forwarded to/from the host via vendor HID |
 
+#### Module Identity (MAC address)
+
+The wireless module's BLE / 2.4G MAC address is **fixed per chip** — derived
+from the silicon's factory-burned UUID at WCH manufacture, unique per part.
+There is no UART command to set, override, or query this MAC; it is implicit
+in the module's advertising and pair-broadcast behavior. When the module
+broadcasts a pair request on the 2.4G link, the broadcast carries this MAC,
+and the dongle stores it as its known-peer identity on successful pair.
+
+Practical consequences for host implementations:
+
+- Do not attempt to provision the MAC. Hosts have no programmatic access to
+  it via this protocol.
+- The BLE *name* (`0xA9`), USB *manufacturer / product strings* (`0xAB` /
+  `0xAC`), and USB *VID/PID* (`0xAD`) are the only user-facing identifiers
+  the host can set. Use these for branding and host-side identification.
+- Two physically different keyboards using the same model firmware will
+  still pair distinctly — their MACs differ at the chip level.
+- A dongle that has been paired with a keyboard remembers that keyboard by
+  MAC. Replacing the wireless module (or the chip itself) breaks the bond
+  and forces a re-pair, even if everything else is identical.
+
 ### Device Control Command (0xA6)
 
 The `0xA6` command uses a sub-command byte as its payload. The full frame is:
@@ -140,6 +162,14 @@ The `0xA6` command uses a sub-command byte as its payload. The full frame is:
 | Unpair | `0x52` | Clear pairing data for the currently selected device |
 | Query battery | `0x53` | Request battery percentage (module responds with `0x5C`) |
 | Sleep | `0x54` | Immediate sleep (reserved) |
+
+**Pair (`0x51`) precondition**: a device must have been selected first via a
+mode-selection sub-command (`0x11`, `0x30`, or `0x31..0x35`). If `0x51` is sent
+without a prior selection, the module ACKs the frame but does not enter pair
+mode — no `0x5B 0x31` status event is emitted and no advertising or pair
+broadcast occurs. Hosts switching devices in a single sequence should follow
+the order shown in "Switching from USB to Bluetooth" / "Switching to 2.4G with
+Dongle Configuration" below.
 
 #### Sleep Timeout Sub-commands
 
@@ -196,7 +226,7 @@ change or a battery-threshold notification. Connection events:
 | Sub-code | Byte | Description |
 |----------|------|-------------|
 | Switching | `0x34` | Mode/slot switch in progress; always precedes a final `0x32` or `0x36` once the FSM resolves (observed in firmwares that emit it; not all do) |
-| Pairing | `0x31` | Module entered pairing mode |
+| Pairing | `0x31` | Module entered pairing mode and is actively advertising / pair-broadcasting for a peer. Hosts should treat this as "search active" and wait for `0x32` (success), `0x36` (rejected), or a vendor-specific timeout before giving up. |
 | Connected | `0x32` | Connection established |
 | Disconnected | `0x33` | Connection lost |
 | Rejected | `0x36` | Connection rejected by remote host (or, on a `select-device` command, no paired peer is stored for that slot) |
