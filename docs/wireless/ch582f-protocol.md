@@ -37,7 +37,7 @@ On WB32FQ95xx: UART1, PA9 = TX, PA10 = RX, alternate function AF7.
 
 The transport is half-duplex at the protocol level: the host sends a message, then waits for
 an ACK before sending the next message. The module may also send unsolicited messages (LED
-state changes, connection events, battery reports) at any time.
+state changes, connection events, battery threshold notifications) at any time.
 
 ---
 
@@ -112,6 +112,28 @@ Total frame size for each command is payload length + 2 (command byte + checksum
 | VID/PID | `0xAD` | 4 bytes | `[VID_LO, VID_HI, PID_LO, PID_HI]` -- sets USB identifiers on the 2.4G dongle |
 | Raw Pass-through | `0x91` | 32 bytes | Opaque data forwarded to/from the host via vendor HID |
 
+#### Module Identity (MAC address)
+
+The wireless module's BLE / 2.4G MAC address is **fixed per chip** — derived
+from the silicon's factory-burned UUID at WCH manufacture, unique per part.
+There is no UART command to set, override, or query this MAC; it is implicit
+in the module's advertising and pair-broadcast behavior. When the module
+broadcasts a pair request on the 2.4G link, the broadcast carries this MAC,
+and the dongle stores it as its known-peer identity on successful pair.
+
+Practical consequences for host implementations:
+
+- Do not attempt to provision the MAC. Hosts have no programmatic access to
+  it via this protocol.
+- The BLE *name* (`0xA9`), USB *manufacturer / product strings* (`0xAB` /
+  `0xAC`), and USB *VID/PID* (`0xAD`) are the only user-facing identifiers
+  the host can set. Use these for branding and host-side identification.
+- Two physically different keyboards using the same model firmware will
+  still pair distinctly — their MACs differ at the chip level.
+- A dongle that has been paired with a keyboard remembers that keyboard by
+  MAC. Replacing the wireless module (or the chip itself) breaks the bond
+  and forces a re-pair, even if everything else is identical.
+
 ### Device Control Command (0xA6)
 
 The `0xA6` command uses a sub-command byte as its payload. The full frame is:
@@ -141,6 +163,14 @@ The `0xA6` command uses a sub-command byte as its payload. The full frame is:
 | Query battery | `0x53` | Request battery percentage (module responds with `0x5C`) |
 | Sleep | `0x54` | Immediate sleep (reserved) |
 
+**Pair (`0x51`) precondition**: a device must have been selected first via a
+mode-selection sub-command (`0x11`, `0x30`, or `0x31..0x35`). If `0x51` is sent
+without a prior selection, the module ACKs the frame but does not enter pair
+mode — no `0x5B 0x31` status event is emitted and no advertising or pair
+broadcast occurs. Hosts switching devices in a single sequence should follow
+the order shown in "Switching from USB to Bluetooth" / "Switching to 2.4G with
+Dongle Configuration" below.
+
 #### Sleep Timeout Sub-commands
 
 | Sub-command | Byte | Description |
@@ -166,6 +196,12 @@ The `0xA6` command uses a sub-command byte as its payload. The full frame is:
 |-------------|------|-------------|
 | Firmware version | `0x70` | Query module firmware version (module responds with `0x5D`) |
 
+The `0x5D` reply is firmware-implementation-dependent. Some module firmwares
+ACK the query but do not emit a `0x5D` follow-up (the `0x5D` constant is absent
+from the image). If a host implementation depends on the version readback, it
+should treat "ACK without `0x5D` within the response window" as "version
+unavailable" rather than as a protocol error.
+
 ---
 
 ## Receive Commands (Module to Host)
@@ -184,14 +220,31 @@ The module sends these messages to the host MCU. The host must respond with the 
 
 ### Device Control Status Sub-codes (0x5B)
 
-The `0x5B` command carries a sub-code indicating the connection event:
+The `0x5B` command carries a sub-code indicating either a connection-state
+change or a battery-threshold notification. Connection events:
 
 | Sub-code | Byte | Description |
 |----------|------|-------------|
-| Pairing | `0x31` | Module entered pairing mode |
+| Switching | `0x34` | Mode/slot switch in progress; always precedes a final `0x32` or `0x36` once the FSM resolves (observed in firmwares that emit it; not all do) |
+| Pairing | `0x31` | Module entered pairing mode and is actively advertising / pair-broadcasting for a peer. Hosts should treat this as "search active" and wait for `0x32` (success), `0x36` (rejected), or a vendor-specific timeout before giving up. |
 | Connected | `0x32` | Connection established |
 | Disconnected | `0x33` | Connection lost |
-| Rejected | `0x36` | Connection rejected by remote host |
+| Paired (no link) | `0x35` | Module has a stored peer record (from a previous successful pair) but no active link is established. Typically observed mid-transition between `0x31` and `0x32`, or on subsequent `select-device` queries after a cold boot if the dongle has not yet initiated session traffic. Hosts can treat this as "waiting for connection" — equivalent to `0x31` for upstream state purposes — and continue waiting for `0x32` or a timeout. Some firmwares may not emit `0x35` at all and transition `0x31 → 0x32` directly. |
+| Rejected | `0x36` | Connection rejected by remote host (or, on a `select-device` command, no paired peer is stored for that slot) |
+
+Some module firmwares also use `0x5B` to emit battery-threshold notifications
+in addition to the polled `0x5C` mechanism described above. These are
+unsolicited and convey *threshold crossings* rather than the current percent
+value:
+
+| Sub-code | Byte | Description |
+|----------|------|-------------|
+| Battery very low | `0x21` | Current level is below the firmware's low-battery threshold (typically `<6%`) |
+| Battery first-read | `0x22` | First valid battery sample after wake/init |
+| Battery normal | `0x23` | Current level is above the firmware's healthy threshold (typically `≥43%`) — often emitted as a follow-up to `0x32` connect |
+
+The specific byte values and thresholds are firmware-defined. Host
+implementations that don't already handle these can safely ACK and discard.
 
 ---
 
@@ -254,6 +307,13 @@ The protocol uses stop-and-wait flow control:
 | Max retries | 40 (`MD_SEND_PKT_RETRY`) |
 
 After 40 failed retries, the message is dropped and the next message in the queue is sent.
+
+The module retransmits its own unsolicited frames the same way: if the host
+fails to send the ACK sequence (`0x61 0x0D 0x0A`) within the module's timeout,
+the module re-sends the same frame a small number of times (3 observed) before
+giving up and moving on. Hosts that don't ACK module messages will see each
+event arrive 3 times on the wire — functionally harmless if duplicates are
+de-duplicated upstream, but worth filtering at the receiver.
 
 ---
 
@@ -319,8 +379,12 @@ Earlier versions accept ASCII only.
 
 ## Battery Reporting
 
-Battery percentage is polled by the host MCU. The module does not send battery reports
-unsolicited.
+Battery percentage is polled by the host MCU. The module does not send `0x5C`
+percentage reports unsolicited. Some firmwares do emit unsolicited
+*threshold-crossing* notifications via the `0x5B` battery sub-codes (`0x21`
+very-low, `0x22` first-read, `0x23` normal) — see "Device Control Status
+Sub-codes (0x5B)" above. Hosts that care only about current percent can ignore
+those sub-codes; the polled `0x5C` value remains the authoritative source.
 
 ### Query Sequence
 
