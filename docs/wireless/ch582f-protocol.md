@@ -166,6 +166,12 @@ The `0xA6` command uses a sub-command byte as its payload. The full frame is:
 |-------------|------|-------------|
 | Firmware version | `0x70` | Query module firmware version (module responds with `0x5D`) |
 
+The `0x5D` reply is firmware-implementation-dependent. Some module firmwares
+ACK the query but do not emit a `0x5D` follow-up (the `0x5D` constant is absent
+from the image). If a host implementation depends on the version readback, it
+should treat "ACK without `0x5D` within the response window" as "version
+unavailable" rather than as a protocol error.
+
 ---
 
 ## Receive Commands (Module to Host)
@@ -184,14 +190,30 @@ The module sends these messages to the host MCU. The host must respond with the 
 
 ### Device Control Status Sub-codes (0x5B)
 
-The `0x5B` command carries a sub-code indicating the connection event:
+The `0x5B` command carries a sub-code indicating either a connection-state
+change or a battery-threshold notification. Connection events:
 
 | Sub-code | Byte | Description |
 |----------|------|-------------|
+| Switching | `0x34` | Mode/slot switch in progress; always precedes a final `0x32` or `0x36` once the FSM resolves (observed in firmwares that emit it; not all do) |
 | Pairing | `0x31` | Module entered pairing mode |
 | Connected | `0x32` | Connection established |
 | Disconnected | `0x33` | Connection lost |
-| Rejected | `0x36` | Connection rejected by remote host |
+| Rejected | `0x36` | Connection rejected by remote host (or, on a `select-device` command, no paired peer is stored for that slot) |
+
+Some module firmwares also use `0x5B` to emit battery-threshold notifications
+in addition to the polled `0x5C` mechanism described above. These are
+unsolicited and convey *threshold crossings* rather than the current percent
+value:
+
+| Sub-code | Byte | Description |
+|----------|------|-------------|
+| Battery very low | `0x21` | Current level is below the firmware's low-battery threshold (typically `<6%`) |
+| Battery first-read | `0x22` | First valid battery sample after wake/init |
+| Battery normal | `0x23` | Current level is above the firmware's healthy threshold (typically `≥43%`) — often emitted as a follow-up to `0x32` connect |
+
+The specific byte values and thresholds are firmware-defined. Host
+implementations that don't already handle these can safely ACK and discard.
 
 ---
 
@@ -254,6 +276,13 @@ The protocol uses stop-and-wait flow control:
 | Max retries | 40 (`MD_SEND_PKT_RETRY`) |
 
 After 40 failed retries, the message is dropped and the next message in the queue is sent.
+
+The module retransmits its own unsolicited frames the same way: if the host
+fails to send the ACK sequence (`0x61 0x0D 0x0A`) within the module's timeout,
+the module re-sends the same frame a small number of times (3 observed) before
+giving up and moving on. Hosts that don't ACK module messages will see each
+event arrive 3 times on the wire — functionally harmless if duplicates are
+de-duplicated upstream, but worth filtering at the receiver.
 
 ---
 
@@ -319,8 +348,12 @@ Earlier versions accept ASCII only.
 
 ## Battery Reporting
 
-Battery percentage is polled by the host MCU. The module does not send battery reports
-unsolicited.
+Battery percentage is polled by the host MCU. The module does not send `0x5C`
+percentage reports unsolicited. Some firmwares do emit unsolicited
+*threshold-crossing* notifications via the `0x5B` battery sub-codes (`0x21`
+very-low, `0x22` first-read, `0x23` normal) — see "Device Control Status
+Sub-codes (0x5B)" above. Hosts that care only about current percent can ignore
+those sub-codes; the polled `0x5C` value remains the authoritative source.
 
 ### Query Sequence
 
