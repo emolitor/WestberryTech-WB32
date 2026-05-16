@@ -229,6 +229,7 @@ change or a battery-threshold notification. Connection events:
 | Pairing | `0x31` | Module entered pairing mode and is actively advertising / pair-broadcasting for a peer. Hosts should treat this as "search active" and wait for `0x32` (success), `0x36` (rejected), or a vendor-specific timeout before giving up. |
 | Connected | `0x32` | Connection established |
 | Disconnected | `0x33` | Connection lost |
+| Paired (no link) | `0x35` | Module has a stored peer record (from a previous successful pair) but no active link is established. Typically observed mid-transition between `0x31` and `0x32`, or on subsequent `select-device` queries after a cold boot if the dongle has not yet initiated session traffic. Hosts can treat this as "waiting for connection" — equivalent to `0x31` for upstream state purposes — and continue waiting for `0x32` or a timeout. Some firmwares may not emit `0x35` at all and transition `0x31 → 0x32` directly. |
 | Rejected | `0x36` | Connection rejected by remote host (or, on a `select-device` command, no paired peer is stored for that slot) |
 
 Some module firmwares also use `0x5B` to emit battery-threshold notifications
